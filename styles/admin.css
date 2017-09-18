@@ -1,0 +1,49 @@
+
+.postbox-container #tours input[type="text"],
+.postbox-container div[id^="story_"] input[type="text"]{
+	width: 100%;
+}
+
+.postbox-container #tours textarea,
+.postbox-container div[id^="story_"] textarea{
+	width: 100%;
+	min-height: 6em;
+}
+
+.postbox-container div[id^="story_"] h2.hndle,
+.postbox-container div[id^="story_"] .toggle-indicator{
+	color: #fff;
+	background-color: #0073aa;
+}
+
+.postbox-container div[id^="story_"] .repeatable_button {
+    background: #fafafa;
+    display: inline-block;
+    margin: .5em 0 0;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    padding: 2px 12px 2px 2px;
+    cursor: pointer;
+}
+
+#admin-story-map { 
+	height:40vh; 
+	min-height:20em; 
+	background: #eaeaea;
+}
+input#admin-location-search{
+	width: 100%;
+	margin-right: .5em;
+}
+#admin-location-search-container{
+	width: 100%;
+	box-sizing: border-box;
+	padding: 1em;
+	background: #eaeaea;
+	display: flex;
+}
+.description pre{
+	display: inline-block;
+	margin: 0;
+	background: #fafafa;
+}
