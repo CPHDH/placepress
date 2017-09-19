@@ -43,35 +43,57 @@ class Curatescape_Meta_Box {
 		$nonce_name = $this->id.'_nonce';
 		wp_nonce_field( $nonce_action, $nonce_name );
 		
-		
 		$html = null;
 		foreach($this->fields as $field){
 			
 			$value = get_post_meta( $post->ID, $field['name'], true );
 			if( empty( $value ) ) $value = '';
-			$repeatable=$field['repeatable'] ? '<br><div class="repeatable_button"><span class="dashicons dashicons-plus-alt"></span>Add</div><br>' : null;
+			
+			$repeatable=$field['repeatable'];
+			$repeatable_button=( $repeatable > 0 ) ? '<br><div class="repeatable_button"><span class="dashicons dashicons-plus-alt"></span>Add</div><br>' : null;
+			
 			$ui_class= $field['custom_ui'] ? 'hidden custom_ui' : null;
 			
 			$html .= '<tr id="'.$field['name'].'_row" class="'.$ui_class.'">';
 			switch ($field['type']) {
 				
+				/* TEXT - repeatable */
 			    case 'text':
-			    	
+				    if($repeatable){	    			    
+					    $input=null;
+					    for($i=0; $i<=$repeatable; $i++){
+						    $user_value=isset($value[$i]) ? $value[$i] : null;
+						    $visibility = (!$user_value && !$i==0) ? 'hidden' : 'visible'; // only show first field and fields with data
+						    $input .= '<input type="text" id="'.$field['name'].'['.$i.']'.'" name="'.$field['name'].'['.$i.']'.'" class="'.$field['name'].'_field_'.$i.' '.$visibility.'" placeholder="" value="' .$user_value. '">';
+					    }
+				    }else{
+					    $input = '<input type="text" id="'.$field['name'].'" name="'.$field['name'].'" class="'.$field['name'].'_field" placeholder="" value="' . $value. '">';
+				    }
 			        $html .= '<th>'.
 			        '<label for="'.$field['name'].'" class="'.$field['name'].'_label">'.$field['label'].'</label>'.
-			        '</th><td>'.
-			        '<input type="text" id="'.$field['name'].'" name="'.$field['name'].'" class="'.$field['name'].'_field"'. 
-			        	'placeholder="" value="' . $value. '">'.$repeatable.'<br><span class="description">'.$field['helper'].'</span></td>';
+			        '</th><td>'.$input.$repeatable_button.'<br><span class="description">'.$field['helper'].'</span></td>';
 			        continue 2;
 			        
+			    /* TEXTAREA - repeatable */    
 			    case 'textarea':
+				    if($repeatable){	    			    
+					    $input=null;
+					    for($i=0; $i<=$repeatable; $i++){
+						    $user_value=isset($value[$i]) ? $value[$i] : null;
+						    $visibility = (!$user_value && !$i==0) ? 'hidden' : 'visible'; // only show first field and fields with data
+						    $input .= '<textarea id="'.$field['name'].'['.$i.']'.'" name="'.$field['name'].'['.$i.']'.'" class="'.$field['name'].'_field_'.$i.' '.$visibility.'"'. 
+			        	'placeholder="">'.$user_value.'</textarea>';
+					    }
+				    }else{
+					    $input = '<textarea id="'.$field['name'].'" name="'.$field['name'].'" class="'.$field['name'].'_field"'. 
+			        	'placeholder="">'.$value.'</textarea>';
+				    }			    
 			        $html .= '<th>'.
 			        '<label for="'.$field['name'].'" class="'.$field['name'].'_label">'.$field['label'].'</label>'.
-			        '</th><td>'.
-			        '<textarea id="'.$field['name'].'" name="'.$field['name'].'" class="'.$field['name'].'_field"'. 
-			        	'placeholder="">'.$value.'</textarea>'.$repeatable.'<br><span class="description">'.$field['helper'].'</span></td>';
+			        '</th><td>'.$input.$repeatable_button.'<br><span class="description">'.$field['helper'].'</span></td>';
 			        continue 2;
-			        
+			    
+			    /* SELECT */    
 			    case 'select':
 			    	$options = $field['options'];
 			    	if( count($options) > 0 ){
@@ -85,7 +107,8 @@ class Curatescape_Meta_Box {
 				        '<select id="'.$field['name'].'" name="'.$field['name'].'" class="'.$field['name'].'_field">'.$options_html.'</select><br><span class="description">'.$field['helper'].'</span></td>';			    	
 			    	}
 			        continue 2;
-			        
+			    
+			    /* CHECKBOX */
 			    case 'checkbox':
 			        $html .= '<th>'.
 			        '<label for="'.$field['name'].'" class="'.$field['name'].'_label">'.$field['label'].'</label>'.
@@ -143,15 +166,35 @@ class Curatescape_Meta_Box {
 
 		// Sanitize user input and update database		
 		foreach($this->fields as $field){
+			$repeatable=$field['repeatable'];
 			switch ($field['type']) {
-			    case 'textarea':
-			    $new = isset( $_POST[ $field['name'] ] ) ? sanitize_text_field( $_POST[ $field['name'] ] ) : '';
-			    update_post_meta( $post_id, $field['name'], $new );
-			    continue 2;
-			    
+				
 			    case 'text':
-			    $new = isset( $_POST[ $field['name'] ] ) ? sanitize_text_field( $_POST[ $field['name'] ] ) : '';
-			    update_post_meta( $post_id, $field['name'], $new );
+			    if($repeatable){
+				    $new=array();
+				    for($i=0; $i<=$repeatable; $i++){
+					    $arr=$_POST[$field['name']];
+					    $new[$i] = $arr[$i] ? sanitize_text_field( $arr[$i]  ) : null;
+				    }
+				    update_post_meta( $post_id, $field['name'], $new );	
+			    }else{
+				    $new = isset( $_POST[ $field['name'] ] ) ? sanitize_text_field( $_POST[ $field['name'] ] ) : '';
+				    update_post_meta( $post_id, $field['name'], $new );				    
+			    }
+			    continue 2;
+			    				
+			    case 'textarea':
+			    if($repeatable){
+				    $new=array();
+				    for($i=0; $i<=$repeatable; $i++){
+					    $arr=$_POST[$field['name']];
+					    $new[$i] = $arr[$i] ? sanitize_text_field( $arr[$i]  ) : null;
+				    }
+				    update_post_meta( $post_id, $field['name'], $new );					    
+			    }else{
+				    $new = isset( $_POST[ $field['name'] ] ) ? sanitize_text_field( $_POST[ $field['name'] ] ) : '';
+				    update_post_meta( $post_id, $field['name'], $new );				    
+			    }
 			    continue 2;
 
 			    case 'select':
@@ -185,7 +228,7 @@ if(is_admin()){
 				'options'	=> null,
 				'custom_ui'	=> false,
 				'helper'	=> __('Enter the name of the person(s) or organization responsible for the content of the tour.'),
-				'repeatable'=> false,
+				'repeatable'=> 0,
 				),	
 			array(
 				'label'		=> __('Postscript Text'),
@@ -194,7 +237,7 @@ if(is_admin()){
 				'options'	=> null,
 				'custom_ui'	=> false,
 				'helper'	=> __('Add postscript text to the end of the tour, for example, to thank a sponsor or add directional information.'),
-				'repeatable'=> false,
+				'repeatable'=> 0,
 				),	
 			array(
 				'label'		=> __('Tour Locations/Stories'),
@@ -203,10 +246,26 @@ if(is_admin()){
 				'options'	=> null,
 				'custom_ui'	=> true, // this hidden form field will save Location post IDs as an ordered array
 				'helper'	=> __('Choose locations for this tour. You can <a href="/wp-admin/edit.php?post_type=stories">add and edit Locations/Stories here</a>.'),
-				'repeatable'=> false,
+				'repeatable'=> 0,
 				),					
 			),'custom_ui/tour.php'
 	);
+
+	new Curatescape_Meta_Box('story_media',
+		'stories',
+		__('Media Files'),
+		array(
+			array(
+				'label'		=> __('Choose Media'),
+				'name'		=> 'story_media',
+				'type'		=> 'text',
+				'options'	=> null,
+				'custom_ui'	=> false,
+				'helper'	=> __('Choose files from the Media Library.'),
+				'repeatable'=> 32,
+				)
+		), null
+	);		
 
 	new Curatescape_Meta_Box('story_story_header',
 		'stories',
@@ -219,7 +278,7 @@ if(is_admin()){
 				'options'	=> null,
 				'custom_ui'	=> false,
 				'helper'	=> __('Enter a subtitle for the tour.'),
-				'repeatable'=> false,
+				'repeatable'=> 0,
 				),
 			array(
 				'label'		=> __('Lede'),
@@ -228,16 +287,16 @@ if(is_admin()){
 				'options'	=> null,
 				'custom_ui'	=> false,
 				'helper'	=> __('A brief introductory section that is intended to entice the reader to read the full entry.'),
-				'repeatable'=> false,
+				'repeatable'=> 0,
 				),
 			array(
-				'label'		=> __('Byline'),
+				'label'		=> __('Custom Byline'),
 				'name'		=> 'story_byline',
 				'type'		=> 'text',
 				'options'	=> null,
 				'custom_ui'	=> false,
 				'helper'	=> __('The name of the author(s) this entry. To add an automatically linked author, type @ followed by the author\'s username, e.g. @admin, or use <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">markdown</a> to create a custom link e.g. to link to Google, use <pre>[google](https://google.com)</pre>. '),
-				'repeatable'=> false,
+				'repeatable'=> 0,
 				)							
 		), null
 	);
@@ -254,7 +313,7 @@ if(is_admin()){
 				'options'	=> null,
 				'custom_ui'	=> false,
 				'helper'	=> __('One or more facts or pieces of information related to the entry, often presented as a list. Examples include architectural metadata, preservation status, FAQs, pieces of trivia, etc. Use <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">markdown</a> to add formatting as needed.'),
-				'repeatable'=> true,
+				'repeatable'=> 16,
 				)
 		), null
 	);	
@@ -270,7 +329,7 @@ if(is_admin()){
 				'options'	=> null,
 				'custom_ui'	=> false,
 				'helper'	=> __('The name of or link to a related resource, often used for citation information. Use <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">markdown</a> to add formatting as needed.'),
-				'repeatable'=> true,
+				'repeatable'=> 16,
 				)
 		), null
 	);	
@@ -287,7 +346,7 @@ if(is_admin()){
 				'options'	=> null,
 				'custom_ui'	=> false,
 				'helper'	=> __('A detailed street/mailing address for a physical location.'),
-				'repeatable'=> false,
+				'repeatable'=> 0,
 				),
 			array(
 				'label'		=> __('Access Information'),
@@ -296,7 +355,7 @@ if(is_admin()){
 				'options'	=> null,
 				'custom_ui'	=> false,
 				'helper'	=> __('Information regarding physical access to a location, including restrictions (e.g. "Private Property"), walking directions (e.g. "To reach the peak, take the trail on the left"), or other useful details (e.g. "Location is approximate").'),
-				'repeatable'=> false,
+				'repeatable'=> 0,
 				),
 			array(
 				'label'		=> __('Official Website'),
@@ -305,7 +364,7 @@ if(is_admin()){
 				'options'	=> null,
 				'custom_ui'	=> false,
 				'helper'	=> __('An official website related to the entry. Use <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">markdown</a> to create an active link, e.g. to link to Google use <pre>[google](https://google.com)</pre>.'),
-				'repeatable'=> false,
+				'repeatable'=> 0,
 				),				
 			array(
 				'label'		=> __('Map Coordinates'),
@@ -314,9 +373,11 @@ if(is_admin()){
 				'options'	=> null,
 				'custom_ui'	=> true, // this hidden form field will save coordinates as an array
 				'helper'	=> __('Use the map to add geo-coordinates for this location.'),
-				'repeatable'=> false,
+				'repeatable'=> 0,
 				)								
 		), 'custom_ui/story.php'
 	);
+
+
 								
 }

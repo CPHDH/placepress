@@ -5,7 +5,7 @@
 <div id="admin-story-map"></div>
 <p class="description">Use the map to add geo-coordinates for this location. Place a marker manually or use the search bar to enter an address, coordinates, or other location query.</p>
 
-<script async defer>
+<script>
 	var map = L.map('admin-story-map').setView([51.5, -0.09], 16);
 	map.scrollWheelZoom.disable();
 	L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -15,14 +15,4 @@
 	L.marker([51.5, -0.09]).addTo(map)
 	    .bindPopup('@TODO')
 	    .openPopup();
-	    
-	var buttons = jQuery('.repeatable_button');
-	jQuery(buttons).each(function(){
-		jQuery(this).click(function(e){
-			var el = jQuery(this).siblings('input:first-child,textarea:first-child');
-			jQuery(el).val('');
-			var field=el[0].outerHTML;
-			jQuery(field).insertBefore(el);
-		})
-	});
 </script>

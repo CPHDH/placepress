@@ -71,17 +71,19 @@ function curatescape_at_a_glance(){
 add_action( 'admin_enqueue_scripts', 'curatescape_admin_css' );
 function curatescape_admin_css(){
         wp_register_style( 'curatescape_admin_css', plugin_dir_url( __FILE__ ) . 'styles/admin.css');
-        wp_enqueue_style( 'curatescape_admin_css' );	
+        wp_register_style( 'leafletcss', '//unpkg.com/leaflet@1.2.0/dist/leaflet.css');
+        wp_register_script( 'leafletjs', '//unpkg.com/leaflet@1.2.0/dist/leaflet.js', '', '', false );
+        wp_register_script( 'curatescape_admin_js', plugin_dir_url( __FILE__ ) . 'custom_ui/admin.js', '', '', true);
 
 	    global $pagenow;
-	    if ($pagenow != 'post.php') {
+	    if ($pagenow != 'post.php' && $pagenow != 'post-new.php') {
 	        return;
 	    }   
-        wp_register_style( 'leafletcss', '//unpkg.com/leaflet@1.2.0/dist/leaflet.css');
+
+        wp_enqueue_style( 'curatescape_admin_css' );
         wp_enqueue_style( 'leafletcss' );	    
-	    wp_register_script( 'leafletjs', '//unpkg.com/leaflet@1.2.0/dist/leaflet.js', '', '', false );
 	    wp_enqueue_script( 'leafletjs' );     
-        
+        wp_enqueue_script( 'curatescape_admin_js' ); 
 }
 
 // Public  
