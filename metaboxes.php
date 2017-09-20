@@ -37,7 +37,6 @@ class Curatescape_Meta_Box {
 
 	public function render_metabox( $post ) {
 
-
 		// Add nonce for security and authentication.
 		$nonce_action = $this->id.'_nonce_action';
 		$nonce_name = $this->id.'_nonce';
@@ -174,8 +173,9 @@ class Curatescape_Meta_Box {
 				    $new=array();
 				    for($i=0; $i<=$repeatable; $i++){
 					    $arr=$_POST[$field['name']];
-					    $new[$i] = $arr[$i] ? sanitize_text_field( $arr[$i]  ) : null;
+					    $new[$i] = $arr[$i] ? sanitize_text_field( $arr[$i]  ) : '';
 				    }
+				    $new=array_values(array_filter($new)); // reset array indexes to ignore empty values
 				    update_post_meta( $post_id, $field['name'], $new );	
 			    }else{
 				    $new = isset( $_POST[ $field['name'] ] ) ? sanitize_text_field( $_POST[ $field['name'] ] ) : '';
@@ -188,8 +188,9 @@ class Curatescape_Meta_Box {
 				    $new=array();
 				    for($i=0; $i<=$repeatable; $i++){
 					    $arr=$_POST[$field['name']];
-					    $new[$i] = $arr[$i] ? sanitize_text_field( $arr[$i]  ) : null;
+					    $new[$i] = $arr[$i] ? sanitize_text_field( $arr[$i]  ) : '';
 				    }
+				    $new=array_values(array_filter($new)); // reset array indexes to ignore empty values
 				    update_post_meta( $post_id, $field['name'], $new );					    
 			    }else{
 				    $new = isset( $_POST[ $field['name'] ] ) ? sanitize_text_field( $_POST[ $field['name'] ] ) : '';
@@ -251,22 +252,6 @@ if(is_admin()){
 			),'custom_ui/tour.php'
 	);
 
-	new Curatescape_Meta_Box('story_media',
-		'stories',
-		__('Media Files'),
-		array(
-			array(
-				'label'		=> __('Choose Media'),
-				'name'		=> 'story_media',
-				'type'		=> 'text',
-				'options'	=> null,
-				'custom_ui'	=> false,
-				'helper'	=> __('Choose files from the Media Library.'),
-				'repeatable'=> 32,
-				)
-		), null
-	);		
-
 	new Curatescape_Meta_Box('story_story_header',
 		'stories',
 		__('Story Header'),
@@ -301,7 +286,23 @@ if(is_admin()){
 		), null
 	);
 	
-
+	new Curatescape_Meta_Box('story_media',
+		'stories',
+		__('Media Files'),
+		array(
+			array(
+				'label'		=> __('Choose Media'),
+				'name'		=> 'story_media',
+				'type'		=> 'text',
+				'options'	=> null,
+				'custom_ui'	=> false,
+				'helper'	=> __('Choose files from the Media Library.'),
+				'repeatable'=> 32,
+				)
+		), null
+	);		
+	
+	
 	new Curatescape_Meta_Box('story_factoid',
 		'stories',
 		__('Factoid'),
@@ -371,11 +372,20 @@ if(is_admin()){
 				'name'		=> 'location_coordinates',
 				'type'		=> 'text',
 				'options'	=> null,
-				'custom_ui'	=> true, // this hidden form field will save coordinates as an array
-				'helper'	=> __('Use the map to add geo-coordinates for this location.'),
+				'custom_ui'	=> false, // this hidden form field will save coordinates as an array
+				'helper'	=> __('Use the map to add geo-coordinates for this location as a bracketed array, e.g. <pre>[41.503240,-81.675249]</pre>'),
 				'repeatable'=> 0,
-				)								
-		), 'custom_ui/story.php'
+				),
+			array(
+				'label'		=> __('Map Zoom'),
+				'name'		=> 'location_zoom',
+				'type'		=> 'text',
+				'options'	=> null,
+				'custom_ui'	=> false, // this hidden form field will save coordinates as an array
+				'helper'	=> __('Use the map to add the default zoom level for this location as a single integer between 1 and 20.'),
+				'repeatable'=> 0,
+				)													
+		), 'custom_ui/story_location_details.php'
 	);
 
 

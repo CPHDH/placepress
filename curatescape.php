@@ -26,6 +26,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+define( 'DEFAULT_COORDINATES', '[41.503240, -81.675249]' );
+define( 'DEFAULT_ZOOM', 3 );
+define( 'DISABLE_TOURS' , false );
 
 /*
 ** CUSTOM POST TYPES AND TAXONOMIES

@@ -29,7 +29,9 @@
 #admin-story-map { 
 	height:40vh; 
 	min-height:20em; 
-	background: #eaeaea;
+	background: #23282d;
+	border: 1px solid #ddd;
+	border-top: 0px none transparent;
 }
 input#admin-location-search{
 	width: 100%;
@@ -39,11 +41,31 @@ input#admin-location-search{
 	width: 100%;
 	box-sizing: border-box;
 	padding: 1em;
-	background: #eaeaea;
+	background: #23282d;
+	border: 1px solid #ddd;
+	border-bottom: 0px none transparent;
 	display: flex;
 }
 .description pre{
 	display: inline-block;
 	margin: 0;
 	background: #fafafa;
+}
+
+#map-message-overlay{
+    text-align: center;
+    padding: 1em;
+    color: #fff;
+    background: rgba(0,0,0,.8);
+    display: none;
+    margin: 0 auto;
+    position: relative;
+    z-index: 999;
+    top: 42.5%;
+    left: 0;
+    border-radius: .5em;
+    text-shadow: 1px 1px 0 #000;
+    width: 50%;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
 }
