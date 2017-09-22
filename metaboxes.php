@@ -49,7 +49,7 @@ class Curatescape_Meta_Box {
 			if( empty( $value ) ) $value = '';
 			
 			$repeatable=$field['repeatable'];
-			$repeatable_button=( $repeatable > 0 ) ? '<br><div class="repeatable_button"><span class="dashicons dashicons-plus-alt"></span>Add</div><br>' : null;
+			$repeatable_button=( $repeatable > 0 ) ? '<div class="repeatable_button"><span class="dashicons dashicons-plus-alt"></span>Add</div>' : null;
 			
 			$ui_class= $field['custom_ui'] ? 'hidden custom_ui' : null;
 			
@@ -63,7 +63,9 @@ class Curatescape_Meta_Box {
 					    for($i=0; $i<=$repeatable; $i++){
 						    $user_value=isset($value[$i]) ? $value[$i] : null;
 						    $visibility = (!$user_value && !$i==0) ? 'hidden' : 'visible'; // only show first field and fields with data
-						    $input .= '<input type="text" id="'.$field['name'].'['.$i.']'.'" name="'.$field['name'].'['.$i.']'.'" class="'.$field['name'].'_field_'.$i.' '.$visibility.'" placeholder="" value="' .$user_value. '">';
+						    $input .= '<div class="'.$field['name'].'_container'.' '.$visibility.'">';
+						    $input .= '<input type="text" id="'.$field['name'].'['.$i.']'.'" name="'.$field['name'].'['.$i.']'.'" class="'.$field['name'].'_field_'.$i.'" placeholder="" value="' .$user_value. '">';
+						    $input .= '</div>';
 					    }
 				    }else{
 					    $input = '<input type="text" id="'.$field['name'].'" name="'.$field['name'].'" class="'.$field['name'].'_field" placeholder="" value="' . $value. '">';
@@ -80,8 +82,10 @@ class Curatescape_Meta_Box {
 					    for($i=0; $i<=$repeatable; $i++){
 						    $user_value=isset($value[$i]) ? $value[$i] : null;
 						    $visibility = (!$user_value && !$i==0) ? 'hidden' : 'visible'; // only show first field and fields with data
-						    $input .= '<textarea id="'.$field['name'].'['.$i.']'.'" name="'.$field['name'].'['.$i.']'.'" class="'.$field['name'].'_field_'.$i.' '.$visibility.'"'. 
+						    $input .= '<div class="'.$field['name'].'_container'.' '.$visibility.'">';
+						    $input .= '<textarea id="'.$field['name'].'['.$i.']'.'" name="'.$field['name'].'['.$i.']'.'" class="'.$field['name'].'_field_'.$i.'"'. 
 			        	'placeholder="">'.$user_value.'</textarea>';
+			        		$input .= '</div>';
 					    }
 				    }else{
 					    $input = '<textarea id="'.$field['name'].'" name="'.$field['name'].'" class="'.$field['name'].'_field"'. 
@@ -299,7 +303,7 @@ if(is_admin()){
 				'helper'	=> __('Choose files from the Media Library.'),
 				'repeatable'=> 32,
 				)
-		), null
+		), 'custom_ui/story_media.php'
 	);		
 	
 	
@@ -372,7 +376,7 @@ if(is_admin()){
 				'name'		=> 'location_coordinates',
 				'type'		=> 'text',
 				'options'	=> null,
-				'custom_ui'	=> false, // this hidden form field will save coordinates as an array
+				'custom_ui'	=> true, // this hidden form field will save coordinates as an array
 				'helper'	=> __('Use the map to add geo-coordinates for this location as a bracketed array, e.g. <pre>[41.503240,-81.675249]</pre>'),
 				'repeatable'=> 0,
 				),
@@ -381,7 +385,7 @@ if(is_admin()){
 				'name'		=> 'location_zoom',
 				'type'		=> 'text',
 				'options'	=> null,
-				'custom_ui'	=> false, // this hidden form field will save coordinates as an array
+				'custom_ui'	=> true, // this hidden form field will save coordinates as an array
 				'helper'	=> __('Use the map to add the default zoom level for this location as a single integer between 1 and 20.'),
 				'repeatable'=> 0,
 				)													

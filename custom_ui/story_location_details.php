@@ -1,17 +1,17 @@
 <br>
 <div id="admin-location-search-container">
-	<input id="admin-location-search" type="text" placeholder="Search for a location">
+	<input id="admin-location-search" type="text" placeholder="Search for a location or click map...">
 	<input type="submit" value="Submit Search" type="button" class="button" onclick="return lookup_location()">
 </div>
 <div id="admin-story-map">
 	
 </div>
 
-<p class="description">Use the map to add geo-coordinates for this location. Place a marker manually or use the search bar to enter an address, coordinates, or other location query.</p>
+<span class="description">Use the map to add geo-coordinates for this location. Place a marker manually by clicking the map or use the search bar to enter an address, coordinates, or other location query. Drag and drop the marker to change location and use the zoom controls to save a custom zoom level.</span>
 
 
 <script>	
-	var map,position,marker,zoom,coords;
+	var map,position,marker,search_result_area,zoom,coords;
 	
 	var default_coords=<?php echo DEFAULT_COORDINATES;?>;
 	var default_zoom=parseInt(<?php echo DEFAULT_ZOOM;?>);
@@ -39,14 +39,20 @@
 	}).addTo(map);
 	
 	jQuery('#admin-story-map').append('<div id="map-message-overlay"></div>');
-	
+	jQuery('#admin-location-search').keypress(function(e){
+        if(e.which == 10 || e.which == 13) {
+            lookup_location();
+            return false;	
+        }
+	});
+		
 	if(current_coords){
 		// current location
 		add_new_marker(coords);
 		map.setView(coords, zoom);
 		map.on('click', function(e){
 			position = e.latlng;
-			add_new_marker(position);	
+			update_marker(marker);	
 		});
 				
 	}else{
@@ -85,6 +91,14 @@
 		marker_actions(marker, position.lat, position.lng);
 	}
 	
+	function show_search_result_area(position){
+		if(typeof(search_result_area) !== 'undefined') map.removeLayer(search_result_area);
+		search_result_area = new L.circleMarker(position,{
+			radius:20,
+			stroke:true,
+		}).addTo(map);
+	}	
+	
 	function marker_actions(marker,lat,lng){
 		
 		if(typeof(lat,lng)!=='undefined'){
@@ -104,6 +118,8 @@
 			marker.bindPopup('['+position.lat+','+position.lng+']');
 			e.preventDefault;
 		});
+		
+		if(typeof(search_result_area) !== 'undefined') map.removeLayer(search_result_area);
 				
 	}
 	
@@ -116,18 +132,25 @@
 	}
 	
 	function lookup_location(){
+		var btn=jQuery('#admin-location-search-container .button');
+		btn.prop('disabled',true);
 		var query= jQuery('#admin-location-search').val();
 		jQuery.ajax({
-		  url: 'http://nominatim.openstreetmap.org/?format=json&addressdetails=1&q='+encodeURI(query)+'&format=json&limit=1&email=digitalhumanities@csuohio.edu',
+			url: 'http://nominatim.openstreetmap.org/?q='+encodeURI(query)+'&format=json&addressdetails=1&limit=1&email=digitalhumanities@csuohio.edu',
 		}).done(function( response ) {
+			btn.prop('disabled',false);
 			pos=response[0];
 		    if(pos){
+			    show_search_result_area(pos);
 			    map.panTo(new L.LatLng(pos.lat, pos.lon));
-			    map_toast('Zoom in to location and click to add marker', 2000);
 		    }else{
 			    map_toast('No Results Found', 2000);
 		    }
+		}).fail(function(e){
+			map_toast('Something went wrong! Please try again.', 2000);
+			btn.prop('disabled',false);
 		});		
 		return false;
 	}
+
 </script>
