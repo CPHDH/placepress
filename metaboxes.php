@@ -222,17 +222,17 @@ class Curatescape_Meta_Box {
 // Init metaboxes
 if(is_admin()){
 	
-	new Curatescape_Meta_Box('curatescape_tour_details',
+	new Curatescape_Meta_Box('tour_details',
 		'tours', 
 		__('Tour Details'),
 		array(
 			array(
-				'label'		=> __('Credits'),
+				'label'		=> __('Custom Byline'),
 				'name'		=> 'tour_credits',
 				'type'		=> 'text',
 				'options'	=> null,
 				'custom_ui'	=> false,
-				'helper'	=> __('Enter the name of the person(s) or organization responsible for the content of the tour.'),
+				'helper'	=> __('The name of the author(s) this entry. To add an automatically linked author, type @ followed by the author\'s username, e.g. @admin, or use <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">markdown</a> to create a custom link e.g. to link to Google, use <pre>[google](https://google.com)</pre>.'),
 				'repeatable'=> 0,
 				),	
 			array(
@@ -244,17 +244,24 @@ if(is_admin()){
 				'helper'	=> __('Add postscript text to the end of the tour, for example, to thank a sponsor or add directional information.'),
 				'repeatable'=> 0,
 				),	
+		),null
+	);
+	
+	new Curatescape_Meta_Box('tour_locations',
+		'tours',
+		__('Tour Locations'),
+		array(
 			array(
-				'label'		=> __('Tour Locations/Stories'),
+				'label'		=> __('Stories for this Tour'),
 				'name'		=> 'tour_locations',
 				'type'		=> 'text',
 				'options'	=> null,
-				'custom_ui'	=> true, // this hidden form field will save Location post IDs as an ordered array
-				'helper'	=> __('Choose locations for this tour. You can <a href="/wp-admin/edit.php?post_type=stories">add and edit Locations/Stories here</a>.'),
+				'custom_ui'	=> false, // this hidden form field will save Story post IDs as an ordered array
+				'helper'	=> __('Choose locations for this tour. You can <a href="/wp-admin/edit.php?post_type=stories">add and edit Story posts here</a>.'),
 				'repeatable'=> 0,
 				),					
-			),'custom_ui/tour.php'
-	);
+		),'custom_ui/tour_items.php'
+	);	
 
 	new Curatescape_Meta_Box('story_story_header',
 		'stories',

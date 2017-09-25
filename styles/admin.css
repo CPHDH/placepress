@@ -1,21 +1,24 @@
 
-.postbox-container #tours input[type="text"],
+.postbox-container div[id^="tour_"] input[type="text"],
 .postbox-container div[id^="story_"] input[type="text"]{
 	width: 100%;
 }
 
-.postbox-container #tours textarea,
+.postbox-container div[id^="tour_"] textarea,
 .postbox-container div[id^="story_"] textarea{
 	width: 100%;
 	min-height: 6em;
 }
 
+.postbox-container div[id^="tour_"] h2.hndle,
+.postbox-container div[id^="tour_"] .toggle-indicator,
 .postbox-container div[id^="story_"] h2.hndle,
 .postbox-container div[id^="story_"] .toggle-indicator{
 	color: #fff;
 	background-color: #0073aa;
 }
 
+.postbox-container div[id^="tour_"] .repeatable_button,
 .postbox-container div[id^="story_"] .repeatable_button {
     background: #fafafa;
     display: inline-block;
@@ -30,6 +33,15 @@
 	display: flex;
 	flex-direction: row;
 	margin-bottom: .25em;
+}
+
+.media-thumb {
+    height: 2em;
+    width: 2em;
+    background: #23282d;
+    margin-right: .25em;
+    background-size: cover;
+    flex-shrink: 0;
 }
 
 #story_media_row td input[id^="story_media"]{

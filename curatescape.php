@@ -44,6 +44,12 @@ include 'metaboxes.php';
 
 
 /*
+** CUSTOM JSON OUTPUT
+*/	
+include 'json.php';
+
+
+/*
 ** DASHBOARD
 */
 add_action( 'dashboard_glance_items' , 'curatescape_at_a_glance' );
@@ -60,7 +66,9 @@ function curatescape_at_a_glance(){
         if ( current_user_can( 'edit_posts' ) ) {
             $type_name = $post_type->name;
         }
-        echo '<li class="'.$type_name.'-count"><tr><a href="edit.php?post_type='.$type_name.'"><td class="first b b-' . $post_type->name . '"></td>' . $num . ' <td class="t ' . $post_type->name . '">' . $text . '</td></a></tr></li>';
+        $html = '<li class="'.$type_name.'-count"><tr><a href="edit.php?post_type='.$type_name.'">';
+        $html .= '<td class="first b b-' . $post_type->name . '"></td>' . $num . ' <td class="t ' . $post_type->name . '">' . $text . '</td>';
+        $html .= '</a></tr></li>';
     }
 
 }
@@ -73,25 +81,25 @@ function curatescape_at_a_glance(){
 // Admin  
 add_action( 'admin_enqueue_scripts', 'curatescape_admin_css' );
 function curatescape_admin_css(){
-        wp_register_style( 'curatescape_admin_css', plugin_dir_url( __FILE__ ) . 'styles/admin.css');
-        wp_register_style( 'leafletcss', '//unpkg.com/leaflet@1.2.0/dist/leaflet.css');
-        wp_register_script( 'leafletjs', '//unpkg.com/leaflet@1.2.0/dist/leaflet.js', '', '', false );
-        wp_register_script( 'curatescape_admin_js', plugin_dir_url( __FILE__ ) . 'custom_ui/admin.js', '', '', true);
+	wp_register_style( 'curatescape_admin_css', plugin_dir_url( __FILE__ ) . 'styles/admin.css');
+	wp_register_style( 'leafletcss', '//unpkg.com/leaflet@1.2.0/dist/leaflet.css');
+	wp_register_script( 'leafletjs', '//unpkg.com/leaflet@1.2.0/dist/leaflet.js', '', '', false );
+	wp_register_script( 'curatescape_admin_js', plugin_dir_url( __FILE__ ) . 'custom_ui/admin.js', '', '', true);
 
-	    global $pagenow;
-	    if ($pagenow != 'post.php' && $pagenow != 'post-new.php') {
-	        return;
-	    }   
+    global $pagenow;
+    if ($pagenow != 'post.php' && $pagenow != 'post-new.php') {
+        return;
+    }   
 
-        wp_enqueue_style( 'curatescape_admin_css' );
-        wp_enqueue_style( 'leafletcss' );	    
-	    wp_enqueue_script( 'leafletjs' );     
-        wp_enqueue_script( 'curatescape_admin_js' ); 
+	wp_enqueue_style( 'curatescape_admin_css' );
+    wp_enqueue_style( 'leafletcss' );	    
+    wp_enqueue_script( 'leafletjs' );   
+    wp_enqueue_script( 'curatescape_admin_js' ); 
 }
 
 // Public  
 add_action( 'wp_enqueue_scripts', 'curatescape_public_css' );
 function curatescape_public_css(){
-        wp_register_style( 'curatescape_public_css', plugin_dir_url( __FILE__ ) . 'styles/public.css');
-        wp_enqueue_style( 'curatescape_public_css' );	
+    wp_register_style( 'curatescape_public_css', plugin_dir_url( __FILE__ ) . 'styles/public.css');
+	wp_enqueue_style( 'curatescape_public_css' );	
 }
