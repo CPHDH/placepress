@@ -295,23 +295,7 @@ if(is_admin()){
 				'repeatable'=> 0,
 				)							
 		), null
-	);
-	
-	new Curatescape_Meta_Box('story_media',
-		'stories',
-		__('Media Files'),
-		array(
-			array(
-				'label'		=> __('Choose Media'),
-				'name'		=> 'story_media',
-				'type'		=> 'text',
-				'options'	=> null,
-				'custom_ui'	=> false,
-				'helper'	=> __('Choose files from the Media Library.'),
-				'repeatable'=> 32,
-				)
-		), 'custom_ui/story_media.php'
-	);		
+	);	
 	
 	
 	new Curatescape_Meta_Box('story_factoid',
@@ -399,6 +383,20 @@ if(is_admin()){
 		), 'custom_ui/story_location_details.php'
 	);
 
-
+	new Curatescape_Meta_Box('story_media',
+		'stories',
+		__('Media Files'),
+		array(
+			array(
+				'label'		=> __('Choose Media'),
+				'name'		=> 'story_media',
+				'type'		=> 'text',
+				'options'	=> null,
+				'custom_ui'	=> false,
+				'helper'	=> __('Choose files from the Media Library.'),
+				'repeatable'=> 0,
+				)
+		), 'custom_ui/story_media.php'
+	);	
 								
 }
