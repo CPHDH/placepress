@@ -296,41 +296,23 @@ if(is_admin()){
 				)							
 		), null
 	);	
-	
-	
-	new Curatescape_Meta_Box('story_factoid',
+
+	new Curatescape_Meta_Box('story_media',
 		'stories',
-		__('Factoid'),
+		__('Media Files'),
 		array(
 			array(
-				'label'		=> __('Factoid'),
-				'name'		=> 'story_factoid',
-				'type'		=> 'textarea',
+				'label'		=> __('Choose Media'),
+				'name'		=> 'story_media',
+				'type'		=> 'text',
 				'options'	=> null,
 				'custom_ui'	=> false,
-				'helper'	=> __('One or more facts or pieces of information related to the entry, often presented as a list. Examples include architectural metadata, preservation status, FAQs, pieces of trivia, etc. Use <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">markdown</a> to add formatting as needed.'),
-				'repeatable'=> 16,
+				'helper'	=> __('Select files from the Media Library and/or upload new files. These files will be used to create structured display areas for each media type, including images, audio, and video. Drag and drop to change the order of files.'),
+				'repeatable'=> 0,
 				)
-		), null
+		), 'custom_ui/story_media.php'
 	);	
-
-	new Curatescape_Meta_Box('story_related_resources',
-		'stories',
-		__('Related Resources'),
-		array(
-			array(
-				'label'		=> __('Related Resources'),
-				'name'		=> 'story_related_resources',
-				'type'		=> 'textarea',
-				'options'	=> null,
-				'custom_ui'	=> false,
-				'helper'	=> __('The name of or link to a related resource, often used for citation information. Use <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">markdown</a> to add formatting as needed.'),
-				'repeatable'=> 16,
-				)
-		), null
-	);	
-
-	
+		
 	new Curatescape_Meta_Box('story_location_details',
 		'stories',
 		__('Location Details'),
@@ -383,20 +365,37 @@ if(is_admin()){
 		), 'custom_ui/story_location_details.php'
 	);
 
-	new Curatescape_Meta_Box('story_media',
+
+	new Curatescape_Meta_Box('story_factoid',
 		'stories',
-		__('Media Files'),
+		__('Factoid'),
 		array(
 			array(
-				'label'		=> __('Choose Media'),
-				'name'		=> 'story_media',
-				'type'		=> 'text',
+				'label'		=> __('Factoid'),
+				'name'		=> 'story_factoid',
+				'type'		=> 'textarea',
 				'options'	=> null,
 				'custom_ui'	=> false,
-				'helper'	=> __('Choose files from the Media Library.'),
-				'repeatable'=> 0,
+				'helper'	=> __('One or more facts or pieces of information related to the entry, often presented as a list. Examples include architectural metadata, preservation status, FAQs, pieces of trivia, etc. Use <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">markdown</a> to add formatting as needed.'),
+				'repeatable'=> 16,
 				)
-		), 'custom_ui/story_media.php'
+		), null
 	);	
+
+	new Curatescape_Meta_Box('story_related_resources',
+		'stories',
+		__('Related Resources'),
+		array(
+			array(
+				'label'		=> __('Related Resources'),
+				'name'		=> 'story_related_resources',
+				'type'		=> 'textarea',
+				'options'	=> null,
+				'custom_ui'	=> false,
+				'helper'	=> __('The name of or link to a related resource, often used for citation information. Use <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">markdown</a> to add formatting as needed.'),
+				'repeatable'=> 16,
+				)
+		), null
+	);		
 								
 }

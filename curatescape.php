@@ -95,6 +95,7 @@ function curatescape_admin_css(){
     wp_enqueue_style( 'leafletcss' );	    
     wp_enqueue_script( 'leafletjs' );   
     wp_enqueue_script( 'curatescape_admin_js' ); 
+    wp_enqueue_script( 'jquery-ui-sortable' );
 }
 
 // Public  

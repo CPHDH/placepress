@@ -20,10 +20,15 @@ function render_curatescape_stories_json(){
 	$output = array();
 	foreach( $posts as $post ) {
 	    $output[] = array( 
-	    	'id' => $post->ID, 
-	    	'title' => $post->post_title,
-	    	'subtitle' => $post->story_subtitle,
-	    	'thumb'=>get_the_post_thumbnail_url( $post->id ),
+	    	'id' => intval( $post->ID ), 
+	    	'author'=>array(
+	    		'id'=>$post->post_author,
+	    		'display_name'=>get_the_author_meta('display_name', intval( $post->post_author )),
+	    		'user_login'=>get_the_author_meta('user_login', intval( $post->post_author ))
+	    		),
+	    	'date'=>$post->post_date,
+	    	'thumb'=>get_the_post_thumbnail_url( intval( $post->ID ) ),
+	    	'meta'=>get_post_meta( intval( $post->ID ) ),
 	    );
 	}
 	echo json_encode( $output );
@@ -44,9 +49,12 @@ function render_curatescape_tours_json(){
 	$output = array();
 	foreach( $posts as $post ) {
 	    $output[] = array( 
-	    	'id' => $post->ID, 
+	    	'id' => intval( $post->ID ), 
 	    	'title' => $post->post_title,
-	    	'thumb'=>get_the_post_thumbnail_url( $post->id ),
+	    	'author'=>$post->post_author,
+	    	'date'=>$post->post_date,
+	    	'thumb'=>get_the_post_thumbnail_url( intval( $post->ID ) ),
+	    	'meta'=>get_post_meta( intval( $post->ID ) ),	    	
 	    );
 	}
 	echo json_encode( $output );
