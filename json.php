@@ -5,7 +5,22 @@ function add_curatescape_json(){
 	add_feed('curatescape_tours', 'render_curatescape_tours_json');
 }
 
-// STORIES
+// Helper: Repeatable fields
+function unserialize_post_meta($postID){
+	$postMeta=get_post_meta( $postID );
+	$out=array();
+	foreach($postMeta as $key=>$val){
+		if($key == 'story_related_resources' || $key == 'story_factoid'){
+			$serialized = get_post_meta( $postID, $key, true );
+			$out[$key]=maybe_unserialize($serialized);
+		}else{
+			$out[$key]=$val;
+		}
+	}
+	return $out;
+}
+
+// STORIES JSON
 function render_curatescape_stories_json(){
 	header( 'Content-Type: application/json' );
 	$permissible=( wp_get_current_user() ) ? 'any' : 'publish';
@@ -21,6 +36,7 @@ function render_curatescape_stories_json(){
 	foreach( $posts as $post ) {
 	    $output[] = array( 
 	    	'id' => intval( $post->ID ), 
+	    	'title' => $post->post_title,
 	    	'author'=>array(
 	    		'id'=>$post->post_author,
 	    		'display_name'=>get_the_author_meta('display_name', intval( $post->post_author )),
@@ -28,13 +44,13 @@ function render_curatescape_stories_json(){
 	    		),
 	    	'date'=>$post->post_date,
 	    	'thumb'=>get_the_post_thumbnail_url( intval( $post->ID ) ),
-	    	'meta'=>get_post_meta( intval( $post->ID ) ),
+	    	'meta'=>unserialize_post_meta( intval( $post->ID ) ),
 	    );
 	}
 	echo json_encode( $output );
 }
 
-//TOURS
+//TOURS JSON
 function render_curatescape_tours_json(){
 	header( 'Content-Type: application/json' );
 	$permissible=( wp_get_current_user() ) ? 'any' : 'publish';

@@ -52,6 +52,7 @@
 		classes: {
 		"ui-sortable": "highlight"
 		},
+		//placeholder: "ui-state-highlight",
 		items: 'tr',
 		cursor: "move",
 		start: function(e, ui){
