@@ -75,6 +75,7 @@ jQuery(document).ready(function( $ ) {
 					}
 					
 				});
+				uv=uv.unique();
 				$("input#tour_locations").val(uv.join());
 				
 	    	}
@@ -101,19 +102,18 @@ jQuery(document).ready(function( $ ) {
 	  	$( "#admin-story-search" ).val('').focus();	
 	}
 
-	function removeStory(id){
-		var vals=$('input#tour_locations').val().split(',').map(Number);
-		var remove = vals.indexOf(id);
-		if(remove != -1) {
-			vals.splice(remove, 1);
-			$('input#tour_locations').val(vals);
-			$('.sortable-stories-for-item li[data-value='+id+']').fadeOut();
-		}	
-		return false;
-	}	
-
 });	
 
+function removeStory(id){
+	var vals=jQuery('input#tour_locations').val().split(',').map(Number);
+	var remove = vals.indexOf(id);
+	if(remove != -1) {
+		vals.splice(remove, 1);
+		jQuery('input#tour_locations').val(vals.unique());
+		jQuery('.sortable-stories-for-item li[data-value='+id+']').fadeOut();
+	}	
+	return false;
+}	
 
 
 	

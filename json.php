@@ -1,4 +1,8 @@
 <?php
+if( !defined('ABSPATH') ){
+	exit;
+}	
+
 add_action('init','add_curatescape_json');
 function add_curatescape_json(){
 	add_feed('curatescape_stories', 'render_curatescape_stories_json');

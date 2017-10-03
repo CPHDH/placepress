@@ -1,5 +1,4 @@
 <?php
-
 /*
 Plugin Name: Curatescape for WordPress
 Plugin URI: https://curatescape.org
@@ -11,7 +10,6 @@ License: GPL2
 */
 
 /*  
-Copyright 2017  CSU Center for Public History + Digital Humanities  (email : digitalhumanities@csuohio.edu)
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License, version 2, as 
 published by the Free Software Foundation.
@@ -24,29 +22,35 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
+Copyright 2017  CSU Center for Public History + Digital Humanities  (email : digitalhumanities@csuohio.edu)
 */
 
-define( 'DEFAULT_COORDINATES', '[41.503240, -81.675249]' );
-define( 'DEFAULT_ZOOM', 3 );
-define( 'DISABLE_TOURS' , false );
+if( ! defined('ABSPATH') ){
+	exit;
+}
+
+/*
+** PLUGIN SETTINGS
+*/
+require_once plugin_dir_path( __FILE__ ). 'settings.php';
 
 /*
 ** POST TYPES AND TAXONOMIES
 */
-
-include 'post_types.php';
+require_once plugin_dir_path( __FILE__ ). 'post_types.php';
 
 
 /* 
 ** FIELDS AND METABOXES
 */
-include 'metaboxes.php';
+require_once plugin_dir_path( __FILE__ ). 'metaboxes.php';
 
 
 /*
 ** JSON OUTPUT
 */	
-include 'json.php';
+require_once plugin_dir_path( __FILE__ ). 'json.php';
 
 
 /*
@@ -66,8 +70,9 @@ function curatescape_at_a_glance(){
         if ( current_user_can( 'edit_posts' ) ) {
             $type_name = $post_type->name;
         }
-        $html = '<li class="'.$type_name.'-count"><tr><a href="edit.php?post_type='.$type_name.'">';
-        $html .= '<td class="first b b-' . $post_type->name . '"></td>' . $num . ' <td class="t ' . $post_type->name . '">' . $text . '</td>';
+        $html  = '<li class="'.$type_name.'-count"><tr><a href="edit.php?post_type='.$type_name.'">';
+        $html .= '<td class="first b b-' . $post_type->name . '"></td>';
+        $html .= $num . ' <td class="t ' . $post_type->name . '">' . $text . '</td>';
         $html .= '</a></tr></li>';
     }
 

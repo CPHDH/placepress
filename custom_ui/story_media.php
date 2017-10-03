@@ -63,6 +63,7 @@
 			jQuery(e.target).children('tr').each(function(){
 				new_order.push( jQuery(this).attr('data-id') );
 			});
+			new_order=new_order.unique();
 			jQuery( input ).val(new_order.toString());
 		},
 	});	
@@ -73,7 +74,7 @@
 		var remove = vals.indexOf(id);
 		if(remove != -1) {
 			vals.splice(remove, 1);
-			jQuery(input).val(vals);
+			jQuery(input).val(vals.unique());
 			jQuery('#selected-media-preview table tr[data-id='+id+']').fadeOut();
 		}	
 		return false;
@@ -126,8 +127,6 @@
 	                new_selection = new Array();
 	                selection.each(function(attachment) {
 		                
-		                console.log(attachment);
-
 	                    var id = attachment.id;
 	                    var title = attachment.attributes.title ? attachment.attributes.title : 'Untitled';
 	                    var description = attachment.attributes.description ? attachment.attributes.description : 'This file does not have a description.';

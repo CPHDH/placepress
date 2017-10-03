@@ -1,4 +1,8 @@
 <?php
+if( !defined('ABSPATH') ){
+	exit;
+}	
+
 class Curatescape_Meta_Box {
 		
 	public function __construct($id, $post_type, $metabox_title, $fields, $appendFile) {

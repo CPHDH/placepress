@@ -1,4 +1,8 @@
 <?php
+if( !defined('ABSPATH') ){
+	exit;
+}		
+	
 add_action( 'init', 'curatescape_init' );
 function curatescape_init() {
 	
