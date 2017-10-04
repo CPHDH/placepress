@@ -48,25 +48,24 @@
 	}
 	
 	// make the table sortable
-	jQuery( tbody ).sortable({
-		classes: {
-		"ui-sortable": "highlight"
-		},
-		//placeholder: "ui-state-highlight",
-		items: 'tr',
-		cursor: "move",
-		start: function(e, ui){
-		    ui.placeholder.height(ui.item.height());
-		},
-		update: function(e, ui){
-			var new_order = new Array();
-			jQuery(e.target).children('tr').each(function(){
-				new_order.push( jQuery(this).attr('data-id') );
-			});
-			new_order=new_order.unique();
-			jQuery( input ).val(new_order.toString());
-		},
-	});	
+	jQuery(document).ready(function( $ ) {
+		$( tbody ).sortable({
+			placeholder: "ui-state-highlight",
+			items: 'tr',
+			cursor: "move",
+			start: function(e, ui){
+			    ui.placeholder.height(ui.item.height());
+			},
+			update: function(e, ui){
+				var new_order = new Array();
+				$(e.target).children('tr').each(function(){
+					new_order.push( jQuery(this).attr('data-id') );
+				});
+				new_order=new_order.unique();
+				$( input ).val(new_order.toString());
+			},
+		});	
+	});
 	
 	// click function to remove ids from the text input field and the UI
 	function removeMedia(id){

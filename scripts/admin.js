@@ -7,15 +7,6 @@ jQuery(buttons).each(function(){
 	})
 });
 
-// adjust initial height for textareas with longer content
-/*
-function setHeight(jq_in){
-    jq_in.each(function(index, elem){
-        elem.style.minHeight = elem.scrollHeight+'px'; 
-    });
-}
-*/
-// setHeight(jQuery('.postbox-container textarea[id^="story_"], .postbox-container textarea[id^="tour_"]'));
 
 // helpers
 Array.prototype.unique = function() {

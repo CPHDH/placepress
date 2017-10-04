@@ -70,10 +70,8 @@ function curatescape_at_a_glance(){
         if ( current_user_can( 'edit_posts' ) ) {
             $type_name = $post_type->name;
         }
-        $html  = '<li class="'.$type_name.'-count"><tr><a href="edit.php?post_type='.$type_name.'">';
-        $html .= '<td class="first b b-' . $post_type->name . '"></td>';
-        $html .= $num . ' <td class="t ' . $post_type->name . '">' . $text . '</td>';
-        $html .= '</a></tr></li>';
+        $html = '<li class="'.$type_name.'-count"><tr><a href="edit.php?post_type='.$type_name.'">';
+        $html .= '<td class="first b b-' . $post_type->name . '"></td>' . $num . ' <td class="t ' . $post_type->name . '">' . $text . '</td>';
     }
 
 }
