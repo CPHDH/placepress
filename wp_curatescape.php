@@ -67,13 +67,13 @@ function curatescape_at_a_glance(){
         $count = wp_count_posts( $post_type->name );
         $num = number_format_i18n( $count->publish );
         $text = _n( $post_type->labels->singular_name, $post_type->labels->name , intval( $count->publish ) );
-        if ( current_user_can( 'edit_posts' ) ) {
-            $type_name = $post_type->name;
-        }
-        $html = '<li class="'.$type_name.'-count"><tr><a href="edit.php?post_type='.$type_name.'">';
-        $html .= '<td class="first b b-' . $post_type->name . '"></td>' . $num . ' <td class="t ' . $post_type->name . '">' . $text . '</td>';
-    }
+        $type_name = $post_type->name;
 
+        if ( current_user_can( 'edit_posts' ) ) {
+            $output = '<a href="edit.php?post_type=' . $type_name . '">' . $num . ' ' . $text . '</a>';
+            echo '<li class="'.$type_name.'-count ' . $type_name . '-count">' . $output . '</li>';
+        }        
+    }
 }
 
 
