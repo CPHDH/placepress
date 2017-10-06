@@ -33,24 +33,24 @@ if( ! defined('ABSPATH') ){
 /*
 ** PLUGIN SETTINGS
 */
-require_once plugin_dir_path( __FILE__ ). 'settings.php';
+require_once plugin_dir_path( __FILE__ ). 'admin/settings.php';
 
 /*
 ** POST TYPES AND TAXONOMIES
 */
-require_once plugin_dir_path( __FILE__ ). 'post_types.php';
+require_once plugin_dir_path( __FILE__ ). 'admin/post_types.php';
 
 
 /* 
 ** FIELDS AND METABOXES
 */
-require_once plugin_dir_path( __FILE__ ). 'metaboxes.php';
+require_once plugin_dir_path( __FILE__ ). 'admin/metaboxes.php';
 
 
 /*
 ** JSON OUTPUT
 */	
-require_once plugin_dir_path( __FILE__ ). 'json.php';
+require_once plugin_dir_path( __FILE__ ). 'output/json.php';
 
 
 /*
