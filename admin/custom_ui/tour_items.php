@@ -13,7 +13,7 @@
 			echo '<li data-value="'.$loc.'" class="ui-state-default">'.
 			'<div class="sortable-thumb" style="background-image:url('.get_the_post_thumbnail_url( intval( $loc ) ).');">'.
 			'</div><div><h3>'.$title.'</h3>'.
-			'<a class="button remove_link" href="" onclick="return removeStory('.intval( $loc ).');">Remove</a></div></li>';
+			'<a class="button remove_link" href="" onclick="return removeStory('.intval( $loc ).');">'.esc_html__( 'Remove', 'wp_curatescape').'</a></div></li>';
 		}
 }
 ?>
@@ -22,14 +22,20 @@
 <script>
 var endpoint = '<?php echo get_site_url().'?feed=curatescape_stories';?>';	
 var stories=new Array();
+
+var textdomain_error_generic = '<?php echo esc_html__( 'Unable to get stories ...', 'wp_curatescape');?>';
+var textdomain_placeholder_default = '<?php echo esc_html__( 'Type a title or subtitle to add story to tour...', 'wp_curatescape');?>';
+var textdomain_placeholder_getting = '<?php echo esc_html__( 'Getting stories...', 'wp_curatescape');?>';
+var textdomain_remove = '<?php echo esc_html__( 'Remove', 'wp_curatescape');?>';
+
 jQuery('#tour_locations table').hide();
-jQuery('#admin-story-search').attr('placeholder','Getting stories...');
+jQuery('#admin-story-search').attr('placeholder',textdomain_placeholder_getting);
 
 jQuery(document).ready(function( $ ) {
 	$.ajax({
 		url: endpoint,
 	}).done(function( response ) {
-		$('#admin-story-search').attr('placeholder',"Type a title or subtitle to add story to tour...");
+		$('#admin-story-search').attr('placeholder',textdomain_placeholder_default);
 		if(response.length){
 			$(response).each(function(i,r){
 				stories.push({
@@ -50,11 +56,11 @@ jQuery(document).ready(function( $ ) {
 			});		
 			
 		}else{
-			$('#admin-story-search').attr('placeholder',"Unable to get stories ...");
+			$('#admin-story-search').attr('placeholder',textdomain_error_generic);
 			$('#admin-story-search').attr('disabled',true);			
 		}		
 	}).fail(function(e){
-		$('#admin-story-search').attr('placeholder',"Unable to get stories ...");
+		$('#admin-story-search').attr('placeholder',textdomain_error_generic);
 		$('#admin-story-search').attr('disabled',true);
 	});	
 	
@@ -89,7 +95,7 @@ jQuery(document).ready(function( $ ) {
 
 		
 		if(updated_values.indexOf( parseInt( new_addition.value) ) === -1){
-			$('#sortable').prepend('<li data-value="'+new_addition.value+'" class="ui-state-default"><div class="sortable-thumb" style="background-image:url('+new_addition.thumb+');"></div><div><h3>'+new_addition.label+'</h3><a class="button  remove_link" href="" onclick="return removeStory('+new_addition.value+');">Remove</a></div></li>');
+			$('#sortable').prepend('<li data-value="'+new_addition.value+'" class="ui-state-default"><div class="sortable-thumb" style="background-image:url('+new_addition.thumb+');"></div><div><h3>'+new_addition.label+'</h3><a class="button  remove_link" href="" onclick="return removeStory('+new_addition.value+');">'+textdomain_remove+'</a></div></li>');
 		}else{
 			// TODO: add some notice
 		}

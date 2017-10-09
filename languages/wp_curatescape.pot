@@ -1,0 +1,579 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-10-09 16:55+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/"
+
+#. Base ID
+#: widgets/widgets.php:17
+msgid "Curatescape Test Widget"
+msgstr ""
+
+#: widgets/widgets.php:18
+msgid "A Curatescape Widget"
+msgstr ""
+
+#: widgets/widgets.php:35
+msgid "Hello, World!"
+msgstr ""
+
+#: widgets/widgets.php:47
+msgid "New title"
+msgstr ""
+
+#: widgets/widgets.php:50
+msgid "Title:"
+msgstr ""
+
+#: admin/metaboxes.php:231
+msgid "Tour Details"
+msgstr ""
+
+#: admin/metaboxes.php:234 admin/metaboxes.php:293
+msgid "Custom Byline"
+msgstr ""
+
+#: admin/metaboxes.php:239
+msgid ""
+"The name of the author(s) this entry. To add an automatically linked author, "
+"type @ followed by the author's username, e.g. @admin, or use <a "
+"href=\"https://guides.github.com/features/mastering-markdown/\" "
+"target=\"_blank\">markdown</a> to create a custom link e.g. to link to "
+"Google, use <pre>[google](https://google.com)</pre>."
+msgstr ""
+
+#: admin/metaboxes.php:243
+msgid "Postscript Text"
+msgstr ""
+
+#: admin/metaboxes.php:248
+msgid ""
+"Add postscript text to the end of the tour, for example, to thank a sponsor "
+"or add directional information."
+msgstr ""
+
+#: admin/metaboxes.php:256
+msgid "Tour Locations"
+msgstr ""
+
+#: admin/metaboxes.php:259
+msgid "Stories for this Tour"
+msgstr ""
+
+#: admin/metaboxes.php:264
+msgid ""
+"Choose locations for this tour. You can <a href=\"/wp-admin/edit.php?"
+"post_type=stories\">add and edit Story posts here</a>."
+msgstr ""
+
+#: admin/metaboxes.php:272
+msgid "Story Header"
+msgstr ""
+
+#: admin/metaboxes.php:275
+msgid "Subtitle"
+msgstr ""
+
+#: admin/metaboxes.php:280
+msgid "Enter a subtitle for the tour."
+msgstr ""
+
+#: admin/metaboxes.php:284
+msgid "Lede"
+msgstr ""
+
+#: admin/metaboxes.php:289
+msgid ""
+"A brief introductory section that is intended to entice the reader to read "
+"the full entry."
+msgstr ""
+
+#: admin/metaboxes.php:298
+msgid ""
+"The name of the author(s) this entry. To add an automatically linked author, "
+"type @ followed by the author's username, e.g. @admin, or use <a "
+"href=\"https://guides.github.com/features/mastering-markdown/\" "
+"target=\"_blank\">markdown</a> to create a custom link e.g. to link to "
+"Google, use <pre>[google](https://google.com)</pre>. "
+msgstr ""
+
+#: admin/metaboxes.php:306
+msgid "Media Files"
+msgstr ""
+
+#: admin/metaboxes.php:309
+msgid "Choose Media"
+msgstr ""
+
+#: admin/metaboxes.php:314
+msgid ""
+"Select files from the Media Library and/or upload new files. These files "
+"will be used to create structured display areas for each media type, "
+"including images, audio, and video. Drag and drop to change the order of "
+"files."
+msgstr ""
+
+#: admin/metaboxes.php:322
+msgid "Location Details"
+msgstr ""
+
+#: admin/metaboxes.php:325
+msgid "Street Address"
+msgstr ""
+
+#: admin/metaboxes.php:330
+msgid "A detailed street/mailing address for a physical location."
+msgstr ""
+
+#: admin/metaboxes.php:334
+msgid "Access Information"
+msgstr ""
+
+#: admin/metaboxes.php:339
+msgid ""
+"Information regarding physical access to a location, including restrictions "
+"(e.g. \"Private Property\"), walking directions (e.g. \"To reach the peak, "
+"take the trail on the left\"), or other useful details (e.g. \"Location is "
+"approximate\")."
+msgstr ""
+
+#: admin/metaboxes.php:343
+msgid "Official Website"
+msgstr ""
+
+#: admin/metaboxes.php:348
+msgid ""
+"An official website related to the entry. Use <a href=\"https://guides."
+"github.com/features/mastering-markdown/\" target=\"_blank\">markdown</a> to "
+"create an active link, e.g. to link to Google use <pre>[google](https:"
+"//google.com)</pre>."
+msgstr ""
+
+#: admin/metaboxes.php:352
+msgid "Map Coordinates"
+msgstr ""
+
+#: admin/metaboxes.php:357
+msgid ""
+"Use the map to add geo-coordinates for this location as a bracketed array, e."
+"g. <pre>[41.503240,-81.675249]</pre>"
+msgstr ""
+
+#: admin/metaboxes.php:361
+msgid "Map Zoom"
+msgstr ""
+
+#: admin/metaboxes.php:366
+msgid ""
+"Use the map to add the default zoom level for this location as a single "
+"integer between 1 and 20."
+msgstr ""
+
+#: admin/metaboxes.php:375 admin/metaboxes.php:378
+msgid "Factoid"
+msgstr ""
+
+#: admin/metaboxes.php:383
+msgid ""
+"One or more facts or pieces of information related to the entry, often "
+"presented as a list. Examples include architectural metadata, preservation "
+"status, FAQs, pieces of trivia, etc. Use <a href=\"https://guides.github."
+"com/features/mastering-markdown/\" target=\"_blank\">markdown</a> to add "
+"formatting as needed."
+msgstr ""
+
+#: admin/metaboxes.php:391 admin/metaboxes.php:394
+msgid "Related Resources"
+msgstr ""
+
+#: admin/metaboxes.php:399
+msgid ""
+"The name of or link to a related resource, often used for citation "
+"information. Use <a href=\"https://guides.github.com/features/mastering-"
+"markdown/\" target=\"_blank\">markdown</a> to add formatting as needed."
+msgstr ""
+
+#: admin/post_types.php:14 admin/post_types.php:16 admin/post_types.php:35
+msgid "Tours"
+msgstr ""
+
+#: admin/post_types.php:17 admin/post_types.php:36
+msgid "Tour"
+msgstr ""
+
+#: admin/post_types.php:18 admin/post_types.php:90
+msgid "Add New"
+msgstr ""
+
+#: admin/post_types.php:19
+msgid "Add New Tour"
+msgstr ""
+
+#: admin/post_types.php:20
+msgid "Edit Tour"
+msgstr ""
+
+#: admin/post_types.php:21
+msgid "New Tour"
+msgstr ""
+
+#: admin/post_types.php:22
+msgid "View Tour"
+msgstr ""
+
+#: admin/post_types.php:23
+msgid "Search Tours"
+msgstr ""
+
+#: admin/post_types.php:24
+msgid "No Tours Found"
+msgstr ""
+
+#: admin/post_types.php:25
+msgid "No Tours Found in Trash"
+msgstr ""
+
+#: admin/post_types.php:26
+msgid "Parent Tour"
+msgstr ""
+
+#: admin/post_types.php:27
+msgid "All Tours"
+msgstr ""
+
+#: admin/post_types.php:28
+msgid "Tour Archives"
+msgstr ""
+
+#: admin/post_types.php:29
+msgid "Insert into Tour"
+msgstr ""
+
+#: admin/post_types.php:30
+msgid "Uploaded to this Tour"
+msgstr ""
+
+#: admin/post_types.php:31
+msgid "Tour Image"
+msgstr ""
+
+#: admin/post_types.php:32
+msgid "Set Tour Image"
+msgstr ""
+
+#: admin/post_types.php:33
+msgid "Remove Tour Image"
+msgstr ""
+
+#: admin/post_types.php:34
+msgid "Use as Tour Image"
+msgstr ""
+
+#: admin/post_types.php:38
+msgid "Tours are collections of location-based stories."
+msgstr ""
+
+#: admin/post_types.php:63
+msgid "Tour Types"
+msgstr ""
+
+#: admin/post_types.php:65
+msgid "Types"
+msgstr ""
+
+#: admin/post_types.php:66
+msgid "Add New Type"
+msgstr ""
+
+#: admin/post_types.php:67
+msgid "Separate types with commas"
+msgstr ""
+
+#: admin/post_types.php:68
+msgid "Choose from most used types"
+msgstr ""
+
+#: admin/post_types.php:69
+msgid "Add or Remove Types"
+msgstr ""
+
+#: admin/post_types.php:70
+msgid "No Tour Types Found"
+msgstr ""
+
+#: admin/post_types.php:71
+msgid "Search Types"
+msgstr ""
+
+#: admin/post_types.php:72
+msgid "All Types"
+msgstr ""
+
+#: admin/post_types.php:73
+msgid "Update Type"
+msgstr ""
+
+#: admin/post_types.php:78
+msgid "Tour Type"
+msgstr ""
+
+#: admin/post_types.php:86 admin/post_types.php:88 admin/post_types.php:107
+msgid "Stories"
+msgstr ""
+
+#: admin/post_types.php:89 admin/post_types.php:108
+msgid "Story"
+msgstr ""
+
+#: admin/post_types.php:91
+msgid "Add New Story"
+msgstr ""
+
+#: admin/post_types.php:92
+msgid "Edit Story"
+msgstr ""
+
+#: admin/post_types.php:93
+msgid "New Story"
+msgstr ""
+
+#: admin/post_types.php:94
+msgid "View Story"
+msgstr ""
+
+#: admin/post_types.php:95
+msgid "Search Stories"
+msgstr ""
+
+#: admin/post_types.php:96
+msgid "No Stories Found"
+msgstr ""
+
+#: admin/post_types.php:97
+msgid "No Stories Found in Trash"
+msgstr ""
+
+#: admin/post_types.php:98
+msgid "Parent Story"
+msgstr ""
+
+#: admin/post_types.php:99
+msgid "All Stories"
+msgstr ""
+
+#: admin/post_types.php:100
+msgid "Story Archives"
+msgstr ""
+
+#: admin/post_types.php:101
+msgid "Insert into Story"
+msgstr ""
+
+#: admin/post_types.php:102
+msgid "Uploaded to this Story"
+msgstr ""
+
+#: admin/post_types.php:103
+msgid "Story Image"
+msgstr ""
+
+#: admin/post_types.php:104
+msgid "Set Story Image"
+msgstr ""
+
+#: admin/post_types.php:105
+msgid "Remove Story Image"
+msgstr ""
+
+#: admin/post_types.php:106
+msgid "Use as Story Image"
+msgstr ""
+
+#: admin/post_types.php:110
+msgid "Stories may stand alone or be used in Tours."
+msgstr ""
+
+#: admin/post_types.php:136 admin/post_types.php:138
+msgid "Subjects"
+msgstr ""
+
+#: admin/post_types.php:139
+msgid "Add New Subject"
+msgstr ""
+
+#: admin/post_types.php:140
+msgid "Separate subjects with commas"
+msgstr ""
+
+#: admin/post_types.php:141
+msgid "Choose from most used subjects"
+msgstr ""
+
+#: admin/post_types.php:142
+msgid "Add or Remove Subjects"
+msgstr ""
+
+#: admin/post_types.php:143
+msgid "No Story Subjects Found"
+msgstr ""
+
+#: admin/post_types.php:144
+msgid "Search Subjects"
+msgstr ""
+
+#: admin/post_types.php:145
+msgid "All Subject"
+msgstr ""
+
+#: admin/post_types.php:146
+msgid "Update Subject"
+msgstr ""
+
+#: admin/post_types.php:151
+msgid "Subject"
+msgstr ""
+
+#: admin/settings.php:80
+msgid "Enter the default map coordinates, e.g. [41.503240, -81.675249]"
+msgstr ""
+
+#: admin/settings.php:91
+msgid "Street"
+msgstr ""
+
+#: admin/settings.php:92
+msgid "Terrain"
+msgstr ""
+
+#: admin/settings.php:93
+msgid "Satellite"
+msgstr ""
+
+#: admin/settings.php:103
+msgid ""
+"Choose a number between 0 (zoomed all the way out) and 20 (zoomed all the "
+"way in)."
+msgstr ""
+
+#: admin/settings.php:113
+msgid "Disable Tours"
+msgstr ""
+
+#: admin/settings.php:135
+msgid "Customize default settings for Curatescape maps."
+msgstr ""
+
+#: admin/settings.php:139
+msgid "Customize additional Curatescape settings."
+msgstr ""
+
+#: admin/custom_ui/story_location_details.php:3
+msgid "Search for a location or click map..."
+msgstr ""
+
+#: admin/custom_ui/story_location_details.php:4
+msgid "Submit Search"
+msgstr ""
+
+#: admin/custom_ui/story_location_details.php:10
+msgid ""
+"Use the map to add geo-coordinates for this location. Place a marker "
+"manually by clicking the map or use the search bar to enter an address, "
+"coordinates, or other location query. Drag and drop the marker to change "
+"location and use the zoom controls to save a custom zoom level."
+msgstr ""
+
+#: admin/custom_ui/story_location_details.php:16
+msgid "No Results Found"
+msgstr ""
+
+#: admin/custom_ui/story_location_details.php:17
+msgid "Something went wrong! Please try again."
+msgstr ""
+
+#: admin/custom_ui/story_media.php:2
+msgid "Unknown Format"
+msgstr ""
+
+#: admin/custom_ui/story_media.php:3
+msgid "Untitled"
+msgstr ""
+
+#: admin/custom_ui/story_media.php:4
+msgid "Edit / View Metadata"
+msgstr ""
+
+#: admin/custom_ui/story_media.php:5
+msgid "This file does not have a description"
+msgstr ""
+
+#: admin/custom_ui/story_media.php:6
+msgid "Media Details"
+msgstr ""
+
+#: admin/custom_ui/story_media.php:7
+msgid "Media Preview"
+msgstr ""
+
+#: admin/custom_ui/story_media.php:8 admin/custom_ui/tour_items.php:16
+#: admin/custom_ui/tour_items.php:29
+msgid "Remove"
+msgstr ""
+
+#: admin/custom_ui/story_media.php:9
+msgid "Select or Upload"
+msgstr ""
+
+#: admin/custom_ui/story_media.php:110
+msgid "Select File"
+msgstr ""
+
+#: admin/custom_ui/story_media.php:116
+msgid "Use Selected"
+msgstr ""
+
+#: admin/custom_ui/tour_items.php:26
+msgid "Unable to get stories ..."
+msgstr ""
+
+#: admin/custom_ui/tour_items.php:27
+msgid "Type a title or subtitle to add story to tour..."
+msgstr ""
+
+#: admin/custom_ui/tour_items.php:28
+msgid "Getting stories..."
+msgstr ""
+
+#. Name of the plugin
+msgid "Curatescape for WordPress"
+msgstr ""
+
+#. Description of the plugin
+msgid ""
+"Publish location-based, media-rich, structured narratives compatible with "
+"Curatescape mobile apps. Designed for public historians, urbanists, and "
+"other humanities researchers. Adds Tour and Story post types, as well as "
+"custom taxonomies and metadata fields."
+msgstr ""
+
+#. URI of the plugin
+msgid "https://curatescape.org"
+msgstr ""
+
+#. Author of the plugin
+msgid "CSU Center for Public History + Digital Humanities"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "http://csudigitalhumanities.org"
+msgstr ""

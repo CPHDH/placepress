@@ -14,8 +14,8 @@ class Curatescape_Widget extends WP_Widget {
 	function __construct() {
 		parent::__construct(
 			'foo_widget', // Base ID
-			esc_html__( 'Curatescape Test Widget', 'text_domain' ), // Name
-			array( 'description' => esc_html__( 'A Curatescape Widget', 'text_domain' ), ) // Args
+			esc_html__( 'Curatescape Test Widget', 'wp_curatescape' ), // Name
+			array( 'description' => esc_html__( 'A Curatescape Widget', 'wp_curatescape' ), ) // Args
 		);
 	}
 
@@ -32,7 +32,7 @@ class Curatescape_Widget extends WP_Widget {
 		if ( ! empty( $instance['title'] ) ) {
 			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
 		}
-		echo esc_html__( 'Hello, World!', 'text_domain' );
+		echo esc_html__( 'Hello, World!', 'wp_curatescape' );
 		echo $args['after_widget'];
 	}
 
@@ -44,10 +44,10 @@ class Curatescape_Widget extends WP_Widget {
 	 * @param array $instance Previously saved values from database.
 	 */
 	public function form( $instance ) {
-		$title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'New title', 'text_domain' );
+		$title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'New title', 'wp_curatescape' );
 		?>
 		<p>
-		<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_attr_e( 'Title:', 'text_domain' ); ?></label> 
+		<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_attr_e( 'Title:', 'wp_curatescape' ); ?></label> 
 		<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
 		</p>
 		<?php 

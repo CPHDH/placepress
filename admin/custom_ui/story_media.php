@@ -1,3 +1,13 @@
+<?php 
+$textdomain_unknownformat=esc_html__( 'Unknown Format', 'wp_curatescape');
+$textdomain_untitled=esc_html__( 'Untitled', 'wp_curatescape');
+$textdomain_editviewmetadata=esc_html__( 'Edit / View Metadata', 'wp_curatescape');
+$textdomain_nodescription=esc_html__( 'This file does not have a description', 'wp_curatescape');
+$textdomain_mediadetails=esc_html__( 'Media Details', 'wp_curatescape');
+$textdomain_mediapreview=esc_html__( 'Media Preview', 'wp_curatescape');
+$textdomain_remove=esc_html__( 'Remove', 'wp_curatescape');
+$textdomain_selectorupload=esc_html__( 'Select or Upload', 'wp_curatescape');
+?>	
 <div id="selected-media-preview">
 	<?php 
 	$table_rows = '';
@@ -9,16 +19,15 @@
 			$attachment_meta = wp_prepare_attachment_for_js($id);
 			
 			$type = $attachment_meta['type'];
-			$subtype = isset($attachment_meta['subtype']) ? strtoupper($attachment_meta['subtype']) : __('Unknown Format');
-			$title = $attachment_meta['title'] ? $attachment_meta['title'] : __('Untitled');
+			$subtype = isset($attachment_meta['subtype']) ? strtoupper($attachment_meta['subtype']) : $textdomain_unknownformat;
+			$title = $attachment_meta['title'] ? $attachment_meta['title'] : $textdomain_untitled;
 			$url= ($attachment_meta['type']=='image') ? $attachment_meta['url'] : $attachment_meta['icon'];
 			$filesizeHumanReadable = $attachment_meta['filesizeHumanReadable'];
 			$duration = isset($attachment_meta['fileLength']) ? $attachment_meta['fileLength'] : null;
 			$dimensions = isset($attachment_meta['width']) ? $attachment_meta['width'].' x '.$attachment_meta['height'].' pixels' : null;
-			$editLink = '<a class="edit_link button" href="'.$attachment_meta['editLink'].'" target="_blank">'.__('Edit / View Metadata').'</a>';
-			$caption=$attachment_meta['caption'] ? $attachment_meta['caption'] : __('This file does not have a caption.');
-			$description=$attachment_meta['description'] ? $attachment_meta['description'] : __('This file does not have a description.');	
-			$editActions=$editLink.' <a class="button  remove_link" href="" onclick="return removeMedia('.$id.');">'.__('Remove').'</a>';
+			$editLink = '<a class="edit_link button" href="'.$attachment_meta['editLink'].'" target="_blank">'.$textdomain_editviewmetadata.'</a>';
+			$description=$attachment_meta['description'] ? $attachment_meta['description'] : $textdomain_nodescription;	
+			$editActions=$editLink.' <a class="button  remove_link" href="" onclick="return removeMedia('.$id.');">'.$textdomain_remove.'</a>';
 			
 			$inlineMeta=array_filter(array( $duration, $dimensions, $filesizeHumanReadable, $subtype ));		
 			$inlineMeta='<div class="inline-meta">'.implode(' ~ ',$inlineMeta).'</div>';
@@ -27,7 +36,7 @@
 	    	$table_rows .= '<td><h3>'.$title.'</h3>'.$inlineMeta.'<div>'.$description.'</div><div class="actions">'.$editActions.'</div></td></tr>';		
 		}
 		
-		echo '<table><thead><tr><th>'.__('Media Preview').'</th><th>'.__('Media Details').'</th></tr></thead><tbody>'.$table_rows.'</tbody></table>';
+		echo '<table><thead><tr><th>'.$textdomain_mediapreview.'</th><th>'.$textdomain_mediadetails.'</th></tr></thead><tbody>'.$table_rows.'</tbody></table>';
 	}
 	?>
 </div>
@@ -37,13 +46,13 @@
 	var input=jQuery('#story_media_row td input#story_media');
 
 	// hide the text input field and add the media select button
-	jQuery(input).hide().after('<button title="Select Media" class="story_media_picker button "><span class="dashicons dashicons-admin-media"></span> Select or Upload</button>');
+	jQuery(input).hide().after('<button title="<?php echo $textdomain_selectorupload;?>" class="story_media_picker button "><span class="dashicons dashicons-admin-media"></span> <?php echo $textdomain_selectorupload;?></button>');
 	
 	// make sure there's a table in the dom
 	if(jQuery('#selected-media-preview table tbody').length){
 		var tbody=jQuery('#selected-media-preview table tbody');
 	}else{
-		jQuery('#selected-media-preview').append('<table><thead><tr><th>Media Preview</th><th>Media Details</th></tr></thead><tbody></tbody></table>');
+		jQuery('#selected-media-preview').append('<table><thead><tr><th><?php echo $textdomain_mediapreview;?></th><th><?php echo $textdomain_mediadetails;?></th></tr></thead><tbody></tbody></table>');
 		var tbody=jQuery('#selected-media-preview table tbody');
 	}
 	
@@ -98,13 +107,13 @@
 	            }
 	            // configuration of the media manager new instance
 	            wp.media.frames.curatescape_frame = wp.media({
-	                title: 'Select file',
+	                title: '<?php echo esc_html__( 'Select File', 'wp_curatescape');?>',
 	                multiple: true,
 	                library: {
 	                    type: ['audio','image','video']
 	                },
 	                button: {
-	                    text: 'Use selected file'
+	                    text: '<?php echo esc_html__( 'Use Selected', 'wp_curatescape');?>'
 	                },
 	                searchable: true,
 	                filterable: 'all',						                
@@ -127,17 +136,17 @@
 	                selection.each(function(attachment) {
 		                
 	                    var id = attachment.id;
-	                    var title = attachment.attributes.title ? attachment.attributes.title : 'Untitled';
-	                    var description = attachment.attributes.description ? attachment.attributes.description : 'This file does not have a description.';
+	                    var title = attachment.attributes.title ? attachment.attributes.title : '<?php echo $textdomain_untitled;?>';
+	                    var description = attachment.attributes.description ? attachment.attributes.description : '<?php echo $textdomain_nodescription;?>';
 	                    var type = attachment.attributes.type;
 	                    var icon = attachment.attributes.icon;
 	                    var url = (type=='image') ? attachment.attributes.url : icon;
-	                    var subtype = attachment.attributes.subtype ? attachment.attributes.subtype : 'Unknown Format';
+	                    var subtype = attachment.attributes.subtype ? attachment.attributes.subtype : '<?php echo $textdomain_unknownformat;?>';
 	                    var filesizeHumanReadable = attachment.attributes.filesizeHumanReadable;
 	                    var duration = attachment.attributes.fileLength ? attachment.attributes.fileLength : null;
 	                    var dimensions = attachment.attributes.width ? attachment.attributes.width+' x '+attachment.attributes.height+' pixels' : null;
-	                    var editLink = '<a class="edit_link button" href="'+attachment.attributes.editLink+'" target="_blank">Edit / View Metadata</a>';
-	                    var editActions = editLink+' <a class="button  remove_link" href="" onclick="return removeMedia('+id+');">Remove</a>';
+	                    var editLink = '<a class="edit_link button" href="'+attachment.attributes.editLink+'" target="_blank"><?php echo $textdomain_editviewmetadata;?></a>';
+	                    var editActions = editLink+' <a class="button  remove_link" href="" onclick="return removeMedia('+id+');"><?php echo $textdomain_remove;?></a>';
 						var inlineMeta = [duration, dimensions, filesizeHumanReadable, subtype];	
 						inlineMeta = inlineMeta.filter(function(e){
 							return e !== null;

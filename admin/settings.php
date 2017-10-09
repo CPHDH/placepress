@@ -77,7 +77,7 @@ function curatescape_register_settings(){
 		'curatescape_callback_field_text',
 		'curatescape',
 		'curatescape_section_map',
-		['id'=>'default_coordinates','label'=>'Enter the default map coordinates, e.g. [41.503240, -81.675249]']
+		['id'=>'default_coordinates','label'=>esc_html__('Enter the default map coordinates, e.g. [41.503240, -81.675249]','wp_curatescape')]
 	);	
 
 	add_settings_field(
@@ -86,7 +86,12 @@ function curatescape_register_settings(){
 		'curatescape_callback_field_select',
 		'curatescape',
 		'curatescape_section_map',
-		['id'=>'default_map_type','label'=>'Choose the default map type','options'=>array('street'=>'Street','terrain'=>'Terrain','satellite'=>'Satellite')]
+		['id'=>'default_map_type',
+		'label'=>'Choose the default map type','options'=>array(
+			'street'=>esc_html__('Street','wp_curatescape'),
+			'terrain'=>esc_html__('Terrain','wp_curatescape'),
+			'satellite'=>esc_html__('Satellite','wp_curatescape')
+		)]
 	);	
 
 	add_settings_field(
@@ -95,7 +100,7 @@ function curatescape_register_settings(){
 		'curatescape_callback_field_text_number',
 		'curatescape',
 		'curatescape_section_map',
-		['id'=>'default_zoom','label'=>'Choose a number between <strong>0</strong> (zoomed all the way out) and <strong>20</strong> (zoomed all the way in).','min'=>0,'max'=>20]
+		['id'=>'default_zoom','label'=>esc_html__('Choose a number between 0 (zoomed all the way out) and 20 (zoomed all the way in).','wp_curatescape'),'min'=>0,'max'=>20]
 	);
 
 
@@ -105,7 +110,7 @@ function curatescape_register_settings(){
 		'curatescape_callback_field_checkbox',
 		'curatescape',
 		'curatescape_section_other',
-		['id'=>'disable_tours','label'=>'Disable Tours']
+		['id'=>'disable_tours','label'=>esc_html__('Disable Tours','wp_curatescape')]
 	);
 
 }
@@ -127,11 +132,11 @@ function curatescape_options_default(){
 */
 
 function curatescape_callback_section_map(){
-	echo '<p>Customize default settings for Curatescape maps.</p>';
+	echo '<p>'.esc_html__('Customize default settings for Curatescape maps.','wp_curatescape').'</p>';
 }
 
 function curatescape_callback_section_other(){
-	echo '<p>Customize additional Curatescape settings.</p>';
+	echo '<p>'.esc_html__('Customize additional Curatescape settings.','wp_curatescape').'</p>';
 }
 
 // Text

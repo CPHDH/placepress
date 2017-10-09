@@ -228,24 +228,24 @@ if(is_admin()){
 	
 	new Curatescape_Meta_Box('tour_details',
 		'tours', 
-		__('Tour Details'),
+		__('Tour Details','wp_curatescape'),
 		array(
 			array(
-				'label'		=> __('Custom Byline'),
+				'label'		=> __('Custom Byline','wp_curatescape'),
 				'name'		=> 'tour_credits',
 				'type'		=> 'text',
 				'options'	=> null,
 				'custom_ui'	=> false,
-				'helper'	=> __('The name of the author(s) this entry. To add an automatically linked author, type @ followed by the author\'s username, e.g. @admin, or use <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">markdown</a> to create a custom link e.g. to link to Google, use <pre>[google](https://google.com)</pre>.'),
+				'helper'	=> __('The name of the author(s) this entry. To add an automatically linked author, type @ followed by the author\'s username, e.g. @admin, or use <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">markdown</a> to create a custom link e.g. to link to Google, use <pre>[google](https://google.com)</pre>.','wp_curatescape'),
 				'repeatable'=> 0,
 				),	
 			array(
-				'label'		=> __('Postscript Text'),
+				'label'		=> __('Postscript Text','wp_curatescape'),
 				'name'		=> 'tour_postscript',
 				'type'		=> 'textarea',
 				'options'	=> null,
 				'custom_ui'	=> false,
-				'helper'	=> __('Add postscript text to the end of the tour, for example, to thank a sponsor or add directional information.'),
+				'helper'	=> __('Add postscript text to the end of the tour, for example, to thank a sponsor or add directional information.','wp_curatescape'),
 				'repeatable'=> 0,
 				),	
 		),null
@@ -253,15 +253,15 @@ if(is_admin()){
 	
 	new Curatescape_Meta_Box('tour_locations',
 		'tours',
-		__('Tour Locations'),
+		__('Tour Locations','wp_curatescape'),
 		array(
 			array(
-				'label'		=> __('Stories for this Tour'),
+				'label'		=> __('Stories for this Tour','wp_curatescape'),
 				'name'		=> 'tour_locations',
 				'type'		=> 'text',
 				'options'	=> null,
 				'custom_ui'	=> false, // this hidden form field will save Story post IDs as an ordered array
-				'helper'	=> __('Choose locations for this tour. You can <a href="/wp-admin/edit.php?post_type=stories">add and edit Story posts here</a>.'),
+				'helper'	=> __('Choose locations for this tour. You can <a href="/wp-admin/edit.php?post_type=stories">add and edit Story posts here</a>.','wp_curatescape'),
 				'repeatable'=> 0,
 				),					
 		),'custom_ui/tour_items.php'
@@ -269,33 +269,33 @@ if(is_admin()){
 
 	new Curatescape_Meta_Box('story_story_header',
 		'stories',
-		__('Story Header'),
+		__('Story Header','wp_curatescape'),
 		array(
 			array(
-				'label'		=> __('Subtitle'),
+				'label'		=> __('Subtitle','wp_curatescape'),
 				'name'		=> 'story_subtitle',
 				'type'		=> 'text',
 				'options'	=> null,
 				'custom_ui'	=> false,
-				'helper'	=> __('Enter a subtitle for the tour.'),
+				'helper'	=> __('Enter a subtitle for the tour.','wp_curatescape'),
 				'repeatable'=> 0,
 				),
 			array(
-				'label'		=> __('Lede'),
+				'label'		=> __('Lede','wp_curatescape'),
 				'name'		=> 'story_lede',
 				'type'		=> 'textarea',
 				'options'	=> null,
 				'custom_ui'	=> false,
-				'helper'	=> __('A brief introductory section that is intended to entice the reader to read the full entry.'),
+				'helper'	=> __('A brief introductory section that is intended to entice the reader to read the full entry.','wp_curatescape'),
 				'repeatable'=> 0,
 				),
 			array(
-				'label'		=> __('Custom Byline'),
+				'label'		=> __('Custom Byline','wp_curatescape'),
 				'name'		=> 'story_byline',
 				'type'		=> 'text',
 				'options'	=> null,
 				'custom_ui'	=> false,
-				'helper'	=> __('The name of the author(s) this entry. To add an automatically linked author, type @ followed by the author\'s username, e.g. @admin, or use <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">markdown</a> to create a custom link e.g. to link to Google, use <pre>[google](https://google.com)</pre>. '),
+				'helper'	=> __('The name of the author(s) this entry. To add an automatically linked author, type @ followed by the author\'s username, e.g. @admin, or use <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">markdown</a> to create a custom link e.g. to link to Google, use <pre>[google](https://google.com)</pre>. ','wp_curatescape'),
 				'repeatable'=> 0,
 				)							
 		), null
@@ -303,15 +303,15 @@ if(is_admin()){
 
 	new Curatescape_Meta_Box('story_media',
 		'stories',
-		__('Media Files'),
+		__('Media Files','wp_curatescape'),
 		array(
 			array(
-				'label'		=> __('Choose Media'),
+				'label'		=> __('Choose Media','wp_curatescape'),
 				'name'		=> 'story_media',
 				'type'		=> 'text',
 				'options'	=> null,
 				'custom_ui'	=> false,
-				'helper'	=> __('Select files from the Media Library and/or upload new files. These files will be used to create structured display areas for each media type, including images, audio, and video. Drag and drop to change the order of files.'),
+				'helper'	=> __('Select files from the Media Library and/or upload new files. These files will be used to create structured display areas for each media type, including images, audio, and video. Drag and drop to change the order of files.','wp_curatescape'),
 				'repeatable'=> 0,
 				)
 		), 'custom_ui/story_media.php'
@@ -319,51 +319,51 @@ if(is_admin()){
 		
 	new Curatescape_Meta_Box('story_location_details',
 		'stories',
-		__('Location Details'),
+		__('Location Details','wp_curatescape'),
 		array(
 			array(
-				'label'		=> __('Street Address'),
+				'label'		=> __('Street Address','wp_curatescape'),
 				'name'		=> 'story_street_address',
 				'type'		=> 'text',
 				'options'	=> null,
 				'custom_ui'	=> false,
-				'helper'	=> __('A detailed street/mailing address for a physical location.'),
+				'helper'	=> __('A detailed street/mailing address for a physical location.','wp_curatescape'),
 				'repeatable'=> 0,
 				),
 			array(
-				'label'		=> __('Access Information'),
+				'label'		=> __('Access Information','wp_curatescape'),
 				'name'		=> 'story_access_information',
 				'type'		=> 'textarea',
 				'options'	=> null,
 				'custom_ui'	=> false,
-				'helper'	=> __('Information regarding physical access to a location, including restrictions (e.g. "Private Property"), walking directions (e.g. "To reach the peak, take the trail on the left"), or other useful details (e.g. "Location is approximate").'),
+				'helper'	=> __('Information regarding physical access to a location, including restrictions (e.g. "Private Property"), walking directions (e.g. "To reach the peak, take the trail on the left"), or other useful details (e.g. "Location is approximate").','wp_curatescape'),
 				'repeatable'=> 0,
 				),
 			array(
-				'label'		=> __('Official Website'),
+				'label'		=> __('Official Website','wp_curatescape'),
 				'name'		=> 'story_official_website',
 				'type'		=> 'text',
 				'options'	=> null,
 				'custom_ui'	=> false,
-				'helper'	=> __('An official website related to the entry. Use <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">markdown</a> to create an active link, e.g. to link to Google use <pre>[google](https://google.com)</pre>.'),
+				'helper'	=> __('An official website related to the entry. Use <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">markdown</a> to create an active link, e.g. to link to Google use <pre>[google](https://google.com)</pre>.','wp_curatescape'),
 				'repeatable'=> 0,
 				),				
 			array(
-				'label'		=> __('Map Coordinates'),
+				'label'		=> __('Map Coordinates','wp_curatescape'),
 				'name'		=> 'location_coordinates',
 				'type'		=> 'text',
 				'options'	=> null,
 				'custom_ui'	=> true, // this hidden form field will save coordinates as an array
-				'helper'	=> __('Use the map to add geo-coordinates for this location as a bracketed array, e.g. <pre>[41.503240,-81.675249]</pre>'),
+				'helper'	=> __('Use the map to add geo-coordinates for this location as a bracketed array, e.g. <pre>[41.503240,-81.675249]</pre>','wp_curatescape'),
 				'repeatable'=> 0,
 				),
 			array(
-				'label'		=> __('Map Zoom'),
+				'label'		=> __('Map Zoom','wp_curatescape'),
 				'name'		=> 'location_zoom',
 				'type'		=> 'text',
 				'options'	=> null,
 				'custom_ui'	=> true, // this hidden form field will save coordinates as an array
-				'helper'	=> __('Use the map to add the default zoom level for this location as a single integer between 1 and 20.'),
+				'helper'	=> __('Use the map to add the default zoom level for this location as a single integer between 1 and 20.','wp_curatescape'),
 				'repeatable'=> 0,
 				)													
 		), 'custom_ui/story_location_details.php'
@@ -372,15 +372,15 @@ if(is_admin()){
 
 	new Curatescape_Meta_Box('story_factoid',
 		'stories',
-		__('Factoid'),
+		__('Factoid','wp_curatescape'),
 		array(
 			array(
-				'label'		=> __('Factoid'),
+				'label'		=> __('Factoid','wp_curatescape'),
 				'name'		=> 'story_factoid',
 				'type'		=> 'textarea',
 				'options'	=> null,
 				'custom_ui'	=> false,
-				'helper'	=> __('One or more facts or pieces of information related to the entry, often presented as a list. Examples include architectural metadata, preservation status, FAQs, pieces of trivia, etc. Use <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">markdown</a> to add formatting as needed.'),
+				'helper'	=> __('One or more facts or pieces of information related to the entry, often presented as a list. Examples include architectural metadata, preservation status, FAQs, pieces of trivia, etc. Use <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">markdown</a> to add formatting as needed.','wp_curatescape'),
 				'repeatable'=> 16,
 				)
 		), null
@@ -388,15 +388,15 @@ if(is_admin()){
 
 	new Curatescape_Meta_Box('story_related_resources',
 		'stories',
-		__('Related Resources'),
+		__('Related Resources','wp_curatescape'),
 		array(
 			array(
-				'label'		=> __('Related Resources'),
+				'label'		=> __('Related Resources','wp_curatescape'),
 				'name'		=> 'story_related_resources',
 				'type'		=> 'textarea',
 				'options'	=> null,
 				'custom_ui'	=> false,
-				'helper'	=> __('The name of or link to a related resource, often used for citation information. Use <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">markdown</a> to add formatting as needed.'),
+				'helper'	=> __('The name of or link to a related resource, often used for citation information. Use <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">markdown</a> to add formatting as needed.','wp_curatescape'),
 				'repeatable'=> 16,
 				)
 		), null

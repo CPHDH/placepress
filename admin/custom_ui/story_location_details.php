@@ -1,18 +1,20 @@
 <br>
 <div id="admin-location-search-container">
-	<input id="admin-location-search" type="text" placeholder="Search for a location or click map...">
-	<input type="submit" value="Submit Search" type="button" class="button" onclick="return lookup_location()">
+	<input id="admin-location-search" type="text" placeholder="<?php echo esc_html__('Search for a location or click map...','wp_curatescape');?>">
+	<input type="submit" value="<?php echo esc_html__('Submit Search','wp_curatescape');?>" type="button" class="button" onclick="return lookup_location()">
 </div>
 <div id="admin-story-map">
 	
 </div>
 
-<span class="description">Use the map to add geo-coordinates for this location. Place a marker manually by clicking the map or use the search bar to enter an address, coordinates, or other location query. Drag and drop the marker to change location and use the zoom controls to save a custom zoom level.</span>
+<span class="description"><?php echo esc_html__('Use the map to add geo-coordinates for this location. Place a marker manually by clicking the map or use the search bar to enter an address, coordinates, or other location query. Drag and drop the marker to change location and use the zoom controls to save a custom zoom level.','wp_curatescape');?></span>
 
 
 <script>	
 	var map,position,marker,search_result_area,zoom,coords;
 	
+	var message_no_results='<?php echo esc_html__('No Results Found','wp_curatescape');?>';
+	var message_generic_error='<?php echo esc_html__('Something went wrong! Please try again.','wp_curatescape');?>';
 	var default_coords=<?php echo curatescape_setting('default_coordinates');?>;
 	var default_zoom=parseInt(<?php echo curatescape_setting('default_zoom');?>);
 	
@@ -144,10 +146,10 @@
 			    show_search_result_area(pos);
 			    map.panTo(new L.LatLng(pos.lat, pos.lon));
 		    }else{
-			    map_toast('No Results Found', 2000);
+			    map_toast(message_no_results, 2000);
 		    }
 		}).fail(function(e){
-			map_toast('Something went wrong! Please try again.', 2000);
+			map_toast(message_generic_error, 2000);
 			btn.prop('disabled',false);
 		});		
 		return false;
