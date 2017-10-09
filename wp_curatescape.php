@@ -54,12 +54,12 @@ require_once plugin_dir_path( __FILE__ ). 'output/json.php';
 
 
 /*
-** Widgets
+** WIDGETS
 */	
 require_once plugin_dir_path( __FILE__ ). 'widgets/widgets.php';
 
 /*
-** Widgets
+** HELPERS
 */	
 require_once plugin_dir_path( __FILE__ ). 'helpers/helpers.php';
 
