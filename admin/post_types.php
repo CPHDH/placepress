@@ -6,7 +6,7 @@ if( !defined('ABSPATH') ){
 add_action( 'init', 'curatescape_init' );
 function curatescape_init() {
 	
-	if(DISABLE_TOURS==false){
+	if(curatescape_setting('disable_tours')==false){
 		
 		// Custom Post Type: Tour
 		register_post_type('tours', 

@@ -13,8 +13,8 @@
 <script>	
 	var map,position,marker,search_result_area,zoom,coords;
 	
-	var default_coords=<?php echo DEFAULT_COORDINATES;?>;
-	var default_zoom=parseInt(<?php echo DEFAULT_ZOOM;?>);
+	var default_coords=<?php echo curatescape_setting('default_coordinates');?>;
+	var default_zoom=parseInt(<?php echo curatescape_setting('default_zoom');?>);
 	
 	var current_coords=jQuery('#location_coordinates').val();
 	if(current_coords){

@@ -59,6 +59,11 @@ require_once plugin_dir_path( __FILE__ ). 'output/json.php';
 require_once plugin_dir_path( __FILE__ ). 'widgets/widgets.php';
 
 /*
+** Widgets
+*/	
+require_once plugin_dir_path( __FILE__ ). 'helpers/helpers.php';
+
+/*
 ** DASHBOARD
 */
 add_action( 'dashboard_glance_items' , 'curatescape_at_a_glance' );

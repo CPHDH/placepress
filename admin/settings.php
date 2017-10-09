@@ -3,10 +3,6 @@ if( !defined('ABSPATH') ){
 	exit;
 }	
 	
-define( 'DEFAULT_COORDINATES', '[41.503240, -81.675249]' );
-define( 'DEFAULT_ZOOM', 3 );
-define( 'DISABLE_TOURS' , false );
-
 /*
 ** MENU
 */
