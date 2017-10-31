@@ -55,15 +55,21 @@ function curatescape_register_settings(){
 	*/
 	add_settings_section(
 		'curatescape_section_map',
-		'Map Settings',
+		esc_html__('Map Settings','wp_curatescape'),
 		'curatescape_callback_section_map',
 		'curatescape'
 	);
 
-
+	add_settings_section(
+		'curatescape_section_content',
+		esc_html__('Content Settings','wp_curatescape'),
+		'curatescape_callback_section_content',
+		'curatescape'
+	);
+	
 	add_settings_section(
 		'curatescape_section_other',
-		'Additional Settings',
+		esc_html__('Additional Settings','wp_curatescape'),
 		'curatescape_callback_section_other',
 		'curatescape'
 	);	
@@ -73,7 +79,7 @@ function curatescape_register_settings(){
 	*/
 	add_settings_field(
 		'default_coordinates',
-		'Default Coordinates',
+		esc_html__('Default Coordinates','wp_curatescape'),
 		'curatescape_callback_field_text',
 		'curatescape',
 		'curatescape_section_map',
@@ -82,7 +88,7 @@ function curatescape_register_settings(){
 
 	add_settings_field(
 		'default_map_type',
-		'Default Map Type',
+		esc_html__('Default Map Type','wp_curatescape'),
 		'curatescape_callback_field_select',
 		'curatescape',
 		'curatescape_section_map',
@@ -96,7 +102,7 @@ function curatescape_register_settings(){
 
 	add_settings_field(
 		'default_zoom',
-		'Default Zoom Level',
+		esc_html__('Default Zoom Level','wp_curatescape'),
 		'curatescape_callback_field_text_number',
 		'curatescape',
 		'curatescape_section_map',
@@ -106,11 +112,47 @@ function curatescape_register_settings(){
 
 	add_settings_field(
 		'disable_tours',
-		'Disable Tours',
+		esc_html__('Disable Tours','wp_curatescape'),
 		'curatescape_callback_field_checkbox',
 		'curatescape',
 		'curatescape_section_other',
 		['id'=>'disable_tours','label'=>esc_html__('Disable Tours','wp_curatescape')]
+	);
+
+	add_settings_field(
+		'content_subtitle',
+		esc_html__('Subtitle','wp_curatescape'),
+		'curatescape_callback_field_checkbox',
+		'curatescape',
+		'curatescape_section_content',
+		['id'=>'content_subtitle','label'=>esc_html__('Automatically add Subtitle','wp_curatescape')]
+	);
+	
+	add_settings_field(
+		'content_byline',
+		esc_html__('Byline','wp_curatescape'),
+		'curatescape_callback_field_checkbox',
+		'curatescape',
+		'curatescape_section_content',
+		['id'=>'content_byline','label'=>esc_html__('Automatically replace author links/names with Custom Byline','wp_curatescape')]
+	);
+
+	add_settings_field(
+		'content_media_gallery',
+		esc_html__('Media Gallery','wp_curatescape'),
+		'curatescape_callback_field_checkbox',
+		'curatescape',
+		'curatescape_section_content',
+		['id'=>'content_media_gallery','label'=>esc_html__('Automatically add Media Gallery','wp_curatescape')]
+	);
+
+	add_settings_field(
+		'content_map',
+		esc_html__('Map','wp_curatescape'),
+		'curatescape_callback_field_checkbox',
+		'curatescape',
+		'curatescape_section_content',
+		['id'=>'content_map','label'=>esc_html__('Automatically add Map','wp_curatescape')]
 	);
 
 }
@@ -124,6 +166,10 @@ function curatescape_options_default(){
 		'default_map_type'=>'street',
 		'default_zoom'=>3,
 		'disable_tours'=>false,
+		'content_subtitle'=>true,
+		'content_byline'=>true,
+		'content_media_gallery'=>true,
+		'content_map'=>true,
 	);
 }
 
@@ -133,6 +179,10 @@ function curatescape_options_default(){
 
 function curatescape_callback_section_map(){
 	echo '<p>'.esc_html__('Customize default settings for Curatescape maps.','wp_curatescape').'</p>';
+}
+
+function curatescape_callback_section_content(){
+	echo '<p>'.esc_html__('Customize content settings. Curatescape attempts to add custom fields to your theme automatically. If you have issues or would like to customize where custom content appears, you can use the settings below.','wp_curatescape').'</p>';
 }
 
 function curatescape_callback_section_other(){
@@ -238,7 +288,6 @@ function curatescape_callback_field_select($args){
 function curatescape_callback_validate_options($input){
 	
 	$defaults=curatescape_options_default();
-	
 
 	if( isset( $input['default_coordinates'] )){
 		$input['default_coordinates'] = sanitize_text_field( $input['default_coordinates'] );
@@ -259,9 +308,23 @@ function curatescape_callback_validate_options($input){
 
 	if( ! isset( $input['disable_tours'] )){
 		$input['disable_tours'] = null;
-	}
-	
-	$input['disable_tours'] = $input['disable_tours'] == 1 ? 1 : 0;
+	} $input['disable_tours'] = $input['disable_tours'] == 1 ? 1 : 0;
+
+	if( ! isset( $input['content_map'] )){
+		$input['content_map'] = null;
+	} $input['content_map'] = $input['content_map'] == 1 ? 1 : 0;
+
+	if( ! isset( $input['content_media_gallery'] )){
+		$input['content_media_gallery'] = null;
+	} $input['content_media_gallery'] = $input['content_media_gallery'] == 1 ? 1 : 0;
+
+	if( ! isset( $input['content_byline'] )){
+		$input['content_byline'] = null;
+	} $input['content_byline'] = $input['content_byline'] == 1 ? 1 : 0;	
+
+	if( ! isset( $input['content_subtitle'] )){
+		$input['content_subtitle'] = null;
+	} $input['content_subtitle'] = $input['content_subtitle'] == 1 ? 1 : 0;	
 
 	return $input;
 }

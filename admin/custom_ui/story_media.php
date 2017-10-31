@@ -1,4 +1,5 @@
 <?php 
+// translatable labels
 $textdomain_unknownformat=esc_html__( 'Unknown Format', 'wp_curatescape');
 $textdomain_untitled=esc_html__( 'Untitled', 'wp_curatescape');
 $textdomain_editviewmetadata=esc_html__( 'Edit / View Metadata', 'wp_curatescape');

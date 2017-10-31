@@ -23,6 +23,7 @@
 var endpoint = '<?php echo get_site_url().'?feed=curatescape_stories';?>';	
 var stories=new Array();
 
+// translatable labels and messages
 var textdomain_error_generic = '<?php echo esc_html__( 'Unable to get stories ...', 'wp_curatescape');?>';
 var textdomain_placeholder_default = '<?php echo esc_html__( 'Type a title or subtitle to add story to tour...', 'wp_curatescape');?>';
 var textdomain_placeholder_getting = '<?php echo esc_html__( 'Getting stories...', 'wp_curatescape');?>';
