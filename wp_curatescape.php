@@ -42,18 +42,15 @@ require_once plugin_dir_path( __FILE__ ). 'admin/settings.php';
 */
 require_once plugin_dir_path( __FILE__ ). 'admin/post_types.php';
 
-
 /* 
 ** FIELDS AND METABOXES
 */
 require_once plugin_dir_path( __FILE__ ). 'admin/metaboxes.php';
 
-
 /*
 ** JSON OUTPUT
 */	
 require_once plugin_dir_path( __FILE__ ). 'output/json.php';
-
 
 /*
 ** WIDGETS
@@ -64,6 +61,11 @@ require_once plugin_dir_path( __FILE__ ). 'widgets/widgets.php';
 ** HELPERS
 */	
 require_once plugin_dir_path( __FILE__ ). 'helpers/helpers.php';
+
+/*
+** FILTERS
+*/	
+require_once plugin_dir_path( __FILE__ ). 'filters/filters.php';
 
 /*
 ** DASHBOARD

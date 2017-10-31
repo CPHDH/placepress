@@ -34,31 +34,6 @@ function curatescape_text($post, $field, $markdown=true){
 }
 
 /*
-** Content Filters
-*/
-add_filter( 'wp_title', 'curatescape_story_title' );
-add_filter( 'the_content', 'curatescape_story_content' );
-add_filter( 'the_author', 'curatescape_story_byline' );
-add_filter( 'author_link ', 'curatescape_story_byline_link' );
-
-function curatescape_story_title($title){
-	// do something
-	return $title;
-}
-function curatescape_story_content($content){
-	// do something
-	return $content;
-}
-function curatescape_story_byline($author){
-	// do something
-	return $author;
-}
-function curatescape_story_byline_link($link){
-	// do something
-	return $link;
-}
-
-/*
 ** Image gallery
 ** returns interactive image gallery for Story post
 ** curatescape_image_gallery($post);
@@ -78,7 +53,7 @@ function curatescape_image_gallery($post){
 			}
 		}
 		// do something...
-		echo '<p>image gallery goes here...</p>';
+		return '<p>image gallery goes here...</p>';
 	}
 }
 
@@ -88,52 +63,52 @@ function curatescape_image_gallery($post){
 ** curatescape_media_playlist($post,'audio');
 ** curatescape_media_playlist(get_post(678),'video');
 */	
-function curatescape_media_playlist($post, $type){
+function curatescape_media_playlist($post, $mediatype){
 	if($post->story_media){
 		$media = explode(',',$post->story_media);
 		foreach($media as $attachment_id){
 			$id = intval( $attachment_id );
 			$attachment_meta = wp_prepare_attachment_for_js($id);	
 			$type = $attachment_meta['type'];
-			if($attachment_meta['type']==$type){
+			if($attachment_meta['type']==$mediatype){
 				$url=$attachment_meta['url'];
 				$description=$attachment_meta['description'] ? $attachment_meta['description'] : null;	
 				// build array of media files...
 			}
 		}
 		// do something...
-		echo '<p>'.$type.' playlist goes here...</p>';
+		return '<p>'.$mediatype.' playlist goes here...</p>';
 	}	
 }
 
 function curatescape_story_map($post){
 	if($coords=$post->location_coordinates){
 		// do something...
-		echo '<p>map goes here...</p>';		
+		return '<p>map goes here...</p>';		
 		
 	}
 	if($post->story_street_address || $post->story_access_information || $post->story_official_website){
 		// do something...
-		echo '<p>caption for map goes here...</p>';	
+		return '<p>caption for map goes here...</p>';	
 	}
 }
 
 function curatescape_tour_map($post){
 	// todo...
-	echo '<p>map goes here...</p>';		
+	return '<p>map goes here...</p>';		
 }
 
 function curatescape_global_map($args){
 	// todo...
-	echo '<p>map goes here...</p>';		
+	return '<p>map goes here...</p>';		
 }
 
 function curatescape_stories_for_tour($post){
 	// todo...
-	echo '<p>stories list goes here...</p>';		
+	return '<p>stories list goes here...</p>';		
 }
 
 function curatescape_tour_navigation($post){
 	// todo...
-	echo '<p>tour navigation goes here...</p>';		
+	return '<p>tour navigation goes here...</p>';		
 }

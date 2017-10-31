@@ -127,15 +127,6 @@ function curatescape_register_settings(){
 		'curatescape_section_content',
 		['id'=>'content_subtitle','label'=>esc_html__('Automatically add Subtitle','wp_curatescape')]
 	);
-	
-	add_settings_field(
-		'content_byline',
-		esc_html__('Byline','wp_curatescape'),
-		'curatescape_callback_field_checkbox',
-		'curatescape',
-		'curatescape_section_content',
-		['id'=>'content_byline','label'=>esc_html__('Automatically replace author links/names with Custom Byline','wp_curatescape')]
-	);
 
 	add_settings_field(
 		'content_media_gallery',
@@ -167,7 +158,6 @@ function curatescape_options_default(){
 		'default_zoom'=>3,
 		'disable_tours'=>false,
 		'content_subtitle'=>true,
-		'content_byline'=>true,
 		'content_media_gallery'=>true,
 		'content_map'=>true,
 	);
@@ -317,10 +307,6 @@ function curatescape_callback_validate_options($input){
 	if( ! isset( $input['content_media_gallery'] )){
 		$input['content_media_gallery'] = null;
 	} $input['content_media_gallery'] = $input['content_media_gallery'] == 1 ? 1 : 0;
-
-	if( ! isset( $input['content_byline'] )){
-		$input['content_byline'] = null;
-	} $input['content_byline'] = $input['content_byline'] == 1 ? 1 : 0;	
 
 	if( ! isset( $input['content_subtitle'] )){
 		$input['content_subtitle'] = null;
