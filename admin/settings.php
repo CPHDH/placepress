@@ -129,12 +129,30 @@ function curatescape_register_settings(){
 	);
 
 	add_settings_field(
-		'content_media_gallery',
-		esc_html__('Media Gallery','wp_curatescape'),
+		'content_lede',
+		esc_html__('Lede','wp_curatescape'),
 		'curatescape_callback_field_checkbox',
 		'curatescape',
 		'curatescape_section_content',
-		['id'=>'content_media_gallery','label'=>esc_html__('Automatically add Media Gallery','wp_curatescape')]
+		['id'=>'content_lede','label'=>esc_html__('Automatically add Lede','wp_curatescape')]
+	);
+	
+	add_settings_field(
+		'content_related_sources',
+		esc_html__('Related Sources','wp_curatescape'),
+		'curatescape_callback_field_checkbox',
+		'curatescape',
+		'curatescape_section_content',
+		['id'=>'content_related_sources','label'=>esc_html__('Automatically add Related Sources','wp_curatescape')]
+	);
+	
+	add_settings_field(
+		'content_media_gallery',
+		esc_html__('Media','wp_curatescape'),
+		'curatescape_callback_field_checkbox',
+		'curatescape',
+		'curatescape_section_content',
+		['id'=>'content_media_gallery','label'=>esc_html__('Automatically add Photo Gallery and Audio/Video Playlists','wp_curatescape')]
 	);
 
 	add_settings_field(
@@ -158,6 +176,8 @@ function curatescape_options_default(){
 		'default_zoom'=>3,
 		'disable_tours'=>false,
 		'content_subtitle'=>true,
+		'content_lede'=>true,
+		'content_related_sources'=>true,
 		'content_media_gallery'=>true,
 		'content_map'=>true,
 	);
@@ -172,7 +192,7 @@ function curatescape_callback_section_map(){
 }
 
 function curatescape_callback_section_content(){
-	echo '<p>'.esc_html__('Customize content settings. Curatescape attempts to add custom fields to your theme automatically. If you have issues or would like to customize where custom content appears, you can use the settings below.','wp_curatescape').'</p>';
+	echo '<p>'.sprintf(__('Curatescape attempts to add custom fields to your theme automatically using WordPress plugin filters. If you have compatibility issues with your theme or would like to customize where custom content appears, you can use the settings below to disable content filters. A full list of helper functions is available at %s','wp_curatescape'),'<a href="https://example.com">example.com</a>').'</p>';
 }
 
 function curatescape_callback_section_other(){
@@ -311,6 +331,14 @@ function curatescape_callback_validate_options($input){
 	if( ! isset( $input['content_subtitle'] )){
 		$input['content_subtitle'] = null;
 	} $input['content_subtitle'] = $input['content_subtitle'] == 1 ? 1 : 0;	
+
+	if( ! isset( $input['content_lede'] )){
+		$input['content_lede'] = null;
+	} $input['content_lede'] = $input['content_lede'] == 1 ? 1 : 0;	
+
+	if( ! isset( $input['content_related_sources'] )){
+		$input['content_related_sources'] = null;
+	} $input['content_related_sources'] = $input['content_related_sources'] == 1 ? 1 : 0;	
 
 	return $input;
 }
