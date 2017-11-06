@@ -91,9 +91,18 @@ function curatescape_get_media($post){
 ** returns interactive image gallery
 */	
 function curatescape_image_gallery($images){
+	//var_dump($images);
 	// todo...
-	$html = '<h3 class="curatescape-section-heading curatescape-section-heading-images">'.__('Images').'</h3>';
-	$html .= '<p>image gallery goes here... '.count($images).'</p>';
+	$html = '<section class="curatescape-section curatescape-media-section curatescape-images-section">';
+	$html .= '<h2 class="curatescape-section-heading curatescape-section-heading-images">'.__('Images').'</h2>';
+	$html .= '<div class="curatescape-flex curatescape-image-grid">';
+	foreach($images as $file){
+		$caption_array=array_filter(array($file['title'],$file['description']));
+		$caption=htmlentities( ( implode( ': ', $caption_array ) ) );	
+		$html.='<div><div title="'.$file['title'].'" style="background-image:url('.$file['url'].')" data-caption="'.$caption.'"></div></div>';
+	}
+	$html .= '</div>';
+	$html .= '</section>';
 	return $html;
 }
 
@@ -103,8 +112,14 @@ function curatescape_image_gallery($images){
 */	
 function curatescape_audio_playlist($audio){
 	// todo...
-	$html = '<h3 class="curatescape-section-heading curatescape-section-heading-audio">'.__('Audio').'</h3>';
-	$html .= '<p>audio playlist goes here... '.count($audio).'</p>';
+	$html = '<section class="curatescape-section curatescape-media-section curatescape-audio-section">';
+	$html .= '<h2 class="curatescape-section-heading curatescape-section-heading-audio">'.__('Audio').'</h2>';
+	foreach($audio as $file){
+		$caption_array=array_filter(array($file['title'],$file['description']));
+		$caption=htmlentities( ( implode( ': ', $caption_array ) ) );		
+		$html .= '<audio class="curatescape-audio" controls data-caption="'.$caption.'"><source src="'.$file['url'].'" type="audio/mpeg"></audio>';
+	}
+	$html .= '</section>';
 	return $html;
 }
 
@@ -114,8 +129,13 @@ function curatescape_audio_playlist($audio){
 */	
 function curatescape_video_playlist($video){
 	// todo...
-	$html = '<h3 class="curatescape-section-heading curatescape-section-heading-video">'.__('Video').'</h3>';
-	$html .= '<p>video playlist goes here... '.count($video).'</p>';
+	$html = '<section class="curatescape-section curatescape-media-section curatescape-video-section">';
+	$html .= '<h2 class="curatescape-section-heading curatescape-section-heading-video">'.__('Video').'</h2>';
+	foreach($video as $file){
+		$caption_array=array_filter(array($file['title'],$file['description']));
+		$caption=htmlentities( ( implode( ': ', $caption_array ) ) );		
+		$html .= '<video class="curatescape-video" controls data-caption="'.$caption.'"><source src="'.$file['url'].'" type="video/mp4"></video>';
+	}	$html .= '</section>';
 	return $html;
 }
 
@@ -125,11 +145,10 @@ function curatescape_video_playlist($video){
 */	
 function curatescape_display_media_section($post){
 	$media=curatescape_get_media($post);
-	$html = '<h2 class="curatescape-section-heading curatescape-section-heading-media">'.__('Media').'</h2>';
-	$html .= count($media['images']) ? curatescape_image_gallery($media['images']) : null;
+	$html = count($media['images']) ? curatescape_image_gallery($media['images']) : null;
 	$html .= count($media['audio']) ? curatescape_audio_playlist($media['audio']) : null;
 	$html .= count($media['video']) ? curatescape_video_playlist($media['video']) : null;
-	return '<section class="curatescape-section curatescape-media-section">'.$html.'</section>';
+	return $html;
 }
 
 /*
@@ -138,11 +157,14 @@ function curatescape_display_media_section($post){
 */	
 function curatescape_story_map($post){
 	if($coords=$post->location_coordinates){
-		// todo...
+		$caption_array = array(curatescape_street_address($post),curatescape_access_information($post),curatescape_official_website($post));
+		$caption = implode(' ~ ', array_filter($caption_array));
 		$html = '<h2 class="curatescape-section-heading curatescape-section-heading-map">'.__('Map').'</h2>';
-		$html.= '<p>map goes here... '.$coords.' </p>';		
-		$caption=array(curatescape_street_address($post),curatescape_access_information($post),curatescape_official_website($post));
-		$html.= implode(' ~ ', array_filter($caption));
+		$html .= '<figure  class="curatescape-figure">';		
+		$html .= '<div id="curatescape-item-map" class="curatescape-map curatescape-item-map">';
+		$html .= '</div>';
+		$html .= '</figure>';	
+		$html .= '<figcaption class="curatescape-figcaption">'.$caption.'</figcaption>';
 	}
 	return '<section class="curatescape-section curatescape-map-section">'.$html.'</section>';;
 }

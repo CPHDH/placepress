@@ -8,7 +8,7 @@ jQuery(buttons).each(function(){
 });
 
 
-// helpers
+// unique
 Array.prototype.unique = function() {
     var a = this.concat();
     for(var i=0; i<a.length; ++i) {
