@@ -157,7 +157,11 @@ function curatescape_display_media_section($post){
 */	
 function curatescape_story_map($post){
 	if($coords=$post->location_coordinates){
-		$caption_array = array(curatescape_street_address($post),curatescape_access_information($post),curatescape_official_website($post));
+		$caption_array = array(
+			curatescape_street_address($post),
+			curatescape_access_information($post),
+			curatescape_official_website($post)
+		);
 		$caption = implode(' ~ ', array_filter($caption_array));
 		$html = '<h2 class="curatescape-section-heading curatescape-section-heading-map">'.__('Map').'</h2>';
 		$html .= '<figure  class="curatescape-figure">';		
@@ -165,8 +169,11 @@ function curatescape_story_map($post){
 		$html .= '</div>';
 		$html .= '</figure>';	
 		$html .= '<figcaption class="curatescape-figcaption">'.$caption.'</figcaption>';
+		return '<section class="curatescape-section curatescape-map-section">'.$html.'</section>';
+	}else{
+		return null;
 	}
-	return '<section class="curatescape-section curatescape-map-section">'.$html.'</section>';;
+	
 }
 
 /*
@@ -174,8 +181,14 @@ function curatescape_story_map($post){
 ** returns interactive map for Story posts in current Tour post
 */
 function curatescape_tour_map($post){
-	// todo...
-	return '<p>map goes here...</p>';		
+	if($locations = $post->tour_locations){
+		$html = '<h2 class="curatescape-section-heading curatescape-section-heading-map">'.__('Map').'</h2>';
+		$html .= '<figure  class="curatescape-figure">';		
+		$html .= '<div id="curatescape-item-map" class="curatescape-map curatescape-item-map">';
+		$html .= '</div>';
+		$html .= '</figure>';	
+		return '<section class="curatescape-section curatescape-map-section">'.$html.'</section>';		
+	}
 }
 
 /*
@@ -245,8 +258,25 @@ function curatescape_related_sources($post){
 ** returns locations section for Tour post
 */	
 function curatescape_stories_for_tour($post){
-	// todo...
-	return '<p>stories list goes here...</p>';		
+	if($locations = $post->tour_locations){
+		$locations=explode(',',$locations);
+		$html = '<h2 class="curatescape-section-heading curatescape-section-heading-locations">'.__('Locations').'</h2>';
+		$html .= '<div class="curatescape-tour-locations">';
+		foreach($locations as $id){
+			$post=get_post( $id );
+			$html .= '<div class="curatescape-tour-location curatescape-flex">';
+				$html .= get_the_post_thumbnail( $post, 'thumbnail');
+				$html .= '<div>';
+				$html .= '<h3><a href="'.get_the_permalink( $post ).'">'.get_the_title( $post ).curatescape_subtitle( $post ).'</a></h3>';
+				$html .= '<p> </p>';
+				$html .= '</div>';
+			$html .= '</div>';
+		}
+		$html .= '</div>';
+		return '<section class="curatescape-section curatescape-locations-section">'.$html.'</section>';
+	}else{
+		return null;		
+	}
 }
 
 /*

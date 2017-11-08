@@ -6,17 +6,28 @@ p.curatescape-lede {
     font-size: 1.4em;
     font-style: italic;
 }
+.curatescape-audio,
+.curatescape-video{
+	width: 100%;
+	max-width: 100%;
+}
+.curatescape-figure{
+	width: 100%;
+	margin: 0;
+}
+.curatescape-section + .curatescape-section{
+	margin-top: 2em;
+}
 h2.curatescape-section-heading.curatescape-section-heading {
     border-bottom: 3px solid #ccc;
 }
-
 .curatescape-flex{
 	display: flex;
 }
-
 .curatescape-image-grid{
 	flex-direction: row;
 	flex-flow: wrap;
+	flex-basis: content;
 	justify-content: space-between;
 	width: 102%;
 	margin-left: -1%;
@@ -25,13 +36,14 @@ h2.curatescape-section-heading.curatescape-section-heading {
 }
 .curatescape-image-grid > div{
 	flex-grow:1;
-	margin: 1%;
+	margin: .5em;
 	background-color: #000;
 	width: 31%;
-	padding-top: 31%; /* sets height to 1:1 aspect ratio */
+	padding-top: calc(31% - .5em); /* sets height to 1:1 aspect ratio */
 	position: relative;
 	cursor:pointer;
 	overflow: hidden;
+	min-height: 14em; /* firefox doesn't do % based heights or vertical padding/margins in flexbox */
 }
 .curatescape-image-grid > div > div{
 	height: 100%;
@@ -46,18 +58,23 @@ h2.curatescape-section-heading.curatescape-section-heading {
 .curatescape-image-grid > div > div:hover{
 	transform:scale(1.1);
 }
-
-.curatescape-audio,
-.curatescape-video{
+.curatescape-tour-locations{
 	width: 100%;
-	max-width: 100%;
 }
-
-.curatescape-figure{
+.curatescape-tour-location{
 	width: 100%;
-	margin: 0;
+	flex-direction: row;
+	flex-basis: content;
+	justify-content: flex-start;
+	margin: 1em 0 0 0;
 }
+.curatescape-tour-location > img{
+	margin-right: 1em;
+	flex-shrink: 0;
+}
+.curatescape-tour-location > div{
 
+}
 .curatescape-map{
 	height: 30em;
 	height: 45vh;
