@@ -15,6 +15,7 @@ p.curatescape-lede {
 	width: 100%;
 	margin: 0;
 }
+.curatescape-section + p,
 .curatescape-section + .curatescape-section{
 	margin-top: 2em;
 }
@@ -66,15 +67,20 @@ h2.curatescape-section-heading.curatescape-section-heading {
 	flex-direction: row;
 	flex-basis: content;
 	justify-content: flex-start;
-	margin: 1em 0 0 0;
+	margin: 2em 0 4em 0;
 }
 .curatescape-tour-location > img{
 	margin-right: 1em;
-	flex-shrink: 0;
+	height:140px;
+	width: 140px;
+	border: 10px solid #ccc;
+	border-radius: 50%;
 }
 .curatescape-tour-location > div{
-
+	max-height: 150px;
+	overflow: hidden;
 }
+
 .curatescape-map{
 	height: 30em;
 	height: 45vh;

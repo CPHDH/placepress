@@ -20,8 +20,14 @@ function curatescape_filter_title($title,$id){
 function curatescape_filter_content($content){
 	if(is_singular('stories') && in_the_loop() && is_main_query()){
 		$post = $GLOBALS['post'];
+		
+		// omit content already placed via shortcodes
+		$includeAudio = !has_shortcode( $content, 'curatescape_audio' );
+		$includeVideo = !has_shortcode( $content, 'curatescape_video' );
+		$includeImages = !has_shortcode( $content, 'curatescape_images' );
+		
 		$lede = curatescape_setting('content_lede') ? curatescape_lede($post) : null;
-		$media = curatescape_setting('content_media_gallery') ? curatescape_display_media_section($post) : null;
+		$media = curatescape_setting('content_media_gallery') ? curatescape_display_media_section($post,$includeImages, $includeAudio, $includeVideo) : null;
 		$map = curatescape_setting('content_map') ? curatescape_story_map($post) : null;
 		$related = curatescape_setting('content_related_sources') ? curatescape_related_sources($post) : null;
 		return $lede.$content.$media.$map.$related;
