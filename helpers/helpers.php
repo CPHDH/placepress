@@ -37,7 +37,7 @@ function curatescape_parse_markdown($string,$singleline=true){
 ** Get Media Files
 ** returns array of media file URLs sorted by type
 */	
-function curatescape_get_media($post){
+function curatescape_get_story_media($post){
 	if($post->story_media){
 		$media = explode(',',$post->story_media);
 		
@@ -53,6 +53,7 @@ function curatescape_get_media($post){
 			switch($type){
 				case 'image':
 					$images[]=array(
+						'id'=>$attachment_meta['id'],
 						'url'=>$attachment_meta['url'],
 						'title'=>$attachment_meta['title'] ? $attachment_meta['title'] : null,
 						'description'=>$attachment_meta['description'] ? $attachment_meta['description'] : null
@@ -60,20 +61,17 @@ function curatescape_get_media($post){
 					break;
 				case 'audio':
 					$audio[]=array(
-						'url'=>$attachment_meta['url'],
-						'title'=>$attachment_meta['title'] ? $attachment_meta['title'] : null,
-						'description'=>$attachment_meta['description'] ? $attachment_meta['description'] : null
+						'id'=>$attachment_meta['id'],
 					);
 					break;
 				case 'video':
 					$video[]=array(
-						'url'=>$attachment_meta['url'],
-						'title'=>$attachment_meta['title'] ? $attachment_meta['title'] : null,
-						'description'=>$attachment_meta['description'] ? $attachment_meta['description'] : null
+						'id'=>$attachment_meta['id'],
 					);
 					break;
 				default:
 					$other[]=array(
+						'id'=>$attachment_meta['id'],
 						'url'=>$attachment_meta['url'],
 						'title'=>$attachment_meta['title'] ? $attachment_meta['title'] : null,
 						'description'=>$attachment_meta['description'] ? $attachment_meta['description'] : null						
@@ -91,10 +89,9 @@ function curatescape_get_media($post){
 ** returns interactive image gallery
 */	
 function curatescape_image_gallery($images,$containerTag='section',$includeHeading=true){
-	//var_dump($images);
-	// todo...
+	$headerVisibility=$includeHeading ? null : 'hidden';
 	$html = '<'.$containerTag.' class="curatescape-section curatescape-media-section curatescape-images-section">';
-	$html .= $includeHeading ? '<h2 class="curatescape-section-heading curatescape-section-heading-images">'.__('Images').'</h2>' : null;
+	$html .= '<h2 '.$headerVisibility.' class="curatescape-section-heading curatescape-section-heading-images">'.__('Images').'</h2>';
 	$html .= '<div class="curatescape-flex curatescape-image-grid">';
 	foreach($images as $file){
 		$caption_array=array_filter(array($file['title'],$file['description']));
@@ -111,14 +108,14 @@ function curatescape_image_gallery($images,$containerTag='section',$includeHeadi
 ** returns audio playlist
 */	
 function curatescape_audio_playlist($audio,$containerTag='section',$includeHeading=true){
-	// todo...
+	$headerVisibility=$includeHeading ? null : 'hidden';
 	$html = '<'.$containerTag.' class="curatescape-section curatescape-media-section curatescape-audio-section">';
-	$html .= $includeHeading ? '<h2 class="curatescape-section-heading curatescape-section-heading-audio">'.__('Audio').'</h2>' : null;
+	$html .= '<h2 '.$headerVisibility.' class="curatescape-section-heading curatescape-section-heading-audio">'.__('Audio').'</h2>';
+	$ids=array();
 	foreach($audio as $file){
-		$caption_array=array_filter(array($file['title'],$file['description']));
-		$caption=htmlentities( ( implode( ': ', $caption_array ) ) );		
-		$html .= '<audio class="curatescape-audio" controls data-caption="'.$caption.'"><source src="'.$file['url'].'" type="audio/mpeg"></audio><p>'.$caption.'</p>';
+		$ids[] = $file['id'];
 	}
+	$html .= do_shortcode('[playlist type="audio" ids="'.implode(',',$ids).'" style="light"]');
 	$html .= '</'.$containerTag.'>';
 	return $html;
 }
@@ -128,14 +125,14 @@ function curatescape_audio_playlist($audio,$containerTag='section',$includeHeadi
 ** returns video playlist
 */	
 function curatescape_video_playlist($video,$containerTag='section',$includeHeading=true){
-	// todo...
+	$headerVisibility=$includeHeading ? null : 'hidden';
 	$html = '<'.$containerTag.' class="curatescape-section curatescape-media-section curatescape-video-section">';
-	$html .= $includeHeading ? '<h2 class="curatescape-section-heading curatescape-section-heading-video">'.__('Video').'</h2>' : null;
+	$html .= '<h2 '.$headerVisibility.' class="curatescape-section-heading curatescape-section-heading-video">'.__('Video').'</h2>';
 	foreach($video as $file){
-		$caption_array=array_filter(array($file['title'],$file['description']));
-		$caption=htmlentities( ( implode( ': ', $caption_array ) ) );		
-		$html .= '<video class="curatescape-video" controls data-caption="'.$caption.'"><source src="'.$file['url'].'" type="video/mp4"></video><p>'.$caption.'</p>';
-	}	$html .= '</'.$containerTag.'>';
+		$ids[] = $file['id'];
+	}	
+	$html .= do_shortcode('[playlist type="video" ids="'.implode(',',$ids).'" style="light"]');
+	$html .= '</'.$containerTag.'>';
 	return $html;
 }
 
@@ -145,7 +142,7 @@ function curatescape_video_playlist($video,$containerTag='section',$includeHeadi
 ** media content already placed via shortcodes will be omitted from curatescape_filter_content()
 */	
 function curatescape_display_media_section($post, $includeImages=true, $includeAudio=true, $includeVideo=true){
-	$media=curatescape_get_media($post);
+	$media=curatescape_get_story_media($post);
 	$html = count($media['images']) && $includeImages ? curatescape_image_gallery($media['images']) : null;
 	$html .= count($media['audio']) && $includeAudio ? curatescape_audio_playlist($media['audio']) : null;
 	$html .= count($media['video']) && $includeVideo ? curatescape_video_playlist($media['video']) : null;
@@ -156,17 +153,19 @@ function curatescape_display_media_section($post, $includeImages=true, $includeA
 ** Story Map section
 ** returns interactive map for Story post
 */	
-function curatescape_story_map($post){
+function curatescape_story_map($post,$includeHeading=true){
 	if($coords=$post->location_coordinates){
+		$headerVisibility=$includeHeading ? null : 'hidden';
+		$zoom=$post->location_zoom ? $post->location_zoom : curatescape_setting('default_zoom');
 		$caption_array = array(
 			curatescape_street_address($post),
 			curatescape_access_information($post),
 			curatescape_official_website($post)
 		);
 		$caption = implode(' ~ ', array_filter($caption_array));
-		$html = '<h2 class="curatescape-section-heading curatescape-section-heading-map">'.__('Map').'</h2>';
-		$html .= '<figure  class="curatescape-figure">';		
-		$html .= '<div id="curatescape-item-map" class="curatescape-map curatescape-item-map">';
+		$html = '<h2 '.$headerVisibility.' class="curatescape-section-heading curatescape-section-heading-map">'.__('Map').'</h2>';
+		$html .= '<figure  class="curatescape-figure z-index-adjust">';		
+		$html .= '<div id="curatescape-story-map" class="curatescape-map curatescape-item-map" data-coords="'.$coords.'" data-zoom="'.$zoom.'">';
 		$html .= '</div>';
 		$html .= '</figure>';	
 		$html .= '<figcaption class="curatescape-figcaption"><p>'.$caption.'</p></figcaption>';
@@ -183,9 +182,19 @@ function curatescape_story_map($post){
 */
 function curatescape_tour_map($post){
 	if($locations = $post->tour_locations){
+		$location_json = array();
+		$i=0;
+		foreach(explode(',',$locations) as $id){
+			$post=get_post(intval($id));
+			$location_json[$i]=array();
+			$location_json[$i]['id']=$id;
+			$location_json[$i]['coords']=$post->location_coordinates;
+			$location_json[$i]['title']=$post->post_title;
+			$i++;
+		}
 		$html = '<h2 class="curatescape-section-heading curatescape-section-heading-map">'.__('Map').'</h2>';
-		$html .= '<figure  class="curatescape-figure">';		
-		$html .= '<div id="curatescape-item-map" class="curatescape-map curatescape-item-map">';
+		$html .= '<figure  class="curatescape-figure z-index-adjust">';		
+		$html .= '<div id="curatescape-tour-map" class="curatescape-map curatescape-item-map" data-locations="'.htmlentities(json_encode($location_json)).'">';
 		$html .= '</div>';
 		$html .= '</figure>';	
 		return '<section class="curatescape-section curatescape-map-section">'.$html.'</section>';		

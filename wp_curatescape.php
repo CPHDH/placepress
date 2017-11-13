@@ -121,7 +121,25 @@ function curatescape_admin_css(){
 add_action( 'wp_enqueue_scripts', 'curatescape_public_css' ); // Public
 function curatescape_public_css(){
     wp_register_style( 'curatescape_public_css', plugin_dir_url( __FILE__ ) . 'styles/public.css');
-	wp_enqueue_style( 'curatescape_public_css' );	
+	wp_register_style( 'leafletcss', '//unpkg.com/leaflet@1.2.0/dist/leaflet.css');
+	wp_register_script( 'leafletjs', '//unpkg.com/leaflet@1.2.0/dist/leaflet.js', '', '', false ); 
+	wp_register_script( 'curatescape_story_js', plugin_dir_url( __FILE__ ) . 'scripts/story.js', '', '', true);
+	wp_register_script( 'curatescape_tour_js', plugin_dir_url( __FILE__ ) . 'scripts/tour.js', '', '', true);
+	
+	if( is_singular('stories') ){
+		wp_enqueue_style( 'curatescape_public_css' );
+	    wp_enqueue_style( 'leafletcss' );	    
+	    wp_enqueue_script( 'leafletjs' );  	
+	    wp_enqueue_script( 'curatescape_story_js' );	
+	}   
+
+	if( is_singular('tours') ){
+		wp_enqueue_style( 'curatescape_public_css' );
+	    wp_enqueue_style( 'leafletcss' );	    
+	    wp_enqueue_script( 'leafletjs' );  	
+	    wp_enqueue_script( 'curatescape_tour_js' );	
+	}  
+		
 }
 
 /*

@@ -25,7 +25,7 @@ function curatescape_init() {
 				'not_found_in_trash' => __('No Tours Found in Trash','wp_curatescape'),
 				'parent_item_colon' => __('Parent Tour','wp_curatescape'),
 				'all_items' => __('All Tours','wp_curatescape'),
-				'archives' => __('Tour Archives','wp_curatescape'),
+				'archives' => __('Tours','wp_curatescape'),
 				'insert_into_item' => __('Insert into Tour','wp_curatescape'),
 				'uploaded_to_this_item' => __('Uploaded to this Tour','wp_curatescape'),
 				'featured_image' => __('Tour Image','wp_curatescape'),
@@ -52,6 +52,7 @@ function curatescape_init() {
 			'has_archive' => true,
 			'supports' => array('title','editor','thumbnail','author','excerpt','comments','revisions'),
 			'taxonomies' => array('tour_types'),
+			'rewrite' => array( 'slug' => 'tours' ),
 			) 
 		);
 	
@@ -97,7 +98,7 @@ function curatescape_init() {
 			'not_found_in_trash' => __('No Stories Found in Trash','wp_curatescape'),
 			'parent_item_colon' => __('Parent Story','wp_curatescape'),
 			'all_items' => __('All Stories','wp_curatescape'),
-			'archives' => __('Story Archives','wp_curatescape'),
+			'archives' => __('Stories','wp_curatescape'),
 			'insert_into_item' => __('Insert into Story','wp_curatescape'),
 			'uploaded_to_this_item' => __('Uploaded to this Story','wp_curatescape'),
 			'featured_image' => __('Story Image','wp_curatescape'),
@@ -124,6 +125,7 @@ function curatescape_init() {
 		'has_archive' => true,
 		'supports' => array('title','editor','thumbnail','author','excerpt','comments','revisions'),
 		'taxonomies' => array('post_tag','story_subjects'),
+		'rewrite' => array( 'slug' => 'stories' ),
 		) 
 	);	
 	

@@ -25,6 +25,8 @@ h2.curatescape-section-heading.curatescape-section-heading {
 .curatescape-flex{
 	display: flex;
 }
+
+/* IMAGE GRID */
 .curatescape-image-grid{
 	flex-direction: row;
 	flex-flow: wrap;
@@ -59,6 +61,8 @@ h2.curatescape-section-heading.curatescape-section-heading {
 .curatescape-image-grid > div > div:hover{
 	transform:scale(1.1);
 }
+
+/* TOUR LOCATIONS */
 .curatescape-tour-locations{
 	width: 100%;
 }
@@ -81,10 +85,23 @@ h2.curatescape-section-heading.curatescape-section-heading {
 	overflow: hidden;
 }
 
+/* MAP */
 .curatescape-map{
 	height: 30em;
 	height: 45vh;
 	min-height: 22em;
 	width: 100%;
 	background: #eaeaea;
+}
+
+.z-index-adjust .leaflet-top, .leaflet-bottom{
+	z-index: 3 !important;
+}
+
+.z-index-adjust .leaflet-control{
+	z-index: 2 !important;
+}
+
+.z-index-adjust .leaflet-pane{
+	z-index: 1 !important;
 }
