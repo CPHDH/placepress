@@ -205,9 +205,12 @@ function curatescape_tour_map($post){
 ** Global Map section
 ** returns interactive map for all Story posts
 */
-function curatescape_global_map($args){
-	// todo...
-	return '<p>map goes here...</p>';		
+function curatescape_global_map(){	
+	$html = '<figure  class="curatescape-figure z-index-adjust">';		
+	$html .= '<div id="curatescape-global-map" class="curatescape-map curatescape-item-map" data-zoom="'.curatescape_setting('default_zoom').'" data-center="'.curatescape_setting('default_coordinates').'">';
+	$html .= '</div>';
+	$html .= '</figure>';	
+	return $html;	
 }
 
 /*

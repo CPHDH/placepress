@@ -94,6 +94,11 @@ h2.curatescape-section-heading.curatescape-section-heading {
 	background: #eaeaea;
 }
 
+#curatescape-global-map{
+	height: 40em;
+	height: 55vh;	
+}
+
 .z-index-adjust .leaflet-top, .leaflet-bottom{
 	z-index: 3 !important;
 }

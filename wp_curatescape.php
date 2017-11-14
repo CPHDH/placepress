@@ -50,7 +50,7 @@ require_once plugin_dir_path( __FILE__ ). 'admin/metaboxes.php';
 /*
 ** JSON OUTPUT
 */	
-require_once plugin_dir_path( __FILE__ ). 'output/json.php';
+require_once plugin_dir_path( __FILE__ ). 'output/api.php';
 
 /*
 ** WIDGETS
@@ -99,8 +99,8 @@ function curatescape_at_a_glance(){
 /*
 ** STYLES AND SCRIPTS
 */
-add_action( 'admin_enqueue_scripts', 'curatescape_admin_css' ); // Admin  
-function curatescape_admin_css(){
+add_action( 'admin_enqueue_scripts', 'curatescape_admin_scripts' ); // Admin  
+function curatescape_admin_scripts(){
 	wp_register_style( 'curatescape_admin_css', plugin_dir_url( __FILE__ ) . 'styles/admin.css');
 	wp_register_style( 'leafletcss', '//unpkg.com/leaflet@1.2.0/dist/leaflet.css');
 	wp_register_script( 'leafletjs', '//unpkg.com/leaflet@1.2.0/dist/leaflet.js', '', '', false );
@@ -118,13 +118,14 @@ function curatescape_admin_css(){
     wp_enqueue_script( 'jquery-ui-sortable' );
     wp_enqueue_script( 'jquery-ui-autocomplete' );
 }  
-add_action( 'wp_enqueue_scripts', 'curatescape_public_css' ); // Public
-function curatescape_public_css(){
+add_action( 'wp_enqueue_scripts', 'curatescape_public_scripts' ); // Public
+function curatescape_public_scripts(){
     wp_register_style( 'curatescape_public_css', plugin_dir_url( __FILE__ ) . 'styles/public.css');
 	wp_register_style( 'leafletcss', '//unpkg.com/leaflet@1.2.0/dist/leaflet.css');
 	wp_register_script( 'leafletjs', '//unpkg.com/leaflet@1.2.0/dist/leaflet.js', '', '', false ); 
 	wp_register_script( 'curatescape_story_js', plugin_dir_url( __FILE__ ) . 'scripts/story.js', '', '', true);
 	wp_register_script( 'curatescape_tour_js', plugin_dir_url( __FILE__ ) . 'scripts/tour.js', '', '', true);
+	wp_register_script( 'curatescape_global_map_js', plugin_dir_url( __FILE__ ) . 'scripts/global_map.js', '', '', true);
 	
 	if( is_singular('stories') ){
 		wp_enqueue_style( 'curatescape_public_css' );
@@ -139,6 +140,8 @@ function curatescape_public_css(){
 	    wp_enqueue_script( 'leafletjs' );  	
 	    wp_enqueue_script( 'curatescape_tour_js' );	
 	}  
+	
+	// See shortcodes.php for additional script and style inclusions. 	
 		
 }
 

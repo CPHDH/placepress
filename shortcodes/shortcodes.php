@@ -11,6 +11,7 @@ add_shortcode('curatescape_images', 'curatescape_image_gallery_shortcode');
 add_shortcode('curatescape_audio', 'curatescape_audio_playlist_shortcode');
 add_shortcode('curatescape_video', 'curatescape_video_playlist_shortcode');
 add_shortcode('curatescape_map', 'curatescape_map_shortcode');
+add_shortcode('curatescape_global_map', 'curatescape_global_map_shortcode');
 
 function curatescape_image_gallery_shortcode($atts){
 	global $post;
@@ -45,6 +46,14 @@ function curatescape_map_shortcode($atts){
 		$includeHeading = curatescape_no_heading_atts($atts);
 		return curatescape_story_map($post,$includeHeading);
 	}
+}
+
+function curatescape_global_map_shortcode($atts){
+	wp_enqueue_style( 'curatescape_public_css' );
+    wp_enqueue_style( 'leafletcss' );	    
+    wp_enqueue_script( 'leafletjs' );  	
+    wp_enqueue_script( 'curatescape_global_map_js' );	
+	return curatescape_global_map();
 }
 
 function curatescape_no_heading_atts($atts){

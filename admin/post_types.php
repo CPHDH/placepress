@@ -50,7 +50,7 @@ function curatescape_init() {
 			'has_archive'=>true,		
 			'query_var' => true,
 			'has_archive' => true,
-			'supports' => array('title','editor','thumbnail','author','excerpt','comments','revisions'),
+			'supports' => array('title','editor','thumbnail','author','excerpt','comments','revisions','custom-fields'),
 			'taxonomies' => array('tour_types'),
 			'rewrite' => array( 'slug' => 'tours' ),
 			) 
@@ -123,7 +123,7 @@ function curatescape_init() {
 		'has_archive'=>true,
 		'query_var' => true,
 		'has_archive' => true,
-		'supports' => array('title','editor','thumbnail','author','excerpt','comments','revisions'),
+		'supports' => array('title','editor','thumbnail','author','excerpt','comments','revisions','custom-fields'),
 		'taxonomies' => array('post_tag','story_subjects'),
 		'rewrite' => array( 'slug' => 'stories' ),
 		) 
