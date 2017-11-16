@@ -7,7 +7,6 @@ if( !defined('ABSPATH') ){
 add_action('init','add_curatescape_json');
 function add_curatescape_json(){
 	add_feed('curatescape_stories', 'curatescape_render_admin_stories_json');
-	add_feed('curatescape_tours', 'curatescape_render_admin_tours_json');
 }
 
 // manage cached transients
@@ -17,7 +16,6 @@ add_action( 'deleted_post', 'curatescape_delete_transients' );
 add_action( 'transition_post_status', 'curatescape_delete_transients' );
 function curatescape_delete_transients() {
      delete_transient( 'curatescape_stories' );
-     delete_transient( 'curatescape_tours' );
 }
 
 
@@ -63,38 +61,9 @@ function curatescape_render_admin_stories_json(){
 		    	'meta'=>unserialize_post_meta( intval( $post->ID ) ),
 		    );
 		}			
-	    set_transient( 'curatescape_stories', $output, 5 * MINUTE_IN_SECONDS ); // cache results
+	    set_transient( 'curatescape_stories', $output, 1 * MINUTE_IN_SECONDS ); // cache results
 	}
 	echo json_encode( $output );	
-}
-
-// TOURS ADMIN JSON
-function curatescape_render_admin_tours_json(){
-	if ( false === ( $output = get_transient( 'curatescape_tours' ) ) ) {
-		header( 'Content-Type: application/json' );
-		$permissible=( wp_get_current_user() ) ? 'any' : 'publish';
-		$args = array( 
-		    'post_type' => 'tours', 
-		    'post_status' => $permissible, 
-		    'nopaging' => true 
-		);
-		$query = new WP_Query( $args ); 
-		$posts = $query->get_posts();   
-		
-		$output = array();
-		foreach( $posts as $post ) {
-		    $output[] = array( 
-		    	'id' => intval( $post->ID ), 
-		    	'title' => $post->post_title,
-		    	'author'=>$post->post_author,
-		    	'date'=>$post->post_date,
-		    	'thumb'=>get_the_post_thumbnail_url( intval( $post->ID ) ),
-		    	'meta'=>get_post_meta( intval( $post->ID ) ),	    	
-		    );
-		}
-		set_transient( 'curatescape_tours', $output, 5 * MINUTE_IN_SECONDS ); // cache results
-	}
-	echo json_encode( $output );
 }
 
 // WP REST API EXTENSIONS

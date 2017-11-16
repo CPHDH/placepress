@@ -42,3 +42,21 @@ function curatescape_filter_content($content){
 	}
 	
 }
+
+/*
+** Admin Filters
+*/
+add_filter('hidden_meta_boxes', 'curatescape_hidden_meta_boxes', 10, 2);
+
+function curatescape_hidden_meta_boxes($hidden, $screen) {
+    $post_type= $screen->id;
+    switch ($post_type) {
+	    case 'stories':
+	    	$hidden[]= 'postcustom';
+	    	break;
+	    case 'tours':
+	    	$hidden[]= 'postcustom';
+	    	break;	    	
+    }
+    return $hidden;
+}

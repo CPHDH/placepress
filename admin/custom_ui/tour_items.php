@@ -7,7 +7,7 @@
 	if($locations=$post->tour_locations){
 		foreach( explode(',',$locations) as $loc ){
 			$title=get_the_title( intval($loc) );
-			if($subtitle=get_post_meta( intval($loc), 'story_subtitle', true )){
+			if( ($subtitle=get_post_meta( intval($loc), 'story_subtitle', true )) && get_post_meta( intval($loc), 'story_subtitle', true ) !==''){
 				$title.= ': '.$subtitle;
 			}
 			echo '<li data-value="'.$loc.'" class="ui-state-default">'.
@@ -18,7 +18,6 @@
 }
 ?>
 </ul>
-
 <script>
 var endpoint = '<?php echo get_site_url().'?feed=curatescape_stories';?>';	
 var stories=new Array();
@@ -39,9 +38,10 @@ jQuery(document).ready(function( $ ) {
 		$('#admin-story-search').attr('placeholder',textdomain_placeholder_default);
 		if(response.length){
 			$(response).each(function(i,r){
+				var subtitle = ( typeof r.meta.story_subtitle !== 'undefined' ) ? r.meta.story_subtitle[0] : false;
 				stories.push({
 					value:r.id,
-					label:r.title+(r.meta.story_subtitle.length ? ': '+r.meta.story_subtitle : ''),
+					label:r.title+(subtitle ? ': '+subtitle : ''),
 					thumb:r.thumb,
 				});
 			});
@@ -80,7 +80,6 @@ jQuery(document).ready(function( $ ) {
 					if($(this).attr('data-value') > 0){
 						uv.push($(this).attr('data-value'));
 					}
-					
 				});
 				uv=uv.unique();
 				$("input#tour_locations").val(uv.join());

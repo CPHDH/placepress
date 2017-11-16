@@ -231,15 +231,6 @@ if(is_admin()){
 		__('Tour Details','wp_curatescape'),
 		array(
 			array(
-				'label'		=> __('Custom Byline','wp_curatescape'),
-				'name'		=> 'tour_credits',
-				'type'		=> 'text',
-				'options'	=> null,
-				'custom_ui'	=> false,
-				'helper'	=> __('The name of the author(s) this entry. To add an automatically linked author, type @ followed by the author\'s username, e.g. @admin, or use <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">markdown</a> to create a custom link e.g. to link to Google, use <pre>[google](https://google.com)</pre>.','wp_curatescape'),
-				'repeatable'=> 0,
-				),	
-			array(
 				'label'		=> __('Postscript Text','wp_curatescape'),
 				'name'		=> 'tour_postscript',
 				'type'		=> 'textarea',
@@ -288,16 +279,7 @@ if(is_admin()){
 				'custom_ui'	=> false,
 				'helper'	=> __('A brief introductory section that is intended to entice the reader to read the full entry.','wp_curatescape'),
 				'repeatable'=> 0,
-				),
-			array(
-				'label'		=> __('Custom Byline','wp_curatescape'),
-				'name'		=> 'story_byline',
-				'type'		=> 'text',
-				'options'	=> null,
-				'custom_ui'	=> false,
-				'helper'	=> __('The name of the author(s) this entry. To add an automatically linked author, type @ followed by the author\'s username, e.g. @admin, or use <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">markdown</a> to create a custom link e.g. to link to Google, use <pre>[google](https://google.com)</pre>. ','wp_curatescape'),
-				'repeatable'=> 0,
-				)							
+				),						
 		), null
 	);	
 
@@ -353,7 +335,7 @@ if(is_admin()){
 				'name'		=> 'location_coordinates',
 				'type'		=> 'text',
 				'options'	=> null,
-				'custom_ui'	=> true, // this hidden form field will save coordinates as an array
+				'custom_ui'	=> true, // this hidden form field will save coordinates as a JSON array
 				'helper'	=> __('Use the map to add geo-coordinates for this location as a bracketed array, e.g. <pre>[41.503240,-81.675249]</pre>','wp_curatescape'),
 				'repeatable'=> 0,
 				),
@@ -362,29 +344,12 @@ if(is_admin()){
 				'name'		=> 'location_zoom',
 				'type'		=> 'text',
 				'options'	=> null,
-				'custom_ui'	=> true, // this hidden form field will save coordinates as an array
+				'custom_ui'	=> true, // this hidden form field will save zoom level automatically
 				'helper'	=> __('Use the map to add the default zoom level for this location as a single integer between 1 and 20.','wp_curatescape'),
 				'repeatable'=> 0,
 				)													
 		), 'custom_ui/story_location_details.php'
 	);
-
-
-	new Curatescape_Meta_Box('story_factoid',
-		'stories',
-		__('Factoid','wp_curatescape'),
-		array(
-			array(
-				'label'		=> __('Factoid','wp_curatescape'),
-				'name'		=> 'story_factoid',
-				'type'		=> 'textarea',
-				'options'	=> null,
-				'custom_ui'	=> false,
-				'helper'	=> __('One or more facts or pieces of information related to the entry, often presented as a list. Examples include architectural metadata, preservation status, FAQs, pieces of trivia, etc. Use <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">markdown</a> to add formatting as needed.','wp_curatescape'),
-				'repeatable'=> 16,
-				)
-		), null
-	);	
 
 	new Curatescape_Meta_Box('story_related_resources',
 		'stories',
