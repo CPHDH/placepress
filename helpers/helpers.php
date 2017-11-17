@@ -165,7 +165,7 @@ function curatescape_story_map($post,$includeHeading=true){
 		$caption = implode(' ~ ', array_filter($caption_array));
 		$html = '<h2 '.$headerVisibility.' class="curatescape-section-heading curatescape-section-heading-map">'.__('Map').'</h2>';
 		$html .= '<figure  class="curatescape-figure z-index-adjust">';		
-		$html .= '<div id="curatescape-story-map" class="curatescape-map curatescape-item-map" data-coords="'.$coords.'" data-zoom="'.$zoom.'">';
+		$html .= '<div id="curatescape-story-map" class="curatescape-map curatescape-item-map" data-coords="'.$coords.'" data-zoom="'.$zoom.'" data-default-layer="'.curatescape_setting('default_map_type').'" data-zoom="'.curatescape_setting('default_zoom').'" data-center="'.curatescape_setting('default_coordinates').'" data-mapbox-token="'.curatescape_setting('mapbox_key').'" data-mapbox-satellite="'.curatescape_setting('mapbox_satellite').'" data-maki="'.curatescape_setting('maki_markers').'" data-maki-color="'.curatescape_setting('maki_markers_color').'" data-marker-clustering="0">';
 		$html .= '</div>';
 		$html .= '</figure>';	
 		$html .= '<figcaption class="curatescape-figcaption"><p>'.$caption.'</p></figcaption>';
@@ -194,7 +194,7 @@ function curatescape_tour_map($post){
 		}
 		$html = '<h2 class="curatescape-section-heading curatescape-section-heading-map">'.__('Map').'</h2>';
 		$html .= '<figure  class="curatescape-figure z-index-adjust">';		
-		$html .= '<div id="curatescape-tour-map" class="curatescape-map curatescape-item-map" data-locations="'.htmlentities(json_encode($location_json)).'">';
+		$html .= '<div id="curatescape-tour-map" class="curatescape-map curatescape-item-map" data-locations="'.htmlentities(json_encode($location_json)).'" data-default-layer="'.curatescape_setting('default_map_type').'" data-zoom="'.curatescape_setting('default_zoom').'" data-center="'.curatescape_setting('default_coordinates').'" data-mapbox-token="'.curatescape_setting('mapbox_key').'" data-mapbox-satellite="'.curatescape_setting('mapbox_satellite').'" data-maki="'.curatescape_setting('maki_markers').'" data-maki-color="'.curatescape_setting('maki_markers_color').'" data-marker-clustering="0">';
 		$html .= '</div>';
 		$html .= '</figure>';	
 		return '<section class="curatescape-section curatescape-map-section">'.$html.'</section>';		
@@ -207,7 +207,7 @@ function curatescape_tour_map($post){
 */
 function curatescape_global_map(){	
 	$html = '<figure  class="curatescape-figure z-index-adjust">';		
-	$html .= '<div id="curatescape-global-map" class="curatescape-map curatescape-item-map" data-zoom="'.curatescape_setting('default_zoom').'" data-center="'.curatescape_setting('default_coordinates').'">';
+	$html .= '<div id="curatescape-global-map" class="curatescape-map curatescape-item-map" data-default-layer="'.curatescape_setting('default_map_type').'" data-zoom="'.curatescape_setting('default_zoom').'" data-center="'.curatescape_setting('default_coordinates').'" data-mapbox-token="'.curatescape_setting('mapbox_key').'" data-mapbox-satellite="'.curatescape_setting('mapbox_satellite').'" data-maki="'.curatescape_setting('maki_markers').'" data-maki-color="'.curatescape_setting('maki_markers_color').'" data-marker-clustering="'.curatescape_setting('marker_clustering').'">';
 	$html .= '</div>';
 	$html .= '</figure>';	
 	return $html;	

@@ -11,6 +11,12 @@
 
 
 <script>	
+	
+	// Settings
+	var mapID='admin-story-map';
+	var default_layer='<?php echo curatescape_setting('default_map_type');?>';
+	var token = '<?php echo curatescape_setting('mapbox_key');?>';
+	
 	var map,position,marker,search_result_area,zoom,coords;
 	
 	var message_no_results='<?php echo esc_html__('No Results Found','wp_curatescape');?>';
@@ -34,12 +40,65 @@
 		zoom=default_zoom;
 	}
 	
-	map = L.map('admin-story-map').setView(coords, zoom);
-	map.scrollWheelZoom.disable();
-	L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-	    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-	}).addTo(map);
 	
+	// Do Map
+	var map = L.map(mapID, {
+	    center: coords,
+	    zoom: zoom,
+	});	
+
+	map.scrollWheelZoom.disable();
+	
+	var stamen_terrain = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}@2x.jpg', {
+		attribution: '<a href="http://www.openstreetmap.org/">OpenStreetMap</a> | <a href="http://stamen.com/">Stamen Design</a>'
+	});
+	
+	var carto_street_light = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png', {
+	    attribution: '<a href="https://www.openstreetmap.org/">Open Street Map</a> | <a href="http://cartodb.com/attributions">CartoDB</a>',
+	});
+	
+	var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+	    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+	});
+	
+	var mapbox_sattelite_streets = L.tileLayer('https://api.mapbox.com/v4/mapbox.streets-satellite/{z}/{x}/{y}{retina}.png?access_token={accessToken}', {
+	    	attribution: '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> | <a href="https://www.mapbox.com/feedback/">Mapbox</a>',
+	    	retina: (L.Browser.retina) ? '@2x' : '',
+			accessToken: token,
+	});	
+	
+	var toplayer;	
+	switch(default_layer){
+		case 'carto_light':
+		toplayer=carto_street_light;
+		break;
+		case 'stamen_terrain':
+		toplayer=stamen_terrain;
+		break;
+		case 'osm':
+		toplayer=osm;
+		break;		
+		default:
+		toplayer=carto_street_light;				
+	}
+	
+	toplayer.addTo(map);
+	
+
+	// Layer controls
+	var allLayers={
+		"Terrain":stamen_terrain,
+		"Street":carto_street_light,
+		"Open Street Map":osm,
+	};
+	if(token){
+		allLayers["Satellite"]=mapbox_sattelite_streets;
+	}
+	L.control.layers(allLayers).addTo(map);		
+	
+	
+	
+	// Functionality
 	jQuery('#admin-story-map').append('<div id="map-message-overlay"></div>');
 	jQuery('#admin-location-search').keypress(function(e){
         if(e.which == 10 || e.which == 13) {

@@ -22,9 +22,7 @@ function curatescape_add_sublevel_menu(){
 ** SETTINGS PAGE
 */
 function curatescape_display_settings_page(){
-	
 	if( ! current_user_can('manage_options') ) return;
-	
 	?>
 	<div class="wrap">
 		<h1><?php echo esc_html( get_admin_page_title() );?></h1>
@@ -35,7 +33,6 @@ function curatescape_display_settings_page(){
 		</form>
 	</div>
 	<?
-
 }
 
 /*
@@ -55,10 +52,17 @@ function curatescape_register_settings(){
 	*/
 	add_settings_section(
 		'curatescape_section_map',
-		esc_html__('Map Settings','wp_curatescape'),
+		esc_html__('Map Settings - General','wp_curatescape'),
 		'curatescape_callback_section_map',
 		'curatescape'
 	);
+
+	add_settings_section(
+		'curatescape_section_mapbox',
+		esc_html__('Map Settings - Mapbox','wp_curatescape'),
+		'curatescape_callback_section_mapbox',
+		'curatescape'
+	);	
 
 	add_settings_section(
 		'curatescape_section_content',
@@ -94,11 +98,11 @@ function curatescape_register_settings(){
 		'curatescape_section_map',
 		['id'=>'default_map_type',
 		'label'=>'Choose the default map type','options'=>array(
-			'street'=>esc_html__('Street','wp_curatescape'),
-			'terrain'=>esc_html__('Terrain','wp_curatescape'),
-			'satellite'=>esc_html__('Satellite','wp_curatescape')
+			'carto_light'=>esc_html__('Street (Carto Light)','wp_curatescape'),
+			'stamen_terrain'=>esc_html__('Terrain (Stamen)','wp_curatescape'),
+			'osm'=>esc_html__('Standard (Open Street Maps)','wp_curatescape'),
 		)]
-	);	
+	);		
 
 	add_settings_field(
 		'default_zoom',
@@ -109,6 +113,50 @@ function curatescape_register_settings(){
 		['id'=>'default_zoom','label'=>esc_html__('Choose a number between 0 (zoomed all the way out) and 20 (zoomed all the way in).','wp_curatescape'),'min'=>0,'max'=>20]
 	);
 
+	add_settings_field(
+		'marker_clustering',
+		esc_html__('Marker Clustering','wp_curatescape'),
+		'curatescape_callback_field_checkbox',
+		'curatescape',
+		'curatescape_section_map',
+		['id'=>'marker_clustering','label'=>esc_html__('Enable clustering for crowded map markers','wp_curatescape')]
+	);	
+
+	add_settings_field(
+		'mapbox_key',
+		esc_html__('Mapbox Key','wp_curatescape'),
+		'curatescape_callback_field_text',
+		'curatescape',
+		'curatescape_section_mapbox',
+		['id'=>'mapbox_key','label'=>esc_html__('Enter your Mapbox API access token to enable Mapbox options.','wp_curatescape')]
+	);	
+
+	add_settings_field(
+		'mapbox_satellite',
+		esc_html__('Mapbox Satellite','wp_curatescape'),
+		'curatescape_callback_field_checkbox',
+		'curatescape',
+		'curatescape_section_mapbox',
+		['id'=>'mapbox_satellite','label'=>esc_html__('Enable Mapbox Satellite Streets layer','wp_curatescape')]
+	);	
+	
+	add_settings_field(
+		'maki_markers',
+		esc_html__('Maki Markers','wp_curatescape'),
+		'curatescape_callback_field_checkbox',
+		'curatescape',
+		'curatescape_section_mapbox',
+		['id'=>'maki_markers','label'=>esc_html__('Enable Maki Markers','wp_curatescape')]
+	);	
+
+	add_settings_field(
+		'maki_markers_color',
+		esc_html__('Maki Markers Color','wp_curatescape'),
+		'curatescape_callback_field_text',
+		'curatescape',
+		'curatescape_section_mapbox',
+		['id'=>'maki_markers_color','label'=>esc_html__('Enter an HTML hexadecimal color code (e.g. #000000).','wp_curatescape')]
+	);		
 
 	add_settings_field(
 		'disable_tours',
@@ -172,7 +220,7 @@ function curatescape_register_settings(){
 function curatescape_options_default(){
 	return array(
 		'default_coordinates'=>'[41.503240, -81.675249]',
-		'default_map_type'=>'street',
+		'default_map_type'=>'carto_light',
 		'default_zoom'=>3,
 		'disable_tours'=>false,
 		'content_subtitle'=>true,
@@ -180,6 +228,11 @@ function curatescape_options_default(){
 		'content_related_sources'=>true,
 		'content_media_gallery'=>true,
 		'content_map'=>true,
+		'mapbox_key'=>null,
+		'mapbox_satellite'=>false,
+		'maki_markers'=>false,
+		'maki_markers_color'=>null,
+		'marker_clustering'=>false,
 	);
 }
 
@@ -189,6 +242,10 @@ function curatescape_options_default(){
 
 function curatescape_callback_section_map(){
 	echo '<p>'.esc_html__('Customize default settings for Curatescape maps.','wp_curatescape').'</p>';
+}
+
+function curatescape_callback_section_mapbox(){
+	echo '<p>'.sprintf(__('All Mapbox options require an API access token. Get your token at %s (some Mapbox some functionality is rate-limited).','wp_curatescape'), '<a target="_blank" href="https://www.mapbox.com/studio/account/tokens/">www.mapbox.com</a>').'</p>';
 }
 
 function curatescape_callback_section_content(){
@@ -307,11 +364,24 @@ function curatescape_callback_validate_options($input){
 		$input['default_zoom'] = sanitize_text_field( $input['default_zoom'] );
 	}	
 	
+	if( isset( $input['mapbox_key'] )){
+		$input['mapbox_key'] = sanitize_text_field( $input['mapbox_key'] );
+	}
+
+	if( isset( $input['maki_markers_color'] )){
+		$input['maki_markers_color'] = sanitize_text_field( $input['maki_markers_color'] );
+	}		
+	
 	if( ! isset( $input['default_map_type'] )){
 		$input['default_map_type'] = null;
 	}
 	
-	$map_types=array('street'=>'Street','terrain'=>'Terrain','satellite'=>'Satellite');
+	$map_types=array(
+		'carto_light'=>esc_html__('Street (Carto Light)','wp_curatescape'),
+		'stamen_terrain'=>esc_html__('Terrain (Stamen)','wp_curatescape'),
+		'osm'=>esc_html__('Street (Open Street Maps)','wp_curatescape'),
+	);
+	
 	if( ! array_key_exists( $input['default_map_type'], $map_types )){
 		$input['default_map_type'] = null;
 	}
@@ -339,6 +409,18 @@ function curatescape_callback_validate_options($input){
 	if( ! isset( $input['content_related_sources'] )){
 		$input['content_related_sources'] = null;
 	} $input['content_related_sources'] = $input['content_related_sources'] == 1 ? 1 : 0;	
+
+	if( ! isset( $input['mapbox_satellite'] )){
+		$input['mapbox_satellite'] = null;
+	} $input['mapbox_satellite'] = $input['mapbox_satellite'] == 1 ? 1 : 0;
+	
+	if( ! isset( $input['maki_markers'] )){
+		$input['maki_markers'] = null;
+	} $input['maki_markers'] = $input['maki_markers'] == 1 ? 1 : 0;
+
+	if( ! isset( $input['marker_clustering'] )){
+		$input['marker_clustering'] = null;
+	} $input['marker_clustering'] = $input['marker_clustering'] == 1 ? 1 : 0;
 
 	return $input;
 }

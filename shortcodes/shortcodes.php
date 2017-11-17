@@ -52,7 +52,17 @@ function curatescape_global_map_shortcode($atts){
 	wp_enqueue_style( 'curatescape_public_css' );
     wp_enqueue_style( 'leafletcss' );	    
     wp_enqueue_script( 'leafletjs' );  	
-    wp_enqueue_script( 'curatescape_global_map_js' );	
+    	
+    if(curatescape_setting('marker_clustering')){
+		wp_enqueue_style('clustercss');
+		wp_enqueue_script('clusterjs');	    
+    }
+    if(curatescape_setting('maki_markers')){
+	    wp_enqueue_script('makijs');
+    }   
+    
+    wp_enqueue_script( 'curatescape_global_map_js' );
+     
 	return curatescape_global_map();
 }
 

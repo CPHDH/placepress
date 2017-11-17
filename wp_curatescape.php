@@ -122,23 +122,32 @@ add_action( 'wp_enqueue_scripts', 'curatescape_public_scripts' ); // Public
 function curatescape_public_scripts(){
     wp_register_style( 'curatescape_public_css', plugin_dir_url( __FILE__ ) . 'styles/public.css');
 	wp_register_style( 'leafletcss', '//unpkg.com/leaflet@1.2.0/dist/leaflet.css');
+	wp_register_style( 'clustercss', plugin_dir_url( __FILE__ ) . 'libraries/leaflet.markercluster/dist/MarkerCluster.Default.css');
 	wp_register_script( 'leafletjs', '//unpkg.com/leaflet@1.2.0/dist/leaflet.js', '', '', false ); 
 	wp_register_script( 'curatescape_story_js', plugin_dir_url( __FILE__ ) . 'scripts/story.js', '', '', true);
 	wp_register_script( 'curatescape_tour_js', plugin_dir_url( __FILE__ ) . 'scripts/tour.js', '', '', true);
 	wp_register_script( 'curatescape_global_map_js', plugin_dir_url( __FILE__ ) . 'scripts/global_map.js', '', '', true);
+	wp_register_script( 'makijs', plugin_dir_url( __FILE__ ) . 'libraries/leaflet.makimarkers/Leaflet.MakiMarkers.js', array('leafletjs'), '', false);
+	wp_register_script( 'clusterjs', plugin_dir_url( __FILE__ ) . 'libraries/leaflet.markercluster/dist/leaflet.markercluster.js', array('leafletjs'), '', false);
 	
 	if( is_singular('stories') ){
 		wp_enqueue_style( 'curatescape_public_css' );
 	    wp_enqueue_style( 'leafletcss' );	    
 	    wp_enqueue_script( 'leafletjs' );  	
-	    wp_enqueue_script( 'curatescape_story_js' );	
+	    if(curatescape_setting('maki_markers')){
+		    wp_enqueue_script('makijs');
+	    }	
+	    wp_enqueue_script( 'curatescape_story_js' );
 	}   
 
 	if( is_singular('tours') ){
 		wp_enqueue_style( 'curatescape_public_css' );
 	    wp_enqueue_style( 'leafletcss' );	    
 	    wp_enqueue_script( 'leafletjs' );  	
-	    wp_enqueue_script( 'curatescape_tour_js' );	
+	    if(curatescape_setting('maki_markers')){
+		    wp_enqueue_script('makijs');
+	    }	
+	    wp_enqueue_script( 'curatescape_tour_js' );		    
 	}  
 	
 	// See shortcodes.php for additional script and style inclusions. 	
