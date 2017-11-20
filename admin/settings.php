@@ -357,7 +357,39 @@ function curatescape_callback_validate_options($input){
 	$defaults=curatescape_options_default();
 
 	if( isset( $input['default_coordinates'] )){
-		$input['default_coordinates'] = sanitize_text_field( $input['default_coordinates'] );
+		$v = str_replace(' ', '', $input['default_coordinates']);
+		
+		if( strlen( $v ) ){
+			// if user input exists, create JSON object
+			$jsonObject = json_decode( $v );
+		}else{
+			// set JSON object to null and fail
+			$jsonObject = null;
+		}
+		
+		if( strlen( $v ) && $jsonObject === null ) {
+			// if user input exists but isn't in JSON format, add square braces, cross fingers, and try again
+			$v='['.$v.']';
+			$jsonObject = json_decode( $v );
+		}
+		
+		if( count($jsonObject) && (count( $jsonObject ) !== count( array_filter( $jsonObject, 'is_numeric' ) )) ){
+			// if the JSON array is not numeric, set object to null and fail
+			$jsonObject = null;
+		}
+		
+		if( ( $jsonObject === null || count($jsonObject) !== 2 ) ){
+			// if we still don't have a JSON array with two numeric values, give up, reset to default, and show error
+			$userInput = strlen( trim($v) ) ? $v : __('(empty)','wp_curatescape');
+			add_settings_error( 
+				'default_coordinates', 
+				'default_coordinates', 
+				sprintf(__('You entered %s for Default Coordinates. Please enter valid coordinates. Reverting to plugin default coordinates. Please try again.','wp_curatescape'),$userInput), 
+				'error' );
+			$input['default_coordinates'] = $defaults['default_coordinates'];
+		}else{
+			$input['default_coordinates'] = sanitize_text_field( $v );
+		}
 	}
 	
 	if( isset( $input['default_zoom'] )){
