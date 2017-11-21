@@ -13,6 +13,8 @@ var color = document.getElementById(mapID).getAttribute('data-maki-color');
 // Story Settings
 var coords = document.getElementById(mapID).getAttribute('data-coords');
 var zoom = document.getElementById(mapID).getAttribute('data-zoom');
+var thumb = document.getElementById(mapID).getAttribute('data-thumb');
+var address = document.getElementById(mapID).getAttribute('data-address');
 
 // Do Map
 var map = L.map(mapID, {
@@ -94,11 +96,14 @@ map.on('popupopen', function(e) {
 					
 // Do Markers
 if(coords){
+	var html ='<a class="curatescape_map_thumb" href="#" style="background-image:url('+thumb+')"></a>';
+	html += address ? '<div class="curatescape_map_title">'+address+'</div>' : '<div class="curatescape_map_title">['+JSON.parse(coords)+']</div>';
 	marker = new L.marker(JSON.parse(coords),markerconfig).addTo(map);
 	marker.on("click", function(e){
 		position = marker.getLatLng();
-		marker.bindPopup('['+position.lat+','+position.lng+']');
+		marker.bindPopup(html);
 		e.preventDefault;
 	});	
 	map.panTo(marker.getLatLng());	
 }
+

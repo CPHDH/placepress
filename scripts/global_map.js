@@ -13,18 +13,34 @@ var color = document.getElementById(mapID).getAttribute('data-maki-color');
 // Global Map Settings
 var clustering = document.getElementById(mapID).getAttribute('data-marker-clustering');
 
-// Helper
+// Helpers
 var HttpClient = function() {
-    this.get = function(aUrl, aCallback) {
-        var anHttpRequest = new XMLHttpRequest();
-        anHttpRequest.onreadystatechange = function() { 
-            if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
-                aCallback(anHttpRequest.responseText);
+    this.get = function(endpoint, successCallback,errorCallback) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() { 
+	        if(xhr.readyState == 4){
+	            if (xhr.status == 200){
+		            successCallback(xhr.responseText);
+	            }else{
+		            errorCallback(xhr.statusText); 
+	            }		        
+	        }
         }
-
-        anHttpRequest.open( "GET", aUrl, true );            
-        anHttpRequest.send( null );
+        xhr.open( "GET", endpoint, true );            
+        xhr.send( null );
     }
+}
+var Endpoint = function(type=null,id=null,embed=true){
+	var wp_rest_api = window.location.protocol+'//'+window.location.hostname+'/wp-json/wp/v2/';
+	var wp_rest_api_stories=wp_rest_api+'stories/';
+	var wp_rest_api_media=wp_rest_api+'media/';	
+	if(type=='stories'){
+		return wp_rest_api_stories+'?_embed=true';
+	}else if( (type=='media') && id){
+		return wp_rest_api_media+id
+	}else{
+		return wp_rest_api_stories
+	}
 }
 
 // Do Map
@@ -119,22 +135,25 @@ if(clustering){
 }
 
 // Do Markers
-var wp_rest_api_stories=window.location.protocol+'//'+window.location.hostname+'/wp-json/wp/v2/stories';
 var client = new HttpClient();
-client.get(wp_rest_api_stories, function(response) {
+client.get(Endpoint('stories'), function(response) {
     data=JSON.parse(response);
-    //console.log(data); 
     var markerArray = new Array();
     data.forEach(function(story){
+	    var featured_img = story._embedded['wp:featuredmedia'][0];
 	    var coords = JSON.parse(story.meta.location_coordinates);
-	    var title = story.title.rendered;
-	    var subtitle = story.meta.story_subtitle;
+	    var title = '<strong>'+story.title.rendered+'</strong>';
+	    var subtitle = story.meta.story_subtitle ? '<br><em>'+story.meta.story_subtitle+'</em>' : '';
 	    var permalink = story.link;
+	    var thumbsrc = featured_img.media_details.sizes.medium.source_url;
+		var html ='<a class="curatescape_map_thumb" href="'+permalink+'" style="background-image:url('+thumbsrc+')"></a>';
+		html += '<a class="curatescape_map_title" href="'+permalink+'">'+title+subtitle+'</a>';
+		
 		if(coords){
 			var marker = new L.marker(coords,markerconfig).addTo(map);
 			marker.on("click", function(e){
 				position = marker.getLatLng();
-				marker.bindPopup('['+position.lat+','+position.lng+']');
+				marker.bindPopup(html);
 				e.preventDefault;
 			});	
 			markerArray.push(marker);
@@ -143,4 +162,6 @@ client.get(wp_rest_api_stories, function(response) {
 		var markerGroup = new L.featureGroup(markerArray);
 		map.fitBounds(markerGroup.getBounds());		    
     });
+}, function(error){
+	console.error('Curatescape Map -- HTTP Error: '+error);
 });

@@ -99,6 +99,30 @@ h2.curatescape-section-heading.curatescape-section-heading {
 	height: 55vh;	
 }
 
+.curatescape-map .leaflet-popup-content-wrapper{
+	border-radius: 0;
+}
+.curatescape-map .leaflet-popup-content{
+	margin: 0;
+	min-width: 234px;
+}
+.curatescape-map .leaflet-popup-content a{
+	text-decoration: none;
+}
+.curatescape-map .leaflet-popup-content .curatescape_map_title{
+	margin: 10px 10px;
+	text-align: left;
+	display: inline-block;
+}
+.curatescape-map .leaflet-popup-content .curatescape_map_thumb{
+	height: 120px;
+	width: 100%;
+	display: block;	
+	background-size: cover;
+	background-position: center center;
+	background-color: #ccc;
+}
+
 .z-index-adjust .leaflet-top, .leaflet-bottom{
 	z-index: 3 !important;
 }

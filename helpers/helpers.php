@@ -157,6 +157,7 @@ function curatescape_story_map($post,$includeHeading=true){
 	if($coords=$post->location_coordinates){
 		$headerVisibility=$includeHeading ? null : 'hidden';
 		$zoom=$post->location_zoom ? $post->location_zoom : curatescape_setting('default_zoom');
+		$thumbnail = has_post_thumbnail( $post->ID ) ? wp_get_attachment_url( get_post_thumbnail_id($post->ID), 'medium' ) : 0;
 		$caption_array = array(
 			curatescape_street_address($post),
 			curatescape_access_information($post),
@@ -165,7 +166,7 @@ function curatescape_story_map($post,$includeHeading=true){
 		$caption = implode(' ~ ', array_filter($caption_array));
 		$html = '<h2 '.$headerVisibility.' class="curatescape-section-heading curatescape-section-heading-map">'.__('Map').'</h2>';
 		$html .= '<figure  class="curatescape-figure z-index-adjust">';		
-		$html .= '<div id="curatescape-story-map" class="curatescape-map curatescape-item-map" data-coords="'.$coords.'" data-zoom="'.$zoom.'" data-default-layer="'.curatescape_setting('default_map_type').'" data-zoom="'.curatescape_setting('default_zoom').'" data-center="'.curatescape_setting('default_coordinates').'" data-mapbox-token="'.curatescape_setting('mapbox_key').'" data-mapbox-satellite="'.curatescape_setting('mapbox_satellite').'" data-maki="'.curatescape_setting('maki_markers').'" data-maki-color="'.curatescape_setting('maki_markers_color').'" data-marker-clustering="0">';
+		$html .= '<div id="curatescape-story-map" class="curatescape-map curatescape-item-map" data-coords="'.$coords.'" data-zoom="'.$zoom.'" data-default-layer="'.curatescape_setting('default_map_type').'" data-zoom="'.curatescape_setting('default_zoom').'" data-center="'.curatescape_setting('default_coordinates').'" data-mapbox-token="'.curatescape_setting('mapbox_key').'" data-mapbox-satellite="'.curatescape_setting('mapbox_satellite').'" data-maki="'.curatescape_setting('maki_markers').'" data-maki-color="'.curatescape_setting('maki_markers_color').'" data-thumb="'.$thumbnail.'" data-address="'.curatescape_street_address($post).'" data-marker-clustering="0">';
 		$html .= '</div>';
 		$html .= '</figure>';	
 		$html .= '<figcaption class="curatescape-figcaption"><p>'.$caption.'</p></figcaption>';
@@ -186,10 +187,14 @@ function curatescape_tour_map($post){
 		$i=0;
 		foreach(explode(',',$locations) as $id){
 			$post=get_post(intval($id));
+			$thumbnail = has_post_thumbnail( $post->ID ) ? wp_get_attachment_url( get_post_thumbnail_id($post->ID), 'medium' ) : 0;
 			$location_json[$i]=array();
 			$location_json[$i]['id']=$id;
 			$location_json[$i]['coords']=$post->location_coordinates;
 			$location_json[$i]['title']=$post->post_title;
+			$location_json[$i]['subtitle']=curatescape_subtitle($post);
+			$location_json[$i]['thumb']=$thumbnail;
+			$location_json[$i]['permalink']=$post->guid;
 			$i++;
 		}
 		$html = '<h2 class="curatescape-section-heading curatescape-section-heading-map">'.__('Map').'</h2>';
