@@ -54,9 +54,13 @@ function curatescape_get_story_media($post){
 				case 'image':
 					$images[]=array(
 						'id'=>$attachment_meta['id'],
-						'url'=>$attachment_meta['url'],
+						'url'=>$attachment_meta['sizes']['medium']['url'],
 						'title'=>$attachment_meta['title'] ? $attachment_meta['title'] : null,
-						'description'=>$attachment_meta['description'] ? $attachment_meta['description'] : null
+						'description'=>$attachment_meta['description'] ? $attachment_meta['description'] : null,
+						'h'=>$attachment_meta['sizes']['full']['height'],
+						'w'=>$attachment_meta['sizes']['full']['width'],
+						'src'=>$attachment_meta['sizes']['full']['url'],
+						'msrc'=>$attachment_meta['sizes']['medium']['url'],
 					);
 					break;
 				case 'audio':
@@ -90,16 +94,19 @@ function curatescape_get_story_media($post){
 */	
 function curatescape_image_gallery($images,$containerTag='section',$includeHeading=true){
 	$headerVisibility=$includeHeading ? null : 'hidden';
+	$photoswipe_ui_markup = '<div id="pswp-images" aria-role="hidden" hidden data-images="'.htmlentities(json_encode($images)).'"></div><div id="pswp" class="pswp" tabindex="-1" role="dialog" aria-hidden="true"><div class="pswp__bg"></div><div class="pswp__scroll-wrap"><div class="pswp__container"><div class="pswp__item"></div><div class="pswp__item"></div><div class="pswp__item"></div></div><div class="pswp__ui pswp__ui--hidden"><div class="pswp__top-bar"><div class="pswp__counter"></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button><button class="pswp__button pswp__button--share" title="Share"></button><button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button><button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class="pswp__preloader"><div class="pswp__preloader__icn"><div class="pswp__preloader__cut"><div class="pswp__preloader__donut"></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class="pswp__share-tooltip"></div> </div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button><button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class="pswp__caption"><div class="pswp__caption__center"></div></div></div></div></div>';
 	$html = '<'.$containerTag.' class="curatescape-section curatescape-media-section curatescape-images-section">';
 	$html .= '<h2 '.$headerVisibility.' class="curatescape-section-heading curatescape-section-heading-images">'.__('Images').'</h2>';
 	$html .= '<div class="curatescape-flex curatescape-image-grid">';
+	$i=0;
 	foreach($images as $file){
 		$caption_array=array_filter(array($file['title'],$file['description']));
 		$caption=htmlentities( ( implode( ': ', $caption_array ) ) );	
-		$html.='<div><div title="'.$file['title'].'" style="background-image:url('.$file['url'].')" data-caption="'.$caption.'"></div></div>';
+		$html.='<div class="pswp_item_container"><div class="pswp_item" data-pswp-index="'.$i.'" title="'.$file['title'].'" style="background-image:url('.$file['url'].')" data-caption="'.$caption.'"></div></div>';
+		$i++;
 	}
 	$html .= '</div>';
-	$html .= '</'.$containerTag.'>';
+	$html .= $photoswipe_ui_markup.'</'.$containerTag.'>';
 	return $html;
 }
 

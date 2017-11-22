@@ -1,3 +1,19 @@
+// Helper
+var decodeEntities = (function() {
+  var element = document.createElement('div');
+  function decodeHTMLEntities (str) {
+    if(str && typeof str === 'string') {
+      str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '');
+      str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '');
+      element.innerHTML = str;
+      str = element.textContent;
+      element.textContent = '';
+    }
+    return str;
+  }
+  return decodeHTMLEntities;
+})();
+
 // Id
 var mapID = 'curatescape-story-map';
 
@@ -15,6 +31,8 @@ var coords = document.getElementById(mapID).getAttribute('data-coords');
 var zoom = document.getElementById(mapID).getAttribute('data-zoom');
 var thumb = document.getElementById(mapID).getAttribute('data-thumb');
 var address = document.getElementById(mapID).getAttribute('data-address');
+var items = document.getElementById('pswp-images').getAttribute('data-images');
+items=JSON.parse(decodeEntities(items));
 
 // Do Map
 var map = L.map(mapID, {
@@ -107,3 +125,19 @@ if(coords){
 	map.panTo(marker.getLatLng());	
 }
 
+// Photoswipe
+var pswpElement = document.getElementById('pswp');
+var options = {};
+var gallery=document.getElementsByClassName('curatescape-image-grid')[0];
+gallery.addEventListener('click', function(event) {
+	var element=event.target;
+	var clicked=element.getAttribute('data-pswp-index');
+	if(clicked){
+		initGallery(parseInt(clicked));
+	}
+});
+function initGallery(index) {
+		options.index = index
+		var gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, items, options );
+		gallery.init();	
+}
