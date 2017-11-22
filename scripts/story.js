@@ -98,7 +98,7 @@ map.on('popupopen', function(e) {
 if(coords){
 	var html ='<a class="curatescape_map_thumb" href="#" style="background-image:url('+thumb+')"></a>';
 	html += address ? '<div class="curatescape_map_title">'+address+'</div>' : '<div class="curatescape_map_title">['+JSON.parse(coords)+']</div>';
-	marker = new L.marker(JSON.parse(coords),markerconfig).addTo(map);
+	var marker = new L.marker(JSON.parse(coords),markerconfig).addTo(map);
 	marker.on("click", function(e){
 		position = marker.getLatLng();
 		marker.bindPopup(html);
