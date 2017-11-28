@@ -28,7 +28,7 @@ The following shortcodes may be used to place Curatescpae components in any non-
 - `curatescape_lede($post)`
 - `curatescape_related_sources($post)`
 
-The following functions require an array of files, which can be obtained using the curatescape_get_story_media() function:
+The following functions require an array of files, which can be obtained using the `curatescape_get_story_media()` function:
 ```
 $media = curatescape_get_story_media($post);
 $images = $media['images'];
