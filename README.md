@@ -13,6 +13,8 @@ The following shortcodes may be used to place Curatescpae components in any non-
 - `[curatescape_global_map]` : adds the global map to a standalone page
 
 ## Helper Functions
+Curatescape attempts to add custom fields and other components to your theme automatically using WordPress plugin filters. If you have compatibility issues with your theme or would like to customize where/how content appears, you can use the helper functions below. NOTE: Be sure to turn off content filters in Curatescape plugin settings if you are customizing your theme.
+ 
 ### General
 - `curatescape_setting($option)`
 - `curatescape_parse_markdown($string,$singleline=true)`
