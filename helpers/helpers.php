@@ -289,14 +289,16 @@ function curatescape_stories_for_tour($post){
 		$html .= '<div class="curatescape-tour-locations">';
 		foreach($locations as $id){
 			$post=get_post( $id );
-			$excerpt = $post->post_excerpt ? $post->post_excerpt : $post->post_content;
-			$html .= '<div class="curatescape-tour-location curatescape-flex">';
-				$html .= get_the_post_thumbnail( $post, 'thumbnail');
-				$html .= '<div>';
-				$html .= '<h3><a href="'.get_the_permalink( $post ).'">'.get_the_title( $post ).curatescape_subtitle( $post ).'</a></h3>';
-				$html .= '<p>'.substr($excerpt, 0, 240).'...</p>';
+			if($post->location_coordinates){
+				$excerpt = $post->post_excerpt ? $post->post_excerpt : $post->post_content;
+				$html .= '<div class="curatescape-tour-location curatescape-flex">';
+					$html .= get_the_post_thumbnail( $post, 'thumbnail');
+					$html .= '<div>';
+					$html .= '<h3><a href="'.get_the_permalink( $post ).'">'.get_the_title( $post ).curatescape_subtitle( $post ).'</a></h3>';
+					$html .= '<p>'.substr($excerpt, 0, 240).'...</p>';
+					$html .= '</div>';
 				$html .= '</div>';
-			$html .= '</div>';
+			}
 		}
 		$html .= '</div>';
 		return '<section class="curatescape-section curatescape-locations-section">'.$html.'</section>';

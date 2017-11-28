@@ -63,9 +63,9 @@ var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 });
 
 var mapbox_sattelite_streets = L.tileLayer('https://api.mapbox.com/v4/mapbox.streets-satellite/{z}/{x}/{y}{retina}.png?access_token={accessToken}', {
-    	attribution: '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> | <a href="https://www.mapbox.com/feedback/">Mapbox</a>',
-    	retina: (L.Browser.retina) ? '@2x' : '',
-		accessToken: token,
+	attribution: '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> | <a href="https://www.mapbox.com/feedback/">Mapbox</a>',
+	retina: (L.Browser.retina) ? '@2x' : '',
+	accessToken: token,
 });	
 
 var toplayer;	
@@ -140,27 +140,29 @@ client.get(Endpoint('stories'), function(response) {
     data=JSON.parse(response);
     var markerArray = new Array();
     data.forEach(function(story){
-	    var featured_img = story._embedded['wp:featuredmedia'][0];
-	    var coords = JSON.parse(story.meta.location_coordinates);
-	    var title = '<strong>'+story.title.rendered+'</strong>';
-	    var subtitle = story.meta.story_subtitle ? '<br><em>'+story.meta.story_subtitle+'</em>' : '';
-	    var permalink = story.link;
-	    var thumbsrc = featured_img.media_details.sizes.medium.source_url;
-		var html ='<a class="curatescape_map_thumb" href="'+permalink+'" style="background-image:url('+thumbsrc+')"></a>';
-		html += '<a class="curatescape_map_title" href="'+permalink+'">'+title+subtitle+'</a>';
-		
-		if(coords){
-			var marker = new L.marker(coords,markerconfig).addTo(map);
-			marker.on("click", function(e){
-				position = marker.getLatLng();
-				marker.bindPopup(html);
-				e.preventDefault;
-			});	
-			markerArray.push(marker);
-			if(clustering) clusters.addLayer(marker);
-		}
-		var markerGroup = new L.featureGroup(markerArray);
-		map.fitBounds(markerGroup.getBounds());		    
+	    if(story.meta.location_coordinates){
+		    var featured_img = story._embedded['wp:featuredmedia'][0];
+		    var coords = JSON.parse(story.meta.location_coordinates);
+		    var title = '<strong>'+story.title.rendered+'</strong>';
+		    var subtitle = story.meta.story_subtitle ? '<br><em>'+story.meta.story_subtitle+'</em>' : '';
+		    var permalink = story.link;
+		    var thumbsrc = featured_img.media_details.sizes.medium.source_url;
+			var html ='<a class="curatescape_map_thumb" href="'+permalink+'" style="background-image:url('+thumbsrc+')"></a>';
+			html += '<a class="curatescape_map_title" href="'+permalink+'">'+title+subtitle+'</a>';
+			
+			if(coords){
+				var marker = new L.marker(coords,markerconfig).addTo(map);
+				marker.on("click", function(e){
+					position = marker.getLatLng();
+					marker.bindPopup(html);
+					e.preventDefault;
+				});	
+				markerArray.push(marker);
+				if(clustering) clusters.addLayer(marker);
+			}
+			var markerGroup = new L.featureGroup(markerArray);
+			map.fitBounds(markerGroup.getBounds());		 
+		}   
     });
 }, function(error){
 	console.error('Curatescape Map -- HTTP Error: '+error);
