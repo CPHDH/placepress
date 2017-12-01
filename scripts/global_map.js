@@ -141,12 +141,12 @@ client.get(Endpoint('stories'), function(response) {
     var markerArray = new Array();
     data.forEach(function(story){
 	    if(story.meta.location_coordinates){
-		    var featured_img = story._embedded['wp:featuredmedia'][0];
+		    var featured_img = story._embedded['wp:featuredmedia'] ? story._embedded['wp:featuredmedia'][0] : null;
 		    var coords = JSON.parse(story.meta.location_coordinates);
 		    var title = '<strong>'+story.title.rendered+'</strong>';
 		    var subtitle = story.meta.story_subtitle ? '<br><em>'+story.meta.story_subtitle+'</em>' : '';
 		    var permalink = story.link;
-		    var thumbsrc = featured_img.media_details.sizes.medium.source_url;
+		    var thumbsrc = featured_img ? featured_img.media_details.sizes.medium.source_url : null;
 			var html ='<a class="curatescape_map_thumb" href="'+permalink+'" style="background-image:url('+thumbsrc+')"></a>';
 			html += '<a class="curatescape_map_title" href="'+permalink+'">'+title+subtitle+'</a>';
 			

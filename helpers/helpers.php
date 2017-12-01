@@ -149,10 +149,13 @@ function curatescape_video_playlist($video,$containerTag='section',$includeHeadi
 ** media content already placed via shortcodes will be omitted from curatescape_filter_content()
 */	
 function curatescape_display_media_section($post, $includeImages=true, $includeAudio=true, $includeVideo=true){
+	$html = null;
 	$media=curatescape_get_story_media($post);
-	$html = count($media['images']) && $includeImages ? curatescape_image_gallery($media['images']) : null;
-	$html .= count($media['audio']) && $includeAudio ? curatescape_audio_playlist($media['audio']) : null;
-	$html .= count($media['video']) && $includeVideo ? curatescape_video_playlist($media['video']) : null;
+	if(count($media)){
+		$html .= count($media['images']) && $includeImages ? curatescape_image_gallery($media['images']) : null;
+		$html .= count($media['audio']) && $includeAudio ? curatescape_audio_playlist($media['audio']) : null;
+		$html .= count($media['video']) && $includeVideo ? curatescape_video_playlist($media['video']) : null;
+	}
 	return $html;
 }
 
