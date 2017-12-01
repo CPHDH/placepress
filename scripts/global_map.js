@@ -122,7 +122,7 @@ map.on('popupopen', function(e) {
 });	
 
 // Clustering
-if(clustering){
+if(clustering !== '0'){
 	var clusters = L.markerClusterGroup({
 		spiderfyOnMaxZoom: false,
 		zoomToBoundsOnClick:true,
@@ -158,7 +158,7 @@ client.get(Endpoint('stories'), function(response) {
 					e.preventDefault;
 				});	
 				markerArray.push(marker);
-				if(clustering) clusters.addLayer(marker);
+				if(clustering !== '0') clusters.addLayer(marker);
 			}
 			var markerGroup = new L.featureGroup(markerArray);
 			map.fitBounds(markerGroup.getBounds());		 
