@@ -30,17 +30,9 @@ var HttpClient = function() {
         xhr.send( null );
     }
 }
-var Endpoint = function(type=null,id=null,embed=true){
-	var wp_rest_api = window.location.protocol+'//'+window.location.hostname+'/wp-json/wp/v2/';
-	var wp_rest_api_stories=wp_rest_api+'stories/';
-	var wp_rest_api_media=wp_rest_api+'media/';	
-	if(type=='stories'){
-		return wp_rest_api_stories+'?_embed=true';
-	}else if( (type=='media') && id){
-		return wp_rest_api_media+id
-	}else{
-		return wp_rest_api_stories
-	}
+
+var CuratescapeStoriesAPI = function(){
+	return window.location.protocol+'//'+window.location.hostname+'?feed=curatescape_stories_public';
 }
 
 // Do Map
@@ -136,18 +128,17 @@ if(clustering !== '0'){
 
 // Do Markers
 var client = new HttpClient();
-client.get(Endpoint('stories'), function(response) {
+client.get(CuratescapeStoriesAPI(), function(response) {
     data=JSON.parse(response);
     var markerArray = new Array();
     data.forEach(function(story){
-	    if(story.meta.location_coordinates){
-		    var featured_img = story._embedded['wp:featuredmedia'] ? story._embedded['wp:featuredmedia'][0] : null;
-		    var coords = JSON.parse(story.meta.location_coordinates);
-		    var title = '<strong>'+story.title.rendered+'</strong>';
-		    var subtitle = story.meta.story_subtitle ? '<br><em>'+story.meta.story_subtitle+'</em>' : '';
-		    var permalink = story.link;
-		    var thumbsrc = featured_img ? featured_img.media_details.sizes.medium.source_url : null;
-			var html ='<a class="curatescape_map_thumb" href="'+permalink+'" style="background-image:url('+thumbsrc+')"></a>';
+	    if(story.location_coordinates){
+		    var featured_img = story.thumb ? story.thumb : null;
+		    var coords = JSON.parse(story.location_coordinates);
+		    var title = '<strong>'+story.title+'</strong>';
+		    var subtitle = story.subtitle ? '<br><em>'+story.subtitle+'</em>' : '';
+		    var permalink = story.permalink;
+			var html ='<a class="curatescape_map_thumb" href="'+permalink+'" style="background-image:url('+featured_img+')"></a>';
 			html += '<a class="curatescape_map_title" href="'+permalink+'">'+title+subtitle+'</a>';
 			
 			if(coords){

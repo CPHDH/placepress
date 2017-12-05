@@ -19,7 +19,7 @@
 ?>
 </ul>
 <script>
-var endpoint = '<?php echo get_site_url().'?feed=curatescape_stories';?>';	
+var endpoint = '<?php echo get_site_url().'?feed=curatescape_stories_admin';?>';	
 var stories=new Array();
 
 // translatable labels and messages
