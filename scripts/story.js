@@ -127,7 +127,7 @@ if(document.getElementById(mapID)){
 }
 
 // Photoswipe
-var items = document.getElementById('pswp-images').getAttribute('data-images');
+var items = document.getElementById('pswp-images').innerHTML;
 if(items){
 	items=JSON.parse(decodeEntities(items));
 	var pswpElement = document.getElementById('pswp');
