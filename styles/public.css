@@ -25,6 +25,9 @@ h2.curatescape-section-heading.curatescape-section-heading {
 .curatescape-flex{
 	display: flex;
 }
+.curatescape-hidden{
+	display: none;
+}
 
 /* IMAGE GRID */
 .curatescape-image-grid{
@@ -123,7 +126,7 @@ h2.curatescape-section-heading.curatescape-section-heading {
 	background-color: #ccc;
 }
 
-.z-index-adjust .leaflet-top, .leaflet-bottom{
+.z-index-adjust .leaflet-top, .z-index-adjust .leaflet-bottom{
 	z-index: 3 !important;
 }
 
@@ -133,4 +136,20 @@ h2.curatescape-section-heading.curatescape-section-heading {
 
 .z-index-adjust .leaflet-pane{
 	z-index: 1 !important;
+}
+
+/* MAP CAPTION */
+.curatescape-map-section figcaption.curatescape-figcaption{
+	font-style: italic;
+	display: inline-block;
+	padding: .5em 1em;
+}
+
+
+/* RELATED RESOURCES */
+ul.curatescape-related-sources li{
+	list-style-type: square;
+}
+ul.curatescape-related-sources li a{
+	word-wrap: break-word;
 }
