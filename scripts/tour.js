@@ -118,9 +118,8 @@ if(document.getElementById(mapID)){
 			if(e.coords){
 				var thumbsrc=e.thumb ? e.thumb : '';
 				var title='<strong>'+e.title+'</strong>';
-				var subtitle=e.subtitle ? '<br><em>'+e.subtitle+'</em>' : '';
 				var permalink=e.permalink;
-				var html ='<a class="curatescape_map_thumb" href="'+permalink+'" style="background-image:url('+thumbsrc+')"></a><a class="curatescape_map_title" href="'+permalink+'">'+title+subtitle+'</a>';			
+				var html ='<a class="curatescape_map_thumb" href="'+permalink+'" style="background-image:url('+thumbsrc+')"></a><a class="curatescape_map_title" href="'+permalink+'">'+title+'</a>';			
 				var coords = JSON.parse(e.coords);
 				var marker = new L.marker(coords,markerconfig).addTo(map);
 				marker.on("click", function(e){

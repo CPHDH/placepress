@@ -136,10 +136,9 @@ client.get(CuratescapeStoriesAPI(), function(response) {
 		    var featured_img = story.thumb ? story.thumb : null;
 		    var coords = JSON.parse(story.location_coordinates);
 		    var title = '<strong>'+story.title+'</strong>';
-		    var subtitle = story.subtitle ? '<br><em>'+story.subtitle+'</em>' : '';
 		    var permalink = story.permalink;
 			var html ='<a class="curatescape_map_thumb" href="'+permalink+'" style="background-image:url('+featured_img+')"></a>';
-			html += '<a class="curatescape_map_title" href="'+permalink+'">'+title+subtitle+'</a>';
+			html += '<a class="curatescape_map_title" href="'+permalink+'">'+title+'</a>';
 			
 			if(coords){
 				var marker = new L.marker(coords,markerconfig).addTo(map);
