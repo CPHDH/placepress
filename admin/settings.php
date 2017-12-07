@@ -168,6 +168,15 @@ function curatescape_register_settings(){
 	);
 
 	add_settings_field(
+		'disable_pswp',
+		esc_html__('Disable Image Viewer','wp_curatescape'),
+		'curatescape_callback_field_checkbox',
+		'curatescape',
+		'curatescape_section_other',
+		['id'=>'disable_pswp','label'=>esc_html__('Disable Photoswipe Image Viewer (images and captions will appear inline in a single column)','wp_curatescape')]
+	);	
+
+	add_settings_field(
 		'content_subtitle',
 		esc_html__('Subtitle','wp_curatescape'),
 		'curatescape_callback_field_checkbox',
@@ -233,6 +242,7 @@ function curatescape_options_default(){
 		'maki_markers'=>false,
 		'maki_markers_color'=>null,
 		'marker_clustering'=>false,
+		'disable_pswp'=>false,
 	);
 }
 
@@ -421,6 +431,10 @@ function curatescape_callback_validate_options($input){
 	if( ! isset( $input['disable_tours'] )){
 		$input['disable_tours'] = null;
 	} $input['disable_tours'] = $input['disable_tours'] == 1 ? 1 : 0;
+
+	if( ! isset( $input['disable_pswp'] )){
+		$input['disable_pswp'] = null;
+	} $input['disable_pswp'] = $input['disable_pswp'] == 1 ? 1 : 0;
 
 	if( ! isset( $input['content_map'] )){
 		$input['content_map'] = null;

@@ -65,6 +65,25 @@ h2.curatescape-section-heading.curatescape-section-heading {
 	transform:scale(1.1);
 }
 
+/* INLINE IMAGES (PSWP DISABLED) */
+.curatescape-inline-image-outer{
+	border-bottom: 1px solid #eaeaea;
+	margin-bottom: 1em;
+}
+a.curatescape-inline-image{
+	height: 40vh;
+	min-height: 200px;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	display: block;
+}
+.curatescape-inline-title{
+	font-weight: bold;
+	display: inline-block;
+	margin: .5em 0;
+}
+
 /* TOUR LOCATIONS */
 .curatescape-tour-locations{
 	width: 100%;

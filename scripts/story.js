@@ -127,9 +127,9 @@ if(document.getElementById(mapID)){
 }
 
 // Photoswipe
-var items = document.getElementById('pswp-images').innerHTML;
+var items = document.getElementById('pswp-images');
 if(items){
-	items=JSON.parse(decodeEntities(items));
+	items=JSON.parse(decodeEntities(items.innerHTML));
 	var pswpElement = document.getElementById('pswp');
 	var options = {};
 	var gallery=document.getElementsByClassName('curatescape-image-grid')[0];
