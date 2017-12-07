@@ -249,7 +249,7 @@ function curatescape_callback_section_mapbox(){
 }
 
 function curatescape_callback_section_content(){
-	echo '<p>'.sprintf(__('Curatescape attempts to add custom fields to your theme automatically using WordPress plugin filters. If you have compatibility issues with your theme or would like to customize where custom content appears, you can use the settings below to disable content filters. A full list of helper functions is available at %s','wp_curatescape'),'<a href="https://github.com/CPHDH/wp_curatescape#readme">github.com/CPHDH/wp_curatescape</a>').'</p>';
+	echo '<p>'.sprintf(__('Curatescape attempts to add custom fields to your theme automatically using WordPress plugin filters. If you have compatibility issues with your theme or would like to customize where custom content appears, you can use the settings below to disable content filters. A full list of shortcodes and helper functions is available at %s','wp_curatescape'),'<a href="https://github.com/CPHDH/wp_curatescape#readme">github.com/CPHDH/wp_curatescape</a>').'</p>';
 }
 
 function curatescape_callback_section_other(){
