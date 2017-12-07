@@ -93,18 +93,18 @@ a.curatescape-inline-image{
 	flex-direction: row;
 	flex-basis: content;
 	justify-content: flex-start;
-	margin: 2em 0 4em 0;
+	margin: 2em 0 2em 0;
 }
 .curatescape-tour-location > img{
 	margin-right: 1em;
-	height:140px;
-	width: 140px;
+	height:140px !important;
+	width: 140px !important;
 	border: 10px solid #ccc;
 	border-radius: 50%;
+	flex-grow: 0;
 }
 .curatescape-tour-location > div{
-	max-height: 150px;
-	overflow: hidden;
+	padding-left: 1em;
 }
 
 /* MAP */
