@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-28 14:59+0000\n"
+"POT-Creation-Date: 2017-12-07 19:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -46,7 +46,7 @@ msgstr ""
 msgid "Story Header"
 msgstr ""
 
-#: admin/metaboxes.php:266 admin/settings.php:172
+#: admin/metaboxes.php:266 admin/settings.php:181
 msgid "Subtitle"
 msgstr ""
 
@@ -54,7 +54,7 @@ msgstr ""
 msgid "Enter a subtitle for the tour."
 msgstr ""
 
-#: admin/metaboxes.php:275 admin/settings.php:181
+#: admin/metaboxes.php:275 admin/settings.php:190
 msgid "Lede"
 msgstr ""
 
@@ -409,11 +409,11 @@ msgstr ""
 msgid "Default Map Type"
 msgstr ""
 
-#: admin/settings.php:101 admin/settings.php:412
+#: admin/settings.php:101 admin/settings.php:422
 msgid "Street (Carto Light)"
 msgstr ""
 
-#: admin/settings.php:102 admin/settings.php:413
+#: admin/settings.php:102 admin/settings.php:423
 msgid "Terrain (Stamen)"
 msgstr ""
 
@@ -475,75 +475,85 @@ msgstr ""
 msgid "Disable Tours"
 msgstr ""
 
+#: admin/settings.php:172
+msgid "Disable Image Viewer"
+msgstr ""
+
 #: admin/settings.php:176
-msgid "Automatically add Subtitle"
+msgid ""
+"Disable Photoswipe Image Viewer (images and captions will appear inline in a "
+"single column)"
 msgstr ""
 
 #: admin/settings.php:185
-msgid "Automatically add Lede"
-msgstr ""
-
-#: admin/settings.php:190
-msgid "Related Sources"
+msgid "Automatically add Subtitle"
 msgstr ""
 
 #: admin/settings.php:194
-msgid "Automatically add Related Sources"
+msgid "Automatically add Lede"
 msgstr ""
 
 #: admin/settings.php:199
-msgid "Media"
+msgid "Related Sources"
 msgstr ""
 
 #: admin/settings.php:203
-msgid "Automatically add Photo Gallery and Audio/Video Playlists"
+msgid "Automatically add Related Sources"
 msgstr ""
 
 #: admin/settings.php:208
-msgid "Map"
+msgid "Media"
 msgstr ""
 
 #: admin/settings.php:212
+msgid "Automatically add Photo Gallery and Audio/Video Playlists"
+msgstr ""
+
+#: admin/settings.php:217
+msgid "Map"
+msgstr ""
+
+#: admin/settings.php:221
 msgid "Automatically add Map"
 msgstr ""
 
-#: admin/settings.php:244
+#: admin/settings.php:254
 msgid "Customize default settings for Curatescape maps."
 msgstr ""
 
-#: admin/settings.php:248
+#: admin/settings.php:258
 #, php-format
 msgid ""
 "All Mapbox options require an API access token. Get your token at %s (some "
 "Mapbox some functionality is rate-limited)."
 msgstr ""
 
-#: admin/settings.php:252
+#: admin/settings.php:262
 #, php-format
 msgid ""
 "Curatescape attempts to add custom fields to your theme automatically using "
 "WordPress plugin filters. If you have compatibility issues with your theme "
 "or would like to customize where custom content appears, you can use the "
-"settings below to disable content filters. A full list of helper functions "
-"is available at %s"
+"settings below to disable content filters. A full list of shortcodes and "
+"helper functions is available at %s"
 msgstr ""
 
-#: admin/settings.php:256
+#: admin/settings.php:266
 msgid "Customize additional Curatescape settings."
 msgstr ""
 
-#: admin/settings.php:383
+#: admin/settings.php:393
 msgid "(empty)"
 msgstr ""
 
-#: admin/settings.php:387
+#: admin/settings.php:397
 #, php-format
 msgid ""
 "You entered %s for Default Coordinates. Please enter valid coordinates. "
 "Reverting to plugin default coordinates. Please try again."
 msgstr ""
 
-#: admin/settings.php:414
+#: admin/settings.php:424
 msgid "Street (Open Street Maps)"
 msgstr ""
 
