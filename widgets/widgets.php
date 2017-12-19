@@ -28,19 +28,23 @@ class Curatescape_Widget extends WP_Widget {
 	 * @param array $instance Saved values from database.
 	 */
 	public function widget( $args, $instance ) {
-		$p=get_posts(array(
-			'post_type'=>$instance['type'],
-			'numberposts'=>$instance['number'],
-		));		
+		if( ! empty( $instance['type'] ) && ! empty( $instance['number'] ) ){
+			$p=get_posts(array(
+				'post_type'=>$instance['type'],
+				'numberposts'=>$instance['number'],
+			));		
+		}
 		echo $args['before_widget'];
 		if ( ! empty( $instance['title'] ) ) {
 			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
 		}
-		echo '<ul>';
-		foreach($p as $post){
-			echo '<li><a href="'.get_permalink( $post ).'">'.$post->post_title.'</a></li>';
+		if(isset($p)){
+			echo '<ul>';
+			foreach($p as $post){
+				echo '<li><a href="'.get_permalink( $post ).'">'.$post->post_title.'</a></li>';
+			}
+			echo '</ul>';
 		}
-		echo '</ul>';
 		echo $args['after_widget'];
 	}
 
