@@ -3,7 +3,7 @@
 Plugin Name: Curatescape for WordPress
 Plugin URI: https://curatescape.org
 Description: Publish location-based, media-rich, structured narratives compatible with Curatescape mobile apps. Designed for public historians, urbanists, and other humanities researchers. Adds Tour and Story post types, as well as custom taxonomies and metadata fields.
-Version: 0.9
+Version: 0.9.3
 Text Domain: wp_curatescape
 Domain Path: /languages
 Author: CSU Center for Public History + Digital Humanities 
@@ -53,6 +53,11 @@ require_once plugin_dir_path( __FILE__ ). 'admin/post_types.php';
 ** FIELDS AND METABOXES
 */
 require_once plugin_dir_path( __FILE__ ). 'admin/metaboxes.php';
+
+/* 
+** MENUS
+*/
+require_once plugin_dir_path( __FILE__ ). 'admin/menus.php';
 
 /*
 ** JSON OUTPUT
