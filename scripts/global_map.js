@@ -32,7 +32,8 @@ var HttpClient = function() {
 }
 
 var CuratescapeStoriesAPI = function(){
-	return window.location.protocol+'//'+window.location.hostname+'?feed=curatescape_stories_public';
+	var domain = window.location.hostname == 'localhost' ? window.location.hostname +':'+ window.location.port : window.location.hostname;
+	return window.location.protocol+'//'+domain+'?feed=curatescape_stories_public';
 }
 
 // Do Map
