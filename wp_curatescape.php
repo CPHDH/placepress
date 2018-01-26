@@ -158,14 +158,16 @@ function curatescape_public_scripts(){
 	if( is_singular('stories') ){
 		wp_enqueue_style( 'curatescape_public_css' );
 	    wp_enqueue_style( 'leafletcss' );
-	    wp_enqueue_style( 'photoswipecss' );
-	    wp_enqueue_style( 'photoswipecss_ui' );	    
 	    wp_enqueue_script( 'leafletjs' );
-	    wp_enqueue_script( 'photoswipejs' );
-	    wp_enqueue_script( 'photoswipejs_ui' );	      	
-	    if(curatescape_setting( 'maki_markers' )){
-		    wp_enqueue_script( 'makijs' );
-	    }	
+	    if( curatescape_setting('disable_pswp') !== 1 ){
+		    wp_enqueue_style( 'photoswipecss' );
+		    wp_enqueue_style( 'photoswipecss_ui' );	
+		    wp_enqueue_script( 'photoswipejs' );
+		    wp_enqueue_script( 'photoswipejs_ui' );	
+	    }     	
+	    if( curatescape_setting( 'maki_markers' )){
+		    wp_enqueue_script( 'makijs' );	
+		}
 	    wp_enqueue_script( 'curatescape_story_js' );
 	}   
 	if( is_singular( 'tours' ) ){
@@ -174,7 +176,7 @@ function curatescape_public_scripts(){
 	    wp_enqueue_script( 'leafletjs' );  	
 	    if(curatescape_setting( 'maki_markers' )){
 		    wp_enqueue_script( 'makijs' );
-	    }	
+		}
 	    wp_enqueue_script( 'curatescape_tour_js' );		    
 	}  
 	// See shortcodes.php for additional script and style inclusions. 	
