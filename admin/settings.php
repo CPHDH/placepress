@@ -110,7 +110,7 @@ function curatescape_register_settings(){
 		'curatescape_callback_field_text_number',
 		'curatescape',
 		'curatescape_section_map',
-		['id'=>'default_zoom','label'=>esc_html__('Choose a number between 0 (zoomed all the way out) and 20 (zoomed all the way in).','wp_curatescape'),'min'=>0,'max'=>20]
+		['id'=>'default_zoom','label'=>esc_html__('Choose a number between 0 (zoomed out) and 20 (zoomed in). Setting this option to negative one (-1) will auto-fit all markers to the available space.','wp_curatescape'),'min'=>-1,'max'=>20]
 	);
 
 	add_settings_field(

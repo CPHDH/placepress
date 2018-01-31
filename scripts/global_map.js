@@ -39,8 +39,9 @@ var CuratescapeStoriesAPI = function(){
 // Do Map
 var map = L.map(mapID, {
     center: JSON.parse(center),
-    zoom: parseInt(zoom),
+    zoom: Math.max(parseInt(zoom),0),
 });	
+
 map.scrollWheelZoom.disable();
 
 var stamen_terrain = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}@2x.jpg', {
@@ -152,8 +153,10 @@ client.get(CuratescapeStoriesAPI(), function(response) {
 				if(clustering !== '0') clusters.addLayer(marker);
 			}
 			var markerGroup = new L.featureGroup(markerArray);
-			map.fitBounds(markerGroup.getBounds());		 
-		}   
+			if(zoom < 0){
+				map.fitBounds(markerGroup.getBounds());
+			}
+		}  
     });
 }, function(error){
 	console.error('Curatescape Map -- HTTP Error: '+error);

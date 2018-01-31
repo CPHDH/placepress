@@ -37,7 +37,7 @@
 		current_zoom = parseInt(current_zoom);
 		zoom=current_zoom;
 	}else{
-		zoom=default_zoom;
+		zoom=Math.max(parseInt(default_zoom),0);
 	}
 	
 	

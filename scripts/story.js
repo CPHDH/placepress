@@ -37,7 +37,7 @@ if(document.getElementById(mapID)){
 
 	var map = L.map(mapID, {
 	    center: JSON.parse(center), 
-	    zoom: parseInt(zoom),
+	    zoom: Math.max(parseInt(zoom),0),
 	});	
 	map.scrollWheelZoom.disable();
 	
