@@ -141,16 +141,20 @@ client.get(CuratescapeStoriesAPI(), function(response) {
 		    var permalink = story.permalink;
 			var html ='<a class="curatescape_map_thumb" href="'+permalink+'" style="background-image:url('+featured_img+')"></a>';
 			html += '<a class="curatescape_map_title" href="'+permalink+'">'+title+'</a>';
-			
 			if(coords){
-				var marker = new L.marker(coords,markerconfig).addTo(map);
+				var marker = new L.marker(coords,markerconfig);
 				marker.on("click", function(e){
 					position = marker.getLatLng();
 					marker.bindPopup(html);
 					e.preventDefault;
 				});	
+				if(clustering !== '0'){
+					clusters.addLayer(marker);
+					map.addLayer(clusters);
+				}else{
+					marker.addTo(map);
+				}
 				markerArray.push(marker);
-				if(clustering !== '0') clusters.addLayer(marker);
 			}
 			var markerGroup = new L.featureGroup(markerArray);
 			if(zoom < 0){
