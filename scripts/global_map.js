@@ -157,8 +157,10 @@ client.get(CuratescapeStoriesAPI(), function(response) {
 				markerArray.push(marker);
 			}
 			var markerGroup = new L.featureGroup(markerArray);
-			if(zoom < 0){
-				map.fitBounds(markerGroup.getBounds());
+			if(zoom < 0){ // i.e. if configured to negative one for "fit all" setting
+				map.fitBounds(markerGroup.getBounds(),{
+					padding:[50,50]
+				});
 			}
 		}  
     });

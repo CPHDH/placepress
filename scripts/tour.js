@@ -131,6 +131,8 @@ if(document.getElementById(mapID)){
 			}
 		});	
 		var markerGroup = new L.featureGroup(markerArray);
-		map.fitBounds(markerGroup.getBounds());	
+		map.fitBounds(markerGroup.getBounds(), {
+			padding:[50,50]
+		});	
 	}
 }
