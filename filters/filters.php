@@ -64,9 +64,8 @@ function curatescape_hidden_meta_boxes($hidden, $screen) {
 /*
 ** Editor Filters
 */
-if (has_filter('gutenberg_can_edit_post_type')){
-	add_filter('gutenberg_can_edit_post_type', 'curatescape_disable_gutenberg', 10, 2);
-}
+add_filter('gutenberg_can_edit_post_type', 'curatescape_disable_gutenberg', 10, 2);
+
 function curatescape_disable_gutenberg($can_edit, $post_type) {
 	
 	if ($post_type === 'stories') return false; // disable for stories
