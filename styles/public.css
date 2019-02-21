@@ -1,36 +1,36 @@
-h1 span.curatescape-subtitle {
+h1 span.placepress-subtitle {
     font-weight: bold;
     font-style: italic;
 }
-p.curatescape-lede {
+p.placepress-lede {
     font-size: 1.4em;
     font-style: italic;
 }
-.curatescape-audio,
-.curatescape-video{
+.placepress-audio,
+.placepress-video{
 	width: 100%;
 	max-width: 100%;
 }
-.curatescape-figure{
+.placepress-figure{
 	width: 100%;
 	margin: 0;
 }
-.curatescape-section + p,
-.curatescape-section + .curatescape-section{
+.placepress-section + p,
+.placepress-section + .placepress-section{
 	margin-top: 2em;
 }
-h2.curatescape-section-heading.curatescape-section-heading {
+h2.placepress-section-heading.placepress-section-heading {
     border-bottom: 3px solid #ccc;
 }
-.curatescape-flex{
+.placepress-flex{
 	display: flex;
 }
-.curatescape-hidden{
+.placepress-hidden{
 	display: none;
 }
 
 /* IMAGE GRID */
-.curatescape-image-grid{
+.placepress-image-grid{
 	flex-direction: row;
 	flex-flow: wrap;
 	flex-basis: content;
@@ -38,9 +38,9 @@ h2.curatescape-section-heading.curatescape-section-heading {
 	width: 102%;
 	margin-left: -1%;
 	margin-right: -1%;
-	
+
 }
-.curatescape-image-grid > div{
+.placepress-image-grid > div{
 	flex-grow:1;
 	margin: .5em;
 	background-color: #000;
@@ -51,7 +51,7 @@ h2.curatescape-section-heading.curatescape-section-heading {
 	overflow: hidden;
 	min-height: 14em; /* firefox doesn't do % based heights or vertical padding/margins in flexbox */
 }
-.curatescape-image-grid > div > div{
+.placepress-image-grid > div > div{
 	height: 100%;
 	width: 100%;
 	top:0;
@@ -61,16 +61,16 @@ h2.curatescape-section-heading.curatescape-section-heading {
 	background-repeat: no-repeat;
 	transition: transform .5s;
 }
-.curatescape-image-grid > div > div:hover{
+.placepress-image-grid > div > div:hover{
 	transform:scale(1.1);
 }
 
 /* INLINE IMAGES (PSWP DISABLED) */
-.curatescape-inline-image-outer{
+.placepress-inline-image-outer{
 	border-bottom: 1px solid #eaeaea;
 	margin-bottom: 1em;
 }
-a.curatescape-inline-image{
+a.placepress-inline-image{
 	height: 40vh;
 	min-height: 200px;
 	background-position: center center;
@@ -78,24 +78,24 @@ a.curatescape-inline-image{
 	background-size: cover;
 	display: block;
 }
-.curatescape-inline-title{
+.placepress-inline-title{
 	font-weight: bold;
 	display: inline-block;
 	margin: .5em 0;
 }
 
 /* TOUR LOCATIONS */
-.curatescape-tour-locations{
+.placepress-tour-locations{
 	width: 100%;
 }
-.curatescape-tour-location{
+.placepress-tour-location{
 	width: 100%;
 	flex-direction: row;
 	flex-basis: content;
 	justify-content: flex-start;
 	margin: 2em 0 2em 0;
 }
-.curatescape-tour-location > img{
+.placepress-tour-location > img{
 	margin-right: 1em;
 	height:140px !important;
 	width: 140px !important;
@@ -103,12 +103,12 @@ a.curatescape-inline-image{
 	border-radius: 50%;
 	flex-grow: 0;
 }
-.curatescape-tour-location > div{
+.placepress-tour-location > div{
 	padding-left: 1em;
 }
 
 /* MAP */
-.curatescape-map{
+.placepress-map{
 	height: 30em;
 	height: 45vh;
 	min-height: 22em;
@@ -116,30 +116,30 @@ a.curatescape-inline-image{
 	background: #eaeaea;
 }
 
-#curatescape-global-map{
+#placepress-global-map{
 	height: 40em;
-	height: 55vh;	
+	height: 55vh;
 }
 
-.curatescape-map .leaflet-popup-content-wrapper{
+.placepress-map .leaflet-popup-content-wrapper{
 	border-radius: 0;
 }
-.curatescape-map .leaflet-popup-content{
+.placepress-map .leaflet-popup-content{
 	margin: 0;
 	min-width: 234px;
 }
-.curatescape-map .leaflet-popup-content a{
+.placepress-map .leaflet-popup-content a{
 	text-decoration: none;
 }
-.curatescape-map .leaflet-popup-content .curatescape_map_title{
+.placepress-map .leaflet-popup-content .placepress_map_title{
 	margin: 10px 10px;
 	text-align: left;
 	display: inline-block;
 }
-.curatescape-map .leaflet-popup-content .curatescape_map_thumb{
+.placepress-map .leaflet-popup-content .placepress_map_thumb{
 	height: 120px;
 	width: 100%;
-	display: block;	
+	display: block;
 	background-size: cover;
 	background-position: center center;
 	background-color: #ccc;
@@ -158,7 +158,7 @@ a.curatescape-inline-image{
 }
 
 /* MAP CAPTION */
-.curatescape-map-section figcaption.curatescape-figcaption{
+.placepress-map-section figcaption.placepress-figcaption{
 	font-style: italic;
 	display: inline-block;
 	padding: .5em 1em;
@@ -166,9 +166,9 @@ a.curatescape-inline-image{
 
 
 /* RELATED RESOURCES */
-ul.curatescape-related-sources li{
+ul.placepress-related-sources li{
 	list-style-type: square;
 }
-ul.curatescape-related-sources li a{
+ul.placepress-related-sources li a{
 	word-wrap: break-word;
 }

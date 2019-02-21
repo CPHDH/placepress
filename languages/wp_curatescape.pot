@@ -518,7 +518,7 @@ msgid "Automatically add Map"
 msgstr ""
 
 #: admin/settings.php:254
-msgid "Customize default settings for Curatescape maps."
+msgid "Customize default settings for PlacePress maps."
 msgstr ""
 
 #: admin/settings.php:258
@@ -531,7 +531,7 @@ msgstr ""
 #: admin/settings.php:262
 #, php-format
 msgid ""
-"Curatescape attempts to add custom fields to your theme automatically using "
+"PlacePress attempts to add custom fields to your theme automatically using "
 "WordPress plugin filters. If you have compatibility issues with your theme "
 "or would like to customize where custom content appears, you can use the "
 "settings below to disable content filters. A full list of shortcodes and "
@@ -539,7 +539,7 @@ msgid ""
 msgstr ""
 
 #: admin/settings.php:266
-msgid "Customize additional Curatescape settings."
+msgid "Customize additional PlacePress settings."
 msgstr ""
 
 #: admin/settings.php:393
@@ -559,11 +559,11 @@ msgstr ""
 
 #. Base ID
 #: widgets/widgets.php:17
-msgid "Curatescape Test Widget"
+msgid "PlacePress Test Widget"
 msgstr ""
 
 #: widgets/widgets.php:18
-msgid "A Curatescape Widget"
+msgid "A PlacePress Widget"
 msgstr ""
 
 #: widgets/widgets.php:35
@@ -656,19 +656,19 @@ msgid "Getting stories..."
 msgstr ""
 
 #. Name of the plugin
-msgid "Curatescape for WordPress"
+msgid "PlacePress for WordPress"
 msgstr ""
 
 #. Description of the plugin
 msgid ""
 "Publish location-based, media-rich, structured narratives compatible with "
-"Curatescape mobile apps. Designed for public historians, urbanists, and "
+"PlacePress mobile apps. Designed for public historians, urbanists, and "
 "other humanities researchers. Adds Tour and Story post types, as well as "
 "custom taxonomies and metadata fields."
 msgstr ""
 
 #. URI of the plugin
-msgid "https://curatescape.org"
+msgid "https://placepress.org"
 msgstr ""
 
 #. Author of the plugin

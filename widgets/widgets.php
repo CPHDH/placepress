@@ -1,21 +1,21 @@
 <?php
 if( !defined('ABSPATH') ){
 	exit;
-}	
+}
 
 /**
- * Adds Curatescape_Widget widget.
+ * Adds PlacePress_Widget widget.
  */
-class Curatescape_Widget extends WP_Widget {
+class PlacePress_Widget extends WP_Widget {
 
 	/**
 	 * Register widget with WordPress.
 	 */
 	function __construct() {
 		parent::__construct(
-			'curatescape_widget', // Base ID
-			esc_html__( 'Curatescape Widget', 'wp_curatescape' ), // Name
-			array( 'description' => esc_html__( 'A Curatescape Widget', 'wp_curatescape' ), ) // Args
+			'placepress_widget', // Base ID
+			esc_html__( 'PlacePress Widget', 'wp_placepress' ), // Name
+			array( 'description' => esc_html__( 'A PlacePress Widget', 'wp_placepress' ), ) // Args
 		);
 	}
 
@@ -32,7 +32,7 @@ class Curatescape_Widget extends WP_Widget {
 			$p=get_posts(array(
 				'post_type'=>$instance['type'],
 				'numberposts'=>$instance['number'],
-			));		
+			));
 		}
 		echo $args['before_widget'];
 		if ( ! empty( $instance['title'] ) ) {
@@ -56,17 +56,17 @@ class Curatescape_Widget extends WP_Widget {
 	 * @param array $instance Previously saved values from database.
 	 */
 	public function form( $instance ) {
-		$title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'Curatescape', 'wp_curatescape' );
+		$title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'PlacePress', 'wp_placepress' );
 		$number = ! empty( $instance['number'] ) ? $instance['number'] : 3;
 		$type = ! empty( $instance['type'] ) ? $instance['type'] : 'stories';
-		$select_options = array('stories'=>esc_html__('Stories','wp_curatescape'),'tours'=>esc_html__('Tours','wp_curatescape'))
+		$select_options = array('stories'=>esc_html__('Stories','wp_placepress'),'tours'=>esc_html__('Tours','wp_placepress'))
 		?>
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_attr_e( 'Title:', 'wp_curatescape' ); ?></label> 
+			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_attr_e( 'Title:', 'wp_placepress' ); ?></label>
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
 		</p>
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'type' ) ); ?>"><?php esc_attr_e( 'Type:', 'wp_curatescape' ); ?></label>	
+			<label for="<?php echo esc_attr( $this->get_field_id( 'type' ) ); ?>"><?php esc_attr_e( 'Type:', 'wp_placepress' ); ?></label>
 			<select name="<?php echo esc_attr( $this->get_field_name( 'type' ) ); ?>">';
 				<?php foreach($select_options as $value=>$option){
 					$selected = selected( $type === $value,true,false );
@@ -75,11 +75,11 @@ class Curatescape_Widget extends WP_Widget {
 			</select>
 		</p>
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'number' ) ); ?>"><?php esc_attr_e( 'Number to show:', 'wp_curatescape' ); ?></label> 
-			<input id="<?php echo esc_attr( $this->get_field_id( 'number' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'number' ) ); ?>" type="number" min="1" max="10" value="<?php echo esc_attr( $number ); ?>">	
+			<label for="<?php echo esc_attr( $this->get_field_id( 'number' ) ); ?>"><?php esc_attr_e( 'Number to show:', 'wp_placepress' ); ?></label>
+			<input id="<?php echo esc_attr( $this->get_field_id( 'number' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'number' ) ); ?>" type="number" min="1" max="10" value="<?php echo esc_attr( $number ); ?>">
 		</p>
 
-		<?php 
+		<?php
 	}
 
 	/**
@@ -101,7 +101,7 @@ class Curatescape_Widget extends WP_Widget {
 	}
 }
 
-function register_curatescape_widget() {
-    register_widget( 'Curatescape_Widget' );
+function register_placepress_widget() {
+    register_widget( 'PlacePress_Widget' );
 }
-add_action( 'widgets_init', 'register_curatescape_widget' );
+add_action( 'widgets_init', 'register_placepress_widget' );

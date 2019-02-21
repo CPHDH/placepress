@@ -1,14 +1,14 @@
-<?php 
+<?php
 if( !defined('ABSPATH') ){
 	exit;
-}	
-add_action('admin_head-nav-menus.php', 'curatescape_add_metabox_menu_posttype_archive');
+}
+add_action('admin_head-nav-menus.php', 'placepress_add_metabox_menu_posttype_archive');
 
-function curatescape_add_metabox_menu_posttype_archive() {
-add_meta_box('curatescape-metabox-nav-menu-posttype', 'Custom Post Type Archives', 'curatescape_metabox_menu_posttype_archive', 'nav-menus', 'side', 'default');
+function placepress_add_metabox_menu_posttype_archive() {
+add_meta_box('placepress-metabox-nav-menu-posttype', 'Custom Post Type Archives', 'placepress_metabox_menu_posttype_archive', 'nav-menus', 'side', 'default');
 }
 
-function curatescape_metabox_menu_posttype_archive() {
+function placepress_metabox_menu_posttype_archive() {
 $post_types = get_post_types(array('show_in_nav_menus' => true, 'has_archive' => true), 'object');
 
 if ($post_types) :

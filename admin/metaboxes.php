@@ -1,12 +1,12 @@
 <?php
 if( !defined('ABSPATH') ){
 	exit;
-}	
+}
 
-class Curatescape_Meta_Box {
-		
+class PlacePress_Meta_Box {
+
 	public function __construct($id, $post_type, $metabox_title, $fields, $appendFile) {
-		
+
 		$this->id = $id;
 		$this->post_type = $post_type;
 		$this->fields = $fields;
@@ -17,7 +17,7 @@ class Curatescape_Meta_Box {
 		add_action( 'load-post-new.php', array( $this, 'init_metabox' ) );
 
 	}
-	
+
 
 	public function init_metabox() {
 
@@ -27,7 +27,7 @@ class Curatescape_Meta_Box {
 	}
 
 	public function add_metabox() {
-		
+
 		add_meta_box(
 			$this->id,
 			$this->metabox_title,
@@ -45,24 +45,24 @@ class Curatescape_Meta_Box {
 		$nonce_action = $this->id.'_nonce_action';
 		$nonce_name = $this->id.'_nonce';
 		wp_nonce_field( $nonce_action, $nonce_name );
-		
+
 		$html = null;
 		foreach($this->fields as $field){
-			
+
 			$value = get_post_meta( $post->ID, $field['name'], true );
 			if( empty( $value ) ) $value = '';
-			
+
 			$repeatable=$field['repeatable'];
 			$repeatable_button=( $repeatable > 0 ) ? '<div class="repeatable_button"><span class="dashicons dashicons-plus-alt"></span>Add</div>' : null;
-			
+
 			$ui_class= $field['custom_ui'] ? 'hidden custom_ui' : null;
-			
+
 			$html .= '<tr id="'.$field['name'].'_row" class="'.$ui_class.'">';
 			switch ($field['type']) {
-				
+
 				/* TEXT - repeatable */
 			    case 'text':
-				    if($repeatable){	    			    
+				    if($repeatable){
 					    $input=null;
 					    for($i=0; $i<=$repeatable; $i++){
 						    $user_value=isset($value[$i]) ? $value[$i] : null;
@@ -78,29 +78,29 @@ class Curatescape_Meta_Box {
 			        '<label for="'.$field['name'].'" class="'.$field['name'].'_label">'.$field['label'].'</label>'.
 			        '</th><td>'.$input.$repeatable_button.'<br><span class="description">'.$field['helper'].'</span></td>';
 			        continue 2;
-			        
-			    /* TEXTAREA - repeatable */    
+
+			    /* TEXTAREA - repeatable */
 			    case 'textarea':
-				    if($repeatable){	    			    
+				    if($repeatable){
 					    $input=null;
 					    for($i=0; $i<=$repeatable; $i++){
 						    $user_value=isset($value[$i]) ? $value[$i] : null;
 						    $visibility = (!$user_value && !$i==0) ? 'hidden' : 'visible'; // only show first field and fields with data
 						    $input .= '<div class="'.$field['name'].'_container'.' '.$visibility.'">';
-						    $input .= '<textarea id="'.$field['name'].'['.$i.']'.'" name="'.$field['name'].'['.$i.']'.'" class="'.$field['name'].'_field_'.$i.'"'. 
+						    $input .= '<textarea id="'.$field['name'].'['.$i.']'.'" name="'.$field['name'].'['.$i.']'.'" class="'.$field['name'].'_field_'.$i.'"'.
 			        	'placeholder="">'.$user_value.'</textarea>';
 			        		$input .= '</div>';
 					    }
 				    }else{
-					    $input = '<textarea id="'.$field['name'].'" name="'.$field['name'].'" class="'.$field['name'].'_field"'. 
+					    $input = '<textarea id="'.$field['name'].'" name="'.$field['name'].'" class="'.$field['name'].'_field"'.
 			        	'placeholder="">'.$value.'</textarea>';
-				    }			    
+				    }
 			        $html .= '<th>'.
 			        '<label for="'.$field['name'].'" class="'.$field['name'].'_label">'.$field['label'].'</label>'.
 			        '</th><td>'.$input.$repeatable_button.'<br><span class="description">'.$field['helper'].'</span></td>';
 			        continue 2;
-			    
-			    /* SELECT */    
+
+			    /* SELECT */
 			    case 'select':
 			    	$options = $field['options'];
 			    	if( count($options) > 0 ){
@@ -111,10 +111,10 @@ class Curatescape_Meta_Box {
 				        $html .= '<th>'.
 				        '<label for="'.$field['name'].'" class="'.$field['name'].'_label">'.$field['label'].'</label>'.
 				        '</th><td>'.
-				        '<select id="'.$field['name'].'" name="'.$field['name'].'" class="'.$field['name'].'_field">'.$options_html.'</select><br><span class="description">'.$field['helper'].'</span></td>';			    	
+				        '<select id="'.$field['name'].'" name="'.$field['name'].'" class="'.$field['name'].'_field">'.$options_html.'</select><br><span class="description">'.$field['helper'].'</span></td>';
 			    	}
 			        continue 2;
-			    
+
 			    /* CHECKBOX */
 			    case 'checkbox':
 			        $html .= '<th>'.
@@ -124,15 +124,15 @@ class Curatescape_Meta_Box {
 			        	'value="' . $value . '" ' . checked( $value, 'checked', false ) . '>'.
 			        	'<span class="description">'.$field['helper'].'</span></td>';
 			        continue 2;
-			        
+
 			}
 			$html .= '</tr>';
 
 		}
-		
+
 		// Form fields.
 		echo '<table class="form-table">'.$html.'</table>';
-		
+
 		// Include external file for any fields requiring a custom UI
 		if($this->appendFile){
 			include $this->appendFile;
@@ -154,7 +154,7 @@ class Curatescape_Meta_Box {
 		if ( ! wp_verify_nonce( $nonce_name, $nonce_action ) )
 			return;
 
-		// User has permissions 
+		// User has permissions
 		if ( ! current_user_can( 'edit_post', $post_id ) )
 			return;
 
@@ -165,17 +165,17 @@ class Curatescape_Meta_Box {
 		// Not a revision
 		if ( wp_is_post_revision( $post_id ) )
 			return;
-			
+
 		// Check if there was a multisite switch before
 		if ( is_multisite() && ms_is_switched() )
 			return;
 
 
-		// Sanitize user input and update database		
+		// Sanitize user input and update database
 		foreach($this->fields as $field){
 			$repeatable=$field['repeatable'];
 			switch ($field['type']) {
-				
+
 			    case 'text':
 			    if($repeatable){
 				    $new=array();
@@ -184,13 +184,13 @@ class Curatescape_Meta_Box {
 					    $new[$i] = $arr[$i] ? sanitize_text_field( $arr[$i]  ) : '';
 				    }
 				    $new=array_values(array_filter($new)); // reset array indexes to ignore empty values
-				    update_post_meta( $post_id, $field['name'], $new );	
+				    update_post_meta( $post_id, $field['name'], $new );
 			    }else{
 				    $new = isset( $_POST[ $field['name'] ] ) ? sanitize_text_field( $_POST[ $field['name'] ] ) : '';
-				    update_post_meta( $post_id, $field['name'], $new );				    
+				    update_post_meta( $post_id, $field['name'], $new );
 			    }
 			    continue 2;
-			    				
+
 			    case 'textarea':
 			    if($repeatable){
 				    $new=array();
@@ -199,10 +199,10 @@ class Curatescape_Meta_Box {
 					    $new[$i] = $arr[$i] ? sanitize_text_field( $arr[$i]  ) : '';
 				    }
 				    $new=array_values(array_filter($new)); // reset array indexes to ignore empty values
-				    update_post_meta( $post_id, $field['name'], $new );					    
+				    update_post_meta( $post_id, $field['name'], $new );
 			    }else{
 				    $new = isset( $_POST[ $field['name'] ] ) ? sanitize_text_field( $_POST[ $field['name'] ] ) : '';
-				    update_post_meta( $post_id, $field['name'], $new );				    
+				    update_post_meta( $post_id, $field['name'], $new );
 			    }
 			    continue 2;
 
@@ -214,157 +214,157 @@ class Curatescape_Meta_Box {
 			    case 'checkbox':
 			    $new = isset( $_POST[ $field['name'] ] ) ? 'checked' : '';
 			    update_post_meta( $post_id, $field['name'], $new );
-			    continue 2;			    			    
+			    continue 2;
 			}
 
 		}
 	}
 
-}	
-	
-	 
+}
+
+
 // Init metaboxes
 if(is_admin()){
-	
-	new Curatescape_Meta_Box('tour_details',
-		'tours', 
-		__('Tour Details','wp_curatescape'),
+
+	new PlacePress_Meta_Box('tour_details',
+		'tours',
+		__('Tour Details','wp_placepress'),
 		array(
 			array(
-				'label'		=> __('Postscript Text','wp_curatescape'),
+				'label'		=> __('Postscript Text','wp_placepress'),
 				'name'		=> 'tour_postscript',
 				'type'		=> 'textarea',
 				'options'	=> null,
 				'custom_ui'	=> false,
-				'helper'	=> __('Add postscript text to the end of the tour, for example, to thank a sponsor or add directional information.','wp_curatescape'),
+				'helper'	=> __('Add postscript text to the end of the tour, for example, to thank a sponsor or add directional information.','wp_placepress'),
 				'repeatable'=> 0,
-				),	
+				),
 		),null
 	);
-	
-	new Curatescape_Meta_Box('tour_locations',
+
+	new PlacePress_Meta_Box('tour_locations',
 		'tours',
-		__('Tour Locations','wp_curatescape'),
+		__('Tour Locations','wp_placepress'),
 		array(
 			array(
-				'label'		=> __('Stories for this Tour','wp_curatescape'),
+				'label'		=> __('Stories for this Tour','wp_placepress'),
 				'name'		=> 'tour_locations',
 				'type'		=> 'text',
 				'options'	=> null,
 				'custom_ui'	=> false, // this hidden form field will save Story post IDs as an ordered array
-				'helper'	=> __('Choose locations for this tour. You can <a href="/wp-admin/edit.php?post_type=stories">add and edit Story posts here</a>.','wp_curatescape'),
+				'helper'	=> __('Choose locations for this tour. You can <a href="/wp-admin/edit.php?post_type=stories">add and edit Story posts here</a>.','wp_placepress'),
 				'repeatable'=> 0,
-				),					
+				),
 		),'custom_ui/tour_items.php'
-	);	
+	);
 
-	new Curatescape_Meta_Box('story_story_header',
+	new PlacePress_Meta_Box('story_story_header',
 		'stories',
-		__('Story Header','wp_curatescape'),
+		__('Story Header','wp_placepress'),
 		array(
 			array(
-				'label'		=> __('Subtitle','wp_curatescape'),
+				'label'		=> __('Subtitle','wp_placepress'),
 				'name'		=> 'story_subtitle',
 				'type'		=> 'text',
 				'options'	=> null,
 				'custom_ui'	=> false,
-				'helper'	=> __('Enter a subtitle for the tour.','wp_curatescape'),
+				'helper'	=> __('Enter a subtitle for the tour.','wp_placepress'),
 				'repeatable'=> 0,
 				),
 			array(
-				'label'		=> __('Lede','wp_curatescape'),
+				'label'		=> __('Lede','wp_placepress'),
 				'name'		=> 'story_lede',
 				'type'		=> 'textarea',
 				'options'	=> null,
 				'custom_ui'	=> false,
-				'helper'	=> __('A brief introductory section that is intended to entice the reader to read the full entry.','wp_curatescape'),
+				'helper'	=> __('A brief introductory section that is intended to entice the reader to read the full entry.','wp_placepress'),
 				'repeatable'=> 0,
-				),						
+				),
 		), null
-	);	
+	);
 
-	new Curatescape_Meta_Box('story_media',
+	new PlacePress_Meta_Box('story_media',
 		'stories',
-		__('Media Files','wp_curatescape'),
+		__('Media Files','wp_placepress'),
 		array(
 			array(
-				'label'		=> __('Choose Media','wp_curatescape'),
+				'label'		=> __('Choose Media','wp_placepress'),
 				'name'		=> 'story_media',
 				'type'		=> 'text',
 				'options'	=> null,
 				'custom_ui'	=> false,
-				'helper'	=> __('Select files from the Media Library and/or upload new files. These files will be used to create structured display areas for each media type, including images, audio, and video. Drag and drop to change the order of files.','wp_curatescape'),
+				'helper'	=> __('Select files from the Media Library and/or upload new files. These files will be used to create structured display areas for each media type, including images, audio, and video. Drag and drop to change the order of files.','wp_placepress'),
 				'repeatable'=> 0,
 				)
 		), 'custom_ui/story_media.php'
-	);	
-		
-	new Curatescape_Meta_Box('story_location_details',
+	);
+
+	new PlacePress_Meta_Box('story_location_details',
 		'stories',
-		__('Location Details','wp_curatescape'),
+		__('Location Details','wp_placepress'),
 		array(
 			array(
-				'label'		=> __('Street Address','wp_curatescape'),
+				'label'		=> __('Street Address','wp_placepress'),
 				'name'		=> 'story_street_address',
 				'type'		=> 'text',
 				'options'	=> null,
 				'custom_ui'	=> false,
-				'helper'	=> __('A detailed street/mailing address for a physical location.','wp_curatescape'),
+				'helper'	=> __('A detailed street/mailing address for a physical location.','wp_placepress'),
 				'repeatable'=> 0,
 				),
 			array(
-				'label'		=> __('Access Information','wp_curatescape'),
+				'label'		=> __('Access Information','wp_placepress'),
 				'name'		=> 'story_access_information',
 				'type'		=> 'textarea',
 				'options'	=> null,
 				'custom_ui'	=> false,
-				'helper'	=> __('Information regarding physical access to a location, including restrictions (e.g. "Private Property"), walking directions (e.g. "To reach the peak, take the trail on the left"), or other useful details (e.g. "Location is approximate").','wp_curatescape'),
+				'helper'	=> __('Information regarding physical access to a location, including restrictions (e.g. "Private Property"), walking directions (e.g. "To reach the peak, take the trail on the left"), or other useful details (e.g. "Location is approximate").','wp_placepress'),
 				'repeatable'=> 0,
 				),
 			array(
-				'label'		=> __('Official Website','wp_curatescape'),
+				'label'		=> __('Official Website','wp_placepress'),
 				'name'		=> 'story_official_website',
 				'type'		=> 'text',
 				'options'	=> null,
 				'custom_ui'	=> false,
-				'helper'	=> __('An official website related to the entry. Use <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">markdown</a> to create an active link, e.g. to link to Google use <pre>[google](https://google.com)</pre>.','wp_curatescape'),
+				'helper'	=> __('An official website related to the entry. Use <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">markdown</a> to create an active link, e.g. to link to Google use <pre>[google](https://google.com)</pre>.','wp_placepress'),
 				'repeatable'=> 0,
-				),				
+				),
 			array(
-				'label'		=> __('Map Coordinates','wp_curatescape'),
+				'label'		=> __('Map Coordinates','wp_placepress'),
 				'name'		=> 'location_coordinates',
 				'type'		=> 'text',
 				'options'	=> null,
 				'custom_ui'	=> true, // this hidden form field will save coordinates as a JSON array
-				'helper'	=> __('Use the map to add geo-coordinates for this location as a bracketed array, e.g. <pre>[41.503240,-81.675249]</pre>','wp_curatescape'),
+				'helper'	=> __('Use the map to add geo-coordinates for this location as a bracketed array, e.g. <pre>[41.503240,-81.675249]</pre>','wp_placepress'),
 				'repeatable'=> 0,
 				),
 			array(
-				'label'		=> __('Map Zoom','wp_curatescape'),
+				'label'		=> __('Map Zoom','wp_placepress'),
 				'name'		=> 'location_zoom',
 				'type'		=> 'text',
 				'options'	=> null,
 				'custom_ui'	=> true, // this hidden form field will save zoom level automatically
-				'helper'	=> __('Use the map to add the default zoom level for this location as a single integer between 1 and 20.','wp_curatescape'),
+				'helper'	=> __('Use the map to add the default zoom level for this location as a single integer between 1 and 20.','wp_placepress'),
 				'repeatable'=> 0,
-				)													
+				)
 		), 'custom_ui/story_location_details.php'
 	);
 
-	new Curatescape_Meta_Box('story_related_resources',
+	new PlacePress_Meta_Box('story_related_resources',
 		'stories',
-		__('Related Resources','wp_curatescape'),
+		__('Related Resources','wp_placepress'),
 		array(
 			array(
-				'label'		=> __('Related Resources','wp_curatescape'),
+				'label'		=> __('Related Resources','wp_placepress'),
 				'name'		=> 'story_related_resources',
 				'type'		=> 'textarea',
 				'options'	=> null,
 				'custom_ui'	=> false,
-				'helper'	=> __('The name of or link to a related resource, often used for citation information. Use <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">markdown</a> to add formatting as needed.','wp_curatescape'),
+				'helper'	=> __('The name of or link to a related resource, often used for citation information. Use <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">markdown</a> to add formatting as needed.','wp_placepress'),
 				'repeatable'=> 16,
 				)
 		), null
-	);		
-								
+	);
+
 }

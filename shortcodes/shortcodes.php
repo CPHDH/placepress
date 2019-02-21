@@ -1,4 +1,4 @@
-<?php 
+<?php
 if( ! defined('ABSPATH') ){
 	exit;
 }
@@ -7,69 +7,69 @@ if( ! defined('ABSPATH') ){
 ** Shortcodes
 */
 
-add_shortcode('curatescape_images', 'curatescape_image_gallery_shortcode');
-add_shortcode('curatescape_audio', 'curatescape_audio_playlist_shortcode');
-add_shortcode('curatescape_video', 'curatescape_video_playlist_shortcode');
-add_shortcode('curatescape_map', 'curatescape_map_shortcode');
-add_shortcode('curatescape_global_map', 'curatescape_global_map_shortcode');
+add_shortcode('placepress_images', 'placepress_image_gallery_shortcode');
+add_shortcode('placepress_audio', 'placepress_audio_playlist_shortcode');
+add_shortcode('placepress_video', 'placepress_video_playlist_shortcode');
+add_shortcode('placepress_map', 'placepress_map_shortcode');
+add_shortcode('placepress_global_map', 'placepress_global_map_shortcode');
 
-function curatescape_image_gallery_shortcode($atts){
+function placepress_image_gallery_shortcode($atts){
 	global $post;
 	if(is_singular( 'stories' )){
-		$media=curatescape_get_story_media($post);
-		$includeHeading = curatescape_no_heading_atts($atts);
-		return count($media['images']) ? curatescape_image_gallery($media['images'],'aside',$includeHeading) : null;
+		$media=placepress_get_story_media($post);
+		$includeHeading = placepress_no_heading_atts($atts);
+		return count($media['images']) ? placepress_image_gallery($media['images'],'aside',$includeHeading) : null;
 	}
 }
 
-function curatescape_audio_playlist_shortcode($atts){
+function placepress_audio_playlist_shortcode($atts){
 	global $post;
 	if(is_singular( 'stories' )){
-		$media=curatescape_get_story_media($post);
-		$includeHeading = curatescape_no_heading_atts($atts);
-		return count($media['audio']) ? curatescape_audio_playlist($media['audio'],'aside',$includeHeading) : null;		
+		$media=placepress_get_story_media($post);
+		$includeHeading = placepress_no_heading_atts($atts);
+		return count($media['audio']) ? placepress_audio_playlist($media['audio'],'aside',$includeHeading) : null;
 	}
 }
 
-function curatescape_video_playlist_shortcode($atts){
+function placepress_video_playlist_shortcode($atts){
 	global $post;
 	if(is_singular( 'stories' )){
-		$media=curatescape_get_story_media($post);
-		$includeHeading = curatescape_no_heading_atts($atts);
-		return count($media['video']) ? curatescape_video_playlist($media['video'],'aside',$includeHeading) : null;
+		$media=placepress_get_story_media($post);
+		$includeHeading = placepress_no_heading_atts($atts);
+		return count($media['video']) ? placepress_video_playlist($media['video'],'aside',$includeHeading) : null;
 	}
 }
 
-function curatescape_map_shortcode($atts){
+function placepress_map_shortcode($atts){
 	global $post;
 	if(is_singular( 'stories' )){
-		$includeHeading = curatescape_no_heading_atts($atts);
-		return curatescape_story_map($post,$includeHeading);
+		$includeHeading = placepress_no_heading_atts($atts);
+		return placepress_story_map($post,$includeHeading);
 	}
 }
 
-function curatescape_global_map_shortcode($atts){
-	wp_enqueue_style( 'curatescape_public_css' );
-    wp_enqueue_style( 'leafletcss' );	    
-    wp_enqueue_script( 'leafletjs' );  	
-    	
-    if(curatescape_setting('marker_clustering')){
+function placepress_global_map_shortcode($atts){
+	wp_enqueue_style( 'placepress_public_css' );
+    wp_enqueue_style( 'leafletcss' );
+    wp_enqueue_script( 'leafletjs' );
+
+    if(placepress_setting('marker_clustering')){
 		wp_enqueue_style('clustercss');
-		wp_enqueue_script('clusterjs');	    
+		wp_enqueue_script('clusterjs');
     }
-    if(curatescape_setting('maki_markers')){
+    if(placepress_setting('maki_markers')){
 	    wp_enqueue_script('makijs');
-    }   
-    
-    wp_enqueue_script( 'curatescape_global_map_js' );
-     
-	return curatescape_global_map();
+    }
+
+    wp_enqueue_script( 'placepress_global_map_js' );
+
+	return placepress_global_map();
 }
 
-function curatescape_no_heading_atts($atts){
-	if( 
-		(is_array($atts) && array_key_exists('no-heading',$atts)) || 
-		(is_array($atts) && $atts[0] == 'no-heading') 
+function placepress_no_heading_atts($atts){
+	if(
+		(is_array($atts) && array_key_exists('no-heading',$atts)) ||
+		(is_array($atts) && $atts[0] == 'no-heading')
 	){
 		return false;
 	}else{
