@@ -37,9 +37,9 @@ function placepress_parse_markdown($string,$singleline=true){
 ** Get Media Files
 ** returns array of media file URLs sorted by type
 */
-function placepress_get_story_media($post){
-	if($post->story_media){
-		$media = explode(',',$post->story_media);
+function placepress_get_location_media($post){
+	if($post->location_media){
+		$media = explode(',',$post->location_media);
 
 		$images=array();
 		$audio=array();
@@ -173,12 +173,12 @@ function placepress_video_playlist($video,$containerTag='section',$includeHeadin
 
 /*
 ** Media section
-** returns interactive image gallery, audio playlist, and/or video playlist for Story post
+** returns interactive image gallery, audio playlist, and/or video playlist for Location post
 ** media content already placed via shortcodes will be omitted from placepress_filter_content()
 */
 function placepress_display_media_section($post, $includeImages=true, $includeAudio=true, $includeVideo=true){
 	$html = null;
-	$media=placepress_get_story_media($post);
+	$media=placepress_get_location_media($post);
 	if(count($media)){
 		$html .= count($media['images']) && $includeImages ? placepress_image_gallery($media['images']) : null;
 		$html .= count($media['audio']) && $includeAudio ? placepress_audio_playlist($media['audio']) : null;
@@ -188,10 +188,10 @@ function placepress_display_media_section($post, $includeImages=true, $includeAu
 }
 
 /*
-** Story Map section
-** returns interactive map for Story post
+** Location Map section
+** returns interactive map for Location post
 */
-function placepress_story_map($post,$includeHeading=true){
+function placepress_location_map($post,$includeHeading=true){
 	if($coords=$post->location_coordinates){
 		$headerVisibility=$includeHeading ? null : 'hidden';
 		$zoom=$post->location_zoom ? $post->location_zoom : placepress_setting('default_zoom');
@@ -204,7 +204,7 @@ function placepress_story_map($post,$includeHeading=true){
 		$caption = implode(' ~ ', array_filter($caption_array));
 		$html = '<h2 '.$headerVisibility.' class="placepress-section-heading placepress-section-heading-map">'.__('Map').'</h2>';
 		$html .= '<figure  class="placepress-figure z-index-adjust">';
-		$html .= '<div id="placepress-story-map" class="placepress-map placepress-item-map" data-coords="'.$coords.'" data-zoom="'.$zoom.'" data-default-layer="'.placepress_setting('default_map_type').'" data-zoom="'.placepress_setting('default_zoom').'" data-center="'.placepress_setting('default_coordinates').'" data-mapbox-token="'.placepress_setting('mapbox_key').'" data-mapbox-satellite="'.placepress_setting('mapbox_satellite').'" data-maki="'.placepress_setting('maki_markers').'" data-maki-color="'.placepress_setting('maki_markers_color').'" data-thumb="'.$thumbnail.'" data-address="'.placepress_street_address($post).'" data-marker-clustering="0">';
+		$html .= '<div id="placepress-location-map" class="placepress-map placepress-item-map" data-coords="'.$coords.'" data-zoom="'.$zoom.'" data-default-layer="'.placepress_setting('default_map_type').'" data-zoom="'.placepress_setting('default_zoom').'" data-center="'.placepress_setting('default_coordinates').'" data-mapbox-token="'.placepress_setting('mapbox_key').'" data-mapbox-satellite="'.placepress_setting('mapbox_satellite').'" data-maki="'.placepress_setting('maki_markers').'" data-maki-color="'.placepress_setting('maki_markers_color').'" data-thumb="'.$thumbnail.'" data-address="'.placepress_street_address($post).'" data-marker-clustering="0">';
 		$html .= '</div>';
 		$html .= '</figure>';
 		$html .= '<figcaption class="placepress-figcaption"><p>'.$caption.'</p></figcaption>';
@@ -217,7 +217,7 @@ function placepress_story_map($post,$includeHeading=true){
 
 /*
 ** Tour Map section
-** returns interactive map for Story posts in current Tour post
+** returns interactive map for Location posts in current Tour post
 */
 function placepress_tour_map($post){
 	if($locations = $post->tour_locations){
@@ -246,7 +246,7 @@ function placepress_tour_map($post){
 
 /*
 ** Global Map section
-** returns interactive map for all Story posts
+** returns interactive map for all Location posts
 */
 function placepress_global_map(){
 	$html = '<figure  class="placepress-figure z-index-adjust">';
@@ -260,46 +260,46 @@ function placepress_global_map(){
 ** Street address
 */
 function placepress_street_address($post){
-	return $post->story_street_address ? placepress_parse_markdown($post->story_street_address) : null;
+	return $post->location_street_address ? placepress_parse_markdown($post->location_street_address) : null;
 }
 
 /*
 ** Access information
 */
 function placepress_access_information($post){
-	return $post->story_access_information ? placepress_parse_markdown($post->story_access_information) : null;
+	return $post->location_access_information ? placepress_parse_markdown($post->location_access_information) : null;
 }
 
 /*
 ** Official website
 */
 function placepress_official_website($post){
-	return $post->story_official_website ? placepress_parse_markdown($post->story_official_website) : null;
+	return $post->location_official_website ? placepress_parse_markdown($post->location_official_website) : null;
 }
 
 /*
 ** Subtitle
 */
 function placepress_subtitle($post){
-	return $post->story_subtitle ? '<br><span class="placepress-subtitle">'.placepress_parse_markdown($post->story_subtitle).'</span>' : null;
+	return $post->location_subtitle ? '<br><span class="placepress-subtitle">'.placepress_parse_markdown($post->location_subtitle).'</span>' : null;
 }
 
 /*
 ** Lede
 */
 function placepress_lede($post){
-	return $post->story_lede ? '<p class="placepress-lede">'.placepress_parse_markdown($post->story_lede).'</p>' : null;
+	return $post->location_lede ? '<p class="placepress-lede">'.placepress_parse_markdown($post->location_lede).'</p>' : null;
 }
 
 /*
 ** Related resources section
-** returns related resources section for Story post
+** returns related resources section for Location post
 */
 function placepress_related_sources($post){
-	if($post->story_related_resources){
+	if($post->location_related_resources){
 		$html='<h2 class="placepress-section-heading placepress-section-heading-related-resources">'.__('Related Sources').'</h2>';
 		$html .= '<ul class="placepress-related-sources">';
-		foreach($post->story_related_resources as $rr){
+		foreach($post->location_related_resources as $rr){
 			$html .= '<li>'.placepress_parse_markdown($rr).'</li>';
 		}
 		$html .= '</ul>';
@@ -313,7 +313,7 @@ function placepress_related_sources($post){
 ** Tour Locations section
 ** returns locations section for Tour post
 */
-function placepress_stories_for_tour($post){
+function placepress_locations_for_tour($post){
 	if($locations = $post->tour_locations){
 		$locations=explode(',',$locations);
 		$html = '<h2 class="placepress-section-heading placepress-section-heading-locations">'.__('Locations').'</h2>';

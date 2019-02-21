@@ -3,7 +3,7 @@
 	<input id="admin-location-search" type="text" placeholder="<?php echo esc_html__('Search for a location or click map...','wp_placepress');?>">
 	<input type="submit" value="<?php echo esc_html__('Submit Search','wp_placepress');?>" type="button" class="button" onclick="return lookup_location()">
 </div>
-<div id="admin-story-map">
+<div id="admin-location-map">
 
 </div>
 
@@ -13,7 +13,7 @@
 <script>
 
 	// Settings
-	var mapID='admin-story-map';
+	var mapID='admin-location-map';
 	var default_layer='<?php echo placepress_setting('default_map_type');?>';
 	var token = '<?php echo placepress_setting('mapbox_key');?>';
 
@@ -99,7 +99,7 @@
 
 
 	// Functionality
-	jQuery('#admin-story-map').append('<div id="map-message-overlay"></div>');
+	jQuery('#admin-location-map').append('<div id="map-message-overlay"></div>');
 	jQuery('#admin-location-search').keypress(function(e){
         if(e.which == 10 || e.which == 13) {
             lookup_location();

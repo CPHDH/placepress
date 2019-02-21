@@ -12,8 +12,8 @@ $textdomain_selectorupload=esc_html__( 'Select or Upload', 'wp_placepress');
 <div id="selected-media-preview">
 	<?php
 	$table_rows = '';
-	if($post->story_media){
-		$media = explode(',',$post->story_media);
+	if($post->location_media){
+		$media = explode(',',$post->location_media);
 		foreach($media as $attachment_id){
 
 			$id = intval( $attachment_id );
@@ -44,10 +44,10 @@ $textdomain_selectorupload=esc_html__( 'Select or Upload', 'wp_placepress');
 
 <script>
 	// the input field where numeric ids are stored as a comma-separated string
-	var input=jQuery('#story_media_row td input#story_media');
+	var input=jQuery('#location_media_row td input#location_media');
 
 	// hide the text input field and add the media select button
-	jQuery(input).hide().after('<button title="<?php echo $textdomain_selectorupload;?>" class="story_media_picker button "><span class="dashicons dashicons-admin-media"></span> <?php echo $textdomain_selectorupload;?></button>');
+	jQuery(input).hide().after('<button title="<?php echo $textdomain_selectorupload;?>" class="location_media_picker button "><span class="dashicons dashicons-admin-media"></span> <?php echo $textdomain_selectorupload;?></button>');
 
 	// make sure there's a table in the dom
 	if(jQuery('#selected-media-preview table tbody').length){
@@ -184,6 +184,6 @@ $textdomain_selectorupload=esc_html__( 'Select or Upload', 'wp_placepress');
 	   });
 	};
 
-	placepress_media_picker_init('#story_media_row td input#story_media', '.story_media_picker');
+	placepress_media_picker_init('#location_media_row td input#location_media', '.location_media_picker');
 
 </script>

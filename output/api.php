@@ -6,8 +6,8 @@ if( !defined('ABSPATH') ){
 // add feeds for admin custom UI
 add_action('init','add_placepress_json');
 function add_placepress_json(){
-	add_feed('placepress_stories_admin', 'placepress_render_admin_stories_json');
-	add_feed('placepress_stories_public', 'placepress_render_public_stories_json');
+	add_feed('placepress_locations_admin', 'placepress_render_admin_locations_json');
+	add_feed('placepress_locations_public', 'placepress_render_public_locations_json');
 }
 
 // manage cached transients
@@ -16,8 +16,8 @@ add_action( 'save_post', 'placepress_delete_transients' );
 add_action( 'deleted_post', 'placepress_delete_transients' );
 add_action( 'transition_post_status', 'placepress_delete_transients' );
 function placepress_delete_transients() {
-     delete_transient( 'placepress_stories_admin' );
-     delete_transient( 'placepress_stories_public' );
+     delete_transient( 'placepress_locations_admin' );
+     delete_transient( 'placepress_locations_public' );
 }
 
 
@@ -26,7 +26,7 @@ function unserialize_post_meta($postID){
 	$postMeta=get_post_meta( $postID );
 	$out=array();
 	foreach($postMeta as $key=>$val){
-		if($key == 'story_related_resources' || $key == 'story_factoid'){
+		if($key == 'location_related_resources' || $key == 'location_factoid'){
 			$serialized = get_post_meta( $postID, $key, true );
 			$out[$key]=maybe_unserialize($serialized);
 		}else{
@@ -37,12 +37,12 @@ function unserialize_post_meta($postID){
 }
 
 // STORIES ADMIN JSON
-function placepress_render_admin_stories_json(){
-	if ( false === ( $output = get_transient( 'placepress_stories' ) ) ) {
+function placepress_render_admin_locations_json(){
+	if ( false === ( $output = get_transient( 'placepress_locations' ) ) ) {
 		header( 'Content-Type: application/json' );
 		$permissible=( wp_get_current_user() ) ? 'any' : 'publish';
 		$args = array(
-		    'post_type' => 'stories',
+		    'post_type' => 'locations',
 		    'post_status' => $permissible,
 		    'nopaging' => true
 		);
@@ -57,17 +57,17 @@ function placepress_render_admin_stories_json(){
 		    	'meta'=>unserialize_post_meta( intval( $post->ID ) ),
 		    );
 		}
-	    set_transient( 'placepress_stories_admin', $output, 1 * MINUTE_IN_SECONDS ); // cache results
+	    set_transient( 'placepress_locations_admin', $output, 1 * MINUTE_IN_SECONDS ); // cache results
 	}
 	echo json_encode( $output );
 }
 
 // STORIES PUBLIC JSON
-function placepress_render_public_stories_json(){
-	if ( false === ( $output = get_transient( 'placepress_stories' ) ) ) {
+function placepress_render_public_locations_json(){
+	if ( false === ( $output = get_transient( 'placepress_locations' ) ) ) {
 		header( 'Content-Type: application/json' );
 		$args = array(
-		    'post_type' => 'stories',
+		    'post_type' => 'locations',
 		    'post_status' => 'publish',
 		    'nopaging' => true
 		);
@@ -80,12 +80,12 @@ function placepress_render_public_stories_json(){
 		    	'id' => intval( $post->ID ),
 		    	'title' => $post->post_title,
 		    	'thumb'=>get_the_post_thumbnail_url( intval( $post->ID ) ),
-				'subtitle' => $postMeta['story_subtitle'][0],
+				'subtitle' => $postMeta['location_subtitle'][0],
 		    	'location_coordinates' => $postMeta['location_coordinates'][0],
 		    	'permalink' => get_permalink( $post->ID ),
 		    );
 		}
-	    set_transient( 'placepress_stories_public', $output, 3 * MINUTE_IN_SECONDS ); // cache results
+	    set_transient( 'placepress_locations_public', $output, 3 * MINUTE_IN_SECONDS ); // cache results
 	}
 	echo json_encode( $output );
 }
@@ -98,14 +98,14 @@ $args = array(
     'single'        => true,
     'show_in_rest'    => true,
 );
-register_meta( $object, 'story_subtitle', $args );
-register_meta( $object, 'story_lede', $args);
-register_meta( $object, 'story_media', $args );
-register_meta( $object, 'story_street_address', $args );
-register_meta( $object, 'story_access_information', $args );
-register_meta( $object, 'story_official_website', $args );
+register_meta( $object, 'location_subtitle', $args );
+register_meta( $object, 'location_lede', $args);
+register_meta( $object, 'location_media', $args );
+register_meta( $object, 'location_street_address', $args );
+register_meta( $object, 'location_access_information', $args );
+register_meta( $object, 'location_official_website', $args );
 register_meta( $object, 'location_coordinates', $args );
 register_meta( $object, 'location_zoom', $args );
 register_meta( $object, 'tour_locations', $args );
 register_meta( $object, 'tour_postscript', $args );
-// register_meta( $object, 'story_related_resources', $args ); // @TODO: cannot use serialized/array data, so maybe rewrite this field
+// register_meta( $object, 'location_related_resources', $args ); // @TODO: cannot use serialized/array data, so maybe rewrite this field

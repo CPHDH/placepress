@@ -33,17 +33,17 @@ msgid "Tour Locations"
 msgstr ""
 
 #: admin/metaboxes.php:250
-msgid "Stories for this Tour"
+msgid "Locations for this Tour"
 msgstr ""
 
 #: admin/metaboxes.php:255
 msgid ""
 "Choose locations for this tour. You can <a href=\"/wp-admin/edit.php?"
-"post_type=stories\">add and edit Story posts here</a>."
+"post_type=locations\">add and edit Location posts here</a>."
 msgstr ""
 
 #: admin/metaboxes.php:263
-msgid "Story Header"
+msgid "Location Header"
 msgstr ""
 
 #: admin/metaboxes.php:266 admin/settings.php:181
@@ -221,7 +221,7 @@ msgid "Use as Tour Image"
 msgstr ""
 
 #: admin/post_types.php:38
-msgid "Collections of location-based stories."
+msgid "Collections of location-based locations."
 msgstr ""
 
 #: admin/post_types.php:64
@@ -270,71 +270,71 @@ msgstr ""
 
 #: admin/post_types.php:87 admin/post_types.php:89 admin/post_types.php:101
 #: admin/post_types.php:108
-msgid "Stories"
+msgid "Locations"
 msgstr ""
 
 #: admin/post_types.php:90 admin/post_types.php:109
-msgid "Story"
+msgid "Location"
 msgstr ""
 
 #: admin/post_types.php:92
-msgid "Add New Story"
+msgid "Add New Location"
 msgstr ""
 
 #: admin/post_types.php:93
-msgid "Edit Story"
+msgid "Edit Location"
 msgstr ""
 
 #: admin/post_types.php:94
-msgid "New Story"
+msgid "New Location"
 msgstr ""
 
 #: admin/post_types.php:95
-msgid "View Story"
+msgid "View Location"
 msgstr ""
 
 #: admin/post_types.php:96
-msgid "Search Stories"
+msgid "Search Locations"
 msgstr ""
 
 #: admin/post_types.php:97
-msgid "No Stories Found"
+msgid "No Locations Found"
 msgstr ""
 
 #: admin/post_types.php:98
-msgid "No Stories Found in Trash"
+msgid "No Locations Found in Trash"
 msgstr ""
 
 #: admin/post_types.php:99
-msgid "Parent Story"
+msgid "Parent Location"
 msgstr ""
 
 #: admin/post_types.php:100
-msgid "All Stories"
+msgid "All Locations"
 msgstr ""
 
 #: admin/post_types.php:102
-msgid "Insert into Story"
+msgid "Insert into Location"
 msgstr ""
 
 #: admin/post_types.php:103
-msgid "Uploaded to this Story"
+msgid "Uploaded to this Location"
 msgstr ""
 
 #: admin/post_types.php:104
-msgid "Story Image"
+msgid "Location Image"
 msgstr ""
 
 #: admin/post_types.php:105
-msgid "Set Story Image"
+msgid "Set Location Image"
 msgstr ""
 
 #: admin/post_types.php:106
-msgid "Remove Story Image"
+msgid "Remove Location Image"
 msgstr ""
 
 #: admin/post_types.php:107
-msgid "Use as Story Image"
+msgid "Use as Location Image"
 msgstr ""
 
 #: admin/post_types.php:111
@@ -362,7 +362,7 @@ msgid "Add or Remove Subjects"
 msgstr ""
 
 #: admin/post_types.php:145
-msgid "No Story Subjects Found"
+msgid "No Location Subjects Found"
 msgstr ""
 
 #: admin/post_types.php:146
@@ -578,15 +578,15 @@ msgstr ""
 msgid "Title:"
 msgstr ""
 
-#: admin/custom_ui/story_location_details.php:3
+#: admin/custom_ui/location_location_details.php:3
 msgid "Search for a location or click map..."
 msgstr ""
 
-#: admin/custom_ui/story_location_details.php:4
+#: admin/custom_ui/location_location_details.php:4
 msgid "Submit Search"
 msgstr ""
 
-#: admin/custom_ui/story_location_details.php:10
+#: admin/custom_ui/location_location_details.php:10
 msgid ""
 "Use the map to add geo-coordinates for this location. Place a marker "
 "manually by clicking the map or use the search bar to enter an address, "
@@ -594,65 +594,65 @@ msgid ""
 "location and use the zoom controls to save a custom zoom level."
 msgstr ""
 
-#: admin/custom_ui/story_location_details.php:22
+#: admin/custom_ui/location_location_details.php:22
 msgid "No Results Found"
 msgstr ""
 
-#: admin/custom_ui/story_location_details.php:23
+#: admin/custom_ui/location_location_details.php:23
 msgid "Something went wrong! Please try again."
 msgstr ""
 
-#: admin/custom_ui/story_media.php:3
+#: admin/custom_ui/location_media.php:3
 msgid "Unknown Format"
 msgstr ""
 
-#: admin/custom_ui/story_media.php:4
+#: admin/custom_ui/location_media.php:4
 msgid "Untitled"
 msgstr ""
 
-#: admin/custom_ui/story_media.php:5
+#: admin/custom_ui/location_media.php:5
 msgid "Edit / View Metadata"
 msgstr ""
 
-#: admin/custom_ui/story_media.php:6
+#: admin/custom_ui/location_media.php:6
 msgid "This file does not have a description"
 msgstr ""
 
-#: admin/custom_ui/story_media.php:7
+#: admin/custom_ui/location_media.php:7
 msgid "Media Details"
 msgstr ""
 
-#: admin/custom_ui/story_media.php:8
+#: admin/custom_ui/location_media.php:8
 msgid "Media Preview"
 msgstr ""
 
-#: admin/custom_ui/story_media.php:9 admin/custom_ui/tour_items.php:16
+#: admin/custom_ui/location_media.php:9 admin/custom_ui/tour_items.php:16
 #: admin/custom_ui/tour_items.php:29
 msgid "Remove"
 msgstr ""
 
-#: admin/custom_ui/story_media.php:10
+#: admin/custom_ui/location_media.php:10
 msgid "Select or Upload"
 msgstr ""
 
-#: admin/custom_ui/story_media.php:111
+#: admin/custom_ui/location_media.php:111
 msgid "Select File"
 msgstr ""
 
-#: admin/custom_ui/story_media.php:117
+#: admin/custom_ui/location_media.php:117
 msgid "Use Selected"
 msgstr ""
 
 #: admin/custom_ui/tour_items.php:26
-msgid "Unable to get stories ..."
+msgid "Unable to get locations ..."
 msgstr ""
 
 #: admin/custom_ui/tour_items.php:27
-msgid "Type a title or subtitle to add story to tour..."
+msgid "Type a title or subtitle to add location to tour..."
 msgstr ""
 
 #: admin/custom_ui/tour_items.php:28
-msgid "Getting stories..."
+msgid "Getting locations..."
 msgstr ""
 
 #. Name of the plugin
@@ -663,7 +663,7 @@ msgstr ""
 msgid ""
 "Publish location-based, media-rich, structured narratives compatible with "
 "PlacePress mobile apps. Designed for public historians, urbanists, and "
-"other humanities researchers. Adds Tour and Story post types, as well as "
+"other humanities researchers. Adds Tour and Location post types, as well as "
 "custom taxonomies and metadata fields."
 msgstr ""
 

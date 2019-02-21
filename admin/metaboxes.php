@@ -247,24 +247,24 @@ if(is_admin()){
 		__('Tour Locations','wp_placepress'),
 		array(
 			array(
-				'label'		=> __('Stories for this Tour','wp_placepress'),
+				'label'		=> __('Locations for this Tour','wp_placepress'),
 				'name'		=> 'tour_locations',
 				'type'		=> 'text',
 				'options'	=> null,
-				'custom_ui'	=> false, // this hidden form field will save Story post IDs as an ordered array
-				'helper'	=> __('Choose locations for this tour. You can <a href="/wp-admin/edit.php?post_type=stories">add and edit Story posts here</a>.','wp_placepress'),
+				'custom_ui'	=> false, // this hidden form field will save Location post IDs as an ordered array
+				'helper'	=> __('Choose locations for this tour. You can <a href="/wp-admin/edit.php?post_type=locations">add and edit Location posts here</a>.','wp_placepress'),
 				'repeatable'=> 0,
 				),
 		),'custom_ui/tour_items.php'
 	);
 
-	new PlacePress_Meta_Box('story_story_header',
-		'stories',
-		__('Story Header','wp_placepress'),
+	new PlacePress_Meta_Box('location_location_header',
+		'locations',
+		__('Location Header','wp_placepress'),
 		array(
 			array(
 				'label'		=> __('Subtitle','wp_placepress'),
-				'name'		=> 'story_subtitle',
+				'name'		=> 'location_subtitle',
 				'type'		=> 'text',
 				'options'	=> null,
 				'custom_ui'	=> false,
@@ -273,7 +273,7 @@ if(is_admin()){
 				),
 			array(
 				'label'		=> __('Lede','wp_placepress'),
-				'name'		=> 'story_lede',
+				'name'		=> 'location_lede',
 				'type'		=> 'textarea',
 				'options'	=> null,
 				'custom_ui'	=> false,
@@ -283,29 +283,29 @@ if(is_admin()){
 		), null
 	);
 
-	new PlacePress_Meta_Box('story_media',
-		'stories',
+	new PlacePress_Meta_Box('location_media',
+		'locations',
 		__('Media Files','wp_placepress'),
 		array(
 			array(
 				'label'		=> __('Choose Media','wp_placepress'),
-				'name'		=> 'story_media',
+				'name'		=> 'location_media',
 				'type'		=> 'text',
 				'options'	=> null,
 				'custom_ui'	=> false,
 				'helper'	=> __('Select files from the Media Library and/or upload new files. These files will be used to create structured display areas for each media type, including images, audio, and video. Drag and drop to change the order of files.','wp_placepress'),
 				'repeatable'=> 0,
 				)
-		), 'custom_ui/story_media.php'
+		), 'custom_ui/location_media.php'
 	);
 
-	new PlacePress_Meta_Box('story_location_details',
-		'stories',
+	new PlacePress_Meta_Box('location_location_details',
+		'locations',
 		__('Location Details','wp_placepress'),
 		array(
 			array(
 				'label'		=> __('Street Address','wp_placepress'),
-				'name'		=> 'story_street_address',
+				'name'		=> 'location_street_address',
 				'type'		=> 'text',
 				'options'	=> null,
 				'custom_ui'	=> false,
@@ -314,7 +314,7 @@ if(is_admin()){
 				),
 			array(
 				'label'		=> __('Access Information','wp_placepress'),
-				'name'		=> 'story_access_information',
+				'name'		=> 'location_access_information',
 				'type'		=> 'textarea',
 				'options'	=> null,
 				'custom_ui'	=> false,
@@ -323,7 +323,7 @@ if(is_admin()){
 				),
 			array(
 				'label'		=> __('Official Website','wp_placepress'),
-				'name'		=> 'story_official_website',
+				'name'		=> 'location_official_website',
 				'type'		=> 'text',
 				'options'	=> null,
 				'custom_ui'	=> false,
@@ -348,16 +348,16 @@ if(is_admin()){
 				'helper'	=> __('Use the map to add the default zoom level for this location as a single integer between 1 and 20.','wp_placepress'),
 				'repeatable'=> 0,
 				)
-		), 'custom_ui/story_location_details.php'
+		), 'custom_ui/location_location_details.php'
 	);
 
-	new PlacePress_Meta_Box('story_related_resources',
-		'stories',
+	new PlacePress_Meta_Box('location_related_resources',
+		'locations',
 		__('Related Resources','wp_placepress'),
 		array(
 			array(
 				'label'		=> __('Related Resources','wp_placepress'),
-				'name'		=> 'story_related_resources',
+				'name'		=> 'location_related_resources',
 				'type'		=> 'textarea',
 				'options'	=> null,
 				'custom_ui'	=> false,

@@ -15,8 +15,8 @@ add_shortcode('placepress_global_map', 'placepress_global_map_shortcode');
 
 function placepress_image_gallery_shortcode($atts){
 	global $post;
-	if(is_singular( 'stories' )){
-		$media=placepress_get_story_media($post);
+	if(is_singular( 'locations' )){
+		$media=placepress_get_location_media($post);
 		$includeHeading = placepress_no_heading_atts($atts);
 		return count($media['images']) ? placepress_image_gallery($media['images'],'aside',$includeHeading) : null;
 	}
@@ -24,8 +24,8 @@ function placepress_image_gallery_shortcode($atts){
 
 function placepress_audio_playlist_shortcode($atts){
 	global $post;
-	if(is_singular( 'stories' )){
-		$media=placepress_get_story_media($post);
+	if(is_singular( 'locations' )){
+		$media=placepress_get_location_media($post);
 		$includeHeading = placepress_no_heading_atts($atts);
 		return count($media['audio']) ? placepress_audio_playlist($media['audio'],'aside',$includeHeading) : null;
 	}
@@ -33,8 +33,8 @@ function placepress_audio_playlist_shortcode($atts){
 
 function placepress_video_playlist_shortcode($atts){
 	global $post;
-	if(is_singular( 'stories' )){
-		$media=placepress_get_story_media($post);
+	if(is_singular( 'locations' )){
+		$media=placepress_get_location_media($post);
 		$includeHeading = placepress_no_heading_atts($atts);
 		return count($media['video']) ? placepress_video_playlist($media['video'],'aside',$includeHeading) : null;
 	}
@@ -42,9 +42,9 @@ function placepress_video_playlist_shortcode($atts){
 
 function placepress_map_shortcode($atts){
 	global $post;
-	if(is_singular( 'stories' )){
+	if(is_singular( 'locations' )){
 		$includeHeading = placepress_no_heading_atts($atts);
-		return placepress_story_map($post,$includeHeading);
+		return placepress_location_map($post,$includeHeading);
 	}
 }
 

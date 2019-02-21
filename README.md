@@ -2,14 +2,14 @@
 Publish location-based, media-rich, structured narratives. Designed for public historians, urbanists, and other humanities researchers. Adds Tour and Location post types, as well as custom taxonomies and metadata fields.
 
 ## Location Shortcodes
-PlacePress automatically adds custom content to each Story post. If you would like to change the order in which these components appear in a Story post or custom template, you may use the following shortcodes. Each of these accepts a `no-heading` attribute.
-- `[placepress_images]` : custom placement of image gallery within a story
-- `[placepress_audio]` : custom placement of audio playlist within a story
-- `[placepress_video]` : custom placement of video playlist within a story
-- `[placepress_map]` : custom placement of map within a story
+PlacePress automatically adds custom content to each Location post. If you would like to change the order in which these components appear in a Location post or custom template, you may use the following shortcodes. Each of these accepts a `no-heading` attribute.
+- `[placepress_images]` : custom placement of image gallery within a location
+- `[placepress_audio]` : custom placement of audio playlist within a location
+- `[placepress_video]` : custom placement of video playlist within a location
+- `[placepress_map]` : custom placement of map within a location
 
 ## Global Shortcodes
-The following shortcodes may be used to place PlacePress components in any non-Story post or page.
+The following shortcodes may be used to place PlacePress components in any non-Location post or page.
 - `[placepress_global_map]` : adds the global map to a standalone page
 
 ## Helper Functions
@@ -19,10 +19,10 @@ PlacePress attempts to add custom fields and other components to your theme auto
 - `placepress_setting($option)`
 - `placepress_parse_markdown($string,$singleline=true)`
 
-### Stories
+### Locations
 - `placepress_display_media_section($post, $includeImages=true, $includeAudio=true, $includeVideo=true)`
-- `placepress_get_story_media($post)`
-- `placepress_story_map($post,$includeHeading=true)`
+- `placepress_get_location_media($post)`
+- `placepress_location_map($post,$includeHeading=true)`
 - `placepress_street_address($post)`
 - `placepress_access_information($post)`
 - `placepress_official_website($post)`
@@ -30,9 +30,9 @@ PlacePress attempts to add custom fields and other components to your theme auto
 - `placepress_lede($post)`
 - `placepress_related_sources($post)`
 
-The following functions require an array of files, which can be obtained using the `placepress_get_story_media()` function:
+The following functions require an array of files, which can be obtained using the `placepress_get_location_media()` function:
 ```
-$media = placepress_get_story_media($post);
+$media = placepress_get_location_media($post);
 $images = $media['images'];
 $audio = $media['audio'];
 $video = $media['video'];
@@ -45,7 +45,7 @@ Alternately, you may use `placepress_display_media_section()` to display all med
 
 ### Tours
 - `placepress_tour_map($post)`
-- `placepress_stories_for_tour($post)`
+- `placepress_locations_for_tour($post)`
 
 ### Global
 - `placepress_global_map()`

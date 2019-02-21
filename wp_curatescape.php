@@ -10,9 +10,9 @@ Author: CSU Center for Public History + Digital Humanities
 Author URI: http://csudigitalhumanities.org
 Contributors: ebellempire,cphdh
 Donate link: https://csudigitalhumanities.org/about/donate/
-Tags: placepress,history,public history, digital humanities
+Tags: placepress,history,public history, digital humanities,maps
 Requires at least: 4.9
-Tested up to: 4.9
+Tested up to: 5.1
 Requires PHP: 5.2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -137,7 +137,7 @@ add_action( 'wp_enqueue_scripts', 'placepress_public_scripts' ); // Public
 function placepress_public_scripts(){
 	// placepress
 	wp_register_style( 'placepress_public_css', plugin_dir_url( __FILE__ ) . 'styles/public.css');
-	wp_register_script( 'placepress_story_js', plugin_dir_url( __FILE__ ) . 'scripts/story.js', '', '', true);
+	wp_register_script( 'placepress_location_js', plugin_dir_url( __FILE__ ) . 'scripts/location.js', '', '', true);
 	wp_register_script( 'placepress_tour_js', plugin_dir_url( __FILE__ ) . 'scripts/tour.js', '', '', true);
 	wp_register_script( 'placepress_global_map_js', plugin_dir_url( __FILE__ ) . 'scripts/global_map.js', '', '', true);
 	// Leaflet
@@ -155,7 +155,7 @@ function placepress_public_scripts(){
 	wp_register_script( 'photoswipejs_ui', plugin_dir_url( __FILE__ ) . 'libraries/photoswipe/photoswipe-ui-default.min.js', '', '', true);
 
 	// Enqueue
-	if( is_singular('stories') ){
+	if( is_singular('locations') ){
 		wp_enqueue_style( 'placepress_public_css' );
 	    wp_enqueue_style( 'leafletcss' );
 	    wp_enqueue_script( 'leafletjs' );
@@ -168,7 +168,7 @@ function placepress_public_scripts(){
 	    if( placepress_setting( 'maki_markers' )){
 		    wp_enqueue_script( 'makijs' );
 		}
-	    wp_enqueue_script( 'placepress_story_js' );
+	    wp_enqueue_script( 'placepress_location_js' );
 	}
 	if( is_singular( 'tours' ) ){
 		wp_enqueue_style( 'placepress_public_css' );

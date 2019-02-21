@@ -15,7 +15,7 @@ var decodeEntities = (function() {
 })();
 
 // Id
-var mapID = 'placepress-story-map';
+var mapID = 'placepress-location-map';
 
 // Do Map
 if(document.getElementById(mapID)){
@@ -29,7 +29,7 @@ if(document.getElementById(mapID)){
 	var maki = document.getElementById(mapID).getAttribute('data-maki');
 	var color = document.getElementById(mapID).getAttribute('data-maki-color');
 
-	// Story Settings
+	// Location Settings
 	var coords = document.getElementById(mapID).getAttribute('data-coords');
 	var zoom = document.getElementById(mapID).getAttribute('data-zoom');
 	var thumb = document.getElementById(mapID).getAttribute('data-thumb');

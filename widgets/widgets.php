@@ -58,8 +58,8 @@ class PlacePress_Widget extends WP_Widget {
 	public function form( $instance ) {
 		$title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'PlacePress', 'wp_placepress' );
 		$number = ! empty( $instance['number'] ) ? $instance['number'] : 3;
-		$type = ! empty( $instance['type'] ) ? $instance['type'] : 'stories';
-		$select_options = array('stories'=>esc_html__('Stories','wp_placepress'),'tours'=>esc_html__('Tours','wp_placepress'))
+		$type = ! empty( $instance['type'] ) ? $instance['type'] : 'locations';
+		$select_options = array('locations'=>esc_html__('Locations','wp_placepress'),'tours'=>esc_html__('Tours','wp_placepress'))
 		?>
 		<p>
 			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_attr_e( 'Title:', 'wp_placepress' ); ?></label>
@@ -96,7 +96,7 @@ class PlacePress_Widget extends WP_Widget {
 		$instance = array();
 		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
 		$instance['number'] = ( ! empty( $new_instance['number'] ) ) ? strip_tags($new_instance['number']) : 3;
-		$instance['type'] = ( ! empty( $new_instance['type'] ) ) ? strip_tags($new_instance['type']) : 'stories';
+		$instance['type'] = ( ! empty( $new_instance['type'] ) ) ? strip_tags($new_instance['type']) : 'locations';
 		return $instance;
 	}
 }

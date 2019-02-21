@@ -31,9 +31,9 @@ var HttpClient = function() {
     }
 }
 
-var PlacePressStoriesAPI = function(){
+var PlacePressLocationsAPI = function(){
 	var domain = window.location.hostname == 'localhost' ? window.location.hostname +':'+ window.location.port : window.location.hostname;
-	return window.location.protocol+'//'+domain+'?feed=placepress_stories_public';
+	return window.location.protocol+'//'+domain+'?feed=placepress_locations_public';
 }
 
 // Do Map
@@ -130,15 +130,15 @@ if(clustering !== '0'){
 
 // Do Markers
 var client = new HttpClient();
-client.get(PlacePressStoriesAPI(), function(response) {
+client.get(PlacePressLocationsAPI(), function(response) {
     data=JSON.parse(response);
     var markerArray = new Array();
-    data.forEach(function(story){
-	    if(story.location_coordinates){
-		    var featured_img = story.thumb ? story.thumb : null;
-		    var coords = JSON.parse(story.location_coordinates);
-		    var title = '<strong>'+story.title+'</strong>';
-		    var permalink = story.permalink;
+    data.forEach(function(location){
+	    if(location.location_coordinates){
+		    var featured_img = location.thumb ? location.thumb : null;
+		    var coords = JSON.parse(location.location_coordinates);
+		    var title = '<strong>'+location.title+'</strong>';
+		    var permalink = location.permalink;
 			var html ='<a class="placepress_map_thumb" href="'+permalink+'" style="background-image:url('+featured_img+')"></a>';
 			html += '<a class="placepress_map_title" href="'+permalink+'">'+title+'</a>';
 			if(coords){
