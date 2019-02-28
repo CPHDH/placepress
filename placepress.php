@@ -1,7 +1,7 @@
 <?php
 /*
-Plugin Name: PlacePress for WordPress
-Plugin URI: https://placepress.org
+Plugin Name: PlacePress
+Plugin URI: https://wpplacepress.org
 Description: Publish location-based structured narratives using a curated set of editor blocks. Designed for public historians, urbanists, and other humanities researchers. Adds Tour and Location post types (optional), structured content blocks, and custom taxonomies.
 Version: 0.9.7
 Text Domain: wp_placepress
