@@ -14,6 +14,32 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Add PlacePress blocks category
+ */
+function placepress_block_categories( $categories, $post ) {
+    return array_merge(
+        $categories,
+        array(
+            array(
+                'slug' => 'placepress',
+                'title' => __( 'PlacePress', 'wp_placepress' ),
+                'icon'  => 'marker',
+            ),
+        )
+    );
+}
+add_filter( 'block_categories', 'placepress_block_categories', 10, 2 );
+
+function placepress_blacklist_blocks() {
+    wp_enqueue_script(
+        'placepress-blacklist-blocks',
+        plugins_url( 'blacklist.js', __FILE__ ),
+        array( 'wp-blocks', 'wp-dom-ready', 'wp-edit-post' )
+    );
+}
+add_action( 'enqueue_block_editor_assets', 'placepress_blacklist_blocks' );
+
+/**
  * Enqueue Gutenberg block assets for both frontend + backend.
  *
  * @uses {wp-editor} for WP editor styles.

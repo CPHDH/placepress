@@ -9,4 +9,10 @@
  * Webpack is compiling as the input file.
  */
 
-import './block/block.js';
+import './subtitle/block.js';
+import './lede/block.js';
+import './files/block.js';
+import './related-resources/block.js';
+import './map-global/block.js';
+import './map-location/block.js';
+import './map-tour/block.js';
