@@ -51,6 +51,7 @@ require_once plugin_dir_path( __FILE__ ). 'admin/post_types.php';
 
 /*
 ** FIELDS AND METABOXES
+** BLOCKS
 */
 require_once plugin_dir_path( __FILE__ ). 'admin/metaboxes.php';
 
@@ -63,6 +64,7 @@ require_once plugin_dir_path( __FILE__ ). 'admin/menus.php';
 ** JSON OUTPUT
 */
 require_once plugin_dir_path( __FILE__ ). 'output/api.php';
+require_once plugin_dir_path( __FILE__ ). 'placepress-blocks/src/init.php';
 
 /*
 ** WIDGETS
