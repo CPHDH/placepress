@@ -2,6 +2,17 @@
 if( !defined('ABSPATH') ){
 	exit;
 }
+/*
+** GET PLUGIN OPTION
+*/
+function placepress_setting($option){
+	$options=get_option('placepress_options',placepress_options_default());
+	if( isset($options[$option]) ){
+		return $options[$option];
+	}else{
+		return null;
+	}
+}
 
 /*
 ** MENU
@@ -52,29 +63,22 @@ function placepress_register_settings(){
 	*/
 	add_settings_section(
 		'placepress_section_map',
-		esc_html__('Map Settings - General','wp_placepress'),
+		esc_html__('Map Settings: General','wp_placepress'),
 		'placepress_callback_section_map',
 		'placepress'
 	);
 
 	add_settings_section(
 		'placepress_section_mapbox',
-		esc_html__('Map Settings - Mapbox','wp_placepress'),
+		esc_html__('Map Settings: Mapbox','wp_placepress'),
 		'placepress_callback_section_mapbox',
 		'placepress'
 	);
 
 	add_settings_section(
-		'placepress_section_content',
-		esc_html__('Content Settings','wp_placepress'),
-		'placepress_callback_section_content',
-		'placepress'
-	);
-
-	add_settings_section(
-		'placepress_section_other',
-		esc_html__('Additional Settings','wp_placepress'),
-		'placepress_callback_section_other',
+		'placepress_section_custom_post_types',
+		esc_html__('Custom Post Type Settings','wp_placepress'),
+		'placepress_callback_section_custom_post_types',
 		'placepress'
 	);
 
@@ -163,62 +167,17 @@ function placepress_register_settings(){
 		esc_html__('Disable Tours','wp_placepress'),
 		'placepress_callback_field_checkbox',
 		'placepress',
-		'placepress_section_other',
+		'placepress_section_custom_post_types',
 		['id'=>'disable_tours','label'=>esc_html__('Disable Tours','wp_placepress')]
 	);
 
 	add_settings_field(
-		'disable_pswp',
-		esc_html__('Disable Image Viewer','wp_placepress'),
+		'disable_locations',
+		esc_html__('Disable Locations','wp_placepress'),
 		'placepress_callback_field_checkbox',
 		'placepress',
-		'placepress_section_other',
-		['id'=>'disable_pswp','label'=>esc_html__('Disable Photoswipe Image Viewer (images and captions will appear inline in a single column)','wp_placepress')]
-	);
-
-	add_settings_field(
-		'content_subtitle',
-		esc_html__('Subtitle','wp_placepress'),
-		'placepress_callback_field_checkbox',
-		'placepress',
-		'placepress_section_content',
-		['id'=>'content_subtitle','label'=>esc_html__('Automatically add Subtitle','wp_placepress')]
-	);
-
-	add_settings_field(
-		'content_lede',
-		esc_html__('Lede','wp_placepress'),
-		'placepress_callback_field_checkbox',
-		'placepress',
-		'placepress_section_content',
-		['id'=>'content_lede','label'=>esc_html__('Automatically add Lede','wp_placepress')]
-	);
-
-	add_settings_field(
-		'content_related_sources',
-		esc_html__('Related Sources','wp_placepress'),
-		'placepress_callback_field_checkbox',
-		'placepress',
-		'placepress_section_content',
-		['id'=>'content_related_sources','label'=>esc_html__('Automatically add Related Sources','wp_placepress')]
-	);
-
-	add_settings_field(
-		'content_media_gallery',
-		esc_html__('Media','wp_placepress'),
-		'placepress_callback_field_checkbox',
-		'placepress',
-		'placepress_section_content',
-		['id'=>'content_media_gallery','label'=>esc_html__('Automatically add Photo Gallery and Audio/Video Playlists','wp_placepress')]
-	);
-
-	add_settings_field(
-		'content_map',
-		esc_html__('Map','wp_placepress'),
-		'placepress_callback_field_checkbox',
-		'placepress',
-		'placepress_section_content',
-		['id'=>'content_map','label'=>esc_html__('Automatically add Map','wp_placepress')]
+		'placepress_section_custom_post_types',
+		['id'=>'disable_locations','label'=>esc_html__('Disable Locations','wp_placepress')]
 	);
 
 }
@@ -232,17 +191,11 @@ function placepress_options_default(){
 		'default_map_type'=>'carto_light',
 		'default_zoom'=>3,
 		'disable_tours'=>false,
-		'content_subtitle'=>true,
-		'content_lede'=>true,
-		'content_related_sources'=>true,
-		'content_media_gallery'=>true,
-		'content_map'=>true,
 		'mapbox_key'=>null,
 		'mapbox_satellite'=>false,
 		'maki_markers'=>false,
 		'maki_markers_color'=>null,
 		'marker_clustering'=>false,
-		'disable_pswp'=>false,
 	);
 }
 
@@ -258,12 +211,8 @@ function placepress_callback_section_mapbox(){
 	echo '<p>'.sprintf(__('All Mapbox options require an API access token. Get your token at %s (some Mapbox some functionality is rate-limited).','wp_placepress'), '<a target="_blank" href="https://www.mapbox.com/studio/account/tokens/">www.mapbox.com</a>').'</p>';
 }
 
-function placepress_callback_section_content(){
-	echo '<p>'.sprintf(__('PlacePress attempts to add custom fields to your theme automatically using WordPress plugin filters. If you have compatibility issues with your theme or would like to customize where custom content appears, you can use the settings below to disable content filters. A full list of shortcodes and helper functions is available at %s','wp_placepress'),'<a href="https://github.com/CPHDH/wp_placepress#readme">github.com/CPHDH/wp_placepress</a>').'</p>';
-}
-
-function placepress_callback_section_other(){
-	echo '<p>'.esc_html__('Customize additional PlacePress settings.','wp_placepress').'</p>';
+function placepress_callback_section_custom_post_types(){
+	echo '<p>'.esc_html__('Customize PlacePress custom post type settings. If you don\'t wish to use the Location and Tour post types, you can still use most PlacePress blocks in posts and pages.','wp_placepress').'</p>';
 }
 
 // Text
@@ -432,29 +381,9 @@ function placepress_callback_validate_options($input){
 		$input['disable_tours'] = null;
 	} $input['disable_tours'] = $input['disable_tours'] == 1 ? 1 : 0;
 
-	if( ! isset( $input['disable_pswp'] )){
-		$input['disable_pswp'] = null;
-	} $input['disable_pswp'] = $input['disable_pswp'] == 1 ? 1 : 0;
-
-	if( ! isset( $input['content_map'] )){
-		$input['content_map'] = null;
-	} $input['content_map'] = $input['content_map'] == 1 ? 1 : 0;
-
-	if( ! isset( $input['content_media_gallery'] )){
-		$input['content_media_gallery'] = null;
-	} $input['content_media_gallery'] = $input['content_media_gallery'] == 1 ? 1 : 0;
-
-	if( ! isset( $input['content_subtitle'] )){
-		$input['content_subtitle'] = null;
-	} $input['content_subtitle'] = $input['content_subtitle'] == 1 ? 1 : 0;
-
-	if( ! isset( $input['content_lede'] )){
-		$input['content_lede'] = null;
-	} $input['content_lede'] = $input['content_lede'] == 1 ? 1 : 0;
-
-	if( ! isset( $input['content_related_sources'] )){
-		$input['content_related_sources'] = null;
-	} $input['content_related_sources'] = $input['content_related_sources'] == 1 ? 1 : 0;
+	if( ! isset( $input['disable_locations'] )){
+		$input['disable_locations'] = null;
+	} $input['disable_locations'] = $input['disable_locations'] == 1 ? 1 : 0;
 
 	if( ! isset( $input['mapbox_satellite'] )){
 		$input['mapbox_satellite'] = null;
