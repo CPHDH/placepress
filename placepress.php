@@ -3,14 +3,14 @@
 Plugin Name: PlacePress for WordPress
 Plugin URI: https://placepress.org
 Description: Publish location-based structured narratives using a curated set of editor blocks. Designed for public historians, urbanists, and other humanities researchers. Adds Tour and Location post types (optional), structured content blocks, and custom taxonomies.
-Version: 0.9.4
+Version: 0.9.7
 Text Domain: wp_placepress
 Domain Path: /languages
 Author: CSU Center for Public History + Digital Humanities
 Author URI: http://csudigitalhumanities.org
 Contributors: ebellempire,cphdh
 Donate link: https://csudigitalhumanities.org/about/donate/
-Tags: placepress,history,public history, digital humanities,maps
+Tags: placepress, history, public history, digital humanities, maps, curatescape, blocks, gutenburg, location, tour, post types
 Requires at least: 4.9
 Tested up to: 5.1
 Requires PHP: 5.2.4
