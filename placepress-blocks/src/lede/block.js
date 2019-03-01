@@ -1,16 +1,14 @@
 /**
- * BLOCK: placepress-blocks
- *
- * Registering a basic block with Gutenberg.
- * Simple block, renders and saves the same content without any interactivity.
- */
+ * BLOCK: placepress/block-lede
+*/
 
 //  Import CSS.
 import './style.scss';
 import './editor.scss';
 
-const { __ } = wp.i18n; // Import __() from wp.i18n
-const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
+const { __ } = wp.i18n;
+const { registerBlockType, getBlockDefaultClassName } = wp.blocks;
+const { PlainText, InspectorControls } = wp.editor;
 
 /**
  * Register: aa Gutenberg Block.
@@ -26,68 +24,60 @@ const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.b
  *                             registered; otherwise `undefined`.
  */
 registerBlockType( 'placepress/block-lede', {
-	// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
-	title: __( 'Lede' ), // Block title.
-	icon: 'format-aside', // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
-	category: 'placepress', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
+	title: __( 'Lede' ),
+	icon: 'format-aside',
+	category: 'placepress',
 	keywords: [
 		__( 'Lede' ),
     __( 'Abstract' ),
 		__( 'PlacePress' ),
 	],
-
-	/**
-	 * The edit function describes the structure of your block in the context of the editor.
-	 * This represents what the editor will render when the block is used.
-	 *
-	 * The "edit" property must be a valid function.
-	 *
+  description: __( 'A block for creating an introductory lede or abstract paragraph. Place it directly below the title or subtitle.' ),
+  useOnce:true,
+  attributes: {
+    content: {
+        type: 'string',
+        selector: '.lede-pp',
+    }
+  },
+  /**
 	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 */
-	edit: function( props ) {
-		// Creates a <p class='wp-block-cgb-block-placepress-blocks'></p>.
+	edit( props ) {
+    const { className, setAttributes } = props;
+    const { attributes } = props;
+
+    function changeContent(changes) {
+        setAttributes({
+            content: changes
+        })
+    }
+
 		return (
-			<div className={ props.className }>
-				<p>— Hello from the backend.</p>
-				<p>
-					CGB BLOCK: <code>placepress-blocks</code> is a new Gutenberg block
-				</p>
-				<p>
-					It was created via{ ' ' }
-					<code>
-						<a href="https://github.com/ahmadawais/create-guten-block">
-							create-guten-block
-						</a>
-					</code>.
-				</p>
-			</div>
+      <div className={className}>
+      <PlainText
+          className="lede-pp"
+          tagName="p"
+          rows="4"
+          placeholder={ __("Enter some introductory text here.", 'wp_placepress') }
+          value={attributes.content}
+          onChange={changeContent}
+          />
+      </div>
 		);
 	},
 
 	/**
-	 * The save function defines the way in which the different attributes should be combined
-	 * into the final markup, which is then serialized by Gutenberg into post_content.
-	 *
-	 * The "save" property must be specified and must be a valid function.
-	 *
 	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 */
-	save: function( props ) {
+	save( props ) {
+    const className = getBlockDefaultClassName('placepress/block-lede');
+    const { attributes } = props;
+
 		return (
-			<div>
-				<p>— Hello from the frontend.</p>
-				<p>
-					CGB BLOCK: <code>placepress-blocks</code> is a new Gutenberg block.
-				</p>
-				<p>
-					It was created via{ ' ' }
-					<code>
-						<a href="https://github.com/ahmadawais/create-guten-block">
-							create-guten-block
-						</a>
-					</code>.
-				</p>
-			</div>
+      <div className={className}>
+      <p class="lede-pp">{attributes.content}</p>
+      </div>
 		);
 	},
 } );

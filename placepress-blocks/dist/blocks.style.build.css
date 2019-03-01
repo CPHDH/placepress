@@ -5,17 +5,12 @@
  * that are used across the project.
 */
 /**
- * #.# Styles
- *
  * CSS for both Frontend+Backend.
  */
-.wp-block-cgb-block-placepress-blocks {
-  background: orangered;
-  border: 0.2rem solid #292929;
-  color: #292929;
-  margin: 0 auto;
-  max-width: 740px;
-  padding: 2rem; }
+.wp-block-placepress-block-subtitle .subtitle-pp {
+  font-size: 2rem;
+  line-height: 1.4em;
+  text-transform: uppercase; }
 /**
  * #.# Common SCSS
  *
@@ -27,13 +22,10 @@
  *
  * CSS for both Frontend+Backend.
  */
-.wp-block-cgb-block-placepress-blocks {
-  background: orangered;
-  border: 0.2rem solid #292929;
-  color: #292929;
-  margin: 0 auto;
-  max-width: 740px;
-  padding: 2rem; }
+.wp-block-placepress-block-lede .lede-pp {
+  font-size: 1.6rem;
+  line-height: 1.4em;
+  font-style: italic; }
 /**
  * #.# Common SCSS
  *
