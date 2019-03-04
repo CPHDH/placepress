@@ -6,7 +6,7 @@ const { registerBlockType, getBlockDefaultClassName } = wp.blocks;
 const { PlainText, InspectorControls } = wp.editor;
 
 registerBlockType( 'placepress/block-map-tour', {
- 	title: __( 'Map: Tour' ),
+ 	title: __( 'Tour Map' ),
  	icon: 'location',
  	category: 'placepress',
  	keywords: [

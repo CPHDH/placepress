@@ -23,7 +23,7 @@ function placepress_block_categories( $categories, $post ) {
             array(
                 'slug' => 'placepress',
                 'title' => __( 'PlacePress', 'wp_placepress' ),
-                'icon'  => 'marker',
+                'icon'  => 'location',
             ),
         )
     );

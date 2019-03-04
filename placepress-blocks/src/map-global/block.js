@@ -6,7 +6,7 @@ const { registerBlockType, getBlockDefaultClassName } = wp.blocks;
 const { PlainText, InspectorControls } = wp.editor;
 
 registerBlockType( 'placepress/block-map-global', {
- 	title: __( 'Map: Global' ),
+ 	title: __( 'Global Map' ),
  	icon: 'location-alt',
  	category: 'placepress',
  	keywords: [
