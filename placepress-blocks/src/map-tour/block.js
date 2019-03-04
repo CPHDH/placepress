@@ -22,8 +22,11 @@ registerBlockType( 'placepress/block-map-tour', {
   },
   description: __( 'A block for adding a tour map.' ),
   attributes: {
+    // @TODO: Enable metaboxes for _block-map-tour-items
     content: {
         type: 'string',
+        // source: 'meta',
+        // meta: '_block-map-tour-items',
         selector: '.map-location-pp',
       }
   },

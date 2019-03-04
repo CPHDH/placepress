@@ -50,6 +50,11 @@ require_once plugin_dir_path( __FILE__ ). 'admin/settings.php';
 require_once plugin_dir_path( __FILE__ ). 'admin/post_types.php';
 
 /*
+** METABOXES
+*/
+require_once plugin_dir_path( __FILE__ ). 'admin/metaboxes.php';
+
+/*
 ** BLOCKS
 */
 require_once plugin_dir_path( __FILE__ ). 'placepress-blocks/src/init.php';

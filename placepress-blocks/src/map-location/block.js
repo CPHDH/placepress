@@ -22,8 +22,14 @@ registerBlockType( 'placepress/block-map-location', {
   },
   description: __( 'A block for adding a location map.' ),
   attributes: {
+    // @TODO: enable metaboxes for...
+    //  _block-map-location-coordinates
+    //  _block-map-location-caption
+    //  _block-map-location-zoom
     content: {
         type: 'string',
+        // source: 'meta',
+        // meta: '_block-map-location-coordinates',
         selector: '.map-location-pp',
       }
   },
