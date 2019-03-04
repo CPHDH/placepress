@@ -75,13 +75,6 @@ function placepress_register_settings(){
 		'placepress'
 	);
 
-	add_settings_section(
-		'placepress_section_custom_post_types',
-		esc_html__('Custom Post Type Settings','wp_placepress'),
-		'placepress_callback_section_custom_post_types',
-		'placepress'
-	);
-
 	/*
 	** Fields
 	*/
@@ -162,24 +155,6 @@ function placepress_register_settings(){
 		['id'=>'maki_markers_color','label'=>esc_html__('Enter an HTML hexadecimal color code (e.g. #000000).','wp_placepress')]
 	);
 
-	add_settings_field(
-		'disable_tours',
-		esc_html__('Disable Tours','wp_placepress'),
-		'placepress_callback_field_checkbox',
-		'placepress',
-		'placepress_section_custom_post_types',
-		['id'=>'disable_tours','label'=>esc_html__('Disable Tours','wp_placepress')]
-	);
-
-	add_settings_field(
-		'disable_locations',
-		esc_html__('Disable Locations','wp_placepress'),
-		'placepress_callback_field_checkbox',
-		'placepress',
-		'placepress_section_custom_post_types',
-		['id'=>'disable_locations','label'=>esc_html__('Disable Locations','wp_placepress')]
-	);
-
 }
 
 /*
@@ -209,10 +184,6 @@ function placepress_callback_section_map(){
 
 function placepress_callback_section_mapbox(){
 	echo '<p>'.sprintf(__('All Mapbox options require an API access token. Get your token at %s (some Mapbox some functionality is rate-limited).','wp_placepress'), '<a target="_blank" href="https://www.mapbox.com/studio/account/tokens/">www.mapbox.com</a>').'</p>';
-}
-
-function placepress_callback_section_custom_post_types(){
-	echo '<p>'.esc_html__('Customize PlacePress custom post type settings. If you don\'t wish to use the Location and Tour post types, you can still use PlacePress map blocks in posts and pages.','wp_placepress').'</p>';
 }
 
 // Text

@@ -13,4 +13,9 @@ wp.domReady( function() {
       wp.blocks.unregisterBlockType( 'placepress/block-map-global' );
     }
 
+    if(postType == ( 'page' || 'post' )){
+      wp.blocks.unregisterBlockType( 'placepress/block-map-location' );
+      wp.blocks.unregisterBlockType( 'placepress/block-map-tour' );
+    }
+
 } );
