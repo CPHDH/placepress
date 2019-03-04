@@ -212,7 +212,7 @@ function placepress_callback_section_mapbox(){
 }
 
 function placepress_callback_section_custom_post_types(){
-	echo '<p>'.esc_html__('Customize PlacePress custom post type settings. If you don\'t wish to use the Location and Tour post types, you can still use most PlacePress blocks in posts and pages.','wp_placepress').'</p>';
+	echo '<p>'.esc_html__('Customize PlacePress custom post type settings. If you don\'t wish to use the Location and Tour post types, you can still use PlacePress map blocks in posts and pages.','wp_placepress').'</p>';
 }
 
 // Text
