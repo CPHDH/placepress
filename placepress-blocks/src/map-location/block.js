@@ -3,7 +3,10 @@ import './editor.scss';
 
 const { __ } = wp.i18n;
 const { registerBlockType, getBlockDefaultClassName } = wp.blocks;
-const { PlainText, InspectorControls } = wp.editor;
+const { PlainText, InspectorControls, PanelBody } = wp.editor;
+const { TextareaControl, TextControl } = wp.components;
+const { withState } = wp.compose;
+
 
 registerBlockType( 'placepress/block-map-location', {
  	title: __( 'Location Map' ),
@@ -22,45 +25,60 @@ registerBlockType( 'placepress/block-map-location', {
   },
   description: __( 'A block for adding a location map.' ),
   attributes: {
-    // @TODO: enable metaboxes for...
-    //  _block-map-location-coordinates
-    //  _block-map-location-caption
-    //  _block-map-location-zoom
-    content: {
+    caption: {
         type: 'string',
-        // source: 'meta',
-        // meta: '_block-map-location-coordinates',
-        selector: '.map-location-pp',
-      }
+        source: 'text',
+        selector: '.map-caption-pp'
+    },
+    coords: {
+        type: 'string',
+        selector: 'div.map-pp',
+        source: 'attribute',
+        attribute: 'data-coords',
+    },
+    zoom: {
+        type: 'string',
+        selector: 'div.map-pp',
+        source: 'attribute',
+        attribute: 'data-zoom',
+    },
+
   },
 	edit: function( props ) {
-    const { className, setAttributes } = props;
-    const { attributes } = props;
+    const { attributes: { caption, zoom, coordinates }, className, setAttributes } = props;
+    const onChangeCaption = caption => { setAttributes( { caption } ) };
 
-    function changeContent(changes) {
-        setAttributes({
-            content: changes
-        })
-    }
-		return (
-			<div className={ props.className }>
-      <PlainText
-          className="map-location-pp"
-          tagName="p"
-          placeholder={ __("Enter coordinates here.", 'wp_placepress') }
-          value={attributes.content}
-          onChange={changeContent}
+    return (
+      <div className={ props.className }>
+        <TextControl
+          className="query-pp"
+          tagName="input"
+          placeholder={ __('Type a query and press Enter/Return.', 'wp_placepress') }
           />
-			</div>
-		);
-	},
+        <figure>
+          <div class="map-pp" data-coords="0,0" data-zoom="0"></div>
+          <TextareaControl
+              rows="2"
+              className="map-caption-pp"
+              tagName="figcaption"
+              placeholder={ __('Type a caption for the map (optional).', 'wp_placepress') }
+              value={ caption }
+              onChange={ onChangeCaption }
+              />
+        </figure>
+      </div>
+    );
+	 },
 	save: function( props ) {
     const className = getBlockDefaultClassName('placepress/block-map-location');
     const { attributes } = props;
 
 		return (
-      <div className={className}>
-      <p class="map-location-pp">{attributes.content}</p>
+      <div className={ props.className }>
+        <figure>
+          <div class="map-pp" data-coords={ attributes.coords } data-zoom={ attributes.zoom }></div>
+          <figcaption class="map-caption-pp">{ attributes.caption }</figcaption>
+        </figure>
       </div>
 		);
 	},

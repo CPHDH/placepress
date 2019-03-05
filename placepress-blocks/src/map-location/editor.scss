@@ -1,5 +1,26 @@
 .wp-block-placepress-block-map-location  {
-  .map-location-pp{
-
+  .query-pp{
+    z-index: 999;
+    position: relative;
+    max-width: calc(100% - 2em);
+    margin: 0 auto -5em;
+  }
+  .query-pp input,.map-caption-pp textarea{
+    opacity: .7;
+  }
+  .map-caption-pp textarea{
+    border-color:transparent;
+    resize:none;
+  }
+  .query-pp input:focus,.map-caption-pp textarea:focus{
+    opacity: 1;
+  }
+  .map-caption-pp textarea:hover{
+    border-color: #8d96a0;
+    resize:vertical;
+  }
+  .map-caption-pp textarea:focus{
+    border-color: #00a0d2;
+    resize:vertical;
   }
 }
