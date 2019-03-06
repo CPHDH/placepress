@@ -1,6 +1,6 @@
 wp.domReady( function() {
 
-    // @TODO: there must be a better way
+    // Unregister blocks depending on post type
     let postType=document.querySelector('form.metabox-base-form input#post_type').value;
 
     if(postType == 'locations'){
