@@ -1,9 +1,12 @@
 .wp-block-placepress-block-map-location  {
   .query-pp{
     z-index: 999;
-    position: relative;
-    max-width: calc(100% - 2em);
-    margin: 0 auto -5em;
+    position: absolute;
+    display: block;
+    width: calc(100% - 2em);
+    margin: 0;
+    top:1em;
+    left:1em;
   }
   .query-pp input,.map-caption-pp textarea{
     opacity: .7;

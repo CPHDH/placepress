@@ -36,6 +36,11 @@ function placepress_editor_js() {
         plugins_url( 'settings.js', __FILE__ ),
         array( 'wp-blocks', 'wp-dom-ready', 'wp-edit-post' )
     );
+		wp_localize_script( 'placepress-settings', 'placepress_plugin_settings',
+        array(
+            'placepress_defaults' => get_option('placepress_options', placepress_options_default()),
+        )
+		);
 }
 add_action( 'enqueue_block_editor_assets', 'placepress_editor_js' );
 

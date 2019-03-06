@@ -44,19 +44,30 @@ registerBlockType( 'placepress/block-map-location', {
     },
 
   },
-	edit: function( props ) {
-    const { attributes: { caption, zoom, coordinates }, className, setAttributes } = props;
+	edit( props ) {
+    const { attributes: { caption, zoom, coords }, className, setAttributes } = props;
     const onChangeCaption = caption => { setAttributes( { caption } ) };
 
+    let defaults = placepress_plugin_settings.placepress_defaults;
+
+    if(!zoom) props.setAttributes( { zoom: defaults.default_zoom } );
+    if(!coords) props.setAttributes( { coords: defaults.default_coordinates } );
+
     return (
-      <div className={ props.className }>
+      <div className={ props.className } aria-label={__('Interactive Map')} role="region">
         <TextControl
           className="query-pp"
           tagName="input"
-          placeholder={ __('Type a query and press Enter/Return.', 'wp_placepress') }
+          placeholder={ __('Type a query and press Enter/Return.','wp_placepress') }
           />
         <figure>
-          <div class="map-pp" data-coords="0,0" data-zoom="0"></div>
+          <div class="map-pp"
+            data-coords={ coords }
+            data-zoom={ zoom }
+            data-mb-key={ defaults.mapbox_key }
+            data-maki={ defaults.maki_markers }
+            data-maki-color={ defaults.maki_markers_color }
+            data-map-type={ defaults.default_map_type }></div>
           <TextareaControl
               rows="2"
               className="map-caption-pp"
@@ -69,14 +80,21 @@ registerBlockType( 'placepress/block-map-location', {
       </div>
     );
 	 },
-	save: function( props ) {
+	save( props ) {
     const className = getBlockDefaultClassName('placepress/block-map-location');
     const { attributes } = props;
+    let defaults = placepress_plugin_settings.placepress_defaults;
 
-		return (
-      <div className={ props.className }>
+    return (
+      <div className={ props.className } aria-label={__('Interactive Map')} role="region">
         <figure>
-          <div class="map-pp" data-coords={ attributes.coords } data-zoom={ attributes.zoom }></div>
+          <div class="map-pp"
+            data-coords={ attributes.coords }
+            data-zoom={ attributes.zoom }
+            data-mb-key={ defaults.mapbox_key }
+            data-maki={ defaults.maki_markers }
+            data-maki-color={ defaults.maki_markers_color }
+            data-map-type={ defaults.default_map_type }></div>
           <figcaption class="map-caption-pp">{ attributes.caption }</figcaption>
         </figure>
       </div>
