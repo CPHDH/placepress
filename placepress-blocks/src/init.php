@@ -58,6 +58,13 @@ function placepress_blocks_cgb_block_assets() { // phpcs:ignore
 		array( 'wp-editor' ) // Dependency to include the CSS after it.
 		// filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.style.build.css' ) // Version: File modification time.
 	);
+
+	wp_enqueue_script(
+			'placepress-location',
+			plugins_url( 'placepress-location.js', __FILE__ ),
+			array( )
+	);
+
 }
 
 // Hook: Frontend assets.
