@@ -79,12 +79,21 @@ function placepress_register_settings(){
 	** Fields
 	*/
 	add_settings_field(
-		'default_coordinates',
-		esc_html__('Default Coordinates','wp_placepress'),
+		'default_latitude',
+		esc_html__('Default Latitude','wp_placepress'),
 		'placepress_callback_field_text',
 		'placepress',
 		'placepress_section_map',
-		['id'=>'default_coordinates','label'=>esc_html__('Enter the default map coordinates, e.g. [41.503240, -81.675249]','wp_placepress')]
+		['id'=>'default_latitude','label'=>esc_html__('Enter the default map latitude, e.g. 41.503240','wp_placepress')]
+	);
+
+	add_settings_field(
+		'default_longitude',
+		esc_html__('Default Longitude','wp_placepress'),
+		'placepress_callback_field_text',
+		'placepress',
+		'placepress_section_map',
+		['id'=>'default_longitude','label'=>esc_html__('Enter the default map longitude, e.g. -81.675249','wp_placepress')]
 	);
 
 	add_settings_field(
@@ -95,9 +104,11 @@ function placepress_register_settings(){
 		'placepress_section_map',
 		['id'=>'default_map_type',
 		'label'=>'Choose the default map type','options'=>array(
-			'carto_light'=>esc_html__('Street (Carto Light)','wp_placepress'),
-			'stamen_terrain'=>esc_html__('Terrain (Stamen)','wp_placepress'),
-			'osm'=>esc_html__('Standard (Open Street Maps)','wp_placepress'),
+			'carto_light'=>esc_html__('Carto Light (Street)','wp_placepress'),
+			'carto_dark'=>esc_html__('Carto Dark (Street)','wp_placepress'),
+			'carto_voyager'=>esc_html__('Carto Voyager (Street)','wp_placepress'),
+			'stamen_terrain'=>esc_html__('Stamen (Terrain)','wp_placepress'),
+			'osm'=>esc_html__('Open Street Maps (Street)','wp_placepress'),
 		)]
 	);
 
@@ -107,7 +118,7 @@ function placepress_register_settings(){
 		'placepress_callback_field_text_number',
 		'placepress',
 		'placepress_section_map',
-		['id'=>'default_zoom','label'=>esc_html__('Choose a number between 0 (zoomed out) and 20 (zoomed in). Setting this option to negative one (-1) will auto-fit all markers to the available space.','wp_placepress'),'min'=>-1,'max'=>20]
+		['id'=>'default_zoom','label'=>esc_html__('Choose a number between 0 (zoomed out) and 20 (zoomed in).','wp_placepress'),'min'=>0,'max'=>20]
 	);
 
 	add_settings_field(
@@ -152,7 +163,7 @@ function placepress_register_settings(){
 		'placepress_callback_field_text',
 		'placepress',
 		'placepress_section_mapbox',
-		['id'=>'maki_markers_color','label'=>esc_html__('Enter an HTML hexadecimal color code (e.g. #000000).','wp_placepress')]
+		['id'=>'maki_markers_color','label'=>sprintf(__('Enter an HTML hexadecimal color code (e.g. %s).','wp_placepress'),'<code>#000000</code>')]
 	);
 
 }
@@ -162,10 +173,10 @@ function placepress_register_settings(){
 */
 function placepress_options_default(){
 	return array(
-		'default_coordinates'=>'[41.503240, -81.675249]',
+		'default_latitude'=>41.503240,
+		'default_longitude'=>-81.675249,
 		'default_map_type'=>'carto_light',
-		'default_zoom'=>3,
-		'disable_tours'=>false,
+		'default_zoom'=>12,
 		'mapbox_key'=>null,
 		'mapbox_satellite'=>false,
 		'maki_markers'=>false,
@@ -286,44 +297,48 @@ function placepress_callback_validate_options($input){
 
 	$defaults=placepress_options_default();
 
-	if( isset( $input['default_coordinates'] )){
-		$v = str_replace(' ', '', $input['default_coordinates']);
-
-		if( strlen( $v ) ){
-			// if user input exists, create JSON object
-			$jsonObject = json_decode( $v );
+	if( isset( $input['default_latitude'] )){
+		$v=trim($input['default_latitude']);
+		if( is_numeric($v) && ($v >= -90) && ($v <= 90) ){
+			$input['default_latitude'] = sanitize_text_field(floatval($v));
 		}else{
-			// set JSON object to null and fail
-			$jsonObject = null;
-		}
-
-		if( strlen( $v ) && $jsonObject === null ) {
-			// if user input exists but isn't in JSON format, add square braces, cross fingers, and try again
-			$v='['.$v.']';
-			$jsonObject = json_decode( $v );
-		}
-
-		if( count($jsonObject) && (count( $jsonObject ) !== count( array_filter( $jsonObject, 'is_numeric' ) )) ){
-			// if the JSON array is not numeric, set object to null and fail
-			$jsonObject = null;
-		}
-
-		if( ( $jsonObject === null || count($jsonObject) !== 2 ) ){
-			// if we still don't have a JSON array with two numeric values, give up, reset to default, and show error
-			$userInput = strlen( trim($v) ) ? $v : __('(empty)','wp_placepress');
 			add_settings_error(
-				'default_coordinates',
-				'default_coordinates',
-				sprintf(__('You entered %s for Default Coordinates. Please enter valid coordinates. Reverting to plugin default coordinates. Please try again.','wp_placepress'),$userInput),
+				'default_latitude',
+				'default_latitude',
+				sprintf(__('You entered "%s" for Default Latitude. Please enter a number between -90 and 90. Reverting to default. Please try again.','wp_placepress'),$v),
 				'error' );
-			$input['default_coordinates'] = $defaults['default_coordinates'];
-		}else{
-			$input['default_coordinates'] = sanitize_text_field( $v );
+			$input['default_latitude'] = $defaults['default_latitude'];
 		}
 	}
 
+	if( isset( $input['default_longitude'] )){
+		$v=trim($input['default_longitude']);
+		if( is_numeric($v) && ($v >= -180) && ($v <= 180) ){
+			$input['default_longitude'] = sanitize_text_field(floatval($v));
+		}else{
+			add_settings_error(
+				'default_longitude',
+				'default_longitude',
+				sprintf(__('You entered "%s" for Default Longitude. Please enter a number between -180 and 180. Reverting to default. Please try again.','wp_placepress'),$v),
+				'error' );
+			$input['default_longitude'] = $defaults['default_longitude'];
+		}
+	}
+
+
 	if( isset( $input['default_zoom'] )){
-		$input['default_zoom'] = sanitize_text_field( $input['default_zoom'] );
+		$v=trim($input['default_zoom']);
+		if( is_numeric($v) && ($v >= 0) && ($v <= 20) ){
+			$input['default_zoom'] = sanitize_text_field( intval($v) );
+		}else{
+			add_settings_error(
+				'default_zoom',
+				'default_zoom',
+				sprintf(__('You entered "%s" for Default Zoom. Please enter a number between 0 and 20. Reverting to default. Please try again.','wp_placepress'),$v),
+				'error' );
+			$input['default_zoom'] = $defaults['default_zoom'];
+		}
+
 	}
 
 	if( isset( $input['mapbox_key'] )){
@@ -339,22 +354,16 @@ function placepress_callback_validate_options($input){
 	}
 
 	$map_types=array(
-		'carto_light'=>esc_html__('Street (Carto Light)','wp_placepress'),
-		'stamen_terrain'=>esc_html__('Terrain (Stamen)','wp_placepress'),
-		'osm'=>esc_html__('Street (Open Street Maps)','wp_placepress'),
+		'carto_light'=>esc_html__('Carto Light (Street)','wp_placepress'),
+		'carto_dark'=>esc_html__('Carto Dark (Street)','wp_placepress'),
+		'carto_voyager'=>esc_html__('Carto Voyager (Street)','wp_placepress'),
+		'stamen_terrain'=>esc_html__('Stamen (Terrain)','wp_placepress'),
+		'osm'=>esc_html__('Open Street Maps (Street)','wp_placepress'),
 	);
 
 	if( ! array_key_exists( $input['default_map_type'], $map_types )){
 		$input['default_map_type'] = null;
 	}
-
-	if( ! isset( $input['disable_tours'] )){
-		$input['disable_tours'] = null;
-	} $input['disable_tours'] = $input['disable_tours'] == 1 ? 1 : 0;
-
-	if( ! isset( $input['disable_locations'] )){
-		$input['disable_locations'] = null;
-	} $input['disable_locations'] = $input['disable_locations'] == 1 ? 1 : 0;
 
 	if( ! isset( $input['mapbox_satellite'] )){
 		$input['mapbox_satellite'] = null;

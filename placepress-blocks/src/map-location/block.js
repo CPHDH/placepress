@@ -30,11 +30,17 @@ registerBlockType( 'placepress/block-map-location', {
         source: 'text',
         selector: '.map-caption-pp'
     },
-    coords: {
+    lat: {
         type: 'string',
         selector: 'div.map-pp',
         source: 'attribute',
-        attribute: 'data-coords',
+        attribute: 'data-lat',
+    },
+    lon: {
+        type: 'string',
+        selector: 'div.map-pp',
+        source: 'attribute',
+        attribute: 'data-lon',
     },
     zoom: {
         type: 'string',
@@ -51,7 +57,8 @@ registerBlockType( 'placepress/block-map-location', {
     let defaults = placepress_plugin_settings.placepress_defaults;
 
     if(!zoom) props.setAttributes( { zoom: defaults.default_zoom } );
-    if(!coords) props.setAttributes( { coords: defaults.default_coordinates } );
+    if(!lat) props.setAttributes( { lat: defaults.default_latitude } );
+    if(!lon) props.setAttributes( { lon: defaults.default_longitude } );
 
     return (
       <div className={ props.className } aria-label={__('Interactive Map')} role="region">
@@ -62,7 +69,8 @@ registerBlockType( 'placepress/block-map-location', {
           />
         <figure>
           <div class="map-pp"
-            data-coords={ coords }
+            data-lat={ lat }
+            data-lon={ lon }
             data-zoom={ zoom }
             data-mb-key={ defaults.mapbox_key }
             data-maki={ defaults.maki_markers }
@@ -89,7 +97,8 @@ registerBlockType( 'placepress/block-map-location', {
       <div className={ props.className } aria-label={__('Interactive Map')} role="region">
         <figure>
           <div class="map-pp"
-            data-coords={ attributes.coords }
+            data-lat={ attributes.lat }
+            data-lon={ attributes.lon }
             data-zoom={ attributes.zoom }
             data-mb-key={ defaults.mapbox_key }
             data-maki={ defaults.maki_markers }
