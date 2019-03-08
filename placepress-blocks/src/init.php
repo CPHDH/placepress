@@ -59,10 +59,22 @@ function placepress_blocks_cgb_block_assets() { // phpcs:ignore
 		// filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.style.build.css' ) // Version: File modification time.
 	);
 
+	wp_enqueue_style(
+		'placepress-leaflet-css',
+		'https://unpkg.com/leaflet@1.4.0/dist/leaflet.css',
+		array()
+	);
+
+	wp_enqueue_script(
+			'placepress-leaflet-js',
+			'https://unpkg.com/leaflet@1.4.0/dist/leaflet.js',
+			array()
+	);
+
 	wp_enqueue_script(
 			'placepress-location',
 			plugins_url( 'placepress-location.js', __FILE__ ),
-			array( )
+			array()
 	);
 
 }
