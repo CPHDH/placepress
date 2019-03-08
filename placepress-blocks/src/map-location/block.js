@@ -48,17 +48,47 @@ registerBlockType( 'placepress/block-map-location', {
         source: 'attribute',
         attribute: 'data-zoom',
     },
-
+    mb_key: {
+        type: 'string',
+        selector: 'div.map-pp',
+        source: 'attribute',
+        attribute: 'data-mb-key',
+    },
+    maki: {
+        type: 'string',
+        selector: 'div.map-pp',
+        source: 'attribute',
+        attribute: 'data-zoom',
+    },
+    maki_color: {
+        type: 'string',
+        selector: 'div.map-pp',
+        source: 'attribute',
+        attribute: 'data-maki-color',
+    },
+    basemap: {
+        type: 'string',
+        selector: 'div.map-pp',
+        source: 'attribute',
+        attribute: 'data-basemap',
+    },
   },
 	edit( props ) {
-    const { attributes: { caption, zoom, coords }, className, setAttributes } = props;
+    const { attributes: { caption, zoom, lat, lon, mb_key, maki, maki_color, basemap }, className, setAttributes } = props;
     const onChangeCaption = caption => { setAttributes( { caption } ) };
 
-    let defaults = placepress_plugin_settings.placepress_defaults;
+    var onSubmitQuery = function(e){
+      console.log(e);
+    }
 
+    let defaults = placepress_plugin_settings.placepress_defaults;
     if(!zoom) props.setAttributes( { zoom: defaults.default_zoom } );
     if(!lat) props.setAttributes( { lat: defaults.default_latitude } );
     if(!lon) props.setAttributes( { lon: defaults.default_longitude } );
+    if(!mb_key) props.setAttributes( { mb_key: defaults.mapbox_key } );
+    if(!maki) props.setAttributes( { maki: defaults.maki_markers } );
+    if(!maki_color) props.setAttributes( { maki_color: defaults.maki_markers_color } );
+    if(!basemap) props.setAttributes( { basemap: defaults.default_map_type } );
 
     return (
       <div className={ props.className } aria-label={__('Interactive Map')} role="region">
@@ -66,16 +96,17 @@ registerBlockType( 'placepress/block-map-location', {
           className="query-pp"
           tagName="input"
           placeholder={ __('Type a query and press Enter/Return.','wp_placepress') }
+          onChange={ onSubmitQuery }
           />
         <figure>
-          <div class="map-pp"
+          <div class="map-pp" id="placepress-map"
             data-lat={ lat }
             data-lon={ lon }
             data-zoom={ zoom }
-            data-mb-key={ defaults.mapbox_key }
-            data-maki={ defaults.maki_markers }
-            data-maki-color={ defaults.maki_markers_color }
-            data-map-type={ defaults.default_map_type }></div>
+            data-mb-key={ mb_key }
+            data-maki={ maki }
+            data-maki-color={ maki_color }
+            data-basemap={ basemap }></div>
           <TextareaControl
               rows="2"
               className="map-caption-pp"
@@ -91,19 +122,18 @@ registerBlockType( 'placepress/block-map-location', {
 	save( props ) {
     const className = getBlockDefaultClassName('placepress/block-map-location');
     const { attributes } = props;
-    let defaults = placepress_plugin_settings.placepress_defaults;
 
     return (
       <div className={ props.className } aria-label={__('Interactive Map')} role="region">
         <figure>
-          <div class="map-pp"
+          <div class="map-pp" id="placepress-map"
             data-lat={ attributes.lat }
             data-lon={ attributes.lon }
             data-zoom={ attributes.zoom }
-            data-mb-key={ defaults.mapbox_key }
-            data-maki={ defaults.maki_markers }
-            data-maki-color={ defaults.maki_markers_color }
-            data-map-type={ defaults.default_map_type }></div>
+            data-mb-key={ attributes.mapbox_key }
+            data-maki={ attributes.maki_markers }
+            data-maki-color={ attributes.maki_markers_color }
+            data-basemap={ attributes.basemap }></div>
           <figcaption class="map-caption-pp">{ attributes.caption }</figcaption>
         </figure>
       </div>
