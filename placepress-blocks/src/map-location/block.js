@@ -72,13 +72,19 @@ registerBlockType( 'placepress/block-map-location', {
         source: 'attribute',
         attribute: 'data-basemap',
     },
+    query: {
+        type: 'string',
+        selector: 'input.query-pp',
+        source: 'text',
+    },
   },
 	edit( props ) {
-    const { attributes: { caption, zoom, lat, lon, mb_key, maki, maki_color, basemap }, className, setAttributes } = props;
+    const { attributes: { caption, zoom, lat, lon, mb_key, maki, maki_color, basemap, query }, className, setAttributes } = props;
     const onChangeCaption = caption => { setAttributes( { caption } ) };
 
     var onSubmitQuery = function(e){
-      console.log(e);
+      e.preventDefault();
+      console.log(query);
     }
 
     let defaults = placepress_plugin_settings.placepress_defaults;
@@ -92,12 +98,19 @@ registerBlockType( 'placepress/block-map-location', {
 
     return (
       <div className={ props.className } aria-label={__('Interactive Map')} role="region">
-        <TextControl
-          className="query-pp"
-          tagName="input"
-          placeholder={ __('Type a query and press Enter/Return.','wp_placepress') }
-          onChange={ onSubmitQuery }
-          />
+        <form
+          className="inline-input"
+          onSubmit={ onSubmitQuery }>
+
+          <TextControl
+            className="query-pp"
+            tagName="input"
+            placeholder={ __('Type a query and press Enter/Return.','wp_placepress') }
+            onChange={ ( input ) => setAttributes( { query: input } ) }
+            />
+            
+        </form>
+
         <figure>
           <div class="map-pp" id="placepress-map"
             data-lat={ lat }
