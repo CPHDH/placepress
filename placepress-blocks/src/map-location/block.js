@@ -188,7 +188,9 @@ registerBlockType( 'placepress/block-map-location', {
 						data-maki-color={ attributes.maki_markers_color }
 						data-basemap={ attributes.basemap }
 					/>
-					<figcaption className="map-caption-pp">{ attributes.caption }</figcaption>
+					<figcaption className="map-caption-pp">
+						{ attributes.caption }
+					</figcaption>
 				</figure>
 			</div>
 		);
