@@ -98,6 +98,11 @@ registerBlockType( 'placepress/block-map-location', {
 			console.log( query );
 		};
 
+		const onBlockLoad = function( e ) {
+			console.log( e.target );
+			console.log( document.querySelector( '.map-pp' ) );
+		};
+
 		const defaults = placepress_plugin_settings.placepress_defaults;
 		if ( ! zoom ) {
 			props.setAttributes( { zoom: defaults.default_zoom } );
@@ -163,6 +168,13 @@ registerBlockType( 'placepress/block-map-location', {
 						onChange={ onChangeCaption }
 					/>
 				</figure>
+				<img // @TODO: find a replacement for this hack to fire the map script when block is added
+					className="onload-hack-pp"
+					height="0"
+					width="0"
+					onLoad={ onBlockLoad }
+					src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Cpath d=''/%3E%3C/svg%3E"
+				/>
 			</div>
 		);
 	},
