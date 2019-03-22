@@ -1,27 +1,29 @@
-.wp-block-placepress-block-map-location  {
-  .query-pp{
-    display: block;
-    width: 100%;
-    margin: 0 0;
-  }
-  .query-pp input,.map-caption-pp textarea{
-    opacity: .7;
-  }
-  .map-caption-pp textarea{
-    border-color:transparent;
-    resize:none;
-  }
-  .query-pp input:focus,.map-caption-pp textarea:focus{
-    opacity: 1;
-  }
-  .map-caption-pp textarea:hover{
-    border-color: #8d96a0;
-    resize:vertical;
-  }
-  .map-caption-pp textarea:focus{
-    border-color: #00a0d2;
-    resize:vertical;
-  }
+.wp-block-placepress-block-map-location {
+	.query-pp {
+		display: block;
+		width: 100%;
+		margin: 0 0;
+	}
+	.query-pp input,
+	.map-caption-pp textarea {
+		opacity: 0.7;
+	}
+	.map-caption-pp textarea {
+		border-color: transparent;
+		resize: none;
+	}
+	.query-pp input:focus,
+	.map-caption-pp textarea:focus {
+		opacity: 1;
+	}
+	.map-caption-pp textarea:hover {
+		border-color: #8d96a0;
+		resize: vertical;
+	}
+	.map-caption-pp textarea:focus {
+		border-color: #00a0d2;
+		resize: vertical;
+	}
 	.onload-hack-pp {
 		line-height: 0;
 		height: 0;
