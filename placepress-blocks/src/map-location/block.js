@@ -95,7 +95,27 @@ registerBlockType( 'placepress/block-map-location', {
 
 		const onSubmitQuery = function( e ) {
 			e.preventDefault();
-			console.log( query );
+			const request = new XMLHttpRequest();
+			request.open(
+				'GET',
+				'https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' +
+					query,
+				true
+			);
+			request.onload = function() {
+				const data = JSON.parse( this.response );
+				const result = data[ 0 ];
+				if ( typeof result !== 'undefined' && result.lat && result.lon ) {
+					setMarkerLocationViaSearch( result.lat, result.lon );
+				} else {
+					console.log( 'Nope!' );
+				}
+			};
+			request.send();
+		};
+
+		const setMarkerLocationViaSearch = function( lat, lon ) {
+			console.log( lat, lon );
 		};
 
 		const onBlockLoad = function( e ) {
