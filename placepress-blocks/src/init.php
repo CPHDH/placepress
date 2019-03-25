@@ -72,9 +72,15 @@ function placepress_blocks_cgb_block_assets() { // phpcs:ignore
 	);
 
 	wp_enqueue_script(
+			'placepress-tiles',
+			plugins_url( 'tile-provider.js', __FILE__ ),
+			array()
+	);
+
+	wp_enqueue_script(
 			'placepress-location',
 			plugins_url( 'placepress-location.js', __FILE__ ),
-			array()
+			array('placepress-leaflet-js','placepress-tiles')
 	);
 
 }
