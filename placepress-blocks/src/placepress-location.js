@@ -1,7 +1,7 @@
 document.addEventListener( 'DOMContentLoaded', function( e ) {
 	( function() {
 		// Extract Map Settings from HTML
-		const getMapSettingsPP = function() {
+		const getDataAttributesPP = function() {
 			const mapDiv = document.querySelector( '.map-pp' ) || false;
 			const mapSettings = {};
 			if ( mapDiv ) {
@@ -23,9 +23,8 @@ document.addEventListener( 'DOMContentLoaded', function( e ) {
 			return false;
 		};
 
-
 		// Init location map
-		const mapInitLocation = function( settings ) {
+		const displayLocationMapPP = function( settings ) {
 			const tileSets = window.getMapTileSets();
 			const basemap = tileSets[ settings.mapType ];
 
@@ -37,30 +36,11 @@ document.addEventListener( 'DOMContentLoaded', function( e ) {
 					attribution: basemap.attribution,
 				} ).addTo( map );
 
-				if ( typeof wp.editor !== 'undefined' ) {
-					// editor
-					const marker = L.marker( [ settings.lat, settings.lon ], {
-						draggable: 'true',
-					} ).addTo( map );
-					marker.on( 'dragend', function( e ) {
-						const dragged = e.target;
-						const position = dragged.getLatLng();
-						console.log( position.lat, position.lng );
-						// props.setAttributes( { lat: position.lat } )
-						// props.setAttributes( { lon: position.lng } )
-					} );
-					map.on( 'zoomend', function( e ) {
-						const newZoom = map.getZoom();
-						console.log( newZoom );
-						// props.setAttributes( { zoom: position.zoom } )
-					} );
-				} else {
-					// public
-					const marker = L.marker( [ settings.lat, settings.lon ] ).addTo( map );
-				}
+				const marker = L.marker( [ settings.lat, settings.lon ] ).addTo( map );
 			}
 		};
-
-		mapInitLocation( getMapSettingsPP() );
+		if ( typeof wp.editor === 'undefined' ) {
+			displayLocationMapPP( getDataAttributesPP() );
+		}
 	}() );
 } );

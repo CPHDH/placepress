@@ -119,10 +119,38 @@ registerBlockType( 'placepress/block-map-location', {
 		};
 
 		const onBlockLoad = function( e ) {
-			console.log( e.target );
-			console.log( document.querySelector( '.map-pp' ) );
+			uiLocationMapPP();
 		};
 
+		// Init location map user interface
+		const uiLocationMapPP = function() {
+			const tileSets = window.getMapTileSets();
+			const tileSet = tileSets[ basemap ];
+
+			const map = L.map( 'placepress-map', {
+				scrollWheelZoom: false,
+			} ).setView( [ lat, lon ], zoom );
+			L.tileLayer( tileSet.url, {
+				attribution: tileSet.attribution,
+			} ).addTo( map );
+
+			// user actions
+			const marker = L.marker( [ lat, lon ], {
+				draggable: 'true',
+			} ).addTo( map );
+			marker.on( 'dragend', function( e ) {
+				const ll = e.target.getLatLng();
+				props.setAttributes( { lat: ll.lat } );
+				props.setAttributes( { lon: ll.lng } );
+				map.setView( [ ll.lat, ll.lng ], ll.zoom, { animation: true } );
+			} );
+			map.on( 'zoomend', function( e ) {
+				const z = map.getZoom();
+				props.setAttributes( { zoom: z } );
+			} );
+		};
+
+		// set attributes
 		const defaults = placepress_plugin_settings.placepress_defaults;
 		if ( ! zoom ) {
 			props.setAttributes( { zoom: defaults.default_zoom } );
@@ -193,7 +221,7 @@ registerBlockType( 'placepress/block-map-location', {
 					height="0"
 					width="0"
 					onLoad={ onBlockLoad }
-					src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Cpath d=''/%3E%3C/svg%3E"
+					src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1' %3E%3Cpath d=''/%3E%3C/svg%3E"
 				/>
 			</div>
 		);
