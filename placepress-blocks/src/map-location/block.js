@@ -5,7 +5,6 @@ const { __ } = wp.i18n;
 const { registerBlockType, getBlockDefaultClassName } = wp.blocks;
 const { PlainText, InspectorControls, PanelBody } = wp.editor;
 const { TextareaControl, TextControl } = wp.components;
-const { withState } = wp.compose;
 
 registerBlockType( 'placepress/block-map-location', {
 	title: __( 'Location Map' ),
@@ -184,7 +183,7 @@ registerBlockType( 'placepress/block-map-location', {
 		return (
 			<div
 				className={ props.className }
-				aria-label={ __( 'Interactive Map' ) }
+				aria-label={ __( 'Interactive Map', 'wp_placepress' ) }
 				role="region"
 			>
 				<form className="inline-input" onSubmit={ onSubmitQuery }>
