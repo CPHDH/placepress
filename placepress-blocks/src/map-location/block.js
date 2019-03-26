@@ -144,6 +144,13 @@ registerBlockType( 'placepress/block-map-location', {
 				props.setAttributes( { lon: ll.lng } );
 				map.setView( [ ll.lat, ll.lng ], ll.zoom, { animation: true } );
 			} );
+
+			function onMarkerClick( e ) {
+				const ll = e.target.getLatLng();
+				marker.bindPopup( ll.lat + ',' + ll.lng );
+			}
+			marker.on( 'click', onMarkerClick );
+
 			map.on( 'zoomend', function( e ) {
 				const z = map.getZoom();
 				props.setAttributes( { zoom: z } );
