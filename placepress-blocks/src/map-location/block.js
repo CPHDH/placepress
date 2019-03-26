@@ -88,12 +88,17 @@ registerBlockType( 'placepress/block-map-location', {
 			className,
 			setAttributes,
 		} = props;
+
+		const notices = wp.data.dispatch( 'core/notices' );
+
 		const onChangeCaption = caption => {
 			setAttributes( { caption } );
 		};
 
 		const onSubmitQuery = function( e ) {
 			e.preventDefault();
+			notices.removeNotice( 'placepress-no-result' );
+			notices.removeNotice( 'placepress-no-response' );
 			const request = new XMLHttpRequest();
 			request.open(
 				'GET',
@@ -102,12 +107,22 @@ registerBlockType( 'placepress/block-map-location', {
 				true
 			);
 			request.onload = function() {
-				const data = JSON.parse( this.response );
-				const result = data[ 0 ];
-				if ( typeof result !== 'undefined' && result.lat && result.lon ) {
-					setMarkerLocationViaSearch( result.lat, result.lon );
+				if ( request.status >= 200 && request.status < 400 ) {
+					const data = JSON.parse( this.response );
+					const result = data[ 0 ];
+					if ( typeof result !== 'undefined' && result.lat && result.lon ) {
+						setMarkerLocationViaSearch( result.lat, result.lon );
+					} else {
+						notices.createWarningNotice(
+							'PlacePress: Your search query did not return any results. Please try again.',
+							{ id: 'placepress-no-result' }
+						);
+					}
 				} else {
-					console.log( 'Nope!' );
+					notices.createErrorNotice(
+						'PlacePress: There was an error communicating with the server. Please check your network connection and try again.',
+						{ id: 'placepress-no-response' }
+					);
 				}
 			};
 			request.send();
@@ -115,6 +130,10 @@ registerBlockType( 'placepress/block-map-location', {
 
 		const setMarkerLocationViaSearch = function( lat, lon ) {
 			console.log( lat, lon );
+			// update attributes
+			// props.setAttributes( { lat: lat } );
+			// props.setAttributes( { lon: lon } );
+			// @TODO: update marker location in UI
 		};
 
 		const onBlockLoad = function( e ) {
@@ -133,10 +152,11 @@ registerBlockType( 'placepress/block-map-location', {
 				attribution: tileSet.attribution,
 			} ).addTo( map );
 
-			// user actions
 			const marker = L.marker( [ lat, lon ], {
 				draggable: 'true',
 			} ).addTo( map );
+
+			// user actions
 			marker.on( 'dragend', function( e ) {
 				const ll = e.target.getLatLng();
 				props.setAttributes( { lat: ll.lat } );
