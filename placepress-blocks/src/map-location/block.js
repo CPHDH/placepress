@@ -66,11 +66,6 @@ registerBlockType( 'placepress/block-map-location', {
 			source: 'attribute',
 			attribute: 'data-basemap',
 		},
-		query: {
-			type: 'string',
-			selector: 'input.query-pp',
-			source: 'text',
-		},
 	},
 	edit( props ) {
 		const {
@@ -83,7 +78,6 @@ registerBlockType( 'placepress/block-map-location', {
 				maki,
 				maki_color,
 				basemap,
-				query,
 			},
 			className,
 			setAttributes,
@@ -93,47 +87,6 @@ registerBlockType( 'placepress/block-map-location', {
 
 		const onChangeCaption = caption => {
 			setAttributes( { caption } );
-		};
-
-		const onSubmitQuery = function( e ) {
-			e.preventDefault();
-			notices.removeNotice( 'placepress-no-result' );
-			notices.removeNotice( 'placepress-no-response' );
-			const request = new XMLHttpRequest();
-			request.open(
-				'GET',
-				'https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' +
-					query,
-				true
-			);
-			request.onload = function() {
-				if ( request.status >= 200 && request.status < 400 ) {
-					const data = JSON.parse( this.response );
-					const result = data[ 0 ];
-					if ( typeof result !== 'undefined' && result.lat && result.lon ) {
-						setMarkerLocationViaSearch( result.lat, result.lon );
-					} else {
-						notices.createWarningNotice(
-							'PlacePress: Your search query did not return any results. Please try again.',
-							{ id: 'placepress-no-result' }
-						);
-					}
-				} else {
-					notices.createErrorNotice(
-						'PlacePress: There was an error communicating with the server. Please check your network connection and try again.',
-						{ id: 'placepress-no-response' }
-					);
-				}
-			};
-			request.send();
-		};
-
-		const setMarkerLocationViaSearch = function( lat, lon ) {
-			console.log( lat, lon );
-			// update attributes
-			// props.setAttributes( { lat: lat } );
-			// props.setAttributes( { lon: lon } );
-			// @TODO: update marker location in UI
 		};
 
 		const onBlockLoad = function( e ) {
@@ -156,7 +109,14 @@ registerBlockType( 'placepress/block-map-location', {
 				draggable: 'true',
 			} ).addTo( map );
 
-			// user actions
+			// user actions: CLICK
+			function onMarkerClick( e ) {
+				const ll = e.target.getLatLng();
+				marker.bindPopup( ll.lat + ',' + ll.lng );
+			}
+			marker.on( 'click', onMarkerClick );
+
+			// user actions: DRAG
 			marker.on( 'dragend', function( e ) {
 				const ll = e.target.getLatLng();
 				props.setAttributes( { lat: ll.lat } );
@@ -164,16 +124,93 @@ registerBlockType( 'placepress/block-map-location', {
 				map.setView( [ ll.lat, ll.lng ], ll.zoom, { animation: true } );
 			} );
 
-			function onMarkerClick( e ) {
-				const ll = e.target.getLatLng();
-				marker.bindPopup( ll.lat + ',' + ll.lng );
-			}
-			marker.on( 'click', onMarkerClick );
-
+			// user actions: ZOOM
 			map.on( 'zoomend', function( e ) {
 				const z = map.getZoom();
 				props.setAttributes( { zoom: z } );
 			} );
+
+			// user actions: SEARCH
+			L.Control.Geocode = L.Control.extend( {
+				onAdd: function( map ) {
+					const container = L.DomUtil.create( 'div', 'map-search-pp' );
+					const form = L.DomUtil.create( 'form', 'editor-form', container );
+					const input = L.DomUtil.create( 'input', 'editor-input', form );
+					input.style.width = '100%';
+					input.style.border = '1px solid #ccc';
+					input.style.padding = '7px';
+					input.style.borderRadius = '3px';
+					input.placeholder = __( 'Search', 'wp_placepress' );
+					form.style.width = '100%';
+
+					L.DomEvent.addListener(
+						form,
+						'submit',
+						L.DomEvent.preventDefault
+					).addListener( form, 'submit', function( e ) {
+						const q = e.target[ 0 ].value;
+						if ( q ) {
+							notices.removeNotice( 'placepress-no-result' );
+							notices.removeNotice( 'placepress-no-response' );
+							const request = new XMLHttpRequest();
+							request.open(
+								'GET',
+								'https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' +
+									q,
+								true
+							);
+							request.onload = function() {
+								if ( request.status >= 200 && request.status < 400 ) {
+									const data = JSON.parse( this.response );
+									const result = data[ 0 ];
+									if (
+										typeof result !== 'undefined' &&
+										result.lat &&
+										result.lon
+									) {
+										// update attributes
+										props.setAttributes( { lat: result.lat } );
+										props.setAttributes( { lon: result.lon } );
+										// pan map
+										map.setView( [ result.lat, result.lon ], zoom );
+										// update marker location in UI
+										marker.setLatLng( [ result.lat, result.lon ] );
+									} else {
+										notices.createWarningNotice(
+											__(
+												'PlacePress: Your search query did not return any results. Please try again.',
+												'wp_placepress'
+											),
+											{ id: 'placepress-no-result' }
+										);
+									}
+								} else {
+									notices.createErrorNotice(
+										__(
+											'PlacePress: There was an error communicating with the Nominatum server. Please check your network connection and try again.',
+											'wp_placepress'
+										),
+										{ id: 'placepress-no-response' }
+									);
+								}
+							};
+							request.send();
+						}
+					} );
+
+					return form;
+				},
+
+				onRemove: function( map ) {
+					// Nothing to do here
+				},
+			} );
+
+			L.control.geocode = function( opts ) {
+				return new L.Control.Geocode( opts );
+			};
+
+			L.control.geocode( { position: 'topright' } ).addTo( map );
 		};
 
 		// set attributes
@@ -206,18 +243,6 @@ registerBlockType( 'placepress/block-map-location', {
 				aria-label={ __( 'Interactive Map', 'wp_placepress' ) }
 				role="region"
 			>
-				<form className="inline-input" onSubmit={ onSubmitQuery }>
-					<TextControl
-						className="query-pp"
-						tagName="input"
-						placeholder={ __(
-							'Type a query and press Enter/Return.',
-							'wp_placepress'
-						) }
-						onChange={ input => setAttributes( { query: input } ) }
-					/>
-				</form>
-
 				<figure>
 					<div
 						className="map-pp"
