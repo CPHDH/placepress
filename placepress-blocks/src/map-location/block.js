@@ -139,7 +139,10 @@ registerBlockType( 'placepress/block-map-location', {
 					input.style.border = '1px solid #ccc';
 					input.style.padding = '7px';
 					input.style.borderRadius = '3px';
-					input.placeholder = __( 'Search', 'wp_placepress' );
+					input.placeholder = __(
+						'Enter a query and press Return/Enter',
+						'wp_placepress'
+					);
 					form.style.width = '100%';
 
 					L.DomEvent.addListener(
@@ -186,7 +189,7 @@ registerBlockType( 'placepress/block-map-location', {
 								} else {
 									notices.createErrorNotice(
 										__(
-											'PlacePress: There was an error communicating with the Nominatum server. Please check your network connection and try again.',
+											'PlacePress: There was an error communicating with the Nominatim server. Please check your network connection and try again.',
 											'wp_placepress'
 										),
 										{ id: 'placepress-no-response' }
@@ -204,11 +207,9 @@ registerBlockType( 'placepress/block-map-location', {
 					// Nothing to do here
 				},
 			} );
-
 			L.control.geocode = function( opts ) {
 				return new L.Control.Geocode( opts );
 			};
-
 			L.control.geocode( { position: 'topright' } ).addTo( map );
 
 			// user actions: LAYERS

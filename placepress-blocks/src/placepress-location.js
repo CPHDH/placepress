@@ -36,6 +36,10 @@ document.addEventListener( 'DOMContentLoaded', function( e ) {
 				} ).setView( [ settings.lat, settings.lon ], settings.zoom );
 
 				const marker = L.marker( [ settings.lat, settings.lon ] ).addTo( map );
+				function onMarkerClick( e ) {
+					marker.bindPopup( settings.lat + ',' + settings.lon );
+				}
+				marker.on( 'click', onMarkerClick );
 				L.control.layers( allLayers ).addTo( map );
 			}
 		};
