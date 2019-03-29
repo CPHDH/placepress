@@ -96,14 +96,13 @@ registerBlockType( 'placepress/block-map-location', {
 		// Init location map user interface
 		const uiLocationMapPP = function() {
 			const tileSets = window.getMapTileSets();
-			const tileSet = tileSets[ basemap ];
+			const allLayers = window.getControlLayers();
+			const currentTileSet = tileSets[ basemap ];
 
 			const map = L.map( 'placepress-map', {
+				layers: currentTileSet,
 				scrollWheelZoom: false,
 			} ).setView( [ lat, lon ], zoom );
-			L.tileLayer( tileSet.url, {
-				attribution: tileSet.attribution,
-			} ).addTo( map );
 
 			const marker = L.marker( [ lat, lon ], {
 				draggable: 'true',
@@ -211,6 +210,15 @@ registerBlockType( 'placepress/block-map-location', {
 			};
 
 			L.control.geocode( { position: 'topright' } ).addTo( map );
+
+			// user actions: LAYERS
+			const layerControls = L.control.layers( allLayers ).addTo( map );
+			map.on( 'baselayerchange ', function( e ) {
+				const key = e.layer.options.placepress_key;
+				if ( key ) {
+					props.setAttributes( { basemap: key } );
+				}
+			} );
 		};
 
 		// set attributes

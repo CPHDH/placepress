@@ -26,17 +26,17 @@ document.addEventListener( 'DOMContentLoaded', function( e ) {
 		// Init location map
 		const displayLocationMapPP = function( settings ) {
 			const tileSets = window.getMapTileSets();
+			const allLayers = window.getControlLayers();
 			const basemap = tileSets[ settings.mapType ];
 
 			if ( settings ) {
 				const map = L.map( settings.mapId, {
 					scrollWheelZoom: false,
+					layers: basemap,
 				} ).setView( [ settings.lat, settings.lon ], settings.zoom );
-				L.tileLayer( basemap.url, {
-					attribution: basemap.attribution,
-				} ).addTo( map );
 
 				const marker = L.marker( [ settings.lat, settings.lon ] ).addTo( map );
+				L.control.layers( allLayers ).addTo( map );
 			}
 		};
 		if ( typeof wp.editor === 'undefined' ) {
