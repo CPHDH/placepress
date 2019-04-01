@@ -19,6 +19,11 @@ registerBlockType( 'placepress/block-map-location', {
 	},
 	description: __( 'A block for adding a location map.' ),
 	attributes: {
+		api_coordinates_pp: {
+			type: 'string',
+			source: 'meta',
+			meta: 'api_coordinates_pp',
+		},
 		caption: {
 			type: 'string',
 			source: 'text',
@@ -70,6 +75,7 @@ registerBlockType( 'placepress/block-map-location', {
 	edit( props ) {
 		const {
 			attributes: {
+				api_coordinates_pp,
 				caption,
 				zoom,
 				lat,
@@ -120,6 +126,10 @@ registerBlockType( 'placepress/block-map-location', {
 				const ll = e.target.getLatLng();
 				props.setAttributes( { lat: ll.lat } );
 				props.setAttributes( { lon: ll.lng } );
+				props.setAttributes( {
+					api_coordinates_pp: ll.lat + ',' + ll.lng,
+				} );
+
 				map.setView( [ ll.lat, ll.lng ], ll.zoom, { animation: true } );
 			} );
 
@@ -173,6 +183,10 @@ registerBlockType( 'placepress/block-map-location', {
 										// update attributes
 										props.setAttributes( { lat: result.lat } );
 										props.setAttributes( { lon: result.lon } );
+										props.setAttributes( {
+											api_coordinates_pp: result.lat + ',' + result.lon,
+										} );
+
 										// pan map
 										map.setView( [ result.lat, result.lon ], zoom );
 										// update marker location in UI

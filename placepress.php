@@ -83,3 +83,8 @@ require_once plugin_dir_path( __FILE__ ). 'languages/languages.php';
 ** HELPERS
 */
 require_once plugin_dir_path( __FILE__ ). 'helpers/helpers.php';
+
+/*
+** API
+*/
+require_once plugin_dir_path( __FILE__ ). 'api/api.php';
