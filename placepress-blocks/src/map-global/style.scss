@@ -1,5 +1,40 @@
 .wp-block-placepress-block-map-global {
-   .map-global-pp{
-
-   }
- }
+	figure {
+		margin: 0 0;
+		padding: 0 0;
+		border-radius: 5px;
+	}
+	div.map-pp {
+		background: #eaeaea;
+		background: linear-gradient(to top right, #ece9e6, #fafafa);
+		height: 300px;
+		width: 100%;
+		min-height: 200px;
+		max-height: 50vh;
+		border-radius: 5px;
+	}
+	.map-caption-pp {
+		margin-top: 0.5em;
+		font-size: 0.8rem;
+		color: #777;
+	}
+	div.map-pp a {
+		text-decoration: none;
+	}
+	svg#geolocation {
+		background: #fff;
+		border-radius: 3px;
+		padding: 5px;
+		box-shadow: 0 0 0px 2px rgba(0, 0, 0, 0.25);
+		cursor: pointer;
+	}
+	svg#geolocation path#outer {
+		fill: #777;
+	}
+	svg#geolocation path#inner {
+		fill: #555;
+	}
+	svg#geolocation:hover path#inner {
+		fill: #4a87ee;
+	}
+}
