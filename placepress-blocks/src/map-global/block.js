@@ -84,15 +84,6 @@ registerBlockType( 'placepress/block-map-global', {
 		} = props;
 
 		const notices = wp.data.dispatch( 'core/notices' );
-		// const apiFetch = wp.apiFetch;
-		//
-		// const getLocations = function( perPage, page ) {
-		// 	apiFetch( {
-		// 		path: '/wp/v2/locations?per_page=' + perPage + '&page=' + page,
-		// 	} ).then( posts => {
-		// 		console.log( posts );
-		// 	} );
-		// };
 
 		const onBlockLoad = function( e ) {
 			globalMapPP();
@@ -115,10 +106,22 @@ registerBlockType( 'placepress/block-map-global', {
 			const tileSets = window.getMapTileSets();
 			const allLayers = window.getControlLayers();
 			const currentTileSet = tileSets[ basemap ];
+			const markers = [];
 			const map = L.map( 'placepress-map', {
 				layers: currentTileSet,
 				scrollWheelZoom: false,
 			} ).setView( [ lat, lon ], zoom );
+
+			// user actions: LAYERS
+			const layerControls = L.control.layers( allLayers ).addTo( map );
+			map.on( 'baselayerchange ', function( e ) {
+				const key = e.layer.options.placepress_key;
+				if ( key ) {
+					props.setAttributes( { basemap: key } );
+				}
+			} );
+
+			// API request
 			const locations_json =
 				location.protocol +
 				'//' +
@@ -135,6 +138,7 @@ registerBlockType( 'placepress/block-map-global', {
 						);
 						notices.removeNotice( 'placepress-no-result' );
 						notices.removeNotice( 'placepress-no-response' );
+
 						data.forEach( function( post ) {
 							const coords = post.meta.api_coordinates_pp.split( ',' );
 							if (
@@ -145,11 +149,33 @@ registerBlockType( 'placepress/block-map-global', {
 								) &&
 								coords.length == 2
 							) {
-								const marker = L.marker( coords, {} ).addTo( map );
+								const marker = L.marker( coords, {
+									title: post.title.rendered,
+									url: post.link,
+									coords: coords,
+								} );
+								// user actions: CLICK
+								marker.on( 'click', function( e ) {
+									const popup = L.popup().setContent(
+										'<a href="' +
+											e.target.options.url +
+											'">' +
+											e.target.options.title +
+											'</a>'
+									);
+									e.target
+										.unbindPopup()
+										.bindPopup( popup )
+										.openPopup();
+									map.panTo( e.target.options.coords );
+								} );
+								markers.push( marker );
 							}
 						} );
+
+						const markersGroup = L.featureGroup( markers ).addTo( map );
+						map.fitBounds( markersGroup.getBounds() );
 					} else {
-						console.log( data );
 						notices.createWarningNotice(
 							__(
 								'PlacePress: Your request did not return any Locations. Please ensure that you have Location posts that use the PlacePress Location Map block.',
@@ -159,7 +185,6 @@ registerBlockType( 'placepress/block-map-global', {
 						);
 					}
 				} else {
-					console.log( data );
 					notices.createErrorNotice(
 						__(
 							'PlacePress: There was an error fetching Location posts using the WordPRess REST API. Please check your network connection and try again.',
