@@ -115,11 +115,15 @@ registerBlockType( 'placepress/block-map-location', {
 			} ).addTo( map );
 
 			// user actions: CLICK
-			function onMarkerClick( e ) {
+			marker.on( 'click', function( e ) {
 				const ll = e.target.getLatLng();
-				marker.bindPopup( ll.lat + ',' + ll.lng );
-			}
-			marker.on( 'click', onMarkerClick );
+				const popup = L.popup().setContent( ll.lat + ',' + ll.lng );
+				e.target
+					.unbindPopup()
+					.bindPopup( popup )
+					.openPopup();
+				map.panTo( e.target.getLatLng() );
+			} );
 
 			// user actions: DRAG
 			marker.on( 'dragend', function( e ) {
@@ -188,7 +192,7 @@ registerBlockType( 'placepress/block-map-location', {
 										} );
 
 										// pan map
-										map.setView( [ result.lat, result.lon ], zoom );
+										map.panTo( [ result.lat, result.lon ] );
 										// update marker location in UI
 										marker.setLatLng( [ result.lat, result.lon ] );
 									} else {
