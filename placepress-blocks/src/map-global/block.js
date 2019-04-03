@@ -212,6 +212,7 @@ registerBlockType( 'placepress/block-map-global', {
 						data-maki={ maki }
 						data-maki-color={ maki_color }
 						data-basemap={ basemap }
+						data-type="global"
 					/>
 					<TextareaControl
 						rows="2"
@@ -256,6 +257,7 @@ registerBlockType( 'placepress/block-map-global', {
 						data-maki={ attributes.maki_markers }
 						data-maki-color={ attributes.maki_markers_color }
 						data-basemap={ attributes.basemap }
+						data-type="global"
 					/>
 					<figcaption className="map-caption-pp">
 						{ attributes.caption }
