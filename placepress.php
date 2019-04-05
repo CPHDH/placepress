@@ -87,4 +87,4 @@ require_once plugin_dir_path( __FILE__ ). 'helpers/helpers.php';
 /*
 ** API
 */
-require_once plugin_dir_path( __FILE__ ). 'api/api.php';
+require_once plugin_dir_path( __FILE__ ). 'api/output.php';

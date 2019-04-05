@@ -93,15 +93,6 @@ registerBlockType( 'placepress/block-map-global', {
 			setAttributes( { caption } );
 		};
 
-		const findObjectByKey = function( array, key, value ) {
-			for ( let i = 0; i < array.length; i++ ) {
-				if ( array[ i ][ key ] === value ) {
-					return array[ i ];
-				}
-			}
-			return null;
-		};
-
 		const globalMapPP = function() {
 			const tileSets = window.getMapTileSets();
 			const allLayers = window.getControlLayers();
@@ -126,39 +117,31 @@ registerBlockType( 'placepress/block-map-global', {
 				location.protocol +
 				'//' +
 				location.hostname +
-				'/wp-json/wp/v2/locations'; // @TODO: non-pretty permalinks
+				'?feed=placepress_locations_public';
 			const request = new XMLHttpRequest();
 			request.open( 'GET', locations_json, true );
 			request.onload = function() {
 				if ( request.status >= 200 && request.status < 400 ) {
 					const data = JSON.parse( this.response );
 					if ( typeof data !== 'undefined' ) {
-						const totalPages = Number(
-							request.getResponseHeader( 'X-WP-TotalPages' )
-						);
 						notices.removeNotice( 'placepress-no-result' );
 						notices.removeNotice( 'placepress-no-response' );
 
 						data.forEach( function( post ) {
-							const coords = post.meta.api_coordinates_pp.split( ',' );
-							if (
-								findObjectByKey(
-									post.blocks,
-									'blockName',
-									'placepress/block-map-location'
-								) &&
-								coords.length == 2
-							) {
+							const coords = post.api_coordinates_pp.split( ',' );
+							if ( coords.length == 2 ) {
 								const marker = L.marker( coords, {
-									title: post.title.rendered,
-									url: post.link,
+									id: post.id,
+									title: post.title,
+									permalink: post.permalink,
 									coords: coords,
+									thumbnail: post.thumbnail,
 								} );
 								// user actions: CLICK
 								marker.on( 'click', function( e ) {
 									const popup = L.popup().setContent(
 										'<a href="' +
-											e.target.options.url +
+											e.target.options.permalink +
 											'">' +
 											e.target.options.title +
 											'</a>'
