@@ -157,7 +157,7 @@ registerBlockType( 'placepress/block-map-global', {
 						} );
 
 						const markersGroup = L.featureGroup( markers ).addTo( map );
-						map.fitBounds( markersGroup.getBounds() );
+						map.fitBounds( markersGroup.getBounds(), { padding: [ 50, 50 ] } );
 					} else {
 						notices.createWarningNotice(
 							__(

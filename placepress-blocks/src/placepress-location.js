@@ -89,14 +89,20 @@ document.addEventListener( 'DOMContentLoaded', function( e ) {
 										.unbindPopup()
 										.bindPopup( popup )
 										.openPopup();
-									map.panTo( e.target.options.coords );
 								} );
 								markersLayer.push( marker );
+
+								// vertical center on popup open
+								map.on( 'popupopen', function( e ) {
+									const px = map.project( e.popup._latlng );
+									px.y -= e.popup._container.clientHeight / 2;
+									map.panTo( map.unproject( px ), { animate: true } );
+								} );
 							}
 						} );
 
 						const markersGroup = L.featureGroup( markersLayer ).addTo( map );
-						map.fitBounds( markersGroup.getBounds() );
+						map.fitBounds( markersGroup.getBounds(), { padding: [ 50, 50 ] } );
 					} else {
 						console.warn(
 							'PlacePress: Your request did not return any Locations. Please ensure that you have Location posts that use the PlacePress Location Map block.'
@@ -157,7 +163,13 @@ document.addEventListener( 'DOMContentLoaded', function( e ) {
 						.unbindPopup()
 						.bindPopup( popup )
 						.openPopup();
-					map.panTo( e.target.getLatLng() );
+				} );
+
+				// vertical center on popup open
+				map.on( 'popupopen', function( e ) {
+					const px = map.project( e.popup._latlng );
+					px.y -= e.popup._container.clientHeight / 2;
+					map.panTo( map.unproject( px ), { animate: true } );
 				} );
 
 				// controls
