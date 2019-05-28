@@ -154,9 +154,15 @@ registerBlockType( 'placepress/block-map-global', {
 										.unbindPopup()
 										.bindPopup( popup )
 										.openPopup();
-									map.panTo( e.target.options.coords );
 								} );
 								markers.push( marker );
+
+								// vertical center on popup open
+								map.on( 'popupopen', function( e ) {
+									const px = map.project( e.popup._latlng );
+									px.y -= e.popup._container.clientHeight / 2;
+									map.panTo( map.unproject( px ), { animate: true } );
+								} );
 							}
 						} );
 

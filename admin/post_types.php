@@ -109,7 +109,7 @@ function placepress_init() {
 			'menu_name' => __('Locations','wp_placepress'),
 			'name_admin_bar' => __('Location','wp_placepress'),
 			),
-		'description' => __('Geolocated, media-rich, narratives.','wp_placepress'),
+		'description' => __('Geolocated narratives.','wp_placepress'),
 		'public' => true,
 		'show_ui' => true,
 		'show_in_menu' => true,

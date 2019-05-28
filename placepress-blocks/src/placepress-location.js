@@ -114,7 +114,7 @@ document.addEventListener( 'DOMContentLoaded', function( e ) {
 					}
 				} else {
 					console.warn(
-						'PlacePress: There was an error fetching Location posts using the WordPRess REST API. Please check your network connection and try again'
+						'PlacePress: There was an error fetching Location posts using the WordPRess REST API. Please check your network connection and try again.'
 					);
 				}
 			};
