@@ -21,6 +21,21 @@
 	div.map-pp a {
 		text-decoration: none;
 	}
+	a.map-thumb {
+		display: block;
+		height: 100px;
+		width: 200px;
+		background-size: cover;
+		background-position: center center;
+		border-radius: 12px 12px 0 0;
+		background-color: #eaeaea;
+		margin-bottom: 0.5em;
+	}
+	.leaflet-popup-content {
+		margin: 0 0 0.5em 0;
+		font-weight: bold;
+		text-align: center;
+	}
 	svg#geolocation {
 		background: #fff;
 		border-radius: 3px;

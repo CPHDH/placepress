@@ -142,6 +142,10 @@ registerBlockType( 'placepress/block-map-global', {
 									const popup = L.popup().setContent(
 										'<a href="' +
 											e.target.options.permalink +
+											'" class="map-thumb" style="background-image:url(' +
+											e.target.options.thumbnail +
+											')"></a><a href="' +
+											e.target.options.permalink +
 											'">' +
 											e.target.options.title +
 											'</a>'
