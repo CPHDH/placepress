@@ -38,7 +38,7 @@ function placepress_render_public_locations_json(){
   		    	'title' => $post->post_title,
             'permalink' => get_permalink( $post->ID ),
   		    	'api_coordinates_pp' => $postMeta['api_coordinates_pp'][0],
-  		    	'thumbnail'=>get_the_post_thumbnail_url($post,'thumbnail'),
+  		    	'thumbnail'=>get_the_post_thumbnail_url($post,'medium'),
   		    );
 		  }
 	    set_transient( 'placepress_locations_public', $output, 3 * MINUTE_IN_SECONDS ); // cache results
