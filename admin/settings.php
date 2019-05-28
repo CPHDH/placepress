@@ -68,12 +68,12 @@ function placepress_register_settings(){
 		'placepress'
 	);
 
-	add_settings_section(
-		'placepress_section_mapbox',
-		esc_html__('Map Settings: Mapbox','wp_placepress'),
-		'placepress_callback_section_mapbox',
-		'placepress'
-	);
+	// add_settings_section(
+	// 	'placepress_section_mapbox',
+	// 	esc_html__('Map Settings: Mapbox','wp_placepress'),
+	// 	'placepress_callback_section_mapbox',
+	// 	'placepress'
+	// );
 
 	/*
 	** Fields
@@ -130,41 +130,41 @@ function placepress_register_settings(){
 		['id'=>'marker_clustering','label'=>esc_html__('Enable clustering for crowded map markers','wp_placepress')]
 	);
 
-	add_settings_field(
-		'mapbox_key',
-		esc_html__('Mapbox Key','wp_placepress'),
-		'placepress_callback_field_text',
-		'placepress',
-		'placepress_section_mapbox',
-		['id'=>'mapbox_key','label'=>esc_html__('Enter your Mapbox API access token to enable Mapbox options.','wp_placepress')]
-	);
-
-	add_settings_field(
-		'mapbox_satellite',
-		esc_html__('Mapbox Satellite','wp_placepress'),
-		'placepress_callback_field_checkbox',
-		'placepress',
-		'placepress_section_mapbox',
-		['id'=>'mapbox_satellite','label'=>esc_html__('Enable Mapbox Satellite Streets layer','wp_placepress')]
-	);
-
-	add_settings_field(
-		'maki_markers',
-		esc_html__('Maki Markers','wp_placepress'),
-		'placepress_callback_field_checkbox',
-		'placepress',
-		'placepress_section_mapbox',
-		['id'=>'maki_markers','label'=>esc_html__('Enable Maki Markers','wp_placepress')]
-	);
-
-	add_settings_field(
-		'maki_markers_color',
-		esc_html__('Maki Markers Color','wp_placepress'),
-		'placepress_callback_field_text',
-		'placepress',
-		'placepress_section_mapbox',
-		['id'=>'maki_markers_color','label'=>sprintf(__('Enter an HTML hexadecimal color code (e.g. %s).','wp_placepress'),'<code>#000000</code>')]
-	);
+	// add_settings_field(
+	// 	'mapbox_key',
+	// 	esc_html__('Mapbox Key','wp_placepress'),
+	// 	'placepress_callback_field_text',
+	// 	'placepress',
+	// 	'placepress_section_mapbox',
+	// 	['id'=>'mapbox_key','label'=>esc_html__('Enter your Mapbox API access token to enable Mapbox options.','wp_placepress')]
+	// );
+	//
+	// add_settings_field(
+	// 	'mapbox_satellite',
+	// 	esc_html__('Mapbox Satellite','wp_placepress'),
+	// 	'placepress_callback_field_checkbox',
+	// 	'placepress',
+	// 	'placepress_section_mapbox',
+	// 	['id'=>'mapbox_satellite','label'=>esc_html__('Enable Mapbox Satellite Streets layer','wp_placepress')]
+	// );
+	//
+	// add_settings_field(
+	// 	'maki_markers',
+	// 	esc_html__('Maki Markers','wp_placepress'),
+	// 	'placepress_callback_field_checkbox',
+	// 	'placepress',
+	// 	'placepress_section_mapbox',
+	// 	['id'=>'maki_markers','label'=>esc_html__('Enable Maki Markers','wp_placepress')]
+	// );
+	// 
+	// add_settings_field(
+	// 	'maki_markers_color',
+	// 	esc_html__('Maki Markers Color','wp_placepress'),
+	// 	'placepress_callback_field_text',
+	// 	'placepress',
+	// 	'placepress_section_mapbox',
+	// 	['id'=>'maki_markers_color','label'=>sprintf(__('Enter an HTML hexadecimal color code (e.g. %s).','wp_placepress'),'<code>#000000</code>')]
+	// );
 
 }
 
