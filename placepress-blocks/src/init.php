@@ -33,7 +33,7 @@ add_filter( 'block_categories', 'placepress_block_categories', 10, 2 );
 function placepress_editor_js() {
     wp_enqueue_script(
         'placepress-settings',
-        plugins_url( 'settings.js', __FILE__ ),
+        plugins_url( 'post-type-blocks.js', __FILE__ ),
         array( 'wp-blocks', 'wp-dom-ready', 'wp-edit-post' )
     );
 		wp_localize_script( 'placepress-settings', 'placepress_plugin_settings',
