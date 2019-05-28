@@ -71,6 +71,26 @@ function placepress_blocks_cgb_block_assets() { // phpcs:ignore
 			array()
 	);
 
+	if(placepress_setting('marker_clustering')==true){
+		wp_enqueue_style(
+				'placepress-cluster-css',
+				'https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css',
+				array()
+		);
+
+		wp_enqueue_style(
+				'placepress-cluster-css-default',
+				'https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css',
+				array()
+		);
+
+		wp_enqueue_script(
+				'placepress-cluster-js',
+				'https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js',
+				array('placepress-leaflet-js')
+		);
+	}
+
 	wp_enqueue_script(
 			'placepress-tiles',
 			plugins_url( 'tile-provider.js', __FILE__ ),

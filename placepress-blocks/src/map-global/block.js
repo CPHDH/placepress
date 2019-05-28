@@ -165,9 +165,14 @@ registerBlockType( 'placepress/block-map-global', {
 								} );
 							}
 						} );
-
-						const markersGroup = L.featureGroup( markers ).addTo( map );
-						map.fitBounds( markersGroup.getBounds(), { padding: [ 50, 50 ] } );
+						if ( typeof L.markerClusterGroup === 'function' ) {
+							const clusterGroup = L.markerClusterGroup();
+							clusterGroup.addLayers( markers ).addTo( map );
+							map.fitBounds( clusterGroup.getBounds(), { padding: [ 30, 30 ] } );
+						} else {
+							const markersGroup = L.featureGroup( markers ).addTo( map );
+							map.fitBounds( markersGroup.getBounds(), { padding: [ 30, 30 ] } );
+						}
 					} else {
 						notices.createWarningNotice(
 							__(
@@ -213,6 +218,7 @@ registerBlockType( 'placepress/block-map-global', {
 		if ( ! basemap ) {
 			props.setAttributes( { basemap: defaults.default_map_type } );
 		}
+
 		return (
 			<div
 				className={ props.className }

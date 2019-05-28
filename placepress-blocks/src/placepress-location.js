@@ -104,9 +104,14 @@ document.addEventListener( 'DOMContentLoaded', function( e ) {
 								} );
 							}
 						} );
-
-						const markersGroup = L.featureGroup( markersLayer ).addTo( map );
-						map.fitBounds( markersGroup.getBounds(), { padding: [ 50, 50 ] } );
+						if ( typeof L.markerClusterGroup === 'function' ) {
+							const clusterGroup = L.markerClusterGroup();
+							clusterGroup.addLayers( markersLayer ).addTo( map );
+							map.fitBounds( clusterGroup.getBounds(), { padding: [ 30, 30 ] } );
+						} else {
+							const markersGroup = L.featureGroup( markersLayer ).addTo( map );
+							map.fitBounds( markersGroup.getBounds(), { padding: [ 30, 30 ] } );
+						}
 					} else {
 						console.warn(
 							'PlacePress: Your request did not return any Locations. Please ensure that you have Location posts that use the PlacePress Location Map block.'
