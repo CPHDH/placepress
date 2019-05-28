@@ -75,6 +75,13 @@ function placepress_register_settings(){
 	// 	'placepress'
 	// );
 
+	// add_settings_section(
+	// 	'placepress_section_content',
+	// 	esc_html__('Content Settings: Post Types','wp_placepress'),
+	// 	'placepress_callback_section_content',
+	// 	'placepress'
+	// );
+
 	/*
 	** Fields
 	*/
@@ -156,7 +163,7 @@ function placepress_register_settings(){
 	// 	'placepress_section_mapbox',
 	// 	['id'=>'maki_markers','label'=>esc_html__('Enable Maki Markers','wp_placepress')]
 	// );
-	// 
+	//
 	// add_settings_field(
 	// 	'maki_markers_color',
 	// 	esc_html__('Maki Markers Color','wp_placepress'),
@@ -164,6 +171,24 @@ function placepress_register_settings(){
 	// 	'placepress',
 	// 	'placepress_section_mapbox',
 	// 	['id'=>'maki_markers_color','label'=>sprintf(__('Enter an HTML hexadecimal color code (e.g. %s).','wp_placepress'),'<code>#000000</code>')]
+	// );
+	//
+	// add_settings_field(
+	// 	'enable_locations',
+	// 	esc_html__('Locations','wp_placepress'),
+	// 	'placepress_callback_field_checkbox',
+	// 	'placepress',
+	// 	'placepress_section_content',
+	// 	['id'=>'enable_locations','label'=>esc_html__('Enable the Locations post type (req. for location map block and global map block)','wp_placepress')]
+	// );
+	//
+	// add_settings_field(
+	// 	'enable_tours',
+	// 	esc_html__('Tours','wp_placepress'),
+	// 	'placepress_callback_field_checkbox',
+	// 	'placepress',
+	// 	'placepress_section_content',
+	// 	['id'=>'enable_tours','label'=>esc_html__('Enable the Tours post type (req. for tour blocks)','wp_placepress')]
 	// );
 
 }
@@ -182,8 +207,18 @@ function placepress_options_default(){
 		'maki_markers'=>false,
 		'maki_markers_color'=>null,
 		'marker_clustering'=>false,
+		'enable_tours'=>true,
+		'enable_locations'=>true,
 	);
 }
+
+add_action( 'init', 'register_options_defaults' );
+function register_options_defaults(){
+	foreach (placepress_options_default() as $key => $value) {
+		add_option( $key, $value );
+	}
+}
+
 
 /*
 ** CALLBACKS
@@ -195,6 +230,10 @@ function placepress_callback_section_map(){
 
 function placepress_callback_section_mapbox(){
 	echo '<p>'.sprintf(__('All Mapbox options require an API access token. Get your token at %s (some Mapbox some functionality is rate-limited).','wp_placepress'), '<a target="_blank" href="https://www.mapbox.com/studio/account/tokens/">www.mapbox.com</a>').'</p>';
+}
+
+function placepress_callback_section_content(){
+	echo '<p>'.esc_html__('Enable or disable custom post types.','wp_placepress').'</p>';
 }
 
 // Text
