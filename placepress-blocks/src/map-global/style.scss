@@ -24,7 +24,8 @@
 	a.map-thumb {
 		display: block;
 		height: 100px;
-		width: 200px;
+		width: 100%;
+		min-width: 200px;
 		background-size: cover;
 		background-position: center center;
 		border-radius: 12px 12px 0 0;

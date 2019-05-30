@@ -107,10 +107,10 @@ document.addEventListener( 'DOMContentLoaded', function( e ) {
 						if ( typeof L.markerClusterGroup === 'function' ) {
 							const clusterGroup = L.markerClusterGroup();
 							clusterGroup.addLayers( markersLayer ).addTo( map );
-							map.fitBounds( clusterGroup.getBounds(), { padding: [ 30, 30 ] } );
+							map.fitBounds( clusterGroup.getBounds(), { padding: [ 50, 50 ] } );
 						} else {
 							const markersGroup = L.featureGroup( markersLayer ).addTo( map );
-							map.fitBounds( markersGroup.getBounds(), { padding: [ 30, 30 ] } );
+							map.fitBounds( markersGroup.getBounds(), { padding: [ 50, 50 ] } );
 						}
 					} else {
 						console.warn(
@@ -156,7 +156,6 @@ document.addEventListener( 'DOMContentLoaded', function( e ) {
 		// SINGLE LOCATION MAP
 		const displayLocationMapPP = function( settings ) {
 			const tileSets = window.getMapTileSets();
-			const allLayers = window.getControlLayers();
 			const basemap = tileSets[ settings.style ];
 
 			if ( settings ) {
@@ -182,7 +181,15 @@ document.addEventListener( 'DOMContentLoaded', function( e ) {
 				} );
 
 				// controls
-				L.control.layers( allLayers ).addTo( map );
+				const layerNames = {
+					'Street (Wikimedia)': tileSets.wikimedia,
+					'Street (Carto Voyager)': tileSets.carto_voyager,
+					'Street (Carto Light)': tileSets.carto_light,
+					'Terrain (Stamen)': tileSets.stamen_terrain,
+					'Satellite (ESRI)': tileSets.esri_world,
+				};
+				L.control.layers( layerNames ).addTo( map );
+
 				const isSecure = window.location.protocol == 'https:' ? true : false;
 				if ( isSecure && navigator.geolocation ) {
 					addGeolocationControls( map );
@@ -192,7 +199,6 @@ document.addEventListener( 'DOMContentLoaded', function( e ) {
 		// GLOBAL LOCATIONS MAP
 		const displayGlobalMapPP = function( settings ) {
 			const tileSets = window.getMapTileSets();
-			const allLayers = window.getControlLayers();
 			const currentTileSet = tileSets[ settings.style ];
 			const markersLayer = [];
 			const map = L.map( 'placepress-map', {
@@ -201,7 +207,15 @@ document.addEventListener( 'DOMContentLoaded', function( e ) {
 			} ).setView( [ settings.lat, settings.lon ], settings.zoom );
 
 			// controls
-			const layerControls = L.control.layers( allLayers ).addTo( map );
+			const layerNames = {
+				'Street (Wikimedia)': tileSets.wikimedia,
+				'Street (Carto Voyager)': tileSets.carto_voyager,
+				'Street (Carto Light)': tileSets.carto_light,
+				'Terrain (Stamen)': tileSets.stamen_terrain,
+				'Satellite (ESRI)': tileSets.esri_world,
+			};
+			const layerControls = L.control.layers( layerNames ).addTo( map );
+
 			const isSecure = window.location.protocol == 'https:' ? true : false;
 			if ( isSecure && navigator.geolocation ) {
 				addGeolocationControls( map );

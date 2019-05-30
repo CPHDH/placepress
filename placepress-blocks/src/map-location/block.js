@@ -102,7 +102,6 @@ registerBlockType( 'placepress/block-map-location', {
 		// Init location map user interface
 		const uiLocationMapPP = function() {
 			const tileSets = window.getMapTileSets();
-			const allLayers = window.getControlLayers();
 			const currentTileSet = tileSets[ basemap ];
 
 			const map = L.map( 'placepress-map', {
@@ -231,7 +230,14 @@ registerBlockType( 'placepress/block-map-location', {
 			L.control.geocode( { position: 'topright' } ).addTo( map );
 
 			// user actions: LAYERS
-			const layerControls = L.control.layers( allLayers ).addTo( map );
+			const layerNames = {
+				'Street (Wikimedia)': tileSets.wikimedia,
+				'Street (Carto Voyager)': tileSets.carto_voyager,
+				'Street (Carto Light)': tileSets.carto_light,
+				'Terrain (Stamen)': tileSets.stamen_terrain,
+				'Satellite (ESRI)': tileSets.esri_world,
+			};
+			const layerControls = L.control.layers( layerNames ).addTo( map );
 			map.on( 'baselayerchange ', function( e ) {
 				const key = e.layer.options.placepress_key;
 				if ( key ) {

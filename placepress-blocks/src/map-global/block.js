@@ -95,7 +95,6 @@ registerBlockType( 'placepress/block-map-global', {
 
 		const globalMapPP = function() {
 			const tileSets = window.getMapTileSets();
-			const allLayers = window.getControlLayers();
 			const currentTileSet = tileSets[ basemap ];
 			const markers = [];
 			const map = L.map( 'placepress-map', {
@@ -104,7 +103,14 @@ registerBlockType( 'placepress/block-map-global', {
 			} ).setView( [ lat, lon ], zoom );
 
 			// user actions: LAYERS
-			const layerControls = L.control.layers( allLayers ).addTo( map );
+			const layerNames = {
+				'Street (Wikimedia)': tileSets.wikimedia,
+				'Street (Carto Voyager)': tileSets.carto_voyager,
+				'Street (Carto Light)': tileSets.carto_light,
+				'Terrain (Stamen)': tileSets.stamen_terrain,
+				'Satellite (ESRI)': tileSets.esri_world,
+			};
+			const layerControls = L.control.layers( layerNames ).addTo( map );
 			map.on( 'baselayerchange ', function( e ) {
 				const key = e.layer.options.placepress_key;
 				if ( key ) {
@@ -168,10 +174,10 @@ registerBlockType( 'placepress/block-map-global', {
 						if ( typeof L.markerClusterGroup === 'function' ) {
 							const clusterGroup = L.markerClusterGroup();
 							clusterGroup.addLayers( markers ).addTo( map );
-							map.fitBounds( clusterGroup.getBounds(), { padding: [ 30, 30 ] } );
+							map.fitBounds( clusterGroup.getBounds(), { padding: [ 50, 50 ] } );
 						} else {
 							const markersGroup = L.featureGroup( markers ).addTo( map );
-							map.fitBounds( markersGroup.getBounds(), { padding: [ 30, 30 ] } );
+							map.fitBounds( markersGroup.getBounds(), { padding: [ 50, 50 ] } );
 						}
 					} else {
 						notices.createWarningNotice(
