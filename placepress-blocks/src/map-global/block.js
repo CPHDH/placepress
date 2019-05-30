@@ -150,7 +150,7 @@ registerBlockType( 'placepress/block-map-global', {
 											e.target.options.permalink +
 											'" class="map-thumb" style="background-image:url(' +
 											e.target.options.thumbnail +
-											')"></a><a href="' +
+											')"></a><a class="map-title" href="' +
 											e.target.options.permalink +
 											'">' +
 											e.target.options.title +
