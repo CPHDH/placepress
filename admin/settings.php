@@ -75,12 +75,12 @@ function placepress_register_settings(){
 	// 	'placepress'
 	// );
 
-	// add_settings_section(
-	// 	'placepress_section_content',
-	// 	esc_html__('Content Settings: Post Types','wp_placepress'),
-	// 	'placepress_callback_section_content',
-	// 	'placepress'
-	// );
+	add_settings_section(
+		'placepress_section_content',
+		esc_html__('Content Settings: Post Types','wp_placepress'),
+		'placepress_callback_section_content',
+		'placepress'
+	);
 
 	/*
 	** Fields
@@ -172,24 +172,24 @@ function placepress_register_settings(){
 	// 	'placepress_section_mapbox',
 	// 	['id'=>'maki_markers_color','label'=>sprintf(__('Enter an HTML hexadecimal color code (e.g. %s).','wp_placepress'),'<code>#000000</code>')]
 	// );
-	//
-	// add_settings_field(
-	// 	'enable_locations',
-	// 	esc_html__('Locations','wp_placepress'),
-	// 	'placepress_callback_field_checkbox',
-	// 	'placepress',
-	// 	'placepress_section_content',
-	// 	['id'=>'enable_locations','label'=>esc_html__('Enable the Locations post type (req. for location map block and global map block)','wp_placepress')]
-	// );
-	//
-	// add_settings_field(
-	// 	'enable_tours',
-	// 	esc_html__('Tours','wp_placepress'),
-	// 	'placepress_callback_field_checkbox',
-	// 	'placepress',
-	// 	'placepress_section_content',
-	// 	['id'=>'enable_tours','label'=>esc_html__('Enable the Tours post type (req. for tour blocks)','wp_placepress')]
-	// );
+
+	add_settings_field(
+		'enable_locations',
+		esc_html__('Locations','wp_placepress'),
+		'placepress_callback_field_checkbox',
+		'placepress',
+		'placepress_section_content',
+		['id'=>'enable_locations','label'=>esc_html__('Enable the Locations post type (req. for location map block and global map block)','wp_placepress')]
+	);
+
+	add_settings_field(
+		'enable_tours',
+		esc_html__('Tours','wp_placepress'),
+		'placepress_callback_field_checkbox',
+		'placepress',
+		'placepress_section_content',
+		['id'=>'enable_tours','label'=>esc_html__('Enable the Tours post type (req. for tour blocks)','wp_placepress')]
+	);
 
 }
 
