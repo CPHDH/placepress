@@ -11,4 +11,4 @@
 
 import './map-global/block.js';
 import './map-location/block.js';
-import './map-tour/block.js';
+import './tour-location/block.js';

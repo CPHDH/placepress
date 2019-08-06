@@ -1,0 +1,46 @@
+import './style.scss';
+import './editor.scss';
+
+const { __ } = wp.i18n;
+const { registerBlockType, getBlockDefaultClassName } = wp.blocks;
+const { RichText, InspectorControls, InnerBlocks } = wp.editor;
+const BLOCKS_TEMPLATE = [
+	[ 'core/heading', { level: 2, placeholder: 'Location Title' } ],
+	[ 'core/heading', { level: 3, placeholder: 'Location Subtitle' } ],
+	[ 'core/image', {} ],
+	[ 'core/audio', {} ],
+	[ 'core/paragraph', { placeholder: 'Tour Location Details' } ],
+	[ 'core/separator' ],
+];
+const el = wp.element.createElement;
+
+registerBlockType( 'placepress/block-tour-location', {
+	title: __( 'Tour Location' ),
+	icon: 'location',
+	category: 'placepress',
+	keywords: [ __( 'Map' ), __( 'Tour' ), __( 'PlacePress' ) ],
+	supports: {
+		anchor: true,
+		html: false,
+		multiple: true,
+	},
+	description: __( 'A block for adding a tour location.' ),
+	attributes: {
+		// @TODO: Enable metaboxes for _block-map-tour-items
+		content: {
+			type: 'string',
+			// source: 'meta',
+			// meta: '_block-map-tour-items',
+			selector: '.map-location-pp',
+		},
+	},
+	edit: props => {
+		return el( InnerBlocks, {
+			template: BLOCKS_TEMPLATE,
+			templateLock: false,
+		} );
+	},
+	save: props => {
+		return el( InnerBlocks.Content, {} );
+	},
+} );

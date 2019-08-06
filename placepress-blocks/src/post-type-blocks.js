@@ -5,7 +5,7 @@ wp.domReady( function() {
 	).value;
 
 	if ( postType == 'locations' ) {
-		wp.blocks.unregisterBlockType( 'placepress/block-map-tour' );
+		wp.blocks.unregisterBlockType( 'placepress/block-tour-location' );
 		wp.blocks.unregisterBlockType( 'placepress/block-map-global' );
 	}
 
@@ -16,6 +16,6 @@ wp.domReady( function() {
 
 	if ( postType == 'page' || postType == 'post' ) {
 		wp.blocks.unregisterBlockType( 'placepress/block-map-location' );
-		wp.blocks.unregisterBlockType( 'placepress/block-map-tour' );
+		wp.blocks.unregisterBlockType( 'placepress/block-tour-location' );
 	}
 } );
