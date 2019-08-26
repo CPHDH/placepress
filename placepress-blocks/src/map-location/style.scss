@@ -37,4 +37,27 @@
 	svg#geolocation:hover path#inner {
 		fill: #4a87ee;
 	}
+	.pp-directions-button {
+		background-color: #0078a8;
+		color: #fff;
+		width: 100%;
+		display: block;
+		text-align: center;
+		padding: 10px 5px;
+		border-radius: 7px;
+		font-size: 16px;
+		min-width: 200px;
+	}
+	.pp-directions-button:hover,
+	.pp-directions-button:focus {
+		background-color: #333;
+		text-decoration: underline;
+	}
+	.pp-coords-caption {
+		display: block;
+		text-align: center;
+		color: #555;
+		padding: 5px 5px 0;
+		font-style: italic;
+	}
 }

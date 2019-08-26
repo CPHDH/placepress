@@ -166,7 +166,18 @@ document.addEventListener( 'DOMContentLoaded', function( e ) {
 
 				const marker = L.marker( [ settings.lat, settings.lon ] ).addTo( map );
 				marker.on( 'click', function( e ) {
-					const popup = L.popup().setContent( settings.lat + ',' + settings.lon );
+					const popup = L.popup().setContent(
+						'<a class="pp-directions-button" target="_blank" rel="noopener" href="http://maps.google.com/maps?daddr=' +
+							settings.lat +
+							',' +
+							settings.lon +
+							'">Get Directions</a>' +
+							'<div class="pp-coords-caption">' +
+							settings.lat +
+							',' +
+							settings.lon +
+							'</div>'
+					);
 					e.target
 						.unbindPopup()
 						.bindPopup( popup )
