@@ -164,6 +164,11 @@ document.addEventListener( 'DOMContentLoaded', function( e ) {
 					layers: basemap,
 				} ).setView( [ settings.lat, settings.lon ], settings.zoom );
 
+				// enable scrollwheel zoom if user interacts with the map
+				map.once( 'focus', function() {
+					map.scrollWheelZoom.enable();
+				} );
+
 				const marker = L.marker( [ settings.lat, settings.lon ] ).addTo( map );
 				marker.on( 'click', function( e ) {
 					const popup = L.popup().setContent(
@@ -216,6 +221,11 @@ document.addEventListener( 'DOMContentLoaded', function( e ) {
 				layers: currentTileSet,
 				scrollWheelZoom: false,
 			} ).setView( [ settings.lat, settings.lon ], settings.zoom );
+
+			// enable scrollwheel zoom if user interacts with the map
+			map.once( 'focus', function() {
+				map.scrollWheelZoom.enable();
+			} );
 
 			// controls
 			const layerNames = {
