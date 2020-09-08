@@ -184,7 +184,7 @@ function placepress_register_settings(){
 
 	add_settings_field(
 		'enable_tours',
-		esc_html__('Tours','wp_placepress'),
+		esc_html__('Tours (Beta)','wp_placepress'),
 		'placepress_callback_field_checkbox',
 		'placepress',
 		'placepress_section_content',

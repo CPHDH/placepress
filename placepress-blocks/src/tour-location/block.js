@@ -5,12 +5,24 @@ const { __ } = wp.i18n;
 const { registerBlockType, getBlockDefaultClassName } = wp.blocks;
 const { RichText, InspectorControls, InnerBlocks } = wp.editor;
 const BLOCKS_TEMPLATE = [
-	[ 'core/heading', { level: 2, placeholder: 'Location Title' } ],
-	[ 'core/heading', { level: 3, placeholder: 'Location Subtitle' } ],
-	[ 'core/image', {} ],
-	[ 'core/audio', {} ],
-	[ 'core/paragraph', { placeholder: 'Tour Location Details' } ],
-	[ 'core/separator' ],
+	[
+		"core/group",
+		[],
+		[
+			["core/separator"],
+			[
+				"core/heading",
+				{ level: 2, placeholder: "Enter a title for this location" },
+			],
+			[
+				"core/heading",
+				{ level: 3, placeholder: "Enter a subtitle for this location" },
+			],
+			["core/image", {}],
+			["core/paragraph", { placeholder: "Enter some text for this location" }],
+			["core/audio", {}],
+		],
+	],
 ];
 const el = wp.element.createElement;
 
