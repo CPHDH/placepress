@@ -1,5 +1,5 @@
-import './style.scss';
-import './editor.scss';
+import "./style.scss";
+import "./editor.scss";
 
 const { __ } = wp.i18n;
 const { registerBlockType, getBlockDefaultClassName } = wp.blocks;
@@ -26,33 +26,33 @@ const BLOCKS_TEMPLATE = [
 ];
 const el = wp.element.createElement;
 
-registerBlockType( 'placepress/block-tour-location', {
-	title: __( 'Tour Location' ),
-	icon: 'location',
-	category: 'placepress',
-	keywords: [ __( 'Map' ), __( 'Tour' ), __( 'PlacePress' ) ],
+registerBlockType("placepress/block-tour-location", {
+	title: __("Tour Location"),
+	icon: "location",
+	category: "placepress",
+	keywords: [__("Map"), __("Tour"), __("PlacePress")],
 	supports: {
 		anchor: true,
 		html: false,
 		multiple: true,
 	},
-	description: __( 'A block for adding a tour location.' ),
+	description: __("A block for adding a tour location."),
 	attributes: {
 		// @TODO: Enable metaboxes for _block-map-tour-items
 		content: {
-			type: 'string',
+			type: "string",
 			// source: 'meta',
 			// meta: '_block-map-tour-items',
-			selector: '.map-location-pp',
+			selector: ".map-location-pp",
 		},
 	},
-	edit: props => {
-		return el( InnerBlocks, {
+	edit: (props) => {
+		return el(InnerBlocks, {
 			template: BLOCKS_TEMPLATE,
 			templateLock: false,
-		} );
+		});
 	},
-	save: props => {
-		return el( InnerBlocks.Content, {} );
+	save: (props) => {
+		return el(InnerBlocks.Content, {});
 	},
-} );
+});
