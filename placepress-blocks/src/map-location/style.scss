@@ -60,4 +60,9 @@
 		padding: 5px 5px 0;
 		font-style: italic;
 	}
+.wp-block-placepress-block-map-location.alignfull,
+.wp-block-placepress-block-map-location.alignwide {
+	div.map-pp {
+		height: 500px;
+	}
 }

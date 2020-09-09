@@ -31,3 +31,9 @@
 		width: calc(100% - 64px);
 	}
 }
+.wp-block[data-align="wide"] .wp-block-placepress-block-map-global,
+.wp-block[data-align="full"] .wp-block-placepress-block-map-global {
+	div.map-pp {
+		height: 500px;
+	}
+}

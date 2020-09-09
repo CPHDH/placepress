@@ -16,6 +16,8 @@ registerBlockType( 'placepress/block-map-global', {
 		html: false,
 		multiple: false,
 		reusable: false,
+		align: true,
+		align: ["left", "center", "right", "wide", "full"],
 	},
 	description: __( 'A block for adding the global map.' ),
 	attributes: {
