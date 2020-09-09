@@ -60,6 +60,11 @@
 		padding: 5px 5px 0;
 		font-style: italic;
 	}
+	section.leaflet-control-layers-list {
+		padding: 0;
+		width: auto;
+	}
+}
 .wp-block-placepress-block-map-location.alignfull,
 .wp-block-placepress-block-map-location.alignwide {
 	div.map-pp {
