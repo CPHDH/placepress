@@ -4,10 +4,11 @@ import "./editor.scss";
 const { __ } = wp.i18n;
 const { registerBlockType, getBlockDefaultClassName } = wp.blocks;
 const { RichText, InspectorControls, InnerBlocks } = wp.editor;
+const className = getBlockDefaultClassName("placepress/block-tour-location");
 const BLOCKS_TEMPLATE = [
 	[
 		"core/group",
-		[],
+		{ className: className },
 		[
 			["core/separator"],
 			[
