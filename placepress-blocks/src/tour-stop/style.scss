@@ -1,0 +1,40 @@
+.wp-block-placepress-block-tour-stop {
+	.pp-tour-stop-section-header-container {
+		box-sizing: border-box;
+		padding: 70px 0 0;
+		background-position: center center;
+		background-size: cover;
+		border-radius: 3px;
+		cursor: pointer;
+	}
+	.pp-marker-icon-center svg {
+		display: block;
+		fill: #ffffff;
+		border-radius: 50%;
+		height: 100px;
+		width: 100px;
+		margin: 0 auto;
+		padding: 10px;
+		border: 2px solid #fff;
+		filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+	}
+	.pp-tour-stop-section-header-container h2 {
+		padding: 10px;
+		margin: 50px 0 0;
+		text-align: center;
+		display: block;
+		color: #ffffff;
+		text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+		border-radius: 0 0 3px 3px;
+	}
+}
+
+.wp-block-placepress-block-tour-stop.alignwide,
+.wp-block-placepress-block-tour-stop.alignfull {
+	.pp-tour-stop-section-header-container {
+		padding: 140px 0 0;
+	}
+	.pp-tour-stop-section-header-container h2 {
+		margin: 100px 0 0;
+	}
+}
