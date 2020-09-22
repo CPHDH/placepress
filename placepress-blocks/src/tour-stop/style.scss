@@ -1,11 +1,20 @@
 .wp-block-placepress-block-tour-stop {
+	background-color: #000000;
+	background-position: center center;
+	background-size: cover;
+	border-radius: 5px;
 	.pp-tour-stop-section-header-container {
-		box-sizing: border-box;
-		padding: 70px 0 0;
+		border-radius: 5px;
 		background-position: center center;
 		background-size: cover;
-		border-radius: 3px;
+		box-sizing: border-box;
+		padding: 100px 0 0;
+		border-radius: 5px;
 		cursor: pointer;
+	}
+	.pp-marker-icon-center {
+		text-align: center;
+		color: #ffffff;
 	}
 	.pp-marker-icon-center svg {
 		display: block;
@@ -18,23 +27,53 @@
 		border: 2px solid #fff;
 		filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
 	}
-	.pp-tour-stop-section-header-container h2 {
-		padding: 10px;
-		margin: 50px 0 0;
+	.pp-tour-stop-section-header-container .pp-tour-stop-title {
+		padding: 0 0 10px;
+		margin: 0 auto 0;
 		text-align: center;
 		display: block;
 		color: #ffffff;
 		text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 		border-radius: 0 0 3px 3px;
 	}
+
+	.pp-tour-stop-section-header-container .pp-tour-stop-title .has-background {
+		text-shadow: 0 0 5px rgba(0, 0, 0, 0);
+	}
+	span.onhover {
+		color: rgba(256, 256, 256, 0);
+		font-size: 0.8em;
+		transition: color 0.5s ease;
+		font-family: monospace;
+		float: left;
+		text-align: center;
+		width: 100%;
+		padding-top: 5px;
+	}
 }
 
 .wp-block-placepress-block-tour-stop.alignwide,
 .wp-block-placepress-block-tour-stop.alignfull {
 	.pp-tour-stop-section-header-container {
-		padding: 140px 0 0;
+		padding: 170px 0 0;
 	}
-	.pp-tour-stop-section-header-container h2 {
-		margin: 100px 0 0;
+}
+
+.wp-block-placepress-block-tour-stop.alignfull {
+	border-radius: 0;
+	.pp-tour-stop-section-header-container {
+		border-radius: 0;
+	}
+}
+.wp-block-placepress-block-tour-stop:hover,
+.wp-block-placepress-block-tour-stop:active {
+	span.onhover {
+		color: rgba(256, 256, 256, 1);
+	}
+}
+// mobile
+@media (pointer: coarse) {
+	.wp-block-placepress-block-tour-stop span.onhover {
+		color: rgba(256, 256, 256, 1);
 	}
 }

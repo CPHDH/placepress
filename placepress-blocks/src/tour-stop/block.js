@@ -16,7 +16,17 @@ const {
 	FlexBlock,
 } = wp.components;
 const { useState } = wp.element;
-const { MediaUpload, MediaUploadCheck } = wp.blockEditor;
+const { MediaUpload, MediaUploadCheck, InnerBlocks } = wp.blockEditor;
+
+const HEADING = [
+	[
+		"core/heading",
+		{
+			level: 2,
+			placeholder: __("Enter a title for this stop", "wp_placepress"),
+		},
+	],
+];
 
 console.log("Components:", wp.components);
 
@@ -82,10 +92,6 @@ registerBlockType("placepress/block-tour-stop", {
 
 		const notices = wp.data.dispatch("core/notices");
 
-		const onBlockLoad = function (e) {
-			console.log(e);
-		};
-
 		const onChangeTitle = (title) => {
 			setAttributes({ title });
 		};
@@ -148,19 +154,14 @@ registerBlockType("placepress/block-tour-stop", {
 				<div className="pp-tour-stop-section-header-container">
 					<div class="pp-marker-icon-center">
 						<Dashicon icon="location" />
+						{lat && lon && (
+							<span class="onhover">{__("View On Map", "wp_placepress")}</span>
+						)}
 					</div>
-					<h2>{title}</h2>
+					<div className="pp-tour-stop-title">
+						<InnerBlocks template={HEADING} templateLock="all" />
+					</div>
 				</div>
-				<TextControl
-					className="map-title-pp"
-					tagName="p"
-					placeholder={__(
-						"Enter the title as it should appear in the map.",
-						"wp_placepress"
-					)}
-					value={title}
-					onChange={onChangeTitle}
-				/>
 			</div>
 		);
 	},
@@ -186,8 +187,13 @@ registerBlockType("placepress/block-tour-stop", {
 				>
 					<div class="pp-marker-icon-center">
 						<Dashicon icon="location" />
+						{attributes.lat && attributes.lon && (
+							<span class="onhover">{__("View On Map", "wp_placepress")}</span>
+						)}
 					</div>
-					<h2>{attributes.title}</h2>
+					<div className="pp-tour-stop-title">
+						<InnerBlocks.Content />
+					</div>
 				</div>
 			</div>
 		);

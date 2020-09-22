@@ -1,42 +1,43 @@
 .wp-block-placepress-block-tour-stop {
-	background-position: center center;
-	background-size: cover;
-	.pp-tour-stop-section-header-container {
-		box-sizing: border-box;
-		padding: 70px 0 0;
-		background-position: center center;
-		background-size: cover;
-		border-radius: 3px;
-		cursor: pointer;
+	.pp-tour-stop-section-header-container .pp-tour-stop-title .wp-block {
+		max-width: none;
 	}
-	.pp-marker-icon-center svg {
-		display: block;
-		fill: #ffffff;
-		border-radius: 50%;
-		height: 100px;
-		width: 100px;
-		margin: 0 auto;
-		padding: 10px;
-		border: 2px solid #fff;
-		filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
-	}
-	.pp-tour-stop-section-header-container h2 {
-		padding: 10px;
-		margin: 50px 0 0;
-		text-align: center;
-		display: block;
+
+	.components-button.is-secondary {
+		box-shadow: inset 0 0 0 1px #ffffff;
 		color: #ffffff;
-		text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-		border-radius: 0 0 3px 3px;
+
+		.dashicon.dashicons-format-image {
+			padding-right: 3px;
+		}
+	}
+
+	.components-flex {
+		display: none;
+		float: left;
+		width: 100%;
+		padding: 10px 7px;
 	}
 }
-
-.wp-block-placepress-block-tour-stop.alignwide,
-.wp-block-placepress-block-tour-stop.alignfull {
+.wp-block[data-align="wide"] .wp-block-placepress-block-tour-stop,
+.wp-block[data-align="full"] .wp-block-placepress-block-tour-stop {
 	.pp-tour-stop-section-header-container {
-		padding: 140px 0 0;
+		padding: 170px 0 0;
 	}
-	.pp-tour-stop-section-header-container h2 {
-		margin: 100px 0 0;
+}
+.wp-block[data-align="full"] .wp-block-placepress-block-tour-stop {
+	border-radius: 0;
+}
+
+.has-child-selected .wp-block-placepress-block-tour-stop,
+.is-selected .wp-block-placepress-block-tour-stop {
+	.components-flex {
+		display: flex;
+
+		.components-button.is-secondary {
+			background: #ffffff;
+			color: #000000;
+			box-shadow: inset 0 0 0 1px #000000;
+		}
 	}
 }
