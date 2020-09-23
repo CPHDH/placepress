@@ -2,20 +2,8 @@ import "./style.scss";
 import "./editor.scss";
 
 const { __ } = wp.i18n;
-const { registerBlockType, getBlockDefaultClassName } = wp.blocks;
-const { PlainText, InspectorControls, PanelBody } = wp.editor;
-const {
-	Button,
-	TextareaControl,
-	TextControl,
-	Dashicon,
-	Card,
-	CardBody,
-	Flex,
-	FlexItem,
-	FlexBlock,
-} = wp.components;
-const { useState } = wp.element;
+const { registerBlockType } = wp.blocks;
+const { Button, Dashicon, Flex, FlexItem } = wp.components;
 const { MediaUpload, MediaUploadCheck, InnerBlocks } = wp.blockEditor;
 
 const HEADING = [
@@ -27,8 +15,6 @@ const HEADING = [
 		},
 	],
 ];
-
-console.log("Components:", wp.components);
 
 registerBlockType("placepress/block-tour-stop", {
 	title: __("Tour Stop"),
@@ -85,20 +71,9 @@ registerBlockType("placepress/block-tour-stop", {
 	},
 	edit(props) {
 		const {
-			attributes: { title, background, zoom, lat, lon, basemap },
+			attributes: { background, zoom, lat, lon, basemap },
 			className,
-			setAttributes,
 		} = props;
-
-		const notices = wp.data.dispatch("core/notices");
-
-		const onChangeTitle = (title) => {
-			setAttributes({ title });
-		};
-
-		const onChangeBackground = (background) => {
-			setAttributes({ background });
-		};
 
 		// set attributes
 		const defaults = placepress_plugin_settings.placepress_defaults;
@@ -117,7 +92,7 @@ registerBlockType("placepress/block-tour-stop", {
 
 		return (
 			<div
-				className={props.className}
+				className={className}
 				aria-label={__("Tour Stop", "wp_placepress")}
 				role="region"
 				style={{
@@ -166,7 +141,6 @@ registerBlockType("placepress/block-tour-stop", {
 		);
 	},
 	save(props) {
-		const className = getBlockDefaultClassName("placepress/block-map-location");
 		const { attributes } = props;
 
 		return (
