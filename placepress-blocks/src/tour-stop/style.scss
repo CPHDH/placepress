@@ -1,8 +1,11 @@
 .wp-block-placepress-block-tour-stop {
-	background-color: #000000;
-	background-position: center center;
-	background-size: cover;
-	border-radius: 5px;
+	.figure-inner {
+		background-color: #000000;
+		background-position: center center;
+		background-size: cover;
+		border-radius: 5px;
+	}
+
 	.pp-tour-stop-section-header-container {
 		border-radius: 5px;
 		background-position: center center;
@@ -67,11 +70,17 @@
 		padding: 150px 0 0;
 	}
 }
-
 .wp-block-placepress-block-tour-stop.alignfull {
-	border-radius: 0;
+	.figure-inner {
+		border-radius: 0;
+	}
+
 	.pp-tour-stop-section-header-container {
 		border-radius: 0;
+	}
+
+	figcaption {
+		padding: 0 10px;
 	}
 }
 .wp-block-placepress-block-tour-stop:hover,

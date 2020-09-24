@@ -3,7 +3,7 @@ import "./editor.scss";
 
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
-const { Button, Dashicon, Flex, FlexItem } = wp.components;
+const { Button, Dashicon, Flex, FlexItem, TextareaControl } = wp.components;
 const { MediaUpload, MediaUploadCheck, InnerBlocks } = wp.blockEditor;
 
 const HEADING = [
@@ -31,12 +31,6 @@ registerBlockType("placepress/block-tour-stop", {
 	},
 	description: __("A block for adding a tour stop section header."),
 	attributes: {
-		title: {
-			type: "string",
-			selector: "div.pp-tour-stop-section-header-container",
-			source: "attribute",
-			attribute: "data-title",
-		},
 		background: {
 			default: "",
 			type: "string",
@@ -68,10 +62,15 @@ registerBlockType("placepress/block-tour-stop", {
 			source: "attribute",
 			attribute: "data-basemap",
 		},
+		caption: {
+			type: "string",
+			source: "text",
+			selector: ".tour-stop-caption-pp",
+		},
 	},
 	edit(props) {
 		const {
-			attributes: { background, zoom, lat, lon, basemap },
+			attributes: { background, zoom, lat, lon, basemap, caption },
 			className,
 		} = props;
 
@@ -95,48 +94,58 @@ registerBlockType("placepress/block-tour-stop", {
 				className={className}
 				aria-label={__("Tour Stop", "wp_placepress")}
 				role="region"
-				style={{
-					backgroundImage: "url(" + background + ")",
-				}}
 			>
-				<Flex>
-					<FlexItem>
-						<MediaUploadCheck>
-							<MediaUpload
-								onSelect={(background) =>
-									props.setAttributes({
-										background: background.url ? background.url : "",
-									})
-								}
-								allowedTypes="image"
-								value={background}
-								render={({ open }) => (
-									<Button isSecondary onClick={open}>
-										<Dashicon icon="format-image" />{" "}
-										{__("Choose Image", "wp_placepress")}
-									</Button>
+				<figure>
+					<div
+						class="figure-inner"
+						style={{
+							backgroundImage: "url(" + background + ")",
+						}}
+					>
+						<Flex>
+							<FlexItem>
+								<MediaUploadCheck>
+									<MediaUpload
+										onSelect={(background) =>
+											props.setAttributes({
+												background: background.url ? background.url : "",
+												caption: background.caption ? background.caption : "",
+											})
+										}
+										allowedTypes="image"
+										value={background}
+										render={({ open }) => (
+											<Button isSecondary onClick={open}>
+												<Dashicon icon="format-image" />{" "}
+												{__("Choose Image", "wp_placepress")}
+											</Button>
+										)}
+									/>
+								</MediaUploadCheck>
+							</FlexItem>
+							<FlexItem>
+								<Button isSecondary>
+									<Dashicon icon="location" />{" "}
+									{__("Set Coordinates", "wp_placepress")}
+								</Button>
+							</FlexItem>
+						</Flex>
+						<div className="pp-tour-stop-section-header-container">
+							<div class="pp-marker-icon-center">
+								<Dashicon icon="location" />
+								{lat && lon && (
+									<span class="onhover">
+										{__("View On Map", "wp_placepress")}
+									</span>
 								)}
-							/>
-						</MediaUploadCheck>
-					</FlexItem>
-					<FlexItem>
-						<Button isSecondary>
-							<Dashicon icon="location" />{" "}
-							{__("Set Coordinates", "wp_placepress")}
-						</Button>
-					</FlexItem>
-				</Flex>
-				<div className="pp-tour-stop-section-header-container">
-					<div class="pp-marker-icon-center">
-						<Dashicon icon="location" />
-						{lat && lon && (
-							<span class="onhover">{__("View On Map", "wp_placepress")}</span>
-						)}
+							</div>
+							<div className="pp-tour-stop-title">
+								<InnerBlocks template={HEADING} templateLock="all" />
+							</div>
+						</div>
 					</div>
-					<div className="pp-tour-stop-title">
-						<InnerBlocks template={HEADING} templateLock="all" />
-					</div>
-				</div>
+					<figcaption className="tour-stop-caption-pp">{caption}</figcaption>
+				</figure>
 			</div>
 		);
 	},
@@ -149,26 +158,36 @@ registerBlockType("placepress/block-tour-stop", {
 				aria-label={__("Tour Stop", "wp_placepress")}
 				role="region"
 			>
-				<div
-					class="pp-tour-stop-section-header-container"
-					data-background={attributes.background}
-					data-title={attributes.title}
-					data-lat={attributes.lat}
-					data-lon={attributes.lon}
-					data-zoom={attributes.zoom}
-					data-basemap={attributes.basemap}
-					style={"background-image:url(" + attributes.background + ")"}
-				>
-					<div class="pp-marker-icon-center">
-						<Dashicon icon="location" />
-						{attributes.lat && attributes.lon && (
-							<span class="onhover">{__("View On Map", "wp_placepress")}</span>
-						)}
+				<figure>
+					<div
+						class="figure-inner"
+						style={"background-image:url(" + attributes.background + ")"}
+					>
+						<div
+							class="pp-tour-stop-section-header-container"
+							data-background={attributes.background}
+							data-lat={attributes.lat}
+							data-lon={attributes.lon}
+							data-zoom={attributes.zoom}
+							data-basemap={attributes.basemap}
+						>
+							<div class="pp-marker-icon-center">
+								<Dashicon icon="location" />
+								{attributes.lat && attributes.lon && (
+									<span class="onhover">
+										{__("View On Map", "wp_placepress")}
+									</span>
+								)}
+							</div>
+							<div className="pp-tour-stop-title">
+								<InnerBlocks.Content />
+							</div>
+						</div>
 					</div>
-					<div className="pp-tour-stop-title">
-						<InnerBlocks.Content />
-					</div>
-				</div>
+					<figcaption className="tour-stop-caption-pp">
+						{attributes.caption}
+					</figcaption>
+				</figure>
 			</div>
 		);
 	},
