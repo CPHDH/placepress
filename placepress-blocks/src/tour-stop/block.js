@@ -3,8 +3,16 @@ import "./editor.scss";
 
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
-const { Button, Dashicon, Flex, FlexItem, TextareaControl } = wp.components;
+const {
+	Button,
+	Dashicon,
+	Flex,
+	FlexItem,
+	TextareaControl,
+	Modal,
+} = wp.components;
 const { MediaUpload, MediaUploadCheck, InnerBlocks } = wp.blockEditor;
+const { useState } = wp.element;
 
 const HEADING = [
 	[
@@ -15,6 +23,42 @@ const HEADING = [
 		},
 	],
 ];
+
+const CoordsModal = () => {
+	const [isOpen, setOpen] = useState(false);
+	const openModal = () => setOpen(true);
+	const closeModal = () => setOpen(false);
+
+	return (
+		<div>
+			<Button isSecondary onClick={openModal}>
+				<Dashicon icon="location" /> {__("Set Coordinates", "wp_placepress")}
+			</Button>
+			{isOpen && (
+				<Modal
+					title={__("Set Map Coordinates", "wp_placepress")}
+					onRequestClose={closeModal}
+				>
+					<h3>The map goes here</h3>
+					<p>
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a
+						diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac
+						quam viverra nec consectetur ante hendrerit. Donec et mollis dolor.
+						Praesent et diam eget libero egestas mattis sit amet vitae augue.
+						Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec
+						ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum
+						dolor sit amet, consectetur adipiscing elit. Aenean ut gravida
+						lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor.
+						Pellentesque auctor nisi id magna consequat sagittis.{" "}
+					</p>
+					<Button isPrimary onClick={closeModal}>
+						Save Coordinates
+					</Button>
+				</Modal>
+			)}
+		</div>
+	);
+};
 
 registerBlockType("placepress/block-tour-stop", {
 	title: __("Tour Stop"),
@@ -124,10 +168,7 @@ registerBlockType("placepress/block-tour-stop", {
 								</MediaUploadCheck>
 							</FlexItem>
 							<FlexItem>
-								<Button isSecondary>
-									<Dashicon icon="location" />{" "}
-									{__("Set Coordinates", "wp_placepress")}
-								</Button>
+								<CoordsModal />
 							</FlexItem>
 						</Flex>
 						<div className="pp-tour-stop-section-header-container">
