@@ -14,52 +14,6 @@ const {
 const { MediaUpload, MediaUploadCheck, InnerBlocks } = wp.blockEditor;
 const { useState } = wp.element;
 
-const HEADING = [
-	[
-		"core/heading",
-		{
-			level: 2,
-			placeholder: __("Enter a title for this stop", "wp_placepress"),
-		},
-	],
-];
-
-const CoordsModal = () => {
-	const [isOpen, setOpen] = useState(false);
-	const openModal = () => setOpen(true);
-	const closeModal = () => setOpen(false);
-
-	return (
-		<div>
-			<Button isSecondary onClick={openModal}>
-				<Dashicon icon="location" /> {__("Set Coordinates", "wp_placepress")}
-			</Button>
-			{isOpen && (
-				<Modal
-					title={__("Set Map Coordinates", "wp_placepress")}
-					onRequestClose={closeModal}
-				>
-					<h3>The map goes here</h3>
-					<p>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a
-						diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac
-						quam viverra nec consectetur ante hendrerit. Donec et mollis dolor.
-						Praesent et diam eget libero egestas mattis sit amet vitae augue.
-						Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec
-						ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum
-						dolor sit amet, consectetur adipiscing elit. Aenean ut gravida
-						lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor.
-						Pellentesque auctor nisi id magna consequat sagittis.{" "}
-					</p>
-					<Button isPrimary onClick={closeModal}>
-						Save Coordinates
-					</Button>
-				</Modal>
-			)}
-		</div>
-	);
-};
-
 registerBlockType("placepress/block-tour-stop", {
 	title: __("Tour Stop"),
 	icon: "location",
@@ -117,6 +71,54 @@ registerBlockType("placepress/block-tour-stop", {
 			attributes: { background, zoom, lat, lon, basemap, caption },
 			className,
 		} = props;
+
+		const HEADING = [
+			[
+				"core/heading",
+				{
+					level: 2,
+					placeholder: __("Enter a title for this stop", "wp_placepress"),
+				},
+			],
+		];
+
+		const CoordsModal = () => {
+			const [isOpen, setOpen] = useState(false);
+			const openModal = () => setOpen(true);
+			const closeModal = () => setOpen(false);
+
+			return (
+				<div>
+					<Button isSecondary onClick={openModal}>
+						<Dashicon icon="location" />{" "}
+						{__("Set Coordinates", "wp_placepress")}
+					</Button>
+					{isOpen && (
+						<Modal
+							title={__("Set Map Coordinates", "wp_placepress")}
+							onRequestClose={closeModal}
+						>
+							<h3>The map goes here</h3>
+							<p>
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a
+								diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula
+								ac quam viverra nec consectetur ante hendrerit. Donec et mollis
+								dolor. Praesent et diam eget libero egestas mattis sit amet
+								vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia
+								consectetur. Donec ut libero sed arcu vehicula ultricies a non
+								tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+								Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed,
+								adipiscing id dolor. Pellentesque auctor nisi id magna consequat
+								sagittis.{" "}
+							</p>
+							<Button isPrimary onClick={closeModal}>
+								Save Coordinates
+							</Button>
+						</Modal>
+					)}
+				</div>
+			);
+		};
 
 		const MediaModal = () => {
 			return (
