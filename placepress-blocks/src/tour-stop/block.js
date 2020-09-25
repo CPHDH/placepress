@@ -118,6 +118,29 @@ registerBlockType("placepress/block-tour-stop", {
 			className,
 		} = props;
 
+		const MediaModal = () => {
+			return (
+				<MediaUploadCheck>
+					<MediaUpload
+						onSelect={(background) =>
+							props.setAttributes({
+								background: background.url ? background.url : "",
+								caption: background.caption ? background.caption : "",
+							})
+						}
+						allowedTypes="image"
+						value={background}
+						render={({ open }) => (
+							<Button isSecondary onClick={open}>
+								<Dashicon icon="format-image" />{" "}
+								{__("Choose Image", "wp_placepress")}
+							</Button>
+						)}
+					/>
+				</MediaUploadCheck>
+			);
+		};
+
 		// set attributes
 		const defaults = placepress_plugin_settings.placepress_defaults;
 		if (!zoom) {
@@ -148,24 +171,7 @@ registerBlockType("placepress/block-tour-stop", {
 					>
 						<Flex>
 							<FlexItem>
-								<MediaUploadCheck>
-									<MediaUpload
-										onSelect={(background) =>
-											props.setAttributes({
-												background: background.url ? background.url : "",
-												caption: background.caption ? background.caption : "",
-											})
-										}
-										allowedTypes="image"
-										value={background}
-										render={({ open }) => (
-											<Button isSecondary onClick={open}>
-												<Dashicon icon="format-image" />{" "}
-												{__("Choose Image", "wp_placepress")}
-											</Button>
-										)}
-									/>
-								</MediaUploadCheck>
+								<MediaModal />
 							</FlexItem>
 							<FlexItem>
 								<CoordsModal />
