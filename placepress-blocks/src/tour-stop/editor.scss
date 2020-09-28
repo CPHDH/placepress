@@ -48,6 +48,35 @@
 		color: #ffffff !important;
 	}
 }
+
+.components-modal__frame {
+	width: 100%;
+	max-width: 700px;
+
+	#placepress-tour-map {
+		background: #eaeaea;
+		background: linear-gradient(to top right, #ece9e6, #fafafa);
+		height: 300px;
+		width: 100%;
+		min-height: 200px;
+		max-height: 50vh;
+		border-radius: 5px;
+	}
+
+	figure {
+		margin: 0 auto 20px;
+	}
+
+	.components-button.is-primary {
+		float: right;
+		margin-bottom: 15px;
+	}
+
+	.leaflet-control-container .leaflet-top.leaflet-right {
+		width: calc(100% - 64px);
+	}
+}
+
 .wp-block[data-align="wide"] .wp-block-placepress-block-tour-stop,
 .wp-block[data-align="full"] .wp-block-placepress-block-tour-stop {
 	.pp-tour-stop-section-header-container {
@@ -79,4 +108,15 @@
 			box-shadow: inset 0 0 0 1px #000000;
 		}
 	}
+}
+
+.onload-hack-pp {
+	line-height: 0;
+	height: 0;
+	width: 0;
+	margin: 0;
+	width: 0;
+	color: transparent;
+	background: transparent;
+	position: absolute;
 }

@@ -10,6 +10,7 @@ const {
 	FlexItem,
 	TextareaControl,
 	Modal,
+	IsolatedEventContainer,
 } = wp.components;
 const { MediaUpload, MediaUploadCheck, InnerBlocks } = wp.blockEditor;
 const { useState } = wp.element;
@@ -72,6 +73,16 @@ registerBlockType("placepress/block-tour-stop", {
 			className,
 		} = props;
 
+		const notices = wp.data.dispatch("core/notices");
+
+		const mapdefaults = placepress_plugin_settings.placepress_defaults;
+		const userMapConfig = {
+			lat: lat ? lat : mapdefaults.default_latitude,
+			lon: lon ? lon : mapdefaults.default_longitude,
+			zoom: zoom ? zoom : mapdefaults.default_zoom,
+			basemap: basemap ? basemap : mapdefaults.default_map_type,
+		};
+
 		const HEADING = [
 			[
 				"core/heading",
@@ -82,10 +93,187 @@ registerBlockType("placepress/block-tour-stop", {
 			],
 		];
 
+		const PPMapUI = () => {
+			const tileSets = window.getMapTileSets();
+			const currentTileSet = tileSets[userMapConfig.basemap];
+
+			const uiLocationMapPP = function () {
+				const map = L.map("placepress-tour-map", {
+					layers: currentTileSet,
+					scrollWheelZoom: false,
+				}).setView([userMapConfig.lat, userMapConfig.lon], userMapConfig.zoom);
+
+				const marker = L.marker([userMapConfig.lat, userMapConfig.lon], {
+					draggable: "true",
+				}).addTo(map);
+
+				// user actions: CLICK
+				marker.on("click", function (e) {
+					const ll = e.target.getLatLng();
+					const popup = L.popup().setContent(ll.lat + "," + ll.lng);
+					e.target.unbindPopup().bindPopup(popup).openPopup();
+					map.panTo(e.target.getLatLng());
+				});
+
+				// user actions: DRAG
+				marker.on("dragend", function (e) {
+					const ll = e.target.getLatLng();
+					// pending save
+					userMapConfig.lat = ll.lat;
+					userMapConfig.lon = ll.lng;
+
+					map.setView([ll.lat, ll.lng], map.getZoom(), { animation: true });
+				});
+
+				// user actions: ZOOM
+				map.on("zoomend", function (e) {
+					const z = e.target.getZoom();
+					// pending save
+					userMapConfig.zoom = z;
+				});
+
+				// user actions: SEARCH
+				L.Control.Geocode = L.Control.extend({
+					onAdd: function (map) {
+						const container = L.DomUtil.create("div", "map-search-pp");
+						const form = L.DomUtil.create("form", "editor-form", container);
+						const input = L.DomUtil.create("input", "editor-input", form);
+						input.style.width = "100%";
+						input.style.border = "1px solid #ccc";
+						input.style.padding = "7px";
+						input.style.borderRadius = "3px";
+						input.placeholder = __(
+							"Enter a query and press Return/Enter ⏎",
+							"wp_placepress"
+						);
+						form.style.width = "100%";
+
+						L.DomEvent.addListener(
+							form,
+							"submit",
+							L.DomEvent.preventDefault
+						).addListener(form, "submit", function (e) {
+							const q = e.target[0].value;
+							if (q) {
+								notices.removeNotice("placepress-no-result");
+								notices.removeNotice("placepress-no-response");
+								const request = new XMLHttpRequest();
+								request.open(
+									"GET",
+									"https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" +
+										q,
+									true
+								);
+								request.onload = function () {
+									if (request.status >= 200 && request.status < 400) {
+										const data = JSON.parse(this.response);
+										const result = data[0];
+										if (
+											typeof result !== "undefined" &&
+											result.lat &&
+											result.lon
+										) {
+											// pending save
+											userMapConfig.lat = result.lat;
+											userMapConfig.lon = result.lon;
+
+											// pan map
+											map.panTo([result.lat, result.lon]);
+											// update marker location in UI
+											marker.setLatLng([result.lat, result.lon]);
+										} else {
+											notices.createWarningNotice(
+												__(
+													"PlacePress: Your search query did not return any results. Please try again.",
+													"wp_placepress"
+												),
+												{ id: "placepress-no-result" }
+											);
+										}
+									} else {
+										notices.createErrorNotice(
+											__(
+												"PlacePress: There was an error communicating with the Nominatim server. Please check your network connection and try again.",
+												"wp_placepress"
+											),
+											{ id: "placepress-no-response" }
+										);
+									}
+								};
+								request.send();
+							}
+						});
+
+						return form;
+					},
+					onRemove: function (map) {
+						// Nothing to do here
+					},
+				});
+				L.control.geocode = function (opts) {
+					return new L.Control.Geocode(opts);
+				};
+				L.control.geocode({ position: "topright" }).addTo(map);
+
+				// user actions: LAYERS
+				const layerNames = {
+					"Street (Carto Voyager)": tileSets.carto_voyager,
+					"Street (Carto Light)": tileSets.carto_light,
+					"Terrain (Stamen)": tileSets.stamen_terrain,
+					"Satellite (ESRI)": tileSets.esri_world,
+				};
+				const layerControls = L.control.layers(layerNames).addTo(map);
+				map.on("baselayerchange ", function (e) {
+					const key = e.layer.options.placepress_key;
+					console.log(key);
+					if (key) {
+						// pending save
+						userMapConfig.basemap = key;
+					}
+				});
+			};
+
+			const onBlockLoad = function (e) {
+				uiLocationMapPP();
+			};
+
+			return (
+				<IsolatedEventContainer>
+					<figure>
+						<div className="map-pp" id="placepress-tour-map"></div>
+					</figure>
+					<img // @TODO: find a replacement for this hack to fire the map script when block is added
+						className="onload-hack-pp"
+						height="0"
+						width="0"
+						onLoad={onBlockLoad}
+						src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1' %3E%3Cpath d=''/%3E%3C/svg%3E"
+					/>
+				</IsolatedEventContainer>
+			);
+		};
+
 		const CoordsModal = () => {
 			const [isOpen, setOpen] = useState(false);
-			const openModal = () => setOpen(true);
-			const closeModal = () => setOpen(false);
+			const openModal = () => {
+				//console.log("open");
+				setOpen(true);
+			};
+			const closeModal = () => {
+				//console.log("close");
+				setOpen(false);
+			};
+			const saveModal = () => {
+				//console.log("save", userMapConfig);
+				props.setAttributes({
+					zoom: userMapConfig.zoom,
+					lat: userMapConfig.lat,
+					lon: userMapConfig.lon,
+					basemap: userMapConfig.basemap,
+				});
+
+				setOpen(false);
+			};
 
 			return (
 				<div>
@@ -98,21 +286,9 @@ registerBlockType("placepress/block-tour-stop", {
 							title={__("Set Map Coordinates", "wp_placepress")}
 							onRequestClose={closeModal}
 						>
-							<h3>The map goes here</h3>
-							<p>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a
-								diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula
-								ac quam viverra nec consectetur ante hendrerit. Donec et mollis
-								dolor. Praesent et diam eget libero egestas mattis sit amet
-								vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia
-								consectetur. Donec ut libero sed arcu vehicula ultricies a non
-								tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-								Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed,
-								adipiscing id dolor. Pellentesque auctor nisi id magna consequat
-								sagittis.{" "}
-							</p>
-							<Button isPrimary onClick={closeModal}>
-								Save Coordinates
+							<PPMapUI />
+							<Button isPrimary onClick={saveModal}>
+								{__("Save Coordinates", "wp_placepress")}
 							</Button>
 						</Modal>
 					)}
@@ -142,21 +318,6 @@ registerBlockType("placepress/block-tour-stop", {
 				</MediaUploadCheck>
 			);
 		};
-
-		// set attributes
-		const defaults = placepress_plugin_settings.placepress_defaults;
-		if (!zoom) {
-			props.setAttributes({ zoom: defaults.default_zoom });
-		}
-		if (!lat) {
-			props.setAttributes({ lat: defaults.default_latitude });
-		}
-		if (!lon) {
-			props.setAttributes({ lon: defaults.default_longitude });
-		}
-		if (!basemap) {
-			props.setAttributes({ basemap: defaults.default_map_type });
-		}
 
 		return (
 			<div
