@@ -230,7 +230,6 @@ registerBlockType("placepress/block-map-location", {
 
 			// user actions: LAYERS
 			const layerNames = {
-				"Street (Wikimedia)": tileSets.wikimedia,
 				"Street (Carto Voyager)": tileSets.carto_voyager,
 				"Street (Carto Light)": tileSets.carto_light,
 				"Terrain (Stamen)": tileSets.stamen_terrain,

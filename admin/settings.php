@@ -111,7 +111,6 @@ function placepress_register_settings(){
 		'placepress_section_map',
 		['id'=>'default_map_type',
 		'label'=>'Choose the default map type','options'=>array(
-			'wikimedia'=>esc_html__('Street (Wikimedia)','wp_placepress'),
 			'carto_voyager'=>esc_html__('Street (Carto Voyager)','wp_placepress'),
 			'carto_light'=>esc_html__('Street (Carto Light)','wp_placepress'),
 			'stamen_terrain'=>esc_html__('Terrain (Stamen)','wp_placepress'),
@@ -200,7 +199,7 @@ function placepress_options_default(){
 	return array(
 		'default_latitude'=>41.503240,
 		'default_longitude'=>-81.675249,
-		'default_map_type'=>'wikimedia',
+		'default_map_type'=>'carto_voyager',
 		'default_zoom'=>12,
 		'mapbox_key'=>null,
 		'mapbox_satellite'=>false,
@@ -393,7 +392,6 @@ function placepress_callback_validate_options($input){
 	}
 
 	$map_types=array(
-		'wikimedia'=>esc_html__('Street (Wikimedia)','wp_placepress'),
 		'carto_voyager'=>esc_html__('Street (Carto Voyager)','wp_placepress'),
 		'carto_light'=>esc_html__('Street (Carto Light)','wp_placepress'),
 		'stamen_terrain'=>esc_html__('Terrain (Stamen)','wp_placepress'),
