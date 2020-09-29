@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function (e) {
 	(function () {
 		// Extract Map Settings from HTML
-		const getDataAttributesPP = function () {
+		const getDataAttributesPPLocation = function () {
 			const mapDiv = document.querySelector(".map-pp") || false;
 			const settings = {};
 			if (mapDiv) {
@@ -20,6 +20,30 @@ document.addEventListener("DOMContentLoaded", function (e) {
 				return false;
 			}
 			return false;
+		};
+
+		// Extract Map Settings from HTML
+		const getDataAttributesPPTour = function () {
+			const tour_stops =
+				document.querySelectorAll(".pp-tour-stop-section-header-container") ||
+				false;
+			const settings = [];
+			if (tour_stops) {
+				tour_stops.forEach((tour_stop, i) => {
+					const s = {};
+					s.zoom = Number(tour_stop.getAttribute("data-zoom"));
+					s.lat = Number(tour_stop.getAttribute("data-lat"));
+					s.lon = Number(tour_stop.getAttribute("data-lon"));
+					s.style = tour_stop.getAttribute("data-basemap");
+					s.maki = tour_stop.getAttribute("data-maki");
+					s.makiColor = tour_stop.getAttribute("data-maki-color");
+					s.mbKey = tour_stop.getAttribute("data-mb-key");
+					if (s.lat && s.lon) {
+						settings[i] = s;
+					}
+				});
+			}
+			return settings.length ? settings : false;
 		};
 
 		// Geolocation
@@ -237,16 +261,18 @@ document.addEventListener("DOMContentLoaded", function (e) {
 			// add location markers
 			addLocationsRequest(map, markersLayer);
 		};
-
 		if (typeof wp.editor === "undefined") {
-			const settings = getDataAttributesPP();
-			switch (settings.type) {
-				case "single-location":
-					displayLocationMapPP(settings);
-					break;
-				case "global":
-					displayGlobalMapPP(settings);
-					break;
+			if ((settings = getDataAttributesPPLocation())) {
+				switch (settings.type) {
+					case "single-location":
+						displayLocationMapPP(settings);
+						break;
+					case "global":
+						displayGlobalMapPP(settings);
+						break;
+				}
+			} else if ((settings = getDataAttributesPPTour())) {
+				console.log(settings);
 			}
 		}
 	})();
