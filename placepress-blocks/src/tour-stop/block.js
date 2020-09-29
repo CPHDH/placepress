@@ -67,10 +67,38 @@ registerBlockType("placepress/block-tour-stop", {
 			source: "text",
 			selector: ".tour-stop-caption-pp",
 		},
+		mb_key: {
+			type: "string",
+			selector: "div.pp-tour-stop-section-header-container",
+			source: "attribute",
+			attribute: "data-mb-key",
+		},
+		maki: {
+			type: "string",
+			selector: "div.pp-tour-stop-section-header-container",
+			source: "attribute",
+			attribute: "data-maki",
+		},
+		maki_color: {
+			type: "string",
+			selector: "div.pp-tour-stop-section-header-container",
+			source: "attribute",
+			attribute: "data-maki-color",
+		},
 	},
 	edit(props) {
 		const {
-			attributes: { background, zoom, lat, lon, basemap, caption },
+			attributes: {
+				background,
+				zoom,
+				lat,
+				lon,
+				basemap,
+				caption,
+				mb_key,
+				maki,
+				maki_color,
+			},
 			className,
 		} = props;
 
@@ -80,6 +108,9 @@ registerBlockType("placepress/block-tour-stop", {
 			lon: lon ? lon : mapdefaults.default_longitude,
 			zoom: zoom ? zoom : mapdefaults.default_zoom,
 			basemap: basemap ? basemap : mapdefaults.default_map_type,
+			mb_key: mb_key ? mb_key : mapdefaults.mapbox_key,
+			maki: maki ? maki : mapdefaults.maki_markers,
+			maki_color: maki_color ? maki_color : mapdefaults.maki_markers_color,
 		};
 
 		const HEADING = [
@@ -430,6 +461,9 @@ registerBlockType("placepress/block-tour-stop", {
 							data-lon={attributes.lon}
 							data-zoom={attributes.zoom}
 							data-basemap={attributes.basemap}
+							data-mb-key={attributes.mb_key}
+							data-maki={attributes.maki}
+							data-maki-color={attributes.maki_color}
 						>
 							<div
 								className={`pp-marker-icon-center ${
