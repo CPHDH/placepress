@@ -9,8 +9,9 @@ document.addEventListener("DOMContentLoaded", function (e) {
 					s = {};
 					s.mapId = location.getAttribute("id");
 					if (s.mapId) {
-						location.setAttribute("id", s.mapId + "_" + i);
-						s.mapId = s.mapId + "_" + i;
+						let newId = s.mapId + "_" + i;
+						location.setAttribute("id", newId);
+						s.mapId = newId;
 					}
 
 					s.type = location.getAttribute("data-type");
