@@ -2,24 +2,31 @@ document.addEventListener("DOMContentLoaded", function (e) {
 	(function () {
 		// Extract Map Settings from HTML
 		const getDataAttributesPPLocation = function () {
-			const mapDiv = document.querySelector(".map-pp") || false;
-			const settings = {};
-			if (mapDiv) {
-				settings.mapId = mapDiv.getAttribute("id");
-				settings.type = mapDiv.getAttribute("data-type");
-				settings.zoom = Number(mapDiv.getAttribute("data-zoom"));
-				settings.lat = Number(mapDiv.getAttribute("data-lat"));
-				settings.lon = Number(mapDiv.getAttribute("data-lon"));
-				settings.style = mapDiv.getAttribute("data-basemap");
-				settings.maki = mapDiv.getAttribute("data-maki");
-				settings.makiColor = mapDiv.getAttribute("data-maki-color");
-				settings.mbKey = mapDiv.getAttribute("data-mb-key");
-				if (settings.lat && settings.lon) {
-					return settings;
-				}
-				return false;
+			const locations = document.querySelectorAll(".map-pp") || false;
+			const settings = [];
+			if (locations) {
+				locations.forEach((location, i) => {
+					s = {};
+					s.mapId = location.getAttribute("id");
+					if (s.mapId) {
+						location.setAttribute("id", s.mapId + "_" + i);
+						s.mapId = s.mapId + "_" + i;
+					}
+
+					s.type = location.getAttribute("data-type");
+					s.zoom = Number(location.getAttribute("data-zoom"));
+					s.lat = Number(location.getAttribute("data-lat"));
+					s.lon = Number(location.getAttribute("data-lon"));
+					s.style = location.getAttribute("data-basemap");
+					s.maki = location.getAttribute("data-maki");
+					s.makiColor = location.getAttribute("data-maki-color");
+					s.mbKey = location.getAttribute("data-mb-key");
+					if (s.lat && s.lon) {
+						settings[i] = s;
+					}
+				});
 			}
-			return false;
+			return settings.length ? settings : false;
 		};
 
 		// Extract Map Settings from HTML
@@ -234,7 +241,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 			const tileSets = window.getMapTileSets();
 			const currentTileSet = tileSets[settings.style];
 			const markersLayer = [];
-			const map = L.map("placepress-map", {
+			const map = L.map(settings.mapId, {
 				layers: currentTileSet,
 				scrollWheelZoom: false,
 			}).setView([settings.lat, settings.lon], settings.zoom);
@@ -263,14 +270,16 @@ document.addEventListener("DOMContentLoaded", function (e) {
 		};
 		if (typeof wp.editor === "undefined") {
 			if ((settings = getDataAttributesPPLocation())) {
-				switch (settings.type) {
-					case "single-location":
-						displayLocationMapPP(settings);
-						break;
-					case "global":
-						displayGlobalMapPP(settings);
-						break;
-				}
+				settings.forEach((s, i) => {
+					switch (s.type) {
+						case "single-location":
+							displayLocationMapPP(s);
+							break;
+						case "global":
+							displayGlobalMapPP(s);
+							break;
+					}
+				});
 			} else if ((settings = getDataAttributesPPTour())) {
 				console.log(
 					"@TODO: map on single-tour, link to single on archive",
