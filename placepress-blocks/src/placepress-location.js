@@ -282,10 +282,14 @@ document.addEventListener("DOMContentLoaded", function (e) {
 					}
 				});
 			} else if ((settings = getDataAttributesPPTour())) {
-				console.log(
-					"@TODO: map on single-tour, link to single on archive",
-					settings
-				);
+				const page = document.querySelector("body").classList;
+				if (page.length && page.contains("single")) {
+					console.log("Single Tour page: do something", settings);
+				} else if (page.length && page.contains("archive")) {
+					console.log("Tour Archive page: do nothing", settings);
+				} else {
+					console.log("Unknown tour page: try something", settings);
+				}
 			}
 		}
 	})();
