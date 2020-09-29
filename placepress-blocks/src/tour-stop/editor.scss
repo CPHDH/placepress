@@ -75,6 +75,11 @@
 	.leaflet-control-container .leaflet-top.leaflet-right {
 		width: calc(100% - 64px);
 	}
+
+	.components-notice {
+		margin-left: 0;
+		margin-right: 0;
+	}
 }
 
 .wp-block[data-align="wide"] .wp-block-placepress-block-tour-stop,
@@ -105,6 +110,11 @@
 		.components-button.is-secondary {
 			background: #ffffff;
 			color: #000000;
+			box-shadow: inset 0 0 0 1px #000000;
+		}
+
+		.components-button.is-destructive {
+			background: #ffffff;
 			box-shadow: inset 0 0 0 1px #000000;
 		}
 	}

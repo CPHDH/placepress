@@ -11,6 +11,7 @@ const {
 	TextareaControl,
 	Modal,
 	IsolatedEventContainer,
+	withNotices,
 } = wp.components;
 const { MediaUpload, MediaUploadCheck, InnerBlocks } = wp.blockEditor;
 const { useState } = wp.element;
@@ -73,8 +74,6 @@ registerBlockType("placepress/block-tour-stop", {
 			className,
 		} = props;
 
-		const notices = wp.data.dispatch("core/notices");
-
 		const mapdefaults = placepress_plugin_settings.placepress_defaults;
 		const userMapConfig = {
 			lat: lat ? lat : mapdefaults.default_latitude,
@@ -93,7 +92,7 @@ registerBlockType("placepress/block-tour-stop", {
 			],
 		];
 
-		const PPMapUI = () => {
+		const PPMapUI = withNotices(({ noticeOperations, noticeUI }) => {
 			const tileSets = window.getMapTileSets();
 			const currentTileSet = tileSets[userMapConfig.basemap];
 
@@ -155,8 +154,7 @@ registerBlockType("placepress/block-tour-stop", {
 						).addListener(form, "submit", function (e) {
 							const q = e.target[0].value;
 							if (q) {
-								notices.removeNotice("placepress-no-result");
-								notices.removeNotice("placepress-no-response");
+								noticeOperations.removeAllNotices();
 								const request = new XMLHttpRequest();
 								request.open(
 									"GET",
@@ -182,7 +180,7 @@ registerBlockType("placepress/block-tour-stop", {
 											// update marker location in UI
 											marker.setLatLng([result.lat, result.lon]);
 										} else {
-											notices.createWarningNotice(
+											noticeOperations.createErrorNotice(
 												__(
 													"PlacePress: Your search query did not return any results. Please try again.",
 													"wp_placepress"
@@ -191,7 +189,7 @@ registerBlockType("placepress/block-tour-stop", {
 											);
 										}
 									} else {
-										notices.createErrorNotice(
+										noticeOperations.createErrorNotice(
 											__(
 												"PlacePress: There was an error communicating with the Nominatim server. Please check your network connection and try again.",
 												"wp_placepress"
@@ -241,6 +239,7 @@ registerBlockType("placepress/block-tour-stop", {
 				<IsolatedEventContainer>
 					<figure>
 						<div className="map-pp" id="placepress-tour-map"></div>
+						{noticeUI}
 					</figure>
 					<img // @TODO: find a replacement for this hack to fire the map script when block is added
 						className="onload-hack-pp"
@@ -251,7 +250,7 @@ registerBlockType("placepress/block-tour-stop", {
 					/>
 				</IsolatedEventContainer>
 			);
-		};
+		});
 
 		const CoordsModal = () => {
 			const [isOpen, setOpen] = useState(false);
@@ -319,6 +318,22 @@ registerBlockType("placepress/block-tour-stop", {
 			);
 		};
 
+		const deleteBackground = () => {
+			props.setAttributes({
+				background: "",
+				caption: "",
+			});
+		};
+
+		const deleteCoords = () => {
+			props.setAttributes({
+				lat: "",
+				lon: "",
+				zoom: "",
+				basemap: "",
+			});
+		};
+
 		return (
 			<div
 				className={className}
@@ -334,20 +349,55 @@ registerBlockType("placepress/block-tour-stop", {
 					>
 						<Flex>
 							<FlexItem>
-								<MediaModal />
+								<Flex>
+									<FlexItem>
+										<MediaModal />
+									</FlexItem>
+									<FlexItem>
+										{background && (
+											<Button
+												label="Remove Image"
+												showTooltip
+												isDestructive
+												onClick={deleteBackground}
+											>
+												<Dashicon icon="no" />
+											</Button>
+										)}
+									</FlexItem>
+								</Flex>
 							</FlexItem>
 							<FlexItem>
-								<CoordsModal />
+								<Flex>
+									<FlexItem>
+										{lat && lon && (
+											<Button
+												label="Remove Coordinates"
+												showTooltip
+												isDestructive
+												onClick={deleteCoords}
+											>
+												<Dashicon icon="no" />
+											</Button>
+										)}
+									</FlexItem>
+									<FlexItem>
+										<CoordsModal />
+									</FlexItem>
+								</Flex>
 							</FlexItem>
 						</Flex>
 						<div className="pp-tour-stop-section-header-container">
-							<div class="pp-marker-icon-center">
+							<div
+								className={`pp-marker-icon-center ${
+									lat && lon ? "has-map" : "no-map"
+								}`}
+							>
 								<Dashicon icon="location" />
-								{lat && lon && (
-									<span class="onhover">
-										{__("View On Map", "wp_placepress")}
-									</span>
-								)}
+								<span class="onhover">
+									{(lat && lon && __("View On Map", "wp_placepress")) ||
+										"&nbsp;"}
+								</span>
 							</div>
 							<div className="pp-tour-stop-title">
 								<InnerBlocks template={HEADING} templateLock="all" />
@@ -381,13 +431,19 @@ registerBlockType("placepress/block-tour-stop", {
 							data-zoom={attributes.zoom}
 							data-basemap={attributes.basemap}
 						>
-							<div class="pp-marker-icon-center">
+							<div
+								className={`pp-marker-icon-center ${
+									attributes.lat && attributes.lon ? "has-map" : "no-map"
+								}`}
+							>
 								<Dashicon icon="location" />
-								{attributes.lat && attributes.lon && (
-									<span class="onhover">
-										{__("View On Map", "wp_placepress")}
-									</span>
-								)}
+
+								<span class="onhover">
+									{(attributes.lat &&
+										attributes.lon &&
+										__("View On Map", "wp_placepress")) ||
+										"&nbsp;"}
+								</span>
 							</div>
 							<div className="pp-tour-stop-title">
 								<InnerBlocks.Content />

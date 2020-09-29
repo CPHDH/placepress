@@ -13,7 +13,6 @@
 		box-sizing: border-box;
 		padding: 100px 0 0;
 		border-radius: 5px;
-		cursor: pointer;
 	}
 	.pp-marker-icon-center {
 		text-align: center;
@@ -29,6 +28,9 @@
 		padding: 10px;
 		border: 2px solid #fff;
 		filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+	}
+	.pp-marker-icon-center.has-map svg {
+		cursor: pointer;
 	}
 	.pp-tour-stop-section-header-container .pp-tour-stop-title {
 		padding: 10px 0 20px;
@@ -102,15 +104,15 @@
 		padding: 0 10px;
 	}
 }
-.wp-block-placepress-block-tour-stop:hover,
-.wp-block-placepress-block-tour-stop:active {
+.pp-marker-icon-center.has-map:hover,
+.pp-marker-icon-center.has-map:active {
 	span.onhover {
 		color: rgba(256, 256, 256, 1);
 	}
 }
 // mobile
 @media (pointer: coarse) {
-	.wp-block-placepress-block-tour-stop span.onhover {
+	.pp-marker-icon-center.has-map span.onhover {
 		color: rgba(256, 256, 256, 1);
 	}
 }
