@@ -272,7 +272,10 @@ document.addEventListener("DOMContentLoaded", function (e) {
 						break;
 				}
 			} else if ((settings = getDataAttributesPPTour())) {
-				console.log(settings);
+				console.log(
+					"@TODO: map on single-tour, link to single on archive",
+					settings
+				);
 			}
 		}
 	})();
