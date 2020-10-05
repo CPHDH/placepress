@@ -48,10 +48,104 @@ document.addEventListener("DOMContentLoaded", function (e) {
 					s.mbKey = tour_stop.getAttribute("data-mb-key");
 					if (s.lat && s.lon) {
 						settings[i] = s;
+						tour_stop.setAttribute("id", "pp_" + i);
 					}
 				});
 			}
 			return settings.length ? settings : false;
+		};
+
+		const isInViewport = function (elem) {
+			var bounding = elem.getBoundingClientRect();
+			return (
+				bounding.top >= 0 &&
+				bounding.left >= 0 &&
+				bounding.bottom <=
+					(window.innerHeight || document.documentElement.clientHeight) &&
+				bounding.right <=
+					(window.innerWidth || document.documentElement.clientWidth)
+			);
+		};
+
+		const updateFloatingMapPP = (settings, current, tileSets) => {
+			map = L.map("floating-tour-map-pp", {
+				scrollWheelZoom: false,
+				layers: tileSets[settings[current].style],
+			}).setView(
+				[settings[current].lat, settings[current].lon],
+				settings[current].zoom
+			);
+			return map;
+		};
+
+		const displayFloatingMapPP = (settings) => {
+			let current = 0;
+			let inview = 0;
+			let map = null;
+			const tileSets = window.getMapTileSets();
+			let floater = document.createElement("div");
+			floater.setAttribute("id", "floating-tour-map-pp");
+			floater.setAttribute("tabindex", "0");
+			floater.onclick = () => {
+				floater.setAttribute("class", "enhance");
+				map.remove();
+				setTimeout(() => {
+					map = updateFloatingMapPP(settings, current, tileSets);
+				}, 501);
+			};
+			floater.onblur = () => {
+				floater.removeAttribute("class", "enhance");
+				map.remove();
+				setTimeout(() => {
+					map = updateFloatingMapPP(settings, current, tileSets);
+				}, 501);
+			};
+			document.querySelector("body").append(floater);
+
+			let map_icons = document.querySelectorAll(
+				".pp-marker-icon-center.has-map"
+			);
+			map_icons.forEach((icon, i) => {
+				icon.onclick = () => {
+					current = i;
+					floater.setAttribute("class", "enhance");
+					map.remove();
+					floater.focus();
+					setTimeout(() => {
+						map = updateFloatingMapPP(settings, current, tileSets);
+					}, 501);
+				};
+			});
+
+			map = updateFloatingMapPP(settings, current, tileSets);
+
+			let stops = document.querySelectorAll(
+				".pp-tour-stop-section-header-container"
+			);
+
+			window.addEventListener(
+				"scroll",
+				function (event) {
+					stops.forEach((stop) => {
+						if (isInViewport(stop)) {
+							inview = Number(stop.getAttribute("id").replace("pp_", ""));
+							if (inview !== current) {
+								map.invalidateSize();
+								map.setView(
+									[settings[inview].lat, settings[inview].lon],
+									settings[inview].zoom
+								);
+								if (settings[current].style !== settings[inview].style) {
+									map.removeLayer(tileSets[settings[current].style]);
+									map.addLayer(tileSets[settings[inview].style]);
+								}
+								current = inview;
+							}
+						}
+					});
+				},
+				false
+			);
 		};
 
 		// Geolocation
@@ -283,12 +377,17 @@ document.addEventListener("DOMContentLoaded", function (e) {
 				});
 			} else if ((settings = getDataAttributesPPTour())) {
 				const page = document.querySelector("body").classList;
-				if (page.length && page.contains("single")) {
-					console.log("Single Tour page: do something", settings);
-				} else if (page.length && page.contains("archive")) {
-					console.log("Tour Archive page: do nothing", settings);
+				if (page.length && page.contains("single") && settings.length) {
+					// console.log("Single Tour page: build map", settings);
+					setTimeout(() => {
+						displayFloatingMapPP(settings);
+					}, 1000);
+				} else if (page.length && page.contains("archive") && settings.length) {
+					console.log("Tour Archive page: link to tour", settings);
 				} else {
-					console.log("Unknown tour page: try something", settings);
+					if (settings.length) {
+						console.log("Unknown tour page: try something", settings);
+					}
 				}
 			}
 		}

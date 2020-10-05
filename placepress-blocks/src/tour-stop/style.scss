@@ -116,3 +116,38 @@
 		color: rgba(256, 256, 256, 1);
 	}
 }
+
+#floating-tour-map-pp {
+	background: #eaeaea;
+	background: linear-gradient(to top right, #ece9e6, #fafafa);
+	display: block;
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	z-index: 999;
+	position: fixed;
+	right: 20px;
+	bottom: 20px;
+	cursor: pointer;
+	transition: all 0.25s ease-in-out;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+	outline: none;
+	border: 1px solid #fff;
+
+	.leaflet-control-container {
+		display: none;
+	}
+}
+
+#floating-tour-map-pp.enhance {
+	width: calc(100vw - 40px);
+	height: calc(70vh);
+	border-radius: 0;
+	margin: 15vh 20px;
+	right: 0;
+
+	.leaflet-control-container {
+		display: inline-block;
+		transition: all 0.25s ease-in-out;
+	}
+}
