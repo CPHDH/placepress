@@ -104,12 +104,14 @@
 		padding: 0 10px;
 	}
 }
-.pp-marker-icon-center.has-map:hover,
-.pp-marker-icon-center.has-map:active {
+
+.pp-tour-stop-section-header-container:hover,
+.pp-tour-stop-section-header-container:active {
 	span.onhover {
 		color: rgba(256, 256, 256, 1);
 	}
 }
+
 // mobile
 @media (pointer: coarse) {
 	.pp-marker-icon-center.has-map span.onhover {
