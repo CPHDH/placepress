@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 			);
 		};
 
-		const updateFloatingMapPP = (settings, current, tileSets) => {
+		const updateFloatingMapPP = (settings, current, tileSets, isSecure) => {
 			map = L.map("floating-tour-map-pp", {
 				scrollWheelZoom: false,
 				layers: tileSets[settings[current].style],
@@ -75,6 +75,11 @@ document.addEventListener("DOMContentLoaded", function (e) {
 				[settings[current].lat, settings[current].lon],
 				settings[current].zoom
 			);
+
+			if (isSecure && navigator.geolocation) {
+				addGeolocationControls(map);
+			}
+
 			return map;
 		};
 
@@ -83,43 +88,70 @@ document.addEventListener("DOMContentLoaded", function (e) {
 			let inview = 0;
 			let map = null;
 			const tileSets = window.getMapTileSets();
-			let floater = document.createElement("div");
-			floater.setAttribute("id", "floating-tour-map-pp");
-			floater.setAttribute("tabindex", "0");
-			floater.onclick = () => {
-				floater.setAttribute("class", "enhance");
-				map.remove();
-				setTimeout(() => {
-					map = updateFloatingMapPP(settings, current, tileSets);
-				}, 501);
-			};
-			floater.onblur = () => {
-				floater.removeAttribute("class", "enhance");
-				map.remove();
-				setTimeout(() => {
-					map = updateFloatingMapPP(settings, current, tileSets);
-				}, 501);
-			};
-			document.querySelector("body").append(floater);
+			const isSecure = window.location.protocol == "https:" ? true : false;
 
-			let map_icons = document.querySelectorAll(
+			const floater = document.createElement("div");
+			floater.setAttribute("id", "floating-tour-map-pp");
+
+			const openFloatingMapPP = new Event("openFloatingMapPP");
+			floater.addEventListener("openFloatingMapPP", (e) => {
+				e.target.setAttribute("class", "enhance");
+				map.remove();
+				setTimeout(() => {
+					map = updateFloatingMapPP(settings, current, tileSets, isSecure);
+				}, 501);
+			});
+
+			const closeFloatingMapPP = new Event("closeFloatingMapPP");
+			floater.addEventListener("closeFloatingMapPP", (e) => {
+				e.target.removeAttribute("class", "enhance");
+				map.remove();
+				setTimeout(() => {
+					map = updateFloatingMapPP(settings, current, tileSets, isSecure);
+				}, 501);
+			});
+
+			floater.onclick = () => {
+				if (!floater.classList.contains("enhance")) {
+					floater.dispatchEvent(openFloatingMapPP);
+				}
+			};
+
+			const close = document.createElement("div");
+			close.setAttribute("id", "close-floating-tour-map-pp");
+			close.innerHTML = "Close Map";
+			close.onclick = () => {
+				if (floater.classList.contains("enhance")) {
+					floater.dispatchEvent(closeFloatingMapPP);
+				}
+			};
+
+			const backdrop = document.createElement("div");
+			backdrop.setAttribute("id", "backdrop-floating-tour-map-pp");
+			backdrop.onclick = () => {
+				if (floater.classList.contains("enhance")) {
+					floater.dispatchEvent(closeFloatingMapPP);
+				}
+			};
+
+			document.querySelector("body").append(floater, close, backdrop);
+
+			const map_icons = document.querySelectorAll(
 				".pp-marker-icon-center.has-map"
 			);
 			map_icons.forEach((icon, i) => {
 				icon.onclick = () => {
 					current = i;
-					floater.setAttribute("class", "enhance");
-					map.remove();
+					if (!floater.classList.contains("enhance")) {
+						floater.dispatchEvent(openFloatingMapPP);
+					}
 					floater.focus();
-					setTimeout(() => {
-						map = updateFloatingMapPP(settings, current, tileSets);
-					}, 501);
 				};
 			});
 
-			map = updateFloatingMapPP(settings, current, tileSets);
+			map = updateFloatingMapPP(settings, current, tileSets, isSecure);
 
-			let stops = document.querySelectorAll(
+			const stops = document.querySelectorAll(
 				".pp-tour-stop-section-header-container"
 			);
 
