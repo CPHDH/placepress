@@ -134,6 +134,14 @@ document.addEventListener("DOMContentLoaded", function (e) {
 				}
 			};
 
+			document.onkeydown = function (e) {
+				if (floater.classList.contains("enhance")) {
+					if ("key" in e && (e.key === "Escape" || e.key === "Esc")) {
+						floater.dispatchEvent(closeFloatingMapPP);
+					}
+				}
+			};
+
 			document.querySelector("body").append(floater, close, backdrop);
 
 			const map_icons = document.querySelectorAll(
