@@ -63,6 +63,9 @@
 	section.leaflet-control-layers-list {
 		padding: 0;
 		width: auto;
+		span {
+			font-size: 14px;
+		}
 	}
 }
 .wp-block-placepress-block-map-location.alignfull,

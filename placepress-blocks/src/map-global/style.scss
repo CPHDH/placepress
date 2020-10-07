@@ -56,6 +56,13 @@
 	svg#geolocation:hover path#inner {
 		fill: #4a87ee;
 	}
+	section.leaflet-control-layers-list {
+		padding: 0;
+		width: auto;
+		span {
+			font-size: 14px;
+		}
+	}
 }
 .wp-block-placepress-block-map-global.alignfull,
 .wp-block-placepress-block-map-global.alignwide {
