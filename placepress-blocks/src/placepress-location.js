@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 		};
 
 		// API XMLHttpRequest
-		const addLocationsRequest = function (map, markersLayer) {
+		const addGlobalMarkersViaAPI = function (map, markersLayer) {
 			const locations_json =
 				location.protocol +
 				"//" +
@@ -404,7 +404,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 			}
 
 			// add location markers
-			addLocationsRequest(map, markersLayer);
+			addGlobalMarkersViaAPI(map, markersLayer);
 		};
 
 		// MAIN
