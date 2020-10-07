@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 					s.maki = tour_stop.getAttribute("data-maki");
 					s.makiColor = tour_stop.getAttribute("data-maki-color");
 					s.mbKey = tour_stop.getAttribute("data-mb-key");
+					s.postId = tour_stop.getAttribute("data-post-id");
 					if (s.lat && s.lon) {
 						settings[i] = s;
 						tour_stop.setAttribute("id", "pp_" + i);
@@ -423,7 +424,18 @@ document.addEventListener("DOMContentLoaded", function (e) {
 						displayFloatingMapPP(settings);
 					}, 1000);
 				} else if (page.length && page.contains("archive") && settings.length) {
-					console.log("Tour Archive page: link to tour", settings);
+					let map_icons = document.querySelectorAll(
+						".pp-marker-icon-center.has-map"
+					);
+					map_icons.forEach((icon) => {
+						let b = icon.parentElement;
+						let pid = b.getAttribute("data-post-id");
+						let url = "?page_id=" + pid;
+						icon.onclick = () => {
+							console.log(url);
+							window.location = url;
+						};
+					});
 				} else {
 					if (settings.length) {
 						console.log("Unknown tour page: try something", settings);
