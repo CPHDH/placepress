@@ -404,8 +404,11 @@ document.addEventListener("DOMContentLoaded", function (e) {
 			// add location markers
 			addLocationsRequest(map, markersLayer);
 		};
+
+		// MAIN
 		if (typeof wp.editor === "undefined") {
 			if ((settings = getDataAttributesPPLocation())) {
+				// LOCATIONS
 				settings.forEach((s, i) => {
 					switch (s.type) {
 						case "single-location":
@@ -417,9 +420,9 @@ document.addEventListener("DOMContentLoaded", function (e) {
 					}
 				});
 			} else if ((settings = getDataAttributesPPTour())) {
+				// TOURS
 				const page = document.querySelector("body").classList;
 				if (page.length && page.contains("single") && settings.length) {
-					// console.log("Single Tour page: build map", settings);
 					setTimeout(() => {
 						displayFloatingMapPP(settings);
 					}, 1000);
@@ -438,7 +441,10 @@ document.addEventListener("DOMContentLoaded", function (e) {
 					});
 				} else {
 					if (settings.length) {
-						console.log("Unknown tour page: try something", settings);
+						console.log(
+							"Unknown tour page. Map scripts will not load.",
+							settings
+						);
 					}
 				}
 			}
