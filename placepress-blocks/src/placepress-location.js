@@ -56,6 +56,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 			return settings.length ? settings : false;
 		};
 
+		// Element is in Viewport
 		const isInViewport = function (elem) {
 			var bounding = elem.getBoundingClientRect();
 			return (
@@ -171,7 +172,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 		};
 
 		// Geolocation Controls
-		const addGeolocationControls = function (map) {
+		const geolocationControls = function (map) {
 			const geolocationControl = L.control({ position: "bottomleft" });
 			geolocationControl.onAdd = function (map) {
 				const div = L.DomUtil.create(
@@ -197,6 +198,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 			geolocationControl.addTo(map);
 		};
 
+		// Standalone Marker (w/ directions link and centering)
 		const addStandaloneMarker = (settings, map) => {
 			const marker = L.marker([settings.lat, settings.lon]).addTo(map);
 			marker.on("click", function (e) {
@@ -214,10 +216,33 @@ document.addEventListener("DOMContentLoaded", function (e) {
 				);
 				e.target.unbindPopup().bindPopup(popup).openPopup();
 			});
+			// vertical center on popup open
+			map.on("popupopen", function (e) {
+				const px = map.project(e.popup._latlng);
+				px.y -= e.popup._container.clientHeight / 2;
+				map.panTo(map.unproject(px), { animate: true });
+			});
+		};
+
+		// Adds controls: geolocation and layers
+		const addAdditionalControls = (tileSets, map) => {
+			// layer controls
+			const layerNames = {
+				"Street (Carto Voyager)": tileSets.carto_voyager,
+				"Street (Carto Light)": tileSets.carto_light,
+				"Terrain (Stamen)": tileSets.stamen_terrain,
+				"Satellite (ESRI)": tileSets.esri_world,
+			};
+			L.control.layers(layerNames).addTo(map);
+			// geolocation controls
+			const isSecure = window.location.protocol == "https:" ? true : false;
+			if (isSecure && navigator.geolocation) {
+				geolocationControls(map);
+			}
 		};
 
 		// FLOATING TOUR MAP
-		const updateFloatingMapPP = (settings, current, tileSets, isSecure) => {
+		const updateFloatingMapPP = (settings, current, tileSets) => {
 			map = L.map("floating-tour-map-pp", {
 				scrollWheelZoom: false,
 				layers: tileSets[settings[current].style],
@@ -226,9 +251,11 @@ document.addEventListener("DOMContentLoaded", function (e) {
 				settings[current].zoom
 			);
 
-			if (isSecure && navigator.geolocation) {
-				addGeolocationControls(map);
-			}
+			settings.forEach((marker) => {
+				addStandaloneMarker(marker, map);
+			});
+
+			addAdditionalControls(tileSets, map);
 
 			return map;
 		};
@@ -238,7 +265,6 @@ document.addEventListener("DOMContentLoaded", function (e) {
 			let inview = 0;
 			let map = null;
 			const tileSets = window.getMapTileSets();
-			const isSecure = window.location.protocol == "https:" ? true : false;
 
 			const floater = document.createElement("div");
 			floater.setAttribute("id", "floating-tour-map-pp");
@@ -248,7 +274,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 				e.target.setAttribute("class", "enhance");
 				map.remove();
 				setTimeout(() => {
-					map = updateFloatingMapPP(settings, current, tileSets, isSecure);
+					map = updateFloatingMapPP(settings, current, tileSets);
 				}, 501);
 			});
 
@@ -257,7 +283,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 				e.target.removeAttribute("class", "enhance");
 				map.remove();
 				setTimeout(() => {
-					map = updateFloatingMapPP(settings, current, tileSets, isSecure);
+					map = updateFloatingMapPP(settings, current, tileSets);
 				}, 501);
 			});
 
@@ -307,7 +333,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 				};
 			});
 
-			map = updateFloatingMapPP(settings, current, tileSets, isSecure);
+			map = updateFloatingMapPP(settings, current, tileSets);
 
 			const stops = document.querySelectorAll(
 				".pp-tour-stop-section-header-container"
@@ -356,28 +382,10 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
 				addStandaloneMarker(settings, map);
 
-				// vertical center on popup open
-				map.on("popupopen", function (e) {
-					const px = map.project(e.popup._latlng);
-					px.y -= e.popup._container.clientHeight / 2;
-					map.panTo(map.unproject(px), { animate: true });
-				});
-
-				// controls
-				const layerNames = {
-					"Street (Carto Voyager)": tileSets.carto_voyager,
-					"Street (Carto Light)": tileSets.carto_light,
-					"Terrain (Stamen)": tileSets.stamen_terrain,
-					"Satellite (ESRI)": tileSets.esri_world,
-				};
-				L.control.layers(layerNames).addTo(map);
-
-				const isSecure = window.location.protocol == "https:" ? true : false;
-				if (isSecure && navigator.geolocation) {
-					addGeolocationControls(map);
-				}
+				addAdditionalControls(tileSets, map);
 			}
 		};
+
 		// GLOBAL LOCATIONS MAP
 		const displayGlobalMapPP = function (settings) {
 			const tileSets = window.getMapTileSets();
@@ -394,18 +402,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 			});
 
 			// controls
-			const layerNames = {
-				"Street (Carto Voyager)": tileSets.carto_voyager,
-				"Street (Carto Light)": tileSets.carto_light,
-				"Terrain (Stamen)": tileSets.stamen_terrain,
-				"Satellite (ESRI)": tileSets.esri_world,
-			};
-			const layerControls = L.control.layers(layerNames).addTo(map);
-
-			const isSecure = window.location.protocol == "https:" ? true : false;
-			if (isSecure && navigator.geolocation) {
-				addGeolocationControls(map);
-			}
+			addAdditionalControls(tileSets, map);
 
 			// add location markers
 			addGlobalMarkersViaAPI(map, markersLayer);
