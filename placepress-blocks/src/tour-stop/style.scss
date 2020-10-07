@@ -107,7 +107,7 @@
 
 .pp-tour-stop-section-header-container:hover,
 .pp-tour-stop-section-header-container:active {
-	span.onhover {
+	.pp-marker-icon-center.has-map span.onhover {
 		color: rgba(256, 256, 256, 1);
 	}
 }
