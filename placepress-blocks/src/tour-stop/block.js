@@ -441,6 +441,11 @@ registerBlockType("placepress/block-tour-stop", {
 	},
 	save(props) {
 		const { attributes } = props;
+		const getPostId = () => {
+			let params = new URLSearchParams(window.location.search);
+			let post_id = params.get("post");
+			return post_id;
+		};
 
 		return (
 			<div
@@ -463,6 +468,7 @@ registerBlockType("placepress/block-tour-stop", {
 							data-mb-key={attributes.mb_key}
 							data-maki={attributes.maki}
 							data-maki-color={attributes.maki_color}
+							data-post-id={getPostId()}
 						>
 							<div
 								className={`pp-marker-icon-center ${
