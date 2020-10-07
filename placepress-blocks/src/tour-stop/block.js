@@ -127,7 +127,7 @@ registerBlockType("placepress/block-tour-stop", {
 			const tileSets = window.getMapTileSets();
 			const currentTileSet = tileSets[userMapConfig.basemap];
 
-			const uiLocationMapPP = function () {
+			const uiSetCoordsPP = function () {
 				const map = L.map("placepress-tour-map", {
 					layers: currentTileSet,
 					scrollWheelZoom: false,
@@ -254,7 +254,6 @@ registerBlockType("placepress/block-tour-stop", {
 				const layerControls = L.control.layers(layerNames).addTo(map);
 				map.on("baselayerchange ", function (e) {
 					const key = e.layer.options.placepress_key;
-					console.log(key);
 					if (key) {
 						// pending save
 						userMapConfig.basemap = key;
@@ -263,7 +262,7 @@ registerBlockType("placepress/block-tour-stop", {
 			};
 
 			const onBlockLoad = function (e) {
-				uiLocationMapPP();
+				uiSetCoordsPP();
 			};
 
 			return (
