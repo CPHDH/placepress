@@ -110,29 +110,48 @@ svg#geolocation path#inner {
 svg#geolocation:hover path#inner {
 	fill: #4a87ee;
 }
-.pp-directions-button {
-	text-decoration: none;
-	background-color: #0078a8;
-	color: #fff !important;
-	width: 100%;
-	display: block;
-	text-align: center;
-	padding: 10px 5px;
-	border-radius: 7px;
-	font-size: 16px;
-	min-width: 200px;
-}
-.pp-directions-button:hover,
-.pp-directions-button:focus {
-	background-color: #333;
-	text-decoration: underline;
-}
-.pp-coords-caption {
-	display: block;
-	text-align: center;
-	color: #555;
-	padding: 5px 5px 0;
-	font-style: italic;
+.leaflet-popup-content-wrapper {
+	.pp-container.tour {
+		background-position: center center;
+		background-size: cover;
+		border-radius: 11px;
+		border: 1px solid #fff;
+		margin: -13px -19px;
+		padding: 75px 10px 10px;
+
+		.pp-directions-button {
+			text-decoration: none;
+			background-color: #0078a8;
+			color: #fff !important;
+			width: 100%;
+			display: block;
+			text-align: center;
+			padding: 10px 5px;
+			border-radius: 7px;
+			font-size: 16px;
+			min-width: 220px;
+		}
+
+		.pp-directions-button:hover,
+		.pp-directions-button:focus {
+			background-color: #333;
+			text-decoration: underline;
+		}
+		.pp-title {
+			font-size: 18px;
+			font-weight: bold;
+			text-align: center;
+			padding-bottom: 10px;
+			text-shadow: 1px 1px 1px #fff;
+		}
+		.pp-coords-caption {
+			display: block;
+			text-align: center;
+			color: #555;
+			padding: 5px 5px 0;
+			font-style: italic;
+		}
+	}
 }
 
 .wp-block-placepress-block-tour-stop.alignwide,

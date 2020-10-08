@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", function (e) {
 						location.setAttribute("id", newId);
 						s.mapId = newId;
 					}
-
 					s.type = location.getAttribute("data-type");
 					s.zoom = Number(location.getAttribute("data-zoom"));
 					s.lat = Number(location.getAttribute("data-lat"));
@@ -47,6 +46,12 @@ document.addEventListener("DOMContentLoaded", function (e) {
 					s.makiColor = tour_stop.getAttribute("data-maki-color");
 					s.mbKey = tour_stop.getAttribute("data-mb-key");
 					s.postId = tour_stop.getAttribute("data-post-id");
+					s.background = tour_stop.getAttribute("data-background");
+					if (tour_stop.querySelector(".pp-tour-stop-title").hasChildNodes()) {
+						s.title = tour_stop.querySelector(
+							".pp-tour-stop-title"
+						).children[0].innerText;
+					}
 					if (s.lat && s.lon) {
 						settings[i] = s;
 						tour_stop.setAttribute("id", "pp_" + i);
@@ -198,12 +203,22 @@ document.addEventListener("DOMContentLoaded", function (e) {
 			geolocationControl.addTo(map);
 		};
 
-		// Standalone Marker (w/ directions link and centering)
-		const addStandaloneMarker = (settings, map) => {
+		// Standalone Marker (not for Global Map)
+		const addSingleMarker = (settings, map, isTour = false) => {
 			const marker = L.marker([settings.lat, settings.lon]).addTo(map);
 			marker.on("click", function (e) {
+				let title =
+					settings.title && isTour
+						? '<div class="pp-title">' + settings.title + "</div>"
+						: "";
 				const popup = L.popup().setContent(
-					'<a class="pp-directions-button" target="_blank" rel="noopener" href="http://maps.google.com/maps?daddr=' +
+					'<div class="pp-container ' +
+						(isTour ? "tour" : "") +
+						'" style="background-image:linear-gradient(to bottom,rgba(0,0,0,0),rgba(256,256,256,.65) 30%,rgba(256,256,256,1) 50%),url(' +
+						(settings.background || "") +
+						')">' +
+						title +
+						'<a class="pp-directions-button" target="_blank" rel="noopener" href="http://maps.google.com/maps?daddr=' +
 						settings.lat +
 						"," +
 						settings.lon +
@@ -212,6 +227,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 						settings.lat +
 						"," +
 						settings.lon +
+						"</div>" +
 						"</div>"
 				);
 				e.target.unbindPopup().bindPopup(popup).openPopup();
@@ -252,10 +268,15 @@ document.addEventListener("DOMContentLoaded", function (e) {
 			);
 
 			settings.forEach((marker) => {
-				addStandaloneMarker(marker, map);
+				addSingleMarker(marker, map, true);
 			});
 
 			addAdditionalControls(tileSets, map);
+
+			// enable scrollwheel zoom if user interacts with the map
+			map.once("focus", function () {
+				map.scrollWheelZoom.enable();
+			});
 
 			return map;
 		};
@@ -380,7 +401,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 					map.scrollWheelZoom.enable();
 				});
 
-				addStandaloneMarker(settings, map);
+				addSingleMarker(settings, map);
 
 				addAdditionalControls(tileSets, map);
 			}
@@ -426,10 +447,12 @@ document.addEventListener("DOMContentLoaded", function (e) {
 				// TOURS
 				const page = document.querySelector("body").classList;
 				if (page.length && page.contains("single") && settings.length) {
+					// single tour
 					setTimeout(() => {
 						displayFloatingMapPP(settings);
 					}, 1000);
 				} else if (page.length && page.contains("archive") && settings.length) {
+					// tours archive
 					let map_icons = document.querySelectorAll(
 						".pp-marker-icon-center.has-map"
 					);
