@@ -444,9 +444,10 @@ document.addEventListener("DOMContentLoaded", function (e) {
 					});
 				} else {
 					if (settings.length) {
-						console.log(
-							"Unknown tour page. Map scripts will not load.",
-							settings
+						console.warn(
+							"Unknown tour page. PlacePress scripts will not load.",
+							"\n\nPlease ensure that your body tag includes default classes, including 'single' (for individual tour pages) and 'archive' (for the tours post type archive).",
+							"\n\nSee: https://developer.wordpress.org/reference/functions/body_class/"
 						);
 					}
 				}
