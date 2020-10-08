@@ -149,12 +149,14 @@ registerBlockType("placepress/block-map-global", {
 									const popup = L.popup().setContent(
 										'<a href="' +
 											e.target.options.permalink +
-											'" class="map-thumb" style="background-image:url(' +
+											'" class="map-thumb" style="background-image:linear-gradient(to bottom,rgba(0,0,0,0) 50%,rgba(0,0,0,0.7) 70%,rgba(0,0,0,1) 100%),url(' +
 											e.target.options.thumbnail +
-											')"></a><a class="map-title" href="' +
+											')">' +
+											'<span class="map-title" href="' +
 											e.target.options.permalink +
 											'">' +
 											e.target.options.title +
+											"</span>" +
 											"</a>"
 									);
 									e.target.unbindPopup().bindPopup(popup).openPopup();

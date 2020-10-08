@@ -23,20 +23,32 @@
 	}
 	a.map-thumb {
 		display: block;
-		height: 100px;
+		min-height: 120px;
 		width: 100%;
-		min-width: 200px;
+		min-width: 240px;
 		background-size: cover;
 		background-position: center center;
-		border-radius: 12px 12px 0 0;
+		border-radius: 11px 11px;
+		border: 2px solid #fff;
 		background-color: #eaeaea;
-		margin-bottom: 0.5em;
 	}
-	a.map-title {
-		padding: 0 3px;
+	.map-title {
+		padding: 4px 8px;
+		display: block;
+		border-radius: 3px;
+		font-size: 18px;
+		margin: 75px 10px 0;
+		text-shadow: 0 0 2px #000;
+		box-shadow: none;
+		line-height: 1.2em;
+		color: #fff;
+	}
+	a.map-thumb:hover .map-title,
+	a.map-thumb:active .map-title {
+		text-decoration: underline;
 	}
 	.leaflet-popup-content {
-		margin: 0 0 0.5em 0;
+		margin: 0 0 0 0;
 		font-weight: bold;
 		text-align: center;
 	}
