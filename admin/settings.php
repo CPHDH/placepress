@@ -82,6 +82,13 @@ function placepress_register_settings(){
 		'placepress'
 	);
 
+	add_settings_section(
+		'placepress_section_archives',
+		esc_html__('Archive Settings: Maps','wp_placepress'),
+		'placepress_callback_section_archive',
+		'placepress'
+	);
+
 	/*
 	** Fields
 	*/
@@ -190,6 +197,24 @@ function placepress_register_settings(){
 		['id'=>'enable_tours','label'=>esc_html__('Enable the Tours post type (req. for tour blocks)','wp_placepress')]
 	);
 
+	add_settings_field(
+		'enable_location_archive_map',
+		esc_html__('Locations','wp_placepress'),
+		'placepress_callback_field_checkbox',
+		'placepress',
+		'placepress_section_archives',
+		['id'=>'enable_location_archive_map','label'=>__('Automatically display the global map on the Locations archive page, e.g. <code>/locations/</code> <br><br><em><strong>Theme Compatibility:</strong><br>Map will be appended using <a href="https://developer.wordpress.org/reference/hooks/get_the_post_type_description/" target="_blank">get_the_post_type_description()</a> hook.</em>','wp_placepress')]
+	);
+
+	add_settings_field(
+		'placepress_section_archives',
+		esc_html__('Location Types','wp_placepress'),
+		'placepress_callback_field_checkbox',
+		'placepress',
+		'placepress_section_archives',
+		['id'=>'enable_location_types_map','label'=>__('Automatically display the a map of matching locations on the Locations Types archive page, e.g. <code>/location-type/museums</code> <br><br><em><strong>Theme Compatibility:</strong><br>Map will be appended using <a href="https://developer.wordpress.org/reference/hooks/category_description/" target="_blank">category_description()</a> (or location_types_description) hook.</em>','wp_placepress')]
+	);
+
 }
 
 /*
@@ -208,6 +233,8 @@ function placepress_options_default(){
 		'marker_clustering'=>false,
 		'enable_tours'=>true,
 		'enable_locations'=>true,
+		'enable_location_types_map' => false,
+		'enable_location_archive_map' => false,
 	);
 }
 
@@ -233,6 +260,10 @@ function placepress_callback_section_mapbox(){
 
 function placepress_callback_section_content(){
 	echo '<p>'.esc_html__('Enable or disable custom post types.','wp_placepress').'</p>';
+}
+
+function placepress_callback_section_archive(){
+	echo '<p>'.esc_html__('Enable or disable maps on Location and Location Type archive pages.','wp_placepress').'</p>';
 }
 
 // Text

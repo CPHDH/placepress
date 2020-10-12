@@ -166,3 +166,20 @@ function placepress_register_and_rewrite_flush() {
     flush_rewrite_rules();
 }
 register_activation_hook( __FILE__, 'placepress_register_and_rewrite_flush' );
+
+add_filter( 'location_types_description', 'pp_add_location_types_map' );
+function pp_add_location_types_map( $description ) {
+		if(placepress_setting('enable_location_types_map')){
+			$description = $description.'<div id="placepress-map_archive" class="map-pp>Type Map Goes Here</div>';
+		}
+    return $description;
+}
+
+add_filter( 'get_the_post_type_description', 'pp_add_location_archive_map' );
+function pp_add_location_archive_map( $description ) {
+		$post_type = get_query_var( 'post_type' );
+		if($post_type == 'locations' && (placepress_setting('enable_location_archive_map'))){
+			$description = $description.'<div id="placepress-map_archive" class="map-pp>Archive Map Goes Here</div>';
+		}
+    return $description;
+}
