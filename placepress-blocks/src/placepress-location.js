@@ -260,7 +260,14 @@ document.addEventListener("DOMContentLoaded", function (e) {
 		};
 
 		// FLOATING TOUR MAP
-		const updateFloatingMapPP = (settings, current, tileSets) => {
+		const updateFloatingMapPP = (
+			settings,
+			current,
+			tileSets,
+			fitBounds = false
+		) => {
+			var bounds = new L.LatLngBounds();
+
 			map = L.map("floating-tour-map-pp", {
 				scrollWheelZoom: false,
 				layers: tileSets[settings[current].style],
@@ -268,22 +275,22 @@ document.addEventListener("DOMContentLoaded", function (e) {
 				[settings[current].lat, settings[current].lon],
 				settings[current].zoom
 			);
-
 			settings.forEach((marker) => {
 				addSingleMarker(marker, map, true);
+				bounds.extend([marker.lat, marker.lon]);
 			});
+
+			if (fitBounds) {
+				map.fitBounds(bounds);
+			}
 
 			addAdditionalControls(tileSets, map);
-
-			// enable scrollwheel zoom if user interacts with the map
-			map.once("focus", function () {
-				map.scrollWheelZoom.enable();
-			});
 
 			return map;
 		};
 
 		const displayFloatingMapPP = (settings) => {
+			let initial = true; // default view is fit bounds
 			let current = 0;
 			let inview = 0;
 			let map = null;
@@ -356,7 +363,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 				};
 			});
 
-			map = updateFloatingMapPP(settings, current, tileSets);
+			map = updateFloatingMapPP(settings, current, tileSets, true);
 
 			const stops = document.querySelectorAll(
 				".pp-tour-stop-section-header-container"
@@ -368,7 +375,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 					stops.forEach((stop) => {
 						if (isInViewport(stop)) {
 							inview = Number(stop.getAttribute("id").replace("pp_", ""));
-							if (inview !== current) {
+							if (initial == true || inview !== current) {
 								map.invalidateSize();
 								map.setView(
 									[settings[inview].lat, settings[inview].lon],
@@ -378,6 +385,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 									map.removeLayer(tileSets[settings[current].style]);
 									map.addLayer(tileSets[settings[inview].style]);
 								}
+								initial = false;
 								current = inview;
 							}
 						}
