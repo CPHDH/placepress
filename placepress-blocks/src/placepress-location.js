@@ -1,6 +1,13 @@
 document.addEventListener("DOMContentLoaded", function (e) {
 	(function () {
-		// Extract Map Settings from HTML
+		// Is Archive Map
+		const isPPArchive = function () {
+			const archive_map =
+				document.querySelector("#placepress-map_archive") || false;
+			return archive_map;
+		};
+
+		// Extract Location Map Settings from HTML
 		const getDataAttributesPPLocation = function () {
 			const locations = document.querySelectorAll(".map-pp") || false;
 			const settings = [];
@@ -29,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 			return settings.length ? settings : false;
 		};
 
-		// Extract Map Settings from HTML
+		// Extract Tour Map Settings from HTML
 		const getDataAttributesPPTour = function () {
 			const tour_stops =
 				document.querySelectorAll(".pp-tour-stop-section-header-container") ||
@@ -106,8 +113,18 @@ document.addEventListener("DOMContentLoaded", function (e) {
 			});
 		};
 
+		const getArchiveLocationType = () => {
+			let path = window.location.pathname.split("/");
+			return path[2] || false; // example.com/location-types/cities => returns cities
+		};
+
 		// API XMLHttpRequest
-		const addGlobalMarkersViaAPI = function (map, markersLayer) {
+		const addGlobalMarkersViaAPI = function (
+			map,
+			markersLayer,
+			isArchive = false
+		) {
+			const location_type = getArchiveLocationType();
 			const locations_json =
 				location.protocol +
 				"//" +
@@ -117,45 +134,51 @@ document.addEventListener("DOMContentLoaded", function (e) {
 			request.open("GET", locations_json, true);
 			request.onload = function () {
 				if (request.status >= 200 && request.status < 400) {
-					const data = JSON.parse(this.response);
+					let data = JSON.parse(this.response);
 					if (typeof data !== "undefined") {
-						data.forEach(function (post) {
-							const coords = post.api_coordinates_pp.split(",");
-							if (coords.length == 2) {
-								const marker = L.marker(coords, {
-									id: post.id,
-									title: post.title,
-									permalink: post.permalink,
-									coords: coords,
-									thumbnail: post.thumbnail,
-								});
-								// user actions: CLICK
-								marker.on("click", function (e) {
-									const popup = L.popup().setContent(
-										'<a href="' +
-											e.target.options.permalink +
-											'" class="map-thumb" style="background-image:linear-gradient(to bottom,rgba(0,0,0,0) 50%,rgba(0,0,0,0.7) 70%,rgba(0,0,0,1) 100%),url(' +
-											e.target.options.thumbnail +
-											')">' +
-											'<span class="map-title" href="' +
-											e.target.options.permalink +
-											'">' +
-											e.target.options.title +
-											"</span>" +
-											"</a>"
-									);
-									e.target.unbindPopup().bindPopup(popup).openPopup();
-								});
-								markersLayer.push(marker);
+						data
+							.filter((data) =>
+								isArchive && location_type
+									? data.type.includes(location_type)
+									: data
+							)
+							.forEach(function (post) {
+								const coords = post.api_coordinates_pp.split(",");
+								if (coords.length == 2) {
+									const marker = L.marker(coords, {
+										id: post.id,
+										title: post.title,
+										permalink: post.permalink,
+										coords: coords,
+										thumbnail: post.thumbnail,
+									});
+									// user actions: CLICK
+									marker.on("click", function (e) {
+										const popup = L.popup().setContent(
+											'<a href="' +
+												e.target.options.permalink +
+												'" class="map-thumb" style="background-image:linear-gradient(to bottom,rgba(0,0,0,0) 50%,rgba(0,0,0,0.7) 70%,rgba(0,0,0,1) 100%),url(' +
+												e.target.options.thumbnail +
+												')">' +
+												'<span class="map-title" href="' +
+												e.target.options.permalink +
+												'">' +
+												e.target.options.title +
+												"</span>" +
+												"</a>"
+										);
+										e.target.unbindPopup().bindPopup(popup).openPopup();
+									});
+									markersLayer.push(marker);
 
-								// vertical center on popup open
-								map.on("popupopen", function (e) {
-									const px = map.project(e.popup._latlng);
-									px.y -= e.popup._container.clientHeight / 2;
-									map.panTo(map.unproject(px), { animate: true });
-								});
-							}
-						});
+									// vertical center on popup open
+									map.on("popupopen", function (e) {
+										const px = map.project(e.popup._latlng);
+										px.y -= e.popup._container.clientHeight / 2;
+										map.panTo(map.unproject(px), { animate: true });
+									});
+								}
+							});
 						if (typeof L.markerClusterGroup === "function") {
 							const clusterGroup = L.markerClusterGroup();
 							clusterGroup.addLayers(markersLayer).addTo(map);
@@ -418,7 +441,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 		};
 
 		// GLOBAL LOCATIONS MAP
-		const displayGlobalMapPP = function (settings) {
+		const displayGlobalMapPP = function (settings, isArchive = false) {
 			const tileSets = window.getMapTileSets();
 			const currentTileSet = tileSets[settings.style];
 			const markersLayer = [];
@@ -436,11 +459,12 @@ document.addEventListener("DOMContentLoaded", function (e) {
 			addAdditionalControls(tileSets, map);
 
 			// add location markers
-			addGlobalMarkersViaAPI(map, markersLayer);
+			addGlobalMarkersViaAPI(map, markersLayer, isArchive);
 		};
 
 		// MAIN
 		if (typeof wp.editor === "undefined") {
+			const page = document.querySelector("body").classList;
 			if ((settings = getDataAttributesPPLocation())) {
 				// LOCATIONS
 				settings.forEach((s, i) => {
@@ -451,11 +475,13 @@ document.addEventListener("DOMContentLoaded", function (e) {
 						case "global":
 							displayGlobalMapPP(s);
 							break;
+						case "archive":
+							displayGlobalMapPP(s, true);
+							break;
 					}
 				});
 			} else if ((settings = getDataAttributesPPTour())) {
 				// TOURS
-				const page = document.querySelector("body").classList;
 				if (page.length && page.contains("single") && settings.length) {
 					// single tour
 					setTimeout(() => {

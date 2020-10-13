@@ -203,7 +203,7 @@ function placepress_register_settings(){
 		'placepress_callback_field_checkbox',
 		'placepress',
 		'placepress_section_archives',
-		['id'=>'enable_location_archive_map','label'=>__('Automatically display the global map on the Locations archive page, e.g. <code>/locations/</code> <br><br><em><strong>Theme Compatibility:</strong><br>Map will be appended using <a href="https://developer.wordpress.org/reference/hooks/get_the_post_type_description/" target="_blank">get_the_post_type_description()</a> hook.</em>','wp_placepress')]
+		['id'=>'enable_location_archive_map','label'=>__('Automatically display the global map on the Locations archive page, e.g. <code>/locations/</code> <br><br><em><strong>Theme Compatibility:</strong><br>Requires Permalinks.<br>Map will be appended using <a href="https://developer.wordpress.org/reference/hooks/get_the_post_type_description/" target="_blank">get_the_post_type_description()</a> hook.</em>','wp_placepress')]
 	);
 
 	add_settings_field(
@@ -212,7 +212,7 @@ function placepress_register_settings(){
 		'placepress_callback_field_checkbox',
 		'placepress',
 		'placepress_section_archives',
-		['id'=>'enable_location_types_map','label'=>__('Automatically display the a map of matching locations on the Locations Types archive page, e.g. <code>/location-type/museums</code> <br><br><em><strong>Theme Compatibility:</strong><br>Map will be appended using <a href="https://developer.wordpress.org/reference/hooks/category_description/" target="_blank">category_description()</a> (or location_types_description) hook.</em>','wp_placepress')]
+		['id'=>'enable_location_types_map','label'=>__('Automatically display the a map of matching locations on the Locations Types archive page, e.g. <code>/location-type/museums</code> <br><br><em><strong>Theme Compatibility:</strong><br>Requires Permalinks.<br>Map will be appended using <a href="https://developer.wordpress.org/reference/hooks/category_description/" target="_blank">category_description()</a> (or location_types_description) hook.</em>','wp_placepress')]
 	);
 
 }
