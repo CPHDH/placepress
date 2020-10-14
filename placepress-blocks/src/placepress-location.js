@@ -327,7 +327,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 				e.target.setAttribute("class", "enhance");
 				map.remove();
 				setTimeout(() => {
-					map = updateFloatingMapPP(settings, current, tileSets);
+					map = updateFloatingMapPP(settings, current, tileSets, initial);
 				}, 501);
 			});
 
@@ -336,7 +336,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 				e.target.removeAttribute("class", "enhance");
 				map.remove();
 				setTimeout(() => {
-					map = updateFloatingMapPP(settings, current, tileSets);
+					map = updateFloatingMapPP(settings, current, tileSets, initial);
 				}, 501);
 			});
 
