@@ -94,7 +94,8 @@ div.floating-tour-map-pp a {
 	text-decoration: none;
 }
 
-svg#geolocation {
+svg#geolocation,
+svg#bounds {
 	background: #fff;
 	border-radius: 3px;
 	padding: 5px;
@@ -104,12 +105,18 @@ svg#geolocation {
 svg#geolocation path#outer {
 	fill: #777;
 }
-svg#geolocation path#inner {
+svg#geolocation path#inner,
+svg#bounds path {
 	fill: #555;
 }
 svg#geolocation:hover path#inner {
 	fill: #4a87ee;
 }
+
+svg#bounds path {
+	transform: scale(2);
+}
+
 .leaflet-popup-content-wrapper {
 	.pp-container.tour {
 		background-position: center center;

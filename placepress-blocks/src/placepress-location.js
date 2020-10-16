@@ -201,6 +201,32 @@ document.addEventListener("DOMContentLoaded", function (e) {
 			request.send();
 		};
 
+		// Fit Bounds Control
+		const fitBoundsControls = function (map, bounds) {
+			const fitBoundsControl = L.control({ position: "bottomleft" });
+			fitBoundsControl.onAdd = function (map) {
+				const div = L.DomUtil.create(
+					"div",
+					"leaflet-control leaflet-control-bounds"
+				);
+				const btn = L.DomUtil.create("a", "placepress-bounds", div);
+				btn.title = "Fit All Markers";
+				const icn =
+					'<svg id="bounds" height="35px" width="35px" viewBox="0 0 1024 1024"  xmlns="http://www.w3.org/2000/svg"><path height="35" width="35" d="M396.795 396.8H320V448h128V320h-51.205zM396.8 115.205V192H448V64H320v51.205zM115.205 115.2H192V64H64v128h51.205zM115.2 396.795V320H64v128h128v-51.205z"/></svg>';
+				btn.innerHTML = icn;
+
+				L.DomEvent.addListener(
+					btn,
+					"click",
+					L.DomEvent.preventDefault
+				).addListener(btn, "click", function (e) {
+					map.fitBounds(bounds);
+				});
+				return div;
+			};
+			fitBoundsControl.addTo(map);
+		};
+
 		// Geolocation Controls
 		const geolocationControls = function (map) {
 			const geolocationControl = L.control({ position: "bottomleft" });
@@ -266,7 +292,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 		};
 
 		// Adds controls: geolocation and layers
-		const addAdditionalControls = (tileSets, map) => {
+		const addAdditionalControls = (tileSets, map, bounds = null) => {
 			// layer controls
 			const layerNames = {
 				"Street (Carto Voyager)": tileSets.carto_voyager,
@@ -279,6 +305,10 @@ document.addEventListener("DOMContentLoaded", function (e) {
 			const isSecure = window.location.protocol == "https:" ? true : false;
 			if (isSecure && navigator.geolocation) {
 				geolocationControls(map);
+			}
+			// fit bounds controls
+			if (bounds) {
+				fitBoundsControls(map, bounds);
 			}
 		};
 
@@ -307,7 +337,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 				map.fitBounds(bounds);
 			}
 
-			addAdditionalControls(tileSets, map);
+			addAdditionalControls(tileSets, map, bounds);
 
 			return map;
 		};
