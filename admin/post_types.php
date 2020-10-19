@@ -161,11 +161,10 @@ function placepress_init() {
 	}
 } /* end init */
 
-function placepress_register_and_rewrite_flush() {
+function placepress_register() {
     placepress_init();
-    flush_rewrite_rules();
 }
-register_activation_hook( __FILE__, 'placepress_register_and_rewrite_flush' );
+register_activation_hook( __FILE__, 'placepress_register' );
 
 add_filter( 'location_types_description', 'pp_add_location_types_map' );
 function pp_add_location_types_map( $description ) {

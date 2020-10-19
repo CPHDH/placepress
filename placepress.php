@@ -90,7 +90,7 @@ require_once plugin_dir_path( __FILE__ ). 'helpers/helpers.php';
 require_once plugin_dir_path( __FILE__ ). 'api/output.php';
 
 /*
-** REDIRECT ON ACTIVATE
+** ACTIVATE
 */
 function placepress_activate() {
     add_option( 'placepress_do_activation_redirect', true );
@@ -98,9 +98,18 @@ function placepress_activate() {
 register_activation_hook(__FILE__, 'placepress_activate');
 function placepress_plugin_activation_redirect() {
    if ( get_option( 'placepress_do_activation_redirect', false ) ) {
-      delete_option( 'placepress_do_activation_redirect' );
-      wp_redirect("options-general.php?page=placepress");
-      exit;
+		 delete_option( 'placepress_do_activation_redirect' );
+		 flush_rewrite_rules();
+		 wp_redirect("options-general.php?page=placepress");
+		 exit;
    }
 }
 add_action('admin_init', 'placepress_plugin_activation_redirect' );
+
+/*
+** DEACTIVATE
+*/
+function placepress_deactivate() {
+	flush_rewrite_rules();
+}
+register_deactivation_hook(__FILE__, 'placepress_deactivate');
