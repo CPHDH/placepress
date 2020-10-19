@@ -78,7 +78,8 @@ function placepress_init() {
 				'show_in_rest'=>true,
 				'query_var' => true,
 				'rewrite' => array( 'slug' => 'tour-type' ),
-				'singular_label' => __('Tour Type','wp_placepress')
+				'singular_label' => __('Tour Type','wp_placepress'),
+				'show_in_nav_menus' => true
 				)
 		);
 	}
@@ -155,7 +156,8 @@ function placepress_init() {
 				'show_in_rest'=>true,
 				'query_var' => true,
 				'rewrite' => array( 'slug' => 'location-type' ),
-				'singular_label' => __('Location Type','wp_placepress')
+				'singular_label' => __('Location Type','wp_placepress'),
+				'show_in_nav_menus' => true
 				)
 		);
 	}

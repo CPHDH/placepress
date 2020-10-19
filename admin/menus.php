@@ -5,7 +5,7 @@ if( !defined('ABSPATH') ){
 add_action('admin_head-nav-menus.php', 'placepress_add_metabox_menu_posttype_archive');
 
 function placepress_add_metabox_menu_posttype_archive() {
-add_meta_box('placepress-metabox-nav-menu-posttype', 'Custom Post Type Archives', 'placepress_metabox_menu_posttype_archive', 'nav-menus', 'side', 'default');
+add_meta_box('placepress-metabox-nav-menu-posttype', 'PlacePress Post Type Archives', 'placepress_metabox_menu_posttype_archive', 'nav-menus', 'side', 'default');
 }
 
 function placepress_metabox_menu_posttype_archive() {
