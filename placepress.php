@@ -42,7 +42,7 @@ if( ! defined('ABSPATH') ){
 /*
 ** PLUGIN SETTINGS
 */
-require_once plugin_dir_path( __FILE__ ). 'admin/settings.php';
+require_once plugin_dir_path( __FILE__ ). 'admin/settings/settings.php';
 
 /*
 ** POST TYPES AND TAXONOMIES

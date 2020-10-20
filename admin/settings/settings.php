@@ -98,7 +98,7 @@ function placepress_register_settings(){
 		'placepress_callback_field_text',
 		'placepress',
 		'placepress_section_map',
-		['id'=>'default_latitude','label'=>esc_html__('Enter the default map latitude, e.g. 41.503240','wp_placepress')]
+		['id'=>'default_latitude','class'=>'map_replace','label'=>esc_html__('Enter the default map latitude, e.g. 41.503240','wp_placepress')]
 	);
 
 	add_settings_field(
@@ -107,7 +107,7 @@ function placepress_register_settings(){
 		'placepress_callback_field_text',
 		'placepress',
 		'placepress_section_map',
-		['id'=>'default_longitude','label'=>esc_html__('Enter the default map longitude, e.g. -81.675249','wp_placepress')]
+		['id'=>'default_longitude','class'=>'map_replace','label'=>esc_html__('Enter the default map longitude, e.g. -81.675249','wp_placepress')]
 	);
 
 	add_settings_field(
@@ -116,7 +116,7 @@ function placepress_register_settings(){
 		'placepress_callback_field_select',
 		'placepress',
 		'placepress_section_map',
-		['id'=>'default_map_type',
+		['id'=>'default_map_type','class'=>'map_replace',
 		'label'=>'Choose the default map type','options'=>array(
 			'carto_voyager'=>esc_html__('Street (Carto Voyager)','wp_placepress'),
 			'carto_light'=>esc_html__('Street (Carto Light)','wp_placepress'),
@@ -131,7 +131,7 @@ function placepress_register_settings(){
 		'placepress_callback_field_text_number',
 		'placepress',
 		'placepress_section_map',
-		['id'=>'default_zoom','label'=>esc_html__('Choose a number between 0 (zoomed out) and 20 (zoomed in).','wp_placepress'),'min'=>0,'max'=>20]
+		['id'=>'default_zoom','class'=>'map_replace','label'=>esc_html__('Choose a number between 0 (zoomed out) and 20 (zoomed in).','wp_placepress'),'min'=>0,'max'=>20]
 	);
 
 	add_settings_field(
@@ -251,7 +251,7 @@ function register_options_defaults(){
 */
 
 function placepress_callback_section_map(){
-	echo '<p>'.esc_html__('Customize default settings for PlacePress maps.','wp_placepress').'</p>';
+	echo '<p>'.esc_html__('Customize default settings for PlacePress maps.','wp_placepress').'</p><div id="map_ui_container"></div>';
 }
 
 function placepress_callback_section_mapbox(){
