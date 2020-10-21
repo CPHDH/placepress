@@ -447,3 +447,71 @@ function placepress_callback_validate_options($input){
 
 	return $input;
 }
+
+
+/*
+** SETTINGS CONTEXTUAL HELP TAB
+*/
+
+function add_context_menu_help_placepress(){
+	$current_screen = get_current_screen();
+	if($current_screen->id == 'settings_page_placepress'){
+
+		$current_screen->add_help_tab(
+			array(
+				'id' => 'pp_help_tab1',
+				'title' => __('Map Settings: General'),
+				'content' => __('<p>Use the interactive map to configure the default display settings for your maps. These settings only affect the <em>defaults</em> when adding a map block. You can configure each map\'s individual display when creating content.</p>'.
+				'<p><strong>Default Coordinates: </strong>Simply enter the name of a location in the search bar and press enter/return to move to a new location. You may drag and drop the map marker to refine the default map coordinates.</p>'.
+				'<p><strong>Default Zoom Level: </strong>Use the +/- buttons on the map to zoom in and out (or double-click on a map to zoom in) to set default zoom level.</p>'.
+				'<p><strong>Default Base Map: </strong> Use the layer controls on the map to set a default map style.</p>'.
+				'<p><strong>Cluster Settings: </strong>Use the checkbox to enable marker clustering. This can be helpful if you plan to add a lot of locations that are close to one another or if your project covers a large geographic area. This setting only applies to the global map block and to optional maps on archive pages.</p>'
+				)
+			)
+		);
+
+		$current_screen->add_help_tab(
+			array(
+				'id' => 'pp_help_tab2',
+				'title' => __('Content Settings: Post Types'),
+				'content' => __('<p>PlacePress adds two custom post types: Locations and Tours. You can use both post types or just one if you prefer. Both post types work just like the default Posts that are built in to WordPress, with a few exceptions:</p>'.
+				'<p><strong>Locations: </strong> The Location post type includes the Location Map block, which can be used once in each Location post. Using the block not only displays a customizable map on your Location post, it also allows to you use the Global Map block elsewhere on the site to display all your Locations on a single map.</p>'.
+				'<p><strong>Tours: </strong>The Tour post type includes a Tour Stop block that can be used multiple times in each Tour post. It is designed to act as a sort of section header that contains embedded data (including map coordinates) for each stop on a tour. If your Tour Stop blocks contain coordinates, a floating map will be added to the tour and the section headers will be clickable to open a specific map location. It is recommended to add additional details below each Tour Stop block to give your users additional context. For example, you can add audio narration, walking directions, historical details, etc.</p>'
+				)
+			)
+		);
+
+		$current_screen->add_help_tab(
+			array(
+				'id' => 'pp_help_tab3',
+				'title' => __('Archive Settings: Maps'),
+				'content' => __('<p>Enabling these options will automatically add a map to the selected archive pages. The map will use the default display settings you configure on this page.</p>'.
+				'<p><strong>Theme Compatibility: </strong>If your current theme displays descriptions for category archives, this option should work just fine. If not, you can leave these settings disabled or change/edit your theme. If the map size is too big or small, you can use CSS to make adjustments as needed.</p>'
+				)
+			)
+		);
+
+		$current_screen->add_help_tab(
+			array(
+				'id' => 'pp_help_tab4',
+				'title' => __('About PlacePress'),
+				'content' => __('<p>PlacePress is developed and maintained by the Center for Public History + Digital Humanities at Cleveland State University, with initial support from the National Endowment for the Humanities.</p>')
+			)
+		);
+
+		$current_screen->add_help_tab(
+			array(
+				'id' => 'pp_help_tab5',
+				'title' => __('Additional Resources'),
+				'content' => '<ul>'.
+				'<li><a target="_blank" href="https://wordpress.org/support/plugin/placepress/">'.__('PlacePress Support Forum').'</a></li>'.
+				'<li><a target="_blank" href="https://wpplacepress.org/">'.__('PlacePress Website').'</a></li>'.
+				'<li><a target="_blank" href="https://github.com/CPHDH/placepress">'.__('View PlacePress source code on GitHub').'</a></li>'.
+				'<li><a target="_blank" href="https://twitter.com/wpplacepress">'.__('Follow PlacePress on Twitter').'</a></li>'.
+				'<li><a target="_blank" href="https://csudigitalhumanities.org/">'.__('Center for Public History + Digital Humanities @ CSU').'</a></li>'.
+				'</ul>'
+			)
+		);
+	}
+}
+add_action('admin_head', 'add_context_menu_help_placepress');
