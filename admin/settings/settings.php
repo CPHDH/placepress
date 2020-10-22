@@ -76,16 +76,16 @@ function placepress_register_settings(){
 	// );
 
 	add_settings_section(
-		'placepress_section_content',
-		esc_html__('Content Settings: Post Types','wp_placepress'),
-		'placepress_callback_section_content',
+		'placepress_section_archives',
+		esc_html__('Archive Settings: Maps','wp_placepress'),
+		'placepress_callback_section_archive',
 		'placepress'
 	);
 
 	add_settings_section(
-		'placepress_section_archives',
-		esc_html__('Archive Settings: Maps','wp_placepress'),
-		'placepress_callback_section_archive',
+		'placepress_section_content',
+		esc_html__('Content Settings: Post Types','wp_placepress'),
+		'placepress_callback_section_content',
 		'placepress'
 	);
 
