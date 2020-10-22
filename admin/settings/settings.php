@@ -207,7 +207,7 @@ function placepress_register_settings(){
 	);
 
 	add_settings_field(
-		'placepress_section_archives',
+		'enable_location_types_map',
 		esc_html__('Location Types','wp_placepress'),
 		'placepress_callback_field_checkbox',
 		'placepress',
