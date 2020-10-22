@@ -68,6 +68,13 @@ function placepress_register_settings(){
 		'placepress'
 	);
 
+	add_settings_section(
+		'placepress_section_tours',
+		esc_html__('Tour Settings: Display Options','wp_placepress'),
+		'placepress_callback_section_tours',
+		'placepress'
+	);
+
 	// add_settings_section(
 	// 	'placepress_section_mapbox',
 	// 	esc_html__('Map Settings: Mapbox','wp_placepress'),
@@ -215,6 +222,29 @@ function placepress_register_settings(){
 		['id'=>'enable_location_types_map','label'=>__('Automatically display the a map of matching locations on the Locations Types archive page, e.g. <code>/location-type/museums</code> <br><br><em><strong>Theme Compatibility:</strong><br>Requires Permalinks.<br>Map will be appended using <a href="https://developer.wordpress.org/reference/hooks/category_description/" target="_blank">category_description()</a> (or location_types_description) hook.</em>','wp_placepress')]
 	);
 
+	add_settings_field(
+		'tours_caption_display',
+		esc_html__('Tour Stop Captions','wp_placepress'),
+		'placepress_callback_field_checkbox',
+		'placepress',
+		'placepress_section_tours',
+		['id'=>'tours_caption_display','label'=>__('Display a caption below Tour Stop headers.','wp_placepress')]
+	);
+
+	add_settings_field(
+		'tours_floating_map_display',
+		esc_html__('Tour Map Style','wp_placepress'),
+		'placepress_callback_field_select',
+		'placepress',
+		'placepress_section_tours',
+		['id'=>'tours_floating_map_display',
+		'label'=>'Choose the map style','options'=>array(
+			'circle'=>esc_html__('Floating (Circle)','wp_placepress'),
+			'rectangle'=>esc_html__('Floating (Rectangle)','wp_placepress'),
+			'offscreen'=>esc_html__('Offscreen','wp_placepress'),
+		)]
+	);
+
 }
 
 /*
@@ -235,6 +265,8 @@ function placepress_options_default(){
 		'enable_locations'=>true,
 		'enable_location_types_map' => false,
 		'enable_location_archive_map' => false,
+		'tours_caption_display' => false,
+		'tours_floating_map_display' => 'circle',
 	);
 }
 
@@ -252,6 +284,10 @@ function register_options_defaults(){
 
 function placepress_callback_section_map(){
 	echo '<p>'.esc_html__('Customize default settings for PlacePress maps.','wp_placepress').'</p><div id="map_ui_container"></div>';
+}
+
+function placepress_callback_section_tours(){
+	echo '<p>'.esc_html__('Customize display options for PlacePress tours.','wp_placepress');
 }
 
 function placepress_callback_section_mapbox(){
@@ -466,6 +502,17 @@ function add_context_menu_help_placepress(){
 				'<p><strong>Default Zoom Level: </strong>Use the +/- buttons on the map to zoom in and out (or double-click on a map to zoom in) to set default zoom level.</p>'.
 				'<p><strong>Default Base Map: </strong> Use the layer controls on the map to set a default map style.</p>'.
 				'<p><strong>Cluster Settings: </strong>Use the checkbox to enable marker clustering. This can be helpful if you plan to add a lot of locations that are close to one another or if your project covers a large geographic area. This setting only applies to the global map block and to optional maps on archive pages.</p>'
+				)
+			)
+		);
+
+		$current_screen->add_help_tab(
+			array(
+				'id' => 'pp_help_tab0',
+				'title' => __('Tour Settings: Display Options'),
+				'content' => __('<p>The following options will be applied to all tours.</p>'.
+				'<p><strong>Tour Stop Captions: </strong>Display a caption below Tour Stop headers consisting of the image file caption metadata.</strong></p>'.
+				'<p><strong>Tour Map Style: </strong>A map of all Tour Stops is added to each tour page. If you choose one of the Floating options (Circle or Rectangle), it will always be visible and map coordinates will update as the user scrolls down the page. If you choose Offscreen, the map will be hidden until the user clicks the Show Map button in the Tour Stop header.</strong></p>'
 				)
 			)
 		);
