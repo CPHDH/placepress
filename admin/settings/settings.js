@@ -1,6 +1,10 @@
 document.addEventListener("DOMContentLoaded", function (e) {
   // TILES
   const tileSets = window.getMapTileSets();
+  const defaults =
+    typeof placepress_plugin_options !== "undefined"
+      ? placepress_plugin_options
+      : null;
 
   // SETTINGS
   const settings = [];

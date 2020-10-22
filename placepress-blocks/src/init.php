@@ -103,6 +103,9 @@ function placepress_blocks_cgb_block_assets() { // phpcs:ignore
 			array('placepress-leaflet-js','placepress-tiles')
 	);
 
+	$plugin_settings  = 'const placepress_plugin_options = '. json_encode(get_option('placepress_options', placepress_options_default())) .'; ';
+	wp_add_inline_script('placepress-location', $plugin_settings, 'before');
+
 }
 
 // Hook: Frontend assets.

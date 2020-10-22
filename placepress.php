@@ -97,7 +97,7 @@ function placepress_settings_js($hook) {
 		return;
 	}
 	wp_enqueue_script( 'placepress_settings_js', plugin_dir_url( __FILE__ ) . 'admin/settings/settings.js', false );
-	$plugin_settings  = 'defaults = '. json_encode(get_option('placepress_options', placepress_options_default())) .'; ';
+	$plugin_settings  = 'const placepress_plugin_options = '. json_encode(get_option('placepress_options', placepress_options_default())) .'; ';
 	wp_add_inline_script('placepress_settings_js', $plugin_settings, 'before');
 }
 function placepress_settings_css() {
