@@ -63,7 +63,7 @@ function placepress_register_settings(){
 	*/
 	add_settings_section(
 		'placepress_section_map',
-		esc_html__('Map Settings: General','wp_placepress'),
+		esc_html__('Map Settings: Defaults','wp_placepress'),
 		'placepress_callback_section_map',
 		'placepress'
 	);
@@ -460,7 +460,7 @@ function add_context_menu_help_placepress(){
 		$current_screen->add_help_tab(
 			array(
 				'id' => 'pp_help_tab1',
-				'title' => __('Map Settings: General'),
+				'title' => __('Map Settings: Defaults'),
 				'content' => __('<p>Use the interactive map to configure the default display settings for your maps. These settings only affect the <em>defaults</em> when adding a map block. You can configure each map\'s individual display when creating content.</p>'.
 				'<p><strong>Default Coordinates: </strong>Simply enter the name of a location in the search bar and press enter/return to move to a new location. You may drag and drop the map marker to refine the default map coordinates.</p>'.
 				'<p><strong>Default Zoom Level: </strong>Use the +/- buttons on the map to zoom in and out (or double-click on a map to zoom in) to set default zoom level.</p>'.
