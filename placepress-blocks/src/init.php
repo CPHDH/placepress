@@ -109,6 +109,9 @@ function placepress_blocks_cgb_block_assets($hook) { // phpcs:ignore
 		wp_add_inline_script('placepress-location', $plugin_settings, 'before');
 	}
 
+	if(placepress_setting('tours_caption_display') <= 0){
+		wp_add_inline_style('placepress_blocks-cgb-style-css', ".tour-stop-caption-pp{display:none;}");
+	}
 }
 
 // Hook: Frontend assets.
