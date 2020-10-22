@@ -27,7 +27,7 @@ registerBlockType("placepress/block-tour-stop", {
 		multiple: true,
 		reusable: false,
 		align: true,
-		align: ["wide", "full"],
+		align: ["wide", "full", "center"],
 	},
 	description: __("A block for adding a tour stop section header."),
 	attributes: {

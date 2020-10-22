@@ -17,7 +17,7 @@ registerBlockType("placepress/block-map-location", {
 		multiple: false,
 		reusable: false,
 		align: true,
-		align: ["left", "center", "right", "wide", "full"],
+		align: ["center", "wide", "full"],
 	},
 	description: __("A block for adding a location map."),
 	attributes: {
