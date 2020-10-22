@@ -241,6 +241,7 @@ function placepress_register_settings(){
 		'label'=>'Choose the map style','options'=>array(
 			'circle'=>esc_html__('Floating (Circle)','wp_placepress'),
 			'rectangle'=>esc_html__('Floating (Rectangle)','wp_placepress'),
+			'automatic'=>esc_html__('Floating (Automatic)','wp_placepress'),
 			'offscreen'=>esc_html__('Offscreen','wp_placepress'),
 		)]
 	);
@@ -512,7 +513,7 @@ function add_context_menu_help_placepress(){
 				'title' => __('Tour Settings: Display Options'),
 				'content' => __('<p>The following options will be applied to all tours.</p>'.
 				'<p><strong>Tour Stop Captions: </strong>Display a caption below Tour Stop headers consisting of the image file caption metadata.</strong></p>'.
-				'<p><strong>Tour Map Style: </strong>A map of all Tour Stops is added to each tour page. If you choose one of the Floating options (Circle or Rectangle), it will always be visible and map coordinates will update as the user scrolls down the page. If you choose Offscreen, the map will be hidden until the user clicks the Show Map button in the Tour Stop header.</strong></p>'
+				'<p><strong>Tour Map Style: </strong>A map of all Tour Stops is added to each tour page. If you choose one of the Floating options (Circle, Rectangle, or Automatic), it will always be visible and map coordinates will update as the user scrolls down the page. The Automatic setting changes the shape based on display size. Larger screen sizes will display the rectangular map, while smaller screens will use the circular map. If you choose Offscreen, the map will be hidden until the user clicks the Show Map button in the Tour Stop header.</strong></p>'
 				)
 			)
 		);
