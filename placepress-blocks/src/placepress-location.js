@@ -1,5 +1,10 @@
 document.addEventListener("DOMContentLoaded", function (e) {
 	(function () {
+		const defaults =
+			typeof placepress_plugin_options !== "undefined"
+				? placepress_plugin_options
+				: null;
+
 		// Is Archive Map
 		const isPPArchive = function () {
 			const archive_map =
@@ -343,10 +348,15 @@ document.addEventListener("DOMContentLoaded", function (e) {
 			let current = 0;
 			let inview = 0;
 			let map = null;
+			const shape =
+				typeof defaults.tours_floating_map_display !== undefined
+					? String(defaults.tours_floating_map_display)
+					: "circle";
 			const tileSets = window.getMapTileSets();
 
 			const floater = document.createElement("div");
 			floater.setAttribute("id", "floating-tour-map-pp");
+			floater.setAttribute("class", shape);
 
 			const openFloatingMapPP = new Event("openFloatingMapPP");
 			floater.addEventListener("openFloatingMapPP", (e) => {
@@ -360,6 +370,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 			const closeFloatingMapPP = new Event("closeFloatingMapPP");
 			floater.addEventListener("closeFloatingMapPP", (e) => {
 				e.target.removeAttribute("class", "enhance");
+				e.target.setAttribute("class", shape);
 				map.remove();
 				setTimeout(() => {
 					map = updateFloatingMapPP(settings, current, tileSets, initial);
