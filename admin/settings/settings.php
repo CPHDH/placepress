@@ -192,7 +192,7 @@ function placepress_register_settings(){
 		'placepress_callback_field_checkbox',
 		'placepress',
 		'placepress_section_content',
-		['id'=>'enable_locations','label'=>esc_html__('Enable the Locations post type (req. for location map block and global map block)','wp_placepress')]
+		['id'=>'enable_locations','label'=>esc_html__('Enable the Locations post type (req. for Location Map blocks and Global Map blocks)','wp_placepress')]
 	);
 
 	add_settings_field(
@@ -201,7 +201,7 @@ function placepress_register_settings(){
 		'placepress_callback_field_checkbox',
 		'placepress',
 		'placepress_section_content',
-		['id'=>'enable_tours','label'=>esc_html__('Enable the Tours post type (req. for tour blocks)','wp_placepress')]
+		['id'=>'enable_tours','label'=>esc_html__('Enable the Tours post type (req. for Tour Stop blocks)','wp_placepress')]
 	);
 
 	add_settings_field(
@@ -210,7 +210,7 @@ function placepress_register_settings(){
 		'placepress_callback_field_checkbox',
 		'placepress',
 		'placepress_section_archives',
-		['id'=>'enable_location_archive_map','label'=>__('Automatically display the global map on the Locations archive page, e.g. <code>/locations/</code> <br><br><em><strong>Theme Compatibility:</strong><br>Map will be appended using <a href="https://developer.wordpress.org/reference/hooks/get_the_post_type_description/" target="_blank">get_the_post_type_description()</a> hook.</em>','wp_placepress')]
+		['id'=>'enable_location_archive_map','label'=>__('Automatically display the global map on the Locations archive page, e.g. <code>/locations/</code>','wp_placepress')]
 	);
 
 	add_settings_field(
@@ -219,7 +219,7 @@ function placepress_register_settings(){
 		'placepress_callback_field_checkbox',
 		'placepress',
 		'placepress_section_archives',
-		['id'=>'enable_location_types_map','label'=>__('Automatically display the a map of matching locations on the Locations Types archive page, e.g. <code>/location-type/museums</code> <br><br><em><strong>Theme Compatibility:</strong><br>Requires Permalinks.<br>Map will be appended using <a href="https://developer.wordpress.org/reference/hooks/category_description/" target="_blank">category_description()</a> (or location_types_description) hook.</em>','wp_placepress')]
+		['id'=>'enable_location_types_map','label'=>__('Automatically display the a map of matching locations on the Locations Types archive page, e.g. <code>/location-type/museums</code>','wp_placepress')]
 	);
 
 	add_settings_field(
@@ -283,11 +283,11 @@ function register_options_defaults(){
 */
 
 function placepress_callback_section_map(){
-	echo '<p>'.esc_html__('Customize default settings for PlacePress maps.','wp_placepress').'</p><div id="map_ui_container"></div>';
+	echo '<p>'.esc_html__('Customize default settings for PlacePress maps. For additional details on map defaults, use the Help menu at the top of this page.','wp_placepress').'</p><div id="map_ui_container"></div>';
 }
 
 function placepress_callback_section_tours(){
-	echo '<p>'.esc_html__('Customize display options for PlacePress tours.','wp_placepress');
+	echo '<p>'.esc_html__('Customize display options for PlacePress tours. For additional details on tour display settings, use the Help menu at the top of this page.','wp_placepress');
 }
 
 function placepress_callback_section_mapbox(){
@@ -295,11 +295,11 @@ function placepress_callback_section_mapbox(){
 }
 
 function placepress_callback_section_content(){
-	echo '<p>'.esc_html__('Enable or disable custom post types.','wp_placepress').'</p>';
+	echo '<p>'.esc_html__('Enable or disable custom post types. For information on post types, use the Help menu at the top of this page.','wp_placepress').'</p>';
 }
 
 function placepress_callback_section_archive(){
-	echo '<p>'.esc_html__('Enable or disable maps on Location and Location Type archive pages.','wp_placepress').'</p>';
+	echo '<p>'.__('Enable or disable maps on Location and Location Type archive pages. <strong>For information on theme compatibility</strong>, use the Help menu at the top of this page.','wp_placepress').'</p>';
 }
 
 // Text
@@ -533,7 +533,9 @@ function add_context_menu_help_placepress(){
 				'id' => 'pp_help_tab3',
 				'title' => __('Archive Settings: Maps'),
 				'content' => __('<p>Enabling these options will automatically add a map to the selected archive pages. The map will use the default display settings you configure on this page.</p>'.
-				'<p><strong>Theme Compatibility: </strong>If your current theme displays descriptions for category archives, this option should work just fine. If not, you can leave these settings disabled or change/edit your theme. If the map size is too big or small, you can use CSS to make adjustments as needed.</p>'
+				'<p><strong>Theme Compatibility: </strong>If your current theme displays descriptions for category archives, this option should work just fine. If not, you can leave these settings disabled or change/edit your theme. If the map size is too big or small, you can use CSS to make adjustments as needed.</p>'.
+				'<p><strong>Locations: </strong>Map will be appended using <a href="https://developer.wordpress.org/reference/hooks/get_the_post_type_description/" target="_blank">get_the_post_type_description()</a> hook.</em></p>'.
+				'<p><strong>Location Types: </strong>Requires Permalinks. Map will be appended using <a href="https://developer.wordpress.org/reference/hooks/category_description/" target="_blank">category_description()</a> (or location_types_description) hook.</em></p>'
 				)
 			)
 		);
