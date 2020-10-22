@@ -50,7 +50,7 @@ add_action( 'enqueue_block_editor_assets', 'placepress_editor_js' );
  * @uses {wp-editor} for WP editor styles.
  * @since 1.0.0
  */
-function placepress_blocks_cgb_block_assets() { // phpcs:ignore
+function placepress_blocks_cgb_block_assets($hook) { // phpcs:ignore
 	// Styles.
 	wp_enqueue_style(
 		'placepress_blocks-cgb-style-css', // Handle.
@@ -103,8 +103,11 @@ function placepress_blocks_cgb_block_assets() { // phpcs:ignore
 			array('placepress-leaflet-js','placepress-tiles')
 	);
 
-	$plugin_settings  = 'const placepress_plugin_options = '. json_encode(get_option('placepress_options', placepress_options_default())) .'; ';
-	wp_add_inline_script('placepress-location', $plugin_settings, 'before');
+	if($hook !== 'settings_page_placepress' && $hook !== 'post.php'){
+		// see also admin_enqueue_scripts in placepress.php
+		$plugin_settings  = 'const placepress_plugin_options = '. json_encode(get_option('placepress_options', placepress_options_default())) .'; ';
+		wp_add_inline_script('placepress-location', $plugin_settings, 'before');
+	}
 
 }
 
