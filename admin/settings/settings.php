@@ -557,6 +557,7 @@ function add_context_menu_help_placepress(){
 				'<li><a target="_blank" href="https://wordpress.org/support/plugin/placepress/">'.__('PlacePress Support Forum').'</a></li>'.
 				'<li><a target="_blank" href="https://wpplacepress.org/">'.__('PlacePress Website').'</a></li>'.
 				'<li><a target="_blank" href="https://github.com/CPHDH/placepress">'.__('View PlacePress source code on GitHub').'</a></li>'.
+				'<li><a target="_blank" href="https://wordpress.org/plugins/placepress/">'.__('View or Rate PlacePress on the WordPress Plugin Directory').'</a></li>'.
 				'<li><a target="_blank" href="https://twitter.com/wpplacepress">'.__('Follow PlacePress on Twitter').'</a></li>'.
 				'<li><a target="_blank" href="https://csudigitalhumanities.org/">'.__('Center for Public History + Digital Humanities @ CSU').'</a></li>'.
 				'</ul>'
