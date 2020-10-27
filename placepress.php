@@ -89,25 +89,6 @@ require_once plugin_dir_path( __FILE__ ). 'helpers/helpers.php';
 */
 require_once plugin_dir_path( __FILE__ ). 'api/output.php';
 
-/**
- * Admin Scripts
- */
-function placepress_settings_js($hook) {
-	if($hook !== 'settings_page_placepress'){
-		return;
-	}
-	wp_enqueue_script( 'placepress_settings_js', plugin_dir_url( __FILE__ ) . 'admin/settings/settings.js', false );
-	$plugin_settings  = 'const placepress_plugin_options = '. json_encode(get_option('placepress_options', placepress_options_default())) .'; ';
-	wp_add_inline_script('placepress_settings_js', $plugin_settings, 'before');
-}
-function placepress_settings_css() {
-	wp_enqueue_style( 'placepress_settings_css', plugin_dir_url( __FILE__ ) . 'admin/settings/settings.css', false );
-}
-
-add_action('admin_enqueue_scripts','placepress_blocks_cgb_block_assets');
-add_action( 'admin_enqueue_scripts', 'placepress_settings_js' );
-add_action( 'admin_enqueue_scripts', 'placepress_settings_css' );
-
 /*
 ** ACTIVATE
 */
