@@ -122,8 +122,11 @@ function placepress_settings_js($hook) {
 		return;
 	}
 
+	// Leaflet Assets
+	placepress_helper_leaflet_assets();
+
 	wp_enqueue_script( 'placepress_settings_js',
-		plugin_dir_url( __FILE__ ) . 'admin/settings/settings.js', false );
+		WP_PLUGIN_URL .'/placepress/admin/settings/settings.js', false );
 
 	$plugin_settings  = 'const placepress_plugin_options = '. json_encode(get_option('placepress_options', placepress_options_default())) .'; ';
 
@@ -132,7 +135,7 @@ function placepress_settings_js($hook) {
 }
 function placepress_settings_css() {
 	wp_enqueue_style('placepress_settings_css',
-		plugin_dir_url( __FILE__ ) . 'admin/settings/settings.css', false );
+		WP_PLUGIN_URL .'/placepress/admin/settings/settings.css', false );
 
 }
 
