@@ -49,21 +49,8 @@ function placepress_enqueue_global_assets($hook){
 			array( 'wp-editor' )
 		);
 
-		wp_enqueue_style('placepress-leaflet-css',
-			'https://unpkg.com/leaflet@1.4.0/dist/leaflet.css',
-			array()
-		);
-
-		// Global Scripts
-		wp_enqueue_script('placepress-leaflet-js',
-			'https://unpkg.com/leaflet@1.4.0/dist/leaflet.js',
-			array()
-		);
-
-		wp_enqueue_script('placepress-tiles',
-			plugins_url( 'tile-provider.js', __FILE__ ),
-			array()
-		);
+		// Leaflet Assets
+		placepress_helper_leaflet_assets();
 
 		// Front End Only
 		if($hook !== 'settings_page_placepress' && $hook !== 'post.php'){
@@ -77,26 +64,6 @@ function placepress_enqueue_global_assets($hook){
 
 			wp_add_inline_script('placepress-location',
 				$plugin_settings, 'before');
-		}
-
-		// Conditional: Marker Clustering (Setting)
-		if(placepress_setting('marker_clustering')==true){
-
-			wp_enqueue_style('placepress-cluster-css',
-				'https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css',
-				array()
-			);
-
-			wp_enqueue_style('placepress-cluster-css-default',
-				'https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css',
-				array()
-			);
-
-			wp_enqueue_script('placepress-cluster-js',
-				'https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js',
-				array('placepress-leaflet-js')
-			);
-
 		}
 
 		// Conditional: Tour Caption (Setting)
