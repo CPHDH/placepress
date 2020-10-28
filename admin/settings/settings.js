@@ -160,5 +160,37 @@ document.addEventListener("DOMContentLoaded", function (e) {
       ).value = key;
     }
   });
-  // End map stuff
+  // Help buttons
+  function simulateEvent(el, etype) {
+    if (el.fireEvent) {
+      el.fireEvent("on" + etype);
+    } else {
+      var evObj = document.createEvent("Events");
+      evObj.initEvent(etype, true, false);
+      el.dispatchEvent(evObj);
+    }
+  }
+  const placepress_help = document.querySelectorAll(
+    "span.placepress.dashicons-editor-help"
+  );
+  for (const icon of placepress_help) {
+    icon.addEventListener("click", function (event) {
+      if (window.jQuery) {
+        // smooth scroll if available
+        jQuery("html, body").animate({ scrollTop: 0 }, 300);
+      } else {
+        window.scrollTo(0, 0);
+      }
+      const wp_help = document.getElementById("contextual-help-link");
+      // only open help menu if it's not already open
+      if (!wp_help.classList.contains("screen-meta-active")) {
+        setTimeout(
+          () => {
+            simulateEvent(wp_help, "click");
+          },
+          window.jQuery ? 300 : 0
+        );
+      }
+    });
+  }
 });

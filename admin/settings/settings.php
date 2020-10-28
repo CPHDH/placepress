@@ -284,11 +284,11 @@ function register_options_defaults(){
 */
 
 function placepress_callback_section_map(){
-	echo '<p>'.esc_html__('Customize default settings for PlacePress maps. For additional details on map defaults, use the Help menu at the top of this page.','wp_placepress').'</p><div id="map_ui_container"></div>';
+	echo '<p>'.sprintf(__('Customize default settings for PlacePress maps. %s','wp_placepress'),'<span data-title="'.__('For additional details on map defaults, use the Help menu at the top of this page.','wp_placepress').'" class="placepress dashicons dashicons-editor-help"></span>').'</p><div id="map_ui_container"></div>';
 }
 
 function placepress_callback_section_tours(){
-	echo '<p>'.esc_html__('Customize display options for PlacePress tours. For additional details on tour display settings, use the Help menu at the top of this page.','wp_placepress');
+	echo '<p>'.sprintf(__('Customize display options for PlacePress tours. %s','wp_placepress'),'<span data-title="'.__('For additional details on tour display settings, use the Help menu at the top of this page.','wp_placepress').'" class="placepress dashicons dashicons-editor-help"></span>').'</p>';
 }
 
 function placepress_callback_section_mapbox(){
@@ -296,11 +296,11 @@ function placepress_callback_section_mapbox(){
 }
 
 function placepress_callback_section_content(){
-	echo '<p>'.esc_html__('Enable or disable custom post types. For information on post types, use the Help menu at the top of this page.','wp_placepress').'</p>';
+	echo '<p>'.sprintf(__('Enable or disable custom post types. %s','wp_placepress'),'<span data-title="'.__('For information on post types, use the Help menu at the top of this page.','wp_placepress').'" class="placepress dashicons dashicons-editor-help"></span>').'</p>';
 }
 
 function placepress_callback_section_archive(){
-	echo '<p>'.__('Enable or disable maps on Location and Location Type archive pages. <strong>For information on theme compatibility</strong>, use the Help menu at the top of this page.','wp_placepress').'</p>';
+	echo '<p>'.sprintf(__('Enable or disable maps on Location and Location Type archive pages. %s','wp_placepress'),'<span data-title="'.__('For information on theme compatibility, use the Help menu at the top of this page.','wp_placepress').'" class="placepress dashicons dashicons-editor-help"></span>').'</p>';
 }
 
 // Text
