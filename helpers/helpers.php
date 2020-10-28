@@ -8,12 +8,12 @@ function placepress_helper_leaflet_assets(){
 
 	// Global
 	wp_enqueue_style('placepress-leaflet-css',
-		'https://unpkg.com/leaflet@1.4.0/dist/leaflet.css',
+		'https://unpkg.com/leaflet@1.7.1/dist/leaflet.css',
 		array()
 	);
 
 	wp_enqueue_script('placepress-leaflet-js',
-		'https://unpkg.com/leaflet@1.4.0/dist/leaflet.js',
+		'https://unpkg.com/leaflet@1.7.1/dist/leaflet.js',
 		array()
 	);
 
