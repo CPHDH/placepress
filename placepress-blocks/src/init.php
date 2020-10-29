@@ -41,6 +41,10 @@ function placepress_enqueue_global_assets($hook){
 	if(has_block('placepress/block-tour-stop')
 		|| has_block('placepress/block-map-location')
 		|| has_block('placepress/block-map-global')
+		|| get_query_var( 'post_type' ) === 'locations'
+		|| get_query_var( 'post_type' ) === 'tours'
+		|| $hook === 'settings_page_placepress'
+		|| $hook === 'post.php'
 	){
 
 		// Global Styles
@@ -126,7 +130,7 @@ function placepress_settings_js($hook) {
 	placepress_helper_leaflet_assets();
 
 	wp_enqueue_script( 'placepress_settings_js',
-		WP_PLUGIN_URL .'/placepress/admin/settings/settings.js', false );
+		plugins_url() .'/placepress/admin/settings/settings.js', false );
 
 	$plugin_settings  = 'const placepress_plugin_options = '. json_encode(get_option('placepress_options', placepress_options_default())) .'; ';
 
@@ -135,7 +139,7 @@ function placepress_settings_js($hook) {
 }
 function placepress_settings_css() {
 	wp_enqueue_style('placepress_settings_css',
-		WP_PLUGIN_URL .'/placepress/admin/settings/settings.css', false );
+		plugins_url() .'/placepress/admin/settings/settings.css', false );
 
 }
 

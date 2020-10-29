@@ -21,8 +21,10 @@ function placepress_delete_transients() {
 function placepress_location_type_array($postID){
 	$types = get_the_terms( $postID, 'location_types' );
 	$slugs=[];
-	foreach ($types as $type) {
-		$slugs[]=$type->slug;
+	if($types){
+		foreach ($types as $type) {
+			$slugs[]=$type->slug;
+		}
 	}
 	return $slugs;
 }

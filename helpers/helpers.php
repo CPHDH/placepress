@@ -18,7 +18,7 @@ function placepress_helper_leaflet_assets(){
 	);
 
 	wp_enqueue_script('placepress-tiles',
-		WP_PLUGIN_URL . '/placepress/placepress-blocks/src/tile-provider.js',
+		plugins_url() . '/placepress/placepress-blocks/src/tile-provider.js',
 		array()
 	);
 
