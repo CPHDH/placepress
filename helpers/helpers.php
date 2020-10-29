@@ -4,7 +4,7 @@ if( ! defined('ABSPATH') ){
 }
 
 // Generic callback to return Leaflet related assets
-function placepress_helper_leaflet_assets(){
+function placepress_helper_leaflet_assets($infooter=true){
 
 	// Global
 	wp_enqueue_style('placepress-leaflet-css',
@@ -14,12 +14,12 @@ function placepress_helper_leaflet_assets(){
 
 	wp_enqueue_script('placepress-leaflet-js',
 		'https://unpkg.com/leaflet@1.7.1/dist/leaflet.js',
-		array()
+		array(), false, $infooter
 	);
 
 	wp_enqueue_script('placepress-tiles',
 		plugins_url() . '/placepress/placepress-blocks/src/tile-provider.js',
-		array()
+		array(), false, $infooter
 	);
 
 	// Conditional: Marker Clustering (Setting)
@@ -40,7 +40,7 @@ function placepress_helper_leaflet_assets(){
 
 		wp_enqueue_script('placepress-cluster-js',
 			'https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js',
-			array('placepress-leaflet-js')
+			array('placepress-leaflet-js'), false, $infooter
 		);
 
 	}

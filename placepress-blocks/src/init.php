@@ -59,14 +59,14 @@ function placepress_enqueue_global_assets($hook){
 		);
 
 		// Leaflet Assets
-		placepress_helper_leaflet_assets();
+		placepress_helper_leaflet_assets(!$isadmin); // in footer unless admin
 
 		// Front End Only
 		if(!$isadmin){
 
 			wp_enqueue_script('placepress-location',
 				plugins_url( 'placepress-location.js', __FILE__ ),
-				array('placepress-leaflet-js','placepress-tiles')
+				array('placepress-leaflet-js','placepress-tiles'), false, true
 			);
 
 			$plugin_settings  = 'const placepress_plugin_options = '. json_encode(get_option('placepress_options', placepress_options_default())) .'; ';
@@ -96,14 +96,13 @@ function placepress_enqueue_editor_assets(){
 	// Scripts for editor
 	wp_enqueue_script('placepress_blocks-cgb-block-js',
  		plugins_url( '/dist/blocks.build.js', dirname( __FILE__ ) ),
- 		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ),
- 		true
+ 		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ),false, true
 	);
 
 	// Plugin settings for editor
 	wp_enqueue_script('placepress-settings',
 		plugins_url( 'post-type-blocks.js', __FILE__ ),
-		array( 'wp-blocks', 'wp-dom-ready', 'wp-edit-post' )
+		array( 'wp-blocks', 'wp-dom-ready', 'wp-edit-post' ),false, true
 	);
 
 	wp_localize_script( 'placepress-settings',
@@ -135,7 +134,7 @@ function placepress_settings_js($hook) {
 	placepress_helper_leaflet_assets();
 
 	wp_enqueue_script( 'placepress_settings_js',
-		plugins_url() .'/placepress/admin/settings/settings.js', false );
+		plugins_url() .'/placepress/admin/settings/settings.js', false, true );
 
 	$plugin_settings  = 'const placepress_plugin_options = '. json_encode(get_option('placepress_options', placepress_options_default())) .'; ';
 
