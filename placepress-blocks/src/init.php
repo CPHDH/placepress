@@ -36,6 +36,12 @@ add_filter( 'block_categories', 'placepress_block_categories', 10, 2 );
 
 function placepress_enqueue_global_assets($hook){
 
+	$isadmin = boolval(
+		$hook === 'settings_page_placepress'
+		|| $hook === 'post.php'
+		|| $hook === 'post-new.php'
+	);
+
 	// Only for Tours, Locations, & Global Map Blocks
 	// ==============================================
 	if(has_block('placepress/block-tour-stop')
@@ -43,8 +49,7 @@ function placepress_enqueue_global_assets($hook){
 		|| has_block('placepress/block-map-global')
 		|| get_query_var( 'post_type' ) === 'locations'
 		|| get_query_var( 'post_type' ) === 'tours'
-		|| $hook === 'settings_page_placepress'
-		|| $hook === 'post.php'
+		|| $isadmin
 	){
 
 		// Global Styles
@@ -57,7 +62,7 @@ function placepress_enqueue_global_assets($hook){
 		placepress_helper_leaflet_assets();
 
 		// Front End Only
-		if($hook !== 'settings_page_placepress' && $hook !== 'post.php'){
+		if(!$isadmin){
 
 			wp_enqueue_script('placepress-location',
 				plugins_url( 'placepress-location.js', __FILE__ ),
