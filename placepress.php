@@ -39,6 +39,18 @@ if( ! defined('ABSPATH') ){
 	exit;
 }
 
+// Constants
+define('PRECONNECT_CDN', 'https://unpkg.com');
+define('LEAFLET_JS', 'https://unpkg.com/leaflet@1.7.1/dist/leaflet.js');
+define('LEAFLET_CSS', 'https://unpkg.com/leaflet@1.7.1/dist/leaflet.css');
+define('CLUSTER_JS', 'https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js');
+define('CLUSTER_CSS', 'https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css');
+define('CLUSTER_CSS_DEFAULT', 'https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css');
+define('PLACEPRESS_TILE_PROVIDER', plugins_url() . '/placepress/placepress-blocks/src/tile-provider.js');
+define('PLACEPRESS_MAIN_JS', plugins_url() . '/placepress/placepress-blocks/src/placepress.js');
+define('PLACEPRESS_SETTINGS_JS', plugins_url() .'/placepress/admin/settings/settings.js');
+define('PLACEPRESS_SETTINGS_CSS', plugins_url() .'/placepress/admin/settings/settings.css');
+
 /*
 ** PLUGIN SETTINGS
 */
@@ -96,6 +108,7 @@ function placepress_activate() {
     add_option( 'placepress_do_activation_redirect', true );
 }
 register_activation_hook(__FILE__, 'placepress_activate');
+
 function placepress_plugin_activation_redirect() {
    if ( get_option( 'placepress_do_activation_redirect', false ) ) {
 		 delete_option( 'placepress_do_activation_redirect' );
