@@ -64,14 +64,14 @@ function placepress_enqueue_global_assets($hook){
 		// Front End Only
 		if(!$isadmin){
 
-			wp_enqueue_script('placepress-location',
-				plugins_url( 'placepress-location.js', __FILE__ ),
+			wp_enqueue_script('placepress-main',
+				PLACEPRESS_MAIN_JS,
 				array('placepress-leaflet-js','placepress-tiles'), false, true
 			);
 
 			$plugin_settings  = 'const placepress_plugin_options = '. json_encode(get_option('placepress_options', placepress_options_default())) .'; ';
 
-			wp_add_inline_script('placepress-location',
+			wp_add_inline_script('placepress-main',
 				$plugin_settings, 'before');
 		}
 

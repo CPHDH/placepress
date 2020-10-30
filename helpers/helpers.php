@@ -3,6 +3,7 @@ if( ! defined('ABSPATH') ){
 	exit;
 }
 
+define('PLACEPRESS_MAIN_JS', plugins_url() . '/placepress/placepress-blocks/src/placepress.js');
 // Generic callback to return Leaflet related assets
 function placepress_helper_leaflet_assets($infooter=true){
 
