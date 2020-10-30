@@ -31,8 +31,6 @@ function placepress_block_categories( $categories, $post ) {
 add_filter( 'block_categories', 'placepress_block_categories', 10, 2 );
 
 /**
- * Enqueue PlacePress Global Assets
- */
 *** Ask browser to preconnect to CDN
 **/
 function placepress_preconnect_header(){
@@ -40,6 +38,9 @@ function placepress_preconnect_header(){
 }
 add_action('wp_head','placepress_preconnect_header', 2);
 
+/**
+*** Enqueue PlacePress Global Assets
+**/
 function placepress_enqueue_global_assets($hook){
 
 	$isadmin = boolval(
@@ -50,13 +51,7 @@ function placepress_enqueue_global_assets($hook){
 
 	// Only for Tours, Locations, & Global Map Blocks
 	// ==============================================
-	if(has_block('placepress/block-tour-stop')
-		|| has_block('placepress/block-map-location')
-		|| has_block('placepress/block-map-global')
-		|| get_query_var( 'post_type' ) === 'locations'
-		|| get_query_var( 'post_type' ) === 'tours'
-		|| $isadmin
-	){
+	if(placepress_helper_has_scriptable_content($isadmin)){
 
 		// Global Styles
 		wp_enqueue_style('placepress_blocks-style-css',
@@ -91,7 +86,6 @@ function placepress_enqueue_global_assets($hook){
 	}
 
 }
-
 add_action( 'enqueue_block_assets', 'placepress_enqueue_global_assets' );
 
 /**
@@ -123,7 +117,6 @@ function placepress_enqueue_editor_assets(){
  	);
 
 }
-
 add_action( 'enqueue_block_editor_assets', 'placepress_enqueue_editor_assets' );
 
 /**
@@ -140,19 +133,17 @@ function placepress_settings_js($hook) {
 	placepress_helper_leaflet_assets();
 
 	wp_enqueue_script( 'placepress_settings_js',
-		plugins_url() .'/placepress/admin/settings/settings.js', false, true );
+		PLACEPRESS_SETTINGS_JS, false, true );
 
-	$plugin_settings  = 'const placepress_plugin_options = '. json_encode(get_option('placepress_options', placepress_options_default())) .'; ';
-
+	$plugin_settings = 'const placepress_plugin_options = '. json_encode(get_option('placepress_options', placepress_options_default())) .'; ';
 	wp_add_inline_script('placepress_settings_js',
 			$plugin_settings, 'before');
 }
+
 function placepress_settings_css() {
 	wp_enqueue_style('placepress_settings_css',
-		plugins_url() .'/placepress/admin/settings/settings.css', false );
-
+		PLACEPRESS_SETTINGS_CSS, false );
 }
-
 add_action( 'admin_enqueue_scripts','placepress_enqueue_global_assets' );
 add_action( 'admin_enqueue_scripts', 'placepress_settings_js' );
 add_action( 'admin_enqueue_scripts', 'placepress_settings_css' );
