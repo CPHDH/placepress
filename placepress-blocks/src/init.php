@@ -33,6 +33,12 @@ add_filter( 'block_categories', 'placepress_block_categories', 10, 2 );
 /**
  * Enqueue PlacePress Global Assets
  */
+*** Ask browser to preconnect to CDN
+**/
+function placepress_preconnect_header(){
+	echo placepress_helper_preconnect();
+}
+add_action('wp_head','placepress_preconnect_header', 2);
 
 function placepress_enqueue_global_assets($hook){
 
