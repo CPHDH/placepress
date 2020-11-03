@@ -5,13 +5,6 @@
  * that are used across the project.
 */
 
-// Colors.
-$black: rgb(41, 41, 41);
-$white: #f4f4f4;
-$gray: #dedede;
-$green: #bada55;
-$red: orangered;
-
 div#placepress-map_archive_0 {
 	background: #eaeaea;
 	background: linear-gradient(to top right, #ece9e6, #fafafa);
@@ -21,9 +14,9 @@ div#placepress-map_archive_0 {
 	max-height: 50vh;
 	padding-top: 50%; // 3:1.5 aspect ratio
 	border-radius: 5px;
-
 	a {
 		text-decoration: none;
+		color: inherit;
 	}
 	a.map-thumb {
 		display: block;
