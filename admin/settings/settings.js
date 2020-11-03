@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function (e) {
+document.addEventListener("DOMContentLoaded", function () {
   // TILES
   const tileSets = window.getMapTileSets();
   const defaults =
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
   // HIDE FORM FIELDS
   let map_replace = document.querySelectorAll(".map_replace");
-  map_replace.forEach((el, i) => {
+  map_replace.forEach((el) => {
     el.setAttribute("hidden", "true");
   });
 
@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
   });
 
   // user actions: ZOOM
-  map.on("zoomend", function (e) {
+  map.on("zoomend", function () {
     const z = map.getZoom();
     document.querySelector("input#placepress_options_default_zoom").value = z;
   });
@@ -135,7 +135,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
       return form;
     },
 
-    onRemove: function (map) {
+    onRemove: function () {
       // Nothing to do here
     },
   });
@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
     "Terrain (Stamen)": tileSets.stamen_terrain,
     "Satellite (ESRI)": tileSets.esri_world,
   };
-  const layerControls = L.control.layers(layerNames).addTo(map);
+  L.control.layers(layerNames).addTo(map);
   map.on("baselayerchange ", function (e) {
     const key = e.layer.options.placepress_key;
     if (key) {
@@ -174,7 +174,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
     "span.placepress.dashicons-editor-help"
   );
   for (const icon of placepress_help) {
-    icon.addEventListener("click", function (event) {
+    icon.addEventListener("click", function () {
       if (window.jQuery) {
         // smooth scroll if available
         jQuery("html, body").animate({ scrollTop: 0 }, 300);

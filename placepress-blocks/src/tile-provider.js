@@ -1,6 +1,6 @@
 // Tile provider
-(function () {
-	window.getControlLayers = function () {
+(() => {
+	window.getControlLayers = () => {
 		const tiles = this.getMapTileSets();
 		const layers = {
 			"Street (Carto Voyager)": tiles.carto_voyager,
@@ -10,7 +10,7 @@
 		};
 		return layers;
 	};
-	window.getMapTileSets = function () {
+	window.getMapTileSets = () => {
 		const tiles = [];
 		tiles.stamen_terrain = L.tileLayer(
 			"https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}{retina}.jpg",

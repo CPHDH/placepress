@@ -1,19 +1,12 @@
-document.addEventListener("DOMContentLoaded", function (e) {
-	(function () {
+document.addEventListener("DOMContentLoaded", () => {
+	(() => {
 		const defaults =
 			typeof placepress_plugin_options !== "undefined"
 				? placepress_plugin_options
 				: null;
 
-		// Is Archive Map
-		const isPPArchive = function () {
-			const archive_map =
-				document.querySelector("#placepress-map_archive") || false;
-			return archive_map;
-		};
-
 		// Extract Location Map Settings from HTML
-		const getDataAttributesPPLocation = function () {
+		const getDataAttributesPPLocation = () => {
 			const locations = document.querySelectorAll(".map-pp") || false;
 			const settings = [];
 			if (locations) {
@@ -42,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 		};
 
 		// Extract Tour Map Settings from HTML
-		const getDataAttributesPPTour = function () {
+		const getDataAttributesPPTour = () => {
 			const tour_stops =
 				document.querySelectorAll(".pp-tour-stop-section-header-container") ||
 				false;
@@ -74,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 		};
 
 		// Element is in Viewport
-		const isInViewport = function (elem) {
+		const isInViewport = (elem) => {
 			var bounding = elem.getBoundingClientRect();
 			return (
 				bounding.top >= 0 &&
@@ -92,11 +85,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 		};
 
 		// API XMLHttpRequest
-		const addGlobalMarkersViaAPI = function (
-			map,
-			markersLayer,
-			isArchive = false
-		) {
+		const addGlobalMarkersViaAPI = (map, markersLayer, isArchive = false) => {
 			const location_type = getArchiveLocationType();
 			const locations_json =
 				location.protocol +
@@ -115,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 									? data.type.includes(location_type)
 									: data
 							)
-							.forEach(function (post) {
+							.forEach((post) => {
 								const coords = post.api_coordinates_pp.split(",");
 								if (coords.length == 2) {
 									const marker = L.marker(coords, {
@@ -126,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 										thumbnail: post.thumbnail,
 									});
 									// user actions: CLICK
-									marker.on("click", function (e) {
+									marker.on("click", (e) => {
 										const popup = L.popup().setContent(
 											'<a href="' +
 												e.target.options.permalink +
@@ -145,7 +134,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 									markersLayer.push(marker);
 
 									// vertical center on popup open
-									map.on("popupopen", function (e) {
+									map.on("popupopen", (e) => {
 										const px = map.project(e.popup._latlng);
 										px.y -= e.popup._container.clientHeight / 2;
 										map.panTo(map.unproject(px), { animate: true });
@@ -175,9 +164,9 @@ document.addEventListener("DOMContentLoaded", function (e) {
 		};
 
 		// Fit Bounds Control
-		const fitBoundsControls = function (map, bounds) {
+		const fitBoundsControls = (map, bounds) => {
 			const fitBoundsControl = L.control({ position: "bottomleft" });
-			fitBoundsControl.onAdd = function (map) {
+			fitBoundsControl.onAdd = (map) => {
 				const div = L.DomUtil.create(
 					"div",
 					"leaflet-control leaflet-control-bounds"
@@ -192,7 +181,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 					btn,
 					"click",
 					L.DomEvent.preventDefault
-				).addListener(btn, "click", function (e) {
+				).addListener(btn, "click", () => {
 					map.fitBounds(bounds);
 				});
 				return div;
@@ -201,9 +190,9 @@ document.addEventListener("DOMContentLoaded", function (e) {
 		};
 
 		// Geolocation Controls
-		const geolocationControls = function (map) {
+		const geolocationControls = (map) => {
 			const geolocationControl = L.control({ position: "bottomleft" });
-			geolocationControl.onAdd = function (map) {
+			geolocationControl.onAdd = (map) => {
 				const div = L.DomUtil.create(
 					"div",
 					"leaflet-control leaflet-control-geolocation"
@@ -220,8 +209,8 @@ document.addEventListener("DOMContentLoaded", function (e) {
 					btn,
 					"click",
 					L.DomEvent.preventDefault
-				).addListener(btn, "click", function (e) {
-					navigator.geolocation.getCurrentPosition(function (pos) {
+				).addListener(btn, "click", () => {
+					navigator.geolocation.getCurrentPosition((pos) => {
 						const userLocation = [pos.coords.latitude, pos.coords.longitude];
 						// add/update user location indicator
 						if (typeof userMarker === "undefined") {
@@ -238,7 +227,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 							userMarker.setLatLng(userLocation);
 						}
 
-						userMarker.on("click", function (e) {
+						userMarker.on("click", (e) => {
 							map.panTo(e.target.getLatLng());
 						});
 
@@ -258,7 +247,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 		// Standalone Marker (not for Global Map)
 		const addSingleMarker = (settings, map, isTour = false) => {
 			const marker = L.marker([settings.lat, settings.lon]).addTo(map);
-			marker.on("click", function (e) {
+			marker.on("click", (e) => {
 				let title =
 					settings.title && isTour
 						? '<div class="pp-title">' + settings.title + "</div>"
@@ -285,7 +274,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 				e.target.unbindPopup().bindPopup(popup).openPopup();
 			});
 			// vertical center on popup open
-			map.on("popupopen", function (e) {
+			map.on("popupopen", (e) => {
 				const px = map.project(e.popup._latlng);
 				px.y -= e.popup._container.clientHeight / 2;
 				map.panTo(map.unproject(px), { animate: true });
@@ -400,7 +389,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 				}
 			};
 
-			document.onkeydown = function (e) {
+			document.onkeydown = (e) => {
 				if (floater.classList.contains("enhance")) {
 					if ("key" in e && (e.key === "Escape" || e.key === "Esc")) {
 						floater.dispatchEvent(closeFloatingMapPP);
@@ -431,7 +420,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
 			window.addEventListener(
 				"scroll",
-				function (event) {
+				() => {
 					stops.forEach((stop) => {
 						if (isInViewport(stop)) {
 							inview = Number(stop.getAttribute("id").replace("pp_", ""));
@@ -456,7 +445,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 		};
 
 		// SINGLE LOCATION MAP
-		const displayLocationMapPP = function (settings) {
+		const displayLocationMapPP = (settings) => {
 			const tileSets = window.getMapTileSets();
 			const basemap = tileSets[settings.style];
 
@@ -467,7 +456,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 				}).setView([settings.lat, settings.lon], settings.zoom);
 
 				// enable scrollwheel zoom if user interacts with the map
-				map.once("focus", function () {
+				map.once("focus", () => {
 					map.scrollWheelZoom.enable();
 				});
 
@@ -478,7 +467,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 		};
 
 		// GLOBAL LOCATIONS MAP
-		const displayGlobalMapPP = function (settings, isArchive = false) {
+		const displayGlobalMapPP = (settings, isArchive = false) => {
 			const tileSets = window.getMapTileSets();
 			const currentTileSet = tileSets[settings.style];
 			const markersLayer = [];
@@ -488,7 +477,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 			}).setView([settings.lat, settings.lon], settings.zoom);
 
 			// enable scrollwheel zoom if user interacts with the map
-			map.once("focus", function () {
+			map.once("focus", () => {
 				map.scrollWheelZoom.enable();
 			});
 
@@ -504,7 +493,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 			const page = document.querySelector("body").classList;
 			if ((settings = getDataAttributesPPLocation())) {
 				// LOCATIONS
-				settings.forEach((s, i) => {
+				settings.forEach((s) => {
 					switch (s.type) {
 						case "single-location":
 							displayLocationMapPP(s);

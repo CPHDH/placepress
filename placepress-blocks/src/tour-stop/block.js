@@ -8,7 +8,6 @@ const {
 	Dashicon,
 	Flex,
 	FlexItem,
-	TextareaControl,
 	Modal,
 	IsolatedEventContainer,
 	withNotices,
@@ -235,7 +234,7 @@ registerBlockType("placepress/block-tour-stop", {
 
 						return form;
 					},
-					onRemove: function (map) {
+					onRemove: function () {
 						// Nothing to do here
 					},
 				});
@@ -251,7 +250,7 @@ registerBlockType("placepress/block-tour-stop", {
 					"Terrain (Stamen)": tileSets.stamen_terrain,
 					"Satellite (ESRI)": tileSets.esri_world,
 				};
-				const layerControls = L.control.layers(layerNames).addTo(map);
+				L.control.layers(layerNames).addTo(map);
 				map.on("baselayerchange ", function (e) {
 					const key = e.layer.options.placepress_key;
 					if (key) {
@@ -261,7 +260,7 @@ registerBlockType("placepress/block-tour-stop", {
 				});
 			};
 
-			const onBlockLoad = function (e) {
+			const onBlockLoad = function () {
 				uiSetCoordsPP();
 			};
 

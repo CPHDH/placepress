@@ -2,9 +2,8 @@ import "./style.scss";
 import "./editor.scss";
 
 const { __ } = wp.i18n;
-const { registerBlockType, getBlockDefaultClassName } = wp.blocks;
-const { PlainText, InspectorControls, apiFetch } = wp.editor;
-const { TextareaControl, TextControl } = wp.components;
+const { registerBlockType } = wp.blocks;
+const { TextareaControl } = wp.components;
 
 registerBlockType("placepress/block-map-global", {
 	title: __("Global Map"),
@@ -81,13 +80,12 @@ registerBlockType("placepress/block-map-global", {
 				maki_color,
 				basemap,
 			},
-			className,
 			setAttributes,
 		} = props;
 
 		const notices = wp.data.dispatch("core/notices");
 
-		const onBlockLoad = function (e) {
+		const onBlockLoad = function () {
 			globalMapPP();
 		};
 
@@ -111,7 +109,7 @@ registerBlockType("placepress/block-map-global", {
 				"Terrain (Stamen)": tileSets.stamen_terrain,
 				"Satellite (ESRI)": tileSets.esri_world,
 			};
-			const layerControls = L.control.layers(layerNames).addTo(map);
+			L.control.layers(layerNames).addTo(map);
 			map.on("baselayerchange ", function (e) {
 				const key = e.layer.options.placepress_key;
 				if (key) {
@@ -267,7 +265,6 @@ registerBlockType("placepress/block-map-global", {
 		);
 	},
 	save(props) {
-		const className = getBlockDefaultClassName("placepress/block-map-global");
 		const { attributes } = props;
 
 		return (

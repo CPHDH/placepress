@@ -2,9 +2,8 @@ import "./style.scss";
 import "./editor.scss";
 
 const { __ } = wp.i18n;
-const { registerBlockType, getBlockDefaultClassName } = wp.blocks;
-const { PlainText, InspectorControls, PanelBody } = wp.editor;
-const { TextareaControl, TextControl } = wp.components;
+const { registerBlockType } = wp.blocks;
+const { TextareaControl } = wp.components;
 
 registerBlockType("placepress/block-map-location", {
 	title: __("Location Map"),
@@ -77,7 +76,6 @@ registerBlockType("placepress/block-map-location", {
 	edit(props) {
 		const {
 			attributes: {
-				api_coordinates_pp,
 				caption,
 				zoom,
 				lat,
@@ -87,7 +85,6 @@ registerBlockType("placepress/block-map-location", {
 				maki_color,
 				basemap,
 			},
-			className,
 			setAttributes,
 		} = props;
 
@@ -97,7 +94,7 @@ registerBlockType("placepress/block-map-location", {
 			setAttributes({ caption });
 		};
 
-		const onBlockLoad = function (e) {
+		const onBlockLoad = function () {
 			uiLocationMapPP();
 		};
 
@@ -136,7 +133,7 @@ registerBlockType("placepress/block-map-location", {
 			});
 
 			// user actions: ZOOM
-			map.on("zoomend", function (e) {
+			map.on("zoomend", function () {
 				const z = map.getZoom();
 				props.setAttributes({ zoom: z });
 			});
@@ -219,7 +216,7 @@ registerBlockType("placepress/block-map-location", {
 					return form;
 				},
 
-				onRemove: function (map) {
+				onRemove: function () {
 					// Nothing to do here
 				},
 			});
@@ -235,7 +232,7 @@ registerBlockType("placepress/block-map-location", {
 				"Terrain (Stamen)": tileSets.stamen_terrain,
 				"Satellite (ESRI)": tileSets.esri_world,
 			};
-			const layerControls = L.control.layers(layerNames).addTo(map);
+			L.control.layers(layerNames).addTo(map);
 			map.on("baselayerchange ", function (e) {
 				const key = e.layer.options.placepress_key;
 				if (key) {
@@ -310,7 +307,6 @@ registerBlockType("placepress/block-map-location", {
 		);
 	},
 	save(props) {
-		const className = getBlockDefaultClassName("placepress/block-map-location");
 		const { attributes } = props;
 
 		return (
