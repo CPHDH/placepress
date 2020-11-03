@@ -35,8 +35,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 Copyright 2017  CSU Center for Public History + Digital Humanities  (email : digitalhumanities@csuohio.edu)
 */
 
-if( ! defined('ABSPATH') ){
-	exit;
+if (! defined('ABSPATH')) {
+    exit;
 }
 
 // Constants
@@ -54,75 +54,78 @@ define('PLACEPRESS_SETTINGS_CSS', plugins_url() .'/placepress/admin/settings/set
 /*
 ** PLUGIN SETTINGS
 */
-require_once plugin_dir_path( __FILE__ ). 'admin/settings/settings.php';
+require_once plugin_dir_path(__FILE__). 'admin/settings/settings.php';
 
 /*
 ** POST TYPES AND TAXONOMIES
 */
-require_once plugin_dir_path( __FILE__ ). 'admin/post_types.php';
+require_once plugin_dir_path(__FILE__). 'admin/post_types.php';
 
 /*
 ** METABOXES
 */
-require_once plugin_dir_path( __FILE__ ). 'admin/metaboxes.php';
+require_once plugin_dir_path(__FILE__). 'admin/metaboxes.php';
 
 /*
 ** BLOCKS
 */
-require_once plugin_dir_path( __FILE__ ). 'placepress-blocks/src/init.php';
+require_once plugin_dir_path(__FILE__). 'placepress-blocks/src/init.php';
 
 /*
 ** WIDGETS
 */
-require_once plugin_dir_path( __FILE__ ). 'widgets/widgets.php';
+require_once plugin_dir_path(__FILE__). 'widgets/widgets.php';
 
 /*
 ** MENUS
 */
-require_once plugin_dir_path( __FILE__ ). 'admin/menus.php';
+require_once plugin_dir_path(__FILE__). 'admin/menus.php';
 
 /*
 ** DASHBOARD
 */
-require_once plugin_dir_path( __FILE__ ). 'admin/dashboard.php';
+require_once plugin_dir_path(__FILE__). 'admin/dashboard.php';
 
 /*
 ** LANGUAGES
 */
-require_once plugin_dir_path( __FILE__ ). 'languages/languages.php';
+require_once plugin_dir_path(__FILE__). 'languages/languages.php';
 
 /*
 ** HELPERS
 */
-require_once plugin_dir_path( __FILE__ ). 'helpers/helpers.php';
+require_once plugin_dir_path(__FILE__). 'helpers/helpers.php';
 
 /*
 ** API
 */
-require_once plugin_dir_path( __FILE__ ). 'api/output.php';
+require_once plugin_dir_path(__FILE__). 'api/output.php';
 
 /*
 ** ACTIVATE
 */
-function placepress_activate() {
-    add_option( 'placepress_do_activation_redirect', true );
+function placepress_activate()
+{
+    add_option('placepress_do_activation_redirect', true);
 }
 register_activation_hook(__FILE__, 'placepress_activate');
 
-function placepress_plugin_activation_redirect() {
-   if ( get_option( 'placepress_do_activation_redirect', false ) ) {
-		 delete_option( 'placepress_do_activation_redirect' );
-		 flush_rewrite_rules();
-		 wp_redirect("options-general.php?page=placepress");
-		 exit;
-   }
+function placepress_plugin_activation_redirect()
+{
+    if (get_option('placepress_do_activation_redirect', false)) {
+        delete_option('placepress_do_activation_redirect');
+        flush_rewrite_rules();
+        wp_redirect("options-general.php?page=placepress");
+        exit;
+    }
 }
-add_action('admin_init', 'placepress_plugin_activation_redirect' );
+add_action('admin_init', 'placepress_plugin_activation_redirect');
 
 /*
 ** DEACTIVATE
 */
-function placepress_deactivate() {
-	flush_rewrite_rules();
+function placepress_deactivate()
+{
+    flush_rewrite_rules();
 }
 register_deactivation_hook(__FILE__, 'placepress_deactivate');

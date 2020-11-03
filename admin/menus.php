@@ -1,17 +1,19 @@
 <?php
-if( !defined('ABSPATH') ){
-	exit;
+if (!defined('ABSPATH')) {
+    exit;
 }
 add_action('admin_head-nav-menus.php', 'placepress_add_metabox_menu_posttype_archive');
 
-function placepress_add_metabox_menu_posttype_archive() {
-add_meta_box('placepress-metabox-nav-menu-posttype', 'PlacePress Post Type Archives', 'placepress_metabox_menu_posttype_archive', 'nav-menus', 'side', 'default');
+function placepress_add_metabox_menu_posttype_archive()
+{
+    add_meta_box('placepress-metabox-nav-menu-posttype', 'PlacePress Post Type Archives', 'placepress_metabox_menu_posttype_archive', 'nav-menus', 'side', 'default');
 }
 
-function placepress_metabox_menu_posttype_archive() {
-$post_types = get_post_types(array('show_in_nav_menus' => true, 'has_archive' => true), 'object');
+function placepress_metabox_menu_posttype_archive()
+{
+    $post_types = get_post_types(array('show_in_nav_menus' => true, 'has_archive' => true), 'object');
 
-if ($post_types) :
+    if ($post_types) :
     $items = array();
     $loop_index = 999999;
 
@@ -51,5 +53,5 @@ if ($post_types) :
     echo '</span>';
     echo '</p>';
 
-endif;
+    endif;
 }

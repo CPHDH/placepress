@@ -1,0 +1,15 @@
+{
+  "actions" : {
+    "build" : {
+      "enabled" : true,
+      "script" : "#!\/bin\/sh\ncd placepress-blocks\nnpm run build"
+    },
+    "run" : {
+      "enabled" : true,
+      "script" : "#!\/bin\/sh\ncd placepress-blocks\nnpm start"
+    }
+  },
+  "identifier" : "2DA18676-006A-4546-B15E-BABF11394DF0",
+  "openLogOnRun" : "finish",
+  "persistent" : true
+}
