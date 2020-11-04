@@ -515,15 +515,13 @@ document.addEventListener("DOMContentLoaded", () => {
 					}, 1000);
 				} else if (page.length && page.contains("archive") && settings.length) {
 					// tours archive
-					let map_icons = document.querySelectorAll(
-						".pp-marker-icon-center.has-map"
+					let redirect_wrappers = document.querySelectorAll(
+						"div[data-redirect-to-post-id]"
 					);
-					map_icons.forEach((icon) => {
-						let b = icon.parentElement;
-						let pid = b.getAttribute("data-post-id");
+					redirect_wrappers.forEach((w) => {
+						let pid = w.getAttribute("data-redirect-to-post-id");
 						let url = "?page_id=" + pid;
-						icon.onclick = () => {
-							console.log(url);
+						w.onclick = () => {
 							window.location = url;
 						};
 					});

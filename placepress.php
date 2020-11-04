@@ -129,3 +129,23 @@ function placepress_deactivate()
     flush_rewrite_rules();
 }
 register_deactivation_hook(__FILE__, 'placepress_deactivate');
+
+/*
+** TOUR BLOCK FILTER
+** This wraps the block on archive pages, giving it a post id data-attribute, used in placepress.js
+*/
+function tour_block_archive_wrapper($block_content, $block)
+{
+    if (!is_single() && in_the_loop() && is_main_query()) {
+        if ($block['blockName'] === 'placepress/block-tour-stop') {
+            $content = '<div data-redirect-to-post-id="'.get_the_ID().'">';
+            $content .= $block_content;
+            $content .= '</div>';
+            return $content;
+        }
+        return $block_content;
+    } else {
+        return $block_content;
+    }
+}
+add_filter('render_block', 'tour_block_archive_wrapper', 10, 2);
