@@ -173,22 +173,3 @@ function placepress_register()
     placepress_init();
 }
 register_activation_hook(__FILE__, 'placepress_register');
-
-add_filter('location_types_description', 'pp_add_location_types_map');
-function pp_add_location_types_map($description)
-{
-    if (placepress_setting('enable_location_types_map')) {
-        $description = $description.'<figure><div id="placepress-map_archive" class="map-pp" data-lat="'.placepress_setting('default_latitude').'" data-lon="'.placepress_setting('default_longitude').'" data-zoom="'.placepress_setting('default_zoom').'" data-basemap="'.placepress_setting('default_map_type').'" data-type="archive"></div><figcaption class="map-caption-pp">'.__('All Results for Location Type', 'wp_placepress').'</figcaption></figure>';
-    }
-    return $description;
-}
-
-add_filter('get_the_post_type_description', 'pp_add_location_archive_map');
-function pp_add_location_archive_map($description)
-{
-    $post_type = get_query_var('post_type');
-    if ($post_type == 'locations' && (placepress_setting('enable_location_archive_map'))) {
-        $description = $description.'<figure><div id="placepress-map_archive" class="map-pp" data-lat="'.placepress_setting('default_latitude').'" data-lon="'.placepress_setting('default_longitude').'" data-zoom="'.placepress_setting('default_zoom').'" data-basemap="'.placepress_setting('default_map_type').'" data-type="archive"></div><figcaption class="map-caption-pp">'.__('All Locations', 'wp_placepress').'</figcaption></figure>';
-    }
-    return $description;
-}
