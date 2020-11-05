@@ -5,18 +5,46 @@
  * that are used across the project.
 */
 
-div#placepress-map_archive_0 {
+// Styles for all Location maps
+@mixin pp_map_basic($height: 300px) {
 	background: #eaeaea;
 	background: linear-gradient(to top right, #ece9e6, #fafafa);
-	height: 0;
+	height: $height;
 	width: 100%;
 	min-height: 200px;
 	max-height: 50vh;
-	padding-top: 50%; // 3:1.5 aspect ratio
 	border-radius: 5px;
+}
+
+// Styles for all Tour maps
+@mixin pp_map_floating {
+	background: #eaeaea;
+	background: linear-gradient(to top right, #ece9e6, #fafafa);
+	display: block;
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	z-index: 999;
+	position: fixed;
+	right: 20px;
+	bottom: 20px;
+	cursor: pointer;
+	transition: all 0.25s ease-in-out;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+	outline: none;
+	border: 1px solid #fff;
+}
+
+// Styles and elements for Location maps with multiple markers
+@mixin pp_global_map_content {
 	a {
 		text-decoration: none;
 		color: inherit;
+	}
+	figure {
+		margin: 0 0;
+		padding: 0 0;
+		border-radius: 5px;
 	}
 	a.map-thumb {
 		display: block;
@@ -44,12 +72,64 @@ div#placepress-map_archive_0 {
 	a.map-thumb:active .map-title {
 		text-decoration: underline;
 	}
+	.map-caption-pp {
+		margin-top: 0.5em;
+		font-size: 0.75em;
+		color: #777;
+	}
+	div.map-pp a {
+		text-decoration: none;
+	}
 	.leaflet-popup-content {
 		margin: 0 0 0 0;
 		font-weight: bold;
 		text-align: center;
 	}
 }
-.leaflet-control-layers-base label {
-	text-align: left;
+
+// Plugin option: Archive maps
+div#placepress-map_archive_0 {
+	@include pp_map_basic(0);
+	padding-top: 50%;
+	@include pp_global_map_content;
+}
+
+// Styled elements for ALL maps
+.wp-block-placepress-block-tour-stop,
+.wp-block-placepress-block-map-location,
+.wp-block-placepress-block-map-global,
+div#floating-tour-map-pp,
+div#placepress-map_archive_0 {
+	section.leaflet-control-layers-list {
+		padding: 0;
+		width: auto;
+		span {
+			font-size: 14px;
+			font-weight: normal;
+		}
+	}
+	.leaflet-control-layers-base label {
+		text-align: left;
+	}
+	svg#geolocation,
+	svg#bounds {
+		background: #fff;
+		border-radius: 3px;
+		padding: 5px;
+		box-shadow: 0 0 0px 2px rgba(0, 0, 0, 0.25);
+		cursor: pointer;
+	}
+	svg#geolocation path#outer {
+		fill: #777;
+	}
+	svg#geolocation path#inner,
+	svg#bounds path {
+		fill: #555;
+	}
+	svg#geolocation:hover path#inner {
+		fill: #4a87ee;
+	}
+	svg#bounds path {
+		transform: scale(2);
+	}
 }

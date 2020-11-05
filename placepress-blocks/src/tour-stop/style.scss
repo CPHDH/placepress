@@ -14,13 +14,16 @@
 		padding: 100px 0 0;
 		border-radius: 5px;
 	}
+
 	.pp-tour-stop-section-header-container * {
 		text-align: center !important;
 	}
+
 	.pp-marker-icon-center {
 		text-align: center;
 		color: #ffffff;
 	}
+
 	.pp-marker-icon-center svg {
 		display: block;
 		fill: #ffffff;
@@ -32,9 +35,11 @@
 		border: 2px solid #fff;
 		filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
 	}
+
 	.pp-marker-icon-center.has-map svg {
 		cursor: pointer;
 	}
+
 	.pp-tour-stop-section-header-container .pp-tour-stop-title {
 		padding: 10px 0 20px;
 		margin: 0 auto 0;
@@ -90,40 +95,8 @@
 	}
 }
 
-section.leaflet-control-layers-list {
-	padding: 0;
-	width: auto;
-	span {
-		font-size: 14px;
-		font-weight: normal;
-	}
-}
-
 div.floating-tour-map-pp a {
 	text-decoration: none;
-}
-
-svg#geolocation,
-svg#bounds {
-	background: #fff;
-	border-radius: 3px;
-	padding: 5px;
-	box-shadow: 0 0 0px 2px rgba(0, 0, 0, 0.25);
-	cursor: pointer;
-}
-svg#geolocation path#outer {
-	fill: #777;
-}
-svg#geolocation path#inner,
-svg#bounds path {
-	fill: #555;
-}
-svg#geolocation:hover path#inner {
-	fill: #4a87ee;
-}
-
-svg#bounds path {
-	transform: scale(2);
 }
 
 .leaflet-popup-content-wrapper {
@@ -179,6 +152,7 @@ svg#bounds path {
 		padding-top: 50px;
 	}
 }
+
 .wp-block-placepress-block-tour-stop.alignfull {
 	.figure-inner {
 		border-radius: 0;
@@ -208,45 +182,36 @@ svg#bounds path {
 }
 
 #floating-tour-map-pp {
-	background: #eaeaea;
-	background: linear-gradient(to top right, #ece9e6, #fafafa);
-	display: block;
-	width: 100px;
-	height: 100px;
-	border-radius: 50%;
-	z-index: 999;
-	position: fixed;
-	right: 20px;
-	bottom: 20px;
-	cursor: pointer;
-	transition: all 0.25s ease-in-out;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-	outline: none;
-	border: 1px solid #fff;
+	@include pp_map_floating;
 
 	.leaflet-control-container {
 		display: none;
 	}
 }
+
 #floating-tour-map-pp.circle {
 	width: 100px;
 	height: 100px;
 	border-radius: 50%;
 }
+
 #floating-tour-map-pp.rectangle {
 	width: 250px;
 	height: 150px;
 	border-radius: 0;
 }
+
 #floating-tour-map-pp.offscreen {
 	bottom: -300px;
 	right: calc(50% - 50px);
 }
+
 #floating-tour-map-pp.automatic {
 	width: 250px;
 	height: 150px;
 	border-radius: 0;
 }
+
 @media all and (max-width: 450px) {
 	#floating-tour-map-pp.rectangle {
 		width: 180px;
@@ -256,6 +221,7 @@ svg#bounds path {
 		bottom: 10px;
 	}
 }
+
 @media all and (max-width: 600px) {
 	#floating-tour-map-pp.automatic {
 		width: 100px;
@@ -263,6 +229,7 @@ svg#bounds path {
 		border-radius: 50%;
 	}
 }
+
 #floating-tour-map-pp.enhance {
 	width: calc(100vw - 40px);
 	height: calc(70vh);
@@ -293,6 +260,7 @@ svg#bounds path {
 	transition: 0.35s bottom ease-in-out;
 	z-index: 998;
 }
+
 #floating-tour-map-pp.enhance + #close-floating-tour-map-pp {
 	background: rgba(0, 0, 0, 0.5);
 	color: rgba(256, 256, 256, 1);

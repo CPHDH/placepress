@@ -1,41 +1,6 @@
 .wp-block-placepress-block-map-location {
-	figure {
-		margin: 0 0;
-		padding: 0 0;
-		border-radius: 5px;
-	}
 	div.map-pp {
-		background: #eaeaea;
-		background: linear-gradient(to top right, #ece9e6, #fafafa);
-		height: 300px;
-		width: 100%;
-		min-height: 200px;
-		max-height: 50vh;
-		border-radius: 5px;
-	}
-	.map-caption-pp {
-		margin-top: 0.5em;
-		font-size: 0.75em;
-		color: #777;
-	}
-	div.map-pp a {
-		text-decoration: none;
-	}
-	svg#geolocation {
-		background: #fff;
-		border-radius: 3px;
-		padding: 5px;
-		box-shadow: 0 0 0px 2px rgba(0, 0, 0, 0.25);
-		cursor: pointer;
-	}
-	svg#geolocation path#outer {
-		fill: #777;
-	}
-	svg#geolocation path#inner {
-		fill: #555;
-	}
-	svg#geolocation:hover path#inner {
-		fill: #4a87ee;
+		@include pp_map_basic;
 	}
 	.pp-directions-button {
 		background-color: #0078a8;
@@ -59,14 +24,6 @@
 		color: #555;
 		padding: 5px 5px 0;
 		font-style: italic;
-	}
-	section.leaflet-control-layers-list {
-		padding: 0;
-		width: auto;
-		span {
-			font-size: 14px;
-			font-weight: normal;
-		}
 	}
 }
 .wp-block-placepress-block-map-location.alignfull,
