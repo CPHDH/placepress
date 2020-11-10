@@ -4,7 +4,7 @@ Tags: placepress, history, public, digital humanities, map, curatescape, blocks,
 Requires at least: 5.0
 Tested up to: 5.5.3
 Requires PHP: 5.2.4
-Stable tag: 1.1
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -95,3 +95,6 @@ You can fetch a JSON feed of mapped Locations at `?feed=placepress_locations_pub
 - Enhanced user interface for settings page, including Help menus
 - Improved documentation in README file
 - Bug fixes and performance improvements
+
+= 1.1.1 =
+- Bug fixes for Safari users (inaccessible geocode input fields, in-map user controls)
