@@ -83,10 +83,18 @@ document.addEventListener("DOMContentLoaded", function () {
       const input = L.DomUtil.create("input", "editor-input", form);
       input.style.width = "100%";
       input.style.border = "1px solid #ccc";
-      input.style.padding = "7px";
+      input.style.padding = "5px 10px";
       input.style.borderRadius = "3px";
+      input.tabindex = "0";
+      input.type = "text";
       input.placeholder = "Enter a query and press Return/Enter ⏎";
       form.style.width = "100%";
+
+      input.addEventListener("click", (e) => {
+        if (e.isTrusted) {
+          input.focus(); // fixes safari bug
+        }
+      });
 
       L.DomEvent.addListener(
         form,
