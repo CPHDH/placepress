@@ -3,7 +3,7 @@
 Plugin Name: PlacePress
 Plugin URI: https://wpplacepress.org
 Description: PlacePress adds Location and Tour post types, structured map blocks (for single and global locations), structured tour stop blocks, and custom taxonomies.
-Version: 1.1.1
+Version: 1.1.2
 Text Domain: wp_placepress
 Domain Path: /languages
 Author: CSU Center for Public History + Digital Humanities
@@ -32,7 +32,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-Copyright 2017  CSU Center for Public History + Digital Humanities  (email : digitalhumanities@csuohio.edu)
+Copyright 2019  CSU Center for Public History + Digital Humanities  (email : digitalhumanities@csuohio.edu)
 */
 
 if (! defined('ABSPATH')) {
