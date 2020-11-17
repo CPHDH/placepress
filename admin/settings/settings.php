@@ -67,14 +67,14 @@ function placepress_register_settings()
     */
     add_settings_section(
         'placepress_section_map',
-        esc_html__('Map Settings: Defaults', 'wp_placepress'),
+        esc_html__('Map Settings', 'wp_placepress'),
         'placepress_callback_section_map',
         'placepress'
     );
 
     add_settings_section(
         'placepress_section_tours',
-        esc_html__('Tour Settings: Display Options', 'wp_placepress'),
+        esc_html__('Tour Settings', 'wp_placepress'),
         'placepress_callback_section_tours',
         'placepress'
     );
@@ -88,15 +88,22 @@ function placepress_register_settings()
 
     add_settings_section(
         'placepress_section_archives',
-        esc_html__('Archive Settings: Maps', 'wp_placepress'),
+        esc_html__('Archive Settings', 'wp_placepress'),
         'placepress_callback_section_archive',
         'placepress'
     );
 
     add_settings_section(
         'placepress_section_content',
-        esc_html__('Content Settings: Post Types', 'wp_placepress'),
+        esc_html__('Post Type Settings', 'wp_placepress'),
         'placepress_callback_section_content',
+        'placepress'
+    );
+
+    add_settings_section(
+        'placepress_section_compatibility',
+        esc_html__('Compatibility Settings', 'wp_placepress'),
+        'placepress_callback_section_compatibility',
         'placepress'
     );
 
@@ -249,6 +256,15 @@ function placepress_register_settings()
             'offscreen'=>esc_html__('Offscreen', 'wp_placepress'),
         )]
     );
+    
+    add_settings_field(
+        'force_front_page',
+        esc_html__('Homepage Global Map Fix', 'wp_placepress'),
+        'placepress_callback_field_checkbox',
+        'placepress',
+        'placepress_section_compatibility',
+        ['id'=>'force_front_page','label'=>__('Attempt to force the global map block to display on the homepage.', 'wp_placepress')]
+    );
 }
 
 /*
@@ -272,6 +288,7 @@ function placepress_options_default()
         'enable_location_archive_map' => false,
         'tours_caption_display' => false,
         'tours_floating_map_display' => 'circle',
+        'force_front_page' => false,
     );
 }
 
@@ -311,6 +328,11 @@ function placepress_callback_section_content()
 function placepress_callback_section_archive()
 {
     echo '<p>'.sprintf(__('Enable or disable maps on Location and Location Type archive pages. %s', 'wp_placepress'), '<span data-title="'.__('For information on theme compatibility, use the Help menu at the top of this page.', 'wp_placepress').'" class="placepress dashicons dashicons-editor-help"></span>').'</p>';
+}
+
+function placepress_callback_section_compatibility()
+{
+    echo '<p>'.sprintf(__('Enable or disable compatibility options. %s', 'wp_placepress'), '<span data-title="'.__('For information on compatibility settings, use the Help menu at the top of this page.', 'wp_placepress').'" class="placepress dashicons dashicons-editor-help"></span>').'</p>';
 }
 
 // Text
@@ -518,7 +540,7 @@ function add_context_menu_help_placepress()
         $current_screen->add_help_tab(
             array(
                 'id' => 'pp_help_tab1',
-                'title' => __('Map Settings: Defaults'),
+                'title' => __('Map Settings'),
                 'content' => __(
                     '<p>Use the interactive map to configure the default display settings for your maps. These settings only affect the <em>defaults</em> when adding a map block. You can configure each map\'s individual display when creating content.</p>'.
                     '<p><strong>Default Coordinates: </strong>Simply enter the name of a location in the search bar and press enter/return to move to a new location. You may drag and drop the map marker to refine the default map coordinates.</p>'.
@@ -532,7 +554,7 @@ function add_context_menu_help_placepress()
         $current_screen->add_help_tab(
             array(
                 'id' => 'pp_help_tab0',
-                'title' => __('Tour Settings: Display Options'),
+                'title' => __('Tour Settings'),
                 'content' => __(
                     '<p>The following options will be applied to all tours.</p>'.
                     '<p><strong>Tour Stop Captions: </strong>Display a caption below Tour Stop headers consisting of the image file caption metadata.</strong></p>'.
@@ -544,7 +566,7 @@ function add_context_menu_help_placepress()
         $current_screen->add_help_tab(
             array(
                 'id' => 'pp_help_tab2',
-                'title' => __('Content Settings: Post Types'),
+                'title' => __('Post Type Settings'),
                 'content' => __(
                     '<p>PlacePress adds two custom post types: Locations and Tours. You can use both post types or just one if you prefer. Both post types work just like the default Posts that are built in to WordPress, with a few exceptions:</p>'.
                     '<p><strong>Locations: </strong> The Location post type includes the Location Map block, which can be used once in each Location post. Using the block not only displays a customizable map on your Location post, it also allows to you use the Global Map block elsewhere on the site to display all your Locations on a single map.</p>'.
@@ -556,7 +578,7 @@ function add_context_menu_help_placepress()
         $current_screen->add_help_tab(
             array(
                 'id' => 'pp_help_tab3',
-                'title' => __('Archive Settings: Maps'),
+                'title' => __('Archive Settings'),
                 'content' => __(
                     '<p>Enabling these options will automatically add a map to the selected archive pages. The map will use the default display settings you configure on this page.</p>'.
                     '<p><strong>Theme Compatibility: </strong>If your current theme displays descriptions for category archives, this option should work just fine. If not, you can leave these settings disabled or change/edit your theme. If the map size is too big or small, you can use CSS to make adjustments as needed.</p>'.
@@ -569,6 +591,14 @@ function add_context_menu_help_placepress()
         $current_screen->add_help_tab(
             array(
                 'id' => 'pp_help_tab4',
+                'title' => __('Compatibility Settings'),
+                'content' => __('<p>Each theme is created differently. Enabling compatibility options may be helpful if your theme does not automatically display PlacePress content in various scenarios.</p>'.
+                '<p><strong>Homepage Global Map Fix: </strong>If your theme allows you to include a page as one of several component sections of a homepage or front page template, this option may be neccessary in order to display the global map block. If you are a theme developer, please make sure that your template is parsing blocks of each component section before rendering.</p>')
+             )
+        );
+        $current_screen->add_help_tab(
+            array(
+                'id' => 'pp_help_tab5',
                 'title' => __('About PlacePress'),
                 'content' => __('<p>PlacePress is developed and maintained by the Center for Public History + Digital Humanities at Cleveland State University, with initial support from the National Endowment for the Humanities.</p>')
             )
@@ -576,7 +606,7 @@ function add_context_menu_help_placepress()
 
         $current_screen->add_help_tab(
             array(
-                'id' => 'pp_help_tab5',
+                'id' => 'pp_help_tab6',
                 'title' => __('Additional Resources'),
                 'content' => '<ul>'.
                 '<li><a target="_blank" href="https://wordpress.org/support/plugin/placepress/">'.__('PlacePress Support Forum').'</a></li>'.
