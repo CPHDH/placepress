@@ -2,7 +2,7 @@
 Contributors: cphdh,ebellempire
 Tags: placepress, history, public, digital humanities, map, curatescape, blocks, gutenburg, location, tour, post types, walking, leaflet
 Requires at least: 5.0
-Tested up to: 5.5.3
+Tested up to: 5.5.4
 Requires PHP: 5.2.4
 Stable tag: 1.1.2
 License: GPLv2 or later

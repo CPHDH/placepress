@@ -160,8 +160,13 @@ function placepress_settings_js($hook)
     );
 }
 
-function placepress_settings_css()
+function placepress_settings_css($hook)
 {
+    if ($hook !== 'settings_page_placepress') {
+        // only on plugin settings page
+        return;
+    }
+
     wp_enqueue_style(
         'placepress_settings_css',
         PLACEPRESS_SETTINGS_CSS,
