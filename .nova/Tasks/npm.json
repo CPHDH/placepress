@@ -2,7 +2,7 @@
   "actions" : {
     "build" : {
       "enabled" : true,
-      "script" : "#!\/bin\/sh\ncd placepress-blocks\nnpm run build"
+      "script" : "#!\/bin\/sh\ncd placepress-blocks\nnpm run build\nrsync -a ..\/..\/placepress\/ ~\/SVN\/trunk\/ --exclude node_modules\nrsync -a ..\/..\/placepress\/ ~\/SVN\/tags\/next --exclude node_modules\nopen ~\/SVN"
     },
     "run" : {
       "enabled" : true,
