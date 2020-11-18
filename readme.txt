@@ -2,9 +2,9 @@
 Contributors: cphdh,ebellempire
 Tags: placepress, history, public, digital humanities, map, curatescape, blocks, gutenburg, location, tour, post types, walking, leaflet
 Requires at least: 5.0
-Tested up to: 5.5.4
+Tested up to: 5.6
 Requires PHP: 5.2.4
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -101,3 +101,6 @@ You can fetch a JSON feed of mapped Locations at `?feed=placepress_locations_pub
 
 = 1.1.2 =
 - Adds a compatibility option for themes that display pages as component sections within a front page template
+
+= 1.1.3 =
+- Preemptively addresses bug/change in WP 5.6-RC1 re: Dashicon component
