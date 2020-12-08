@@ -28,6 +28,19 @@ registerBlockType("placepress/block-tour-stop", {
 		align: true,
 		align: ["wide", "full", "center"],
 	},
+	transforms: {
+		from: [
+			{
+				type: "block",
+				blocks: ["core/heading"],
+				transform: ({ content }) => {
+					// console.log(content);
+					// @TODO: find a way to send {content} to inner block template (title)
+					return wp.blocks.createBlock("placepress/block-tour-stop");
+				},
+			},
+		],
+	},
 	description: __("A block for adding a tour stop section header."),
 	attributes: {
 		background: {
