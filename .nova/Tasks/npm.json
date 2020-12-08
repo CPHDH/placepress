@@ -2,7 +2,7 @@
   "actions" : {
     "build" : {
       "enabled" : true,
-      "script" : "#!\/bin\/sh\ncd placepress-blocks\nnpm run build\nrsync -a ..\/..\/placepress\/ ~\/SVN\/trunk\/ --exclude node_modules\nrsync -a ..\/..\/placepress\/ ~\/SVN\/tags\/next --exclude node_modules\nopen ~\/SVN"
+      "script" : "#!\/bin\/sh\ncd placepress-blocks\nnpm run build\necho \"Copying to SVN trunk...\"\nrsync -a ..\/..\/placepress\/ ~\/SVN\/trunk\/ --exclude node_modules\necho \"Copying to SVN \\\"next\\\" tag...\"\nrsync -a ..\/..\/placepress\/ ~\/SVN\/tags\/next --exclude node_modules --exclude '.*'\necho \"Opening SVN directory...\\n\\n\"\nopen ~\/SVN"
     },
     "run" : {
       "enabled" : true,
