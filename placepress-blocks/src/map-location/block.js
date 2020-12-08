@@ -94,8 +94,15 @@ registerBlockType("placepress/block-map-location", {
 			setAttributes({ caption });
 		};
 
-		const onBlockLoad = function () {
+		const forceFocus = (selector) => {
+			let el = document.querySelector(selector);
+			if (el) el.focus();
+		};
+
+		const onBlockLoad = () => {
 			uiLocationMapPP();
+			// if new, set focus on query input (instead of caption) field
+			forceFocus(".wp-block.is-selected .editor-input");
 		};
 
 		// Init location map user interface
