@@ -34,9 +34,14 @@ registerBlockType("placepress/block-tour-stop", {
 				type: "block",
 				blocks: ["core/heading"],
 				transform: ({ content }) => {
-					// console.log(content);
-					// @TODO: find a way to send {content} to inner block template (title)
-					return wp.blocks.createBlock("placepress/block-tour-stop");
+					const innerBlocks = wp.blocks.createBlock("core/heading", {
+						content: content,
+						placeholder: __("Enter a title for this stop", "wp_placepress"),
+						level: 2,
+					});
+					return wp.blocks.createBlock("placepress/block-tour-stop", {}, [
+						innerBlocks,
+					]);
 				},
 			},
 		],
