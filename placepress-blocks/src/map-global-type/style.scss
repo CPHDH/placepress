@@ -1,0 +1,12 @@
+.wp-block-placepress-block-map-global-type {
+	div.map-pp {
+		@include pp_map_basic;
+	}
+	@include pp_global_map_content;
+}
+.wp-block-placepress-block-map-global-type.alignfull,
+.wp-block-placepress-block-map-global-type.alignwide {
+	div.map-pp {
+		height: 500px;
+	}
+}

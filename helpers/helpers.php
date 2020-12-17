@@ -22,6 +22,7 @@ function placepress_helper_needs_leaflet_assets()
         has_block('placepress/block-tour-stop')
         || has_block('placepress/block-map-location')
         || has_block('placepress/block-map-global')
+        || has_block('placepress/block-map-global-type')
     ) {
         return true;
     } else {
@@ -52,6 +53,7 @@ function placepress_helper_has_scriptable_content($isadmin = false)
         has_block('placepress/block-tour-stop')
         || has_block('placepress/block-map-location')
         || has_block('placepress/block-map-global')
+        || has_block('placepress/block-map-global-type')
         || get_query_var('post_type') === 'locations'
         || get_query_var('post_type') === 'tours'
         || placepress_helper_force_front_page()

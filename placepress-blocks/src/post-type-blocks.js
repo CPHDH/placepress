@@ -6,12 +6,14 @@ wp.domReady(function () {
 
 	if (postType == "locations") {
 		wp.blocks.unregisterBlockType("placepress/block-map-global");
+		wp.blocks.unregisterBlockType("placepress/block-map-global-type");
 		wp.blocks.unregisterBlockType("placepress/block-tour-stop");
 	}
 
 	if (postType == "tours") {
 		wp.blocks.unregisterBlockType("placepress/block-map-location");
 		wp.blocks.unregisterBlockType("placepress/block-map-global");
+		wp.blocks.unregisterBlockType("placepress/block-map-global-type");
 	}
 
 	if (postType == "page" || postType == "post") {

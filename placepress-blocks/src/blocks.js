@@ -10,5 +10,6 @@
  */
 
 import "./map-global/block.js";
+import "./map-global-type/block.js";
 import "./map-location/block.js";
 import "./tour-stop/block.js";
