@@ -327,7 +327,7 @@ function placepress_callback_section_content()
 
 function placepress_callback_section_archive()
 {
-    echo '<p>'.sprintf(__('Enable or disable maps on Location and Location Type archive pages. %s', 'wp_placepress'), '<span data-title="'.__('For information on theme compatibility, use the Help menu at the top of this page.', 'wp_placepress').'" class="placepress dashicons dashicons-editor-help"></span>').'</p>';
+    echo '<p>'.sprintf(__('Enable or disable maps on Location and Location Type archive pages. See help menu for information on theme compatibility. %s', 'wp_placepress'), '<span data-title="'.__('For information on theme compatibility, use the Help menu at the top of this page.', 'wp_placepress').'" class="placepress dashicons dashicons-editor-help"></span>').'</p>';
 }
 
 function placepress_callback_section_compatibility()
