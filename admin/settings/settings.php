@@ -230,7 +230,7 @@ function placepress_register_settings()
         'placepress_callback_field_checkbox',
         'placepress',
         'placepress_section_archives',
-        ['id'=>'enable_location_types_map','label'=>__('Automatically display the a map of matching locations on the Locations Types archive page, e.g. <code>/location-type/museums</code>', 'wp_placepress')]
+        ['id'=>'enable_location_types_map','label'=>__('Automatically display a map of matching locations on the Locations Types archive page, e.g. <code>/location-type/museums</code>', 'wp_placepress')]
     );
 
     add_settings_field(
