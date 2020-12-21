@@ -3,7 +3,8 @@ import "./editor.scss";
 
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
-const { TextareaControl } = wp.components;
+const { TextareaControl, PanelBody, ToggleControl } = wp.components;
+import { InspectorControls } from "@wordpress/block-editor";
 
 registerBlockType("placepress/block-map-global-type", {
 	title: __("Global Map by Type"),
@@ -81,6 +82,9 @@ registerBlockType("placepress/block-map-global-type", {
 			source: "attribute",
 			attribute: "data-location-type",
 		},
+		location_type_selection: {
+			type: "boolean",
+		},
 	},
 	edit(props) {
 		const {
@@ -94,6 +98,7 @@ registerBlockType("placepress/block-map-global-type", {
 				maki_color,
 				basemap,
 				location_type,
+				location_type_selection,
 			},
 			setAttributes,
 		} = props;
@@ -329,7 +334,6 @@ registerBlockType("placepress/block-map-global-type", {
 		if (!location_type) {
 			props.setAttributes({ location_type: null });
 		}
-
 		return (
 			<div
 				className={props.className}
@@ -349,6 +353,7 @@ registerBlockType("placepress/block-map-global-type", {
 						data-basemap={basemap}
 						data-type="global"
 						data-location-type={location_type}
+						data-location-type-selection={location_type_selection}
 					/>
 					<TextareaControl
 						rows="2"
@@ -369,6 +374,26 @@ registerBlockType("placepress/block-map-global-type", {
 					onLoad={onBlockLoad}
 					src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1' %3E%3Cpath d=''/%3E%3C/svg%3E"
 				/>
+				<InspectorControls>
+					<PanelBody title={__("Global Map by Type settings")}>
+						<ToggleControl
+							label={__("Allow users to change Location Type?")}
+							checked={!!location_type_selection}
+							onChange={() =>
+								setAttributes({
+									location_type_selection: !location_type_selection,
+								})
+							}
+							help={
+								location_type_selection
+									? __(
+											"Users may change the Location Type. Your selection will be the initial view."
+									  )
+									: __("Location Type will be locked to your selection.")
+							}
+						/>
+					</PanelBody>
+				</InspectorControls>
 			</div>
 		);
 	},
@@ -394,6 +419,7 @@ registerBlockType("placepress/block-map-global-type", {
 						data-basemap={attributes.basemap}
 						data-type="global"
 						data-location-type={attributes.location_type}
+						data-location-type-selection={attributes.location_type_selection}
 					/>
 					<figcaption className="map-caption-pp">
 						{attributes.caption}
