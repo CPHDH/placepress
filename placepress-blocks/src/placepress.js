@@ -20,6 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
 					}
 					s.type = location.getAttribute("data-type");
 					s.locationType = location.getAttribute("data-location-type");
+					s.locationTypeSelection = location.getAttribute(
+						"data-location-type-selection"
+					);
 					s.zoom = Number(location.getAttribute("data-zoom"));
 					s.lat = Number(location.getAttribute("data-lat"));
 					s.lon = Number(location.getAttribute("data-lon"));
@@ -473,11 +476,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		};
 
 		// GLOBAL LOCATIONS MAP
-		const displayGlobalMapPP = (
-			settings,
-			isArchive = false,
-			locationType = null
-		) => {
+		const displayGlobalMapPP = (settings, isArchive = false) => {
 			const tileSets = window.getMapTileSets();
 			const currentTileSet = tileSets[settings.style];
 			const markersLayer = [];
@@ -495,7 +494,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			addAdditionalControls(tileSets, map);
 
 			// add location markers
-			addGlobalMarkersViaAPI(map, markersLayer, isArchive, locationType);
+			addGlobalMarkersViaAPI(map, markersLayer, isArchive, s.locationType);
 		};
 
 		// MAIN
@@ -510,7 +509,7 @@ document.addEventListener("DOMContentLoaded", () => {
 							break;
 						case "global":
 							if (s.locationType) {
-								displayGlobalMapPP(s, true, s.locationType);
+								displayGlobalMapPP(s, true);
 							} else {
 								displayGlobalMapPP(s);
 							}
