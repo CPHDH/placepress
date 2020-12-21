@@ -73,7 +73,13 @@ function placepress_enqueue_global_assets($hook)
                 true
             );
 
-            $plugin_settings  = 'const placepress_plugin_options = '. json_encode(get_option('placepress_options', placepress_options_default())) .'; ';
+            $plugin_options=get_option('placepress_options', placepress_options_default());
+            $translatable = [
+                "all_location_types_label"=>__('All Location Types', 'wp_placepress')
+            ];
+            $settings = array_merge($plugin_options, $translatable);
+
+            $plugin_settings  = 'const placepress_plugin_options = '. json_encode($settings) .'; ';
 
             wp_add_inline_script(
                 'placepress-main',
