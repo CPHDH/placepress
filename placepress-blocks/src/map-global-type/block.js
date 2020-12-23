@@ -1,7 +1,7 @@
 import "./style.scss";
 import "./editor.scss";
 
-const { __ } = wp.i18n;
+const { __, sprintf } = wp.i18n;
 const { registerBlockType } = wp.blocks;
 const { TextareaControl, PanelBody, ToggleControl } = wp.components;
 import { InspectorControls } from "@wordpress/block-editor";
@@ -155,13 +155,29 @@ registerBlockType("placepress/block-map-global-type", {
 						});
 					}
 				});
-			if (typeof L.markerClusterGroup === "function") {
-				const clusterGroup = L.markerClusterGroup();
-				clusterGroup.addLayers(markers).addTo(map);
-				map.fitBounds(clusterGroup.getBounds(), { padding: [50, 50] });
+			if (markers.length) {
+				if (typeof L.markerClusterGroup === "function") {
+					const clusterGroup = L.markerClusterGroup();
+					clusterGroup.addLayers(markers).addTo(map);
+					map.fitBounds(clusterGroup.getBounds(), { padding: [50, 50] });
+				} else {
+					const markersGroup = L.featureGroup(markers).addTo(map);
+					map.fitBounds(markersGroup.getBounds(), { padding: [50, 50] });
+				}
 			} else {
-				const markersGroup = L.featureGroup(markers).addTo(map);
-				map.fitBounds(markersGroup.getBounds(), { padding: [50, 50] });
+				notices.createWarningNotice(
+					sprintf(
+						__(
+							"PlacePress: The selected Location Type (%s) returned no results. Saving the post now will reset the selection to All Location Types. Please update your selection or add the selected Location Type to a new or existing Location post.",
+							"wp_placepress"
+						),
+						location_type
+					),
+					{ id: "placepress-no-result" }
+				);
+				setAttributes({
+					location_type: null,
+				});
 			}
 		};
 

@@ -130,13 +130,19 @@ document.addEventListener("DOMContentLoaded", () => {
 						});
 					}
 				});
-			if (typeof L.markerClusterGroup === "function") {
-				const clusterGroup = L.markerClusterGroup();
-				clusterGroup.addLayers(markers).addTo(map);
-				map.fitBounds(clusterGroup.getBounds(), { padding: [50, 50] });
+			if (markers.length) {
+				if (typeof L.markerClusterGroup === "function") {
+					const clusterGroup = L.markerClusterGroup();
+					clusterGroup.addLayers(markers).addTo(map);
+					map.fitBounds(clusterGroup.getBounds(), { padding: [50, 50] });
+				} else {
+					const markersGroup = L.featureGroup(markers).addTo(map);
+					map.fitBounds(markersGroup.getBounds(), { padding: [50, 50] });
+				}
 			} else {
-				const markersGroup = L.featureGroup(markers).addTo(map);
-				map.fitBounds(markersGroup.getBounds(), { padding: [50, 50] });
+				console.warn(
+					"PlacePress: The Global Map block returned no results. Please edit this post for more details."
+				);
 			}
 		};
 
