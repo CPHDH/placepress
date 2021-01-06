@@ -2,9 +2,9 @@
 Contributors: cphdh,ebellempire
 Tags: placepress, history, public, digital humanities, map, curatescape, blocks, gutenburg, location, tour, post types, walking, leaflet
 Requires at least: 5.0
-Tested up to: 5.6
+Tested up to: 5.6.1
 Requires PHP: 5.2.4
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -104,3 +104,9 @@ You can fetch a JSON feed of mapped Locations at `?feed=placepress_locations_pub
 
 = 1.1.3 =
 - Preemptively addresses bug/change in WP 5.6-RC1 re: Dashicon component
+
+= 1.1.4 =
+- Adds Global Map by Type block
+- Enables block transforms in Tours (Heading => Tour Stop)
+- Marker popups open automatically when viewing map for a specific Tour Stop
+- Bug fixes and minor improvements
