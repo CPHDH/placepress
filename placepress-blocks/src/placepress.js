@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			typeof placepress_plugin_options !== "undefined"
 				? placepress_plugin_options
 				: null;
+		var active_index = null; // marker array position; to be opened upon map display
 
 		// Extract Location Map Settings from HTML
 		const getDataAttributesPPLocation = () => {
@@ -339,39 +340,49 @@ document.addEventListener("DOMContentLoaded", () => {
 		};
 
 		// Standalone Marker (not for Global Map)
-		const addSingleMarker = (settings, map, isTour = false) => {
-			const marker = L.marker([settings.lat, settings.lon]).addTo(map);
-			marker.on("click", (e) => {
-				let title =
-					settings.title && isTour
-						? '<div class="pp-title">' + settings.title + "</div>"
-						: "";
-				const popup = L.popup().setContent(
-					'<div class="pp-container ' +
-						(isTour ? "tour" : "") +
-						'" style="background-image:linear-gradient(to bottom,rgba(0,0,0,0),rgba(256,256,256,.65) 30%,rgba(256,256,256,1) 50%),url(' +
-						(settings.background || "") +
-						')">' +
-						title +
-						'<a class="pp-directions-button" target="_blank" rel="noopener" href="http://maps.google.com/maps?daddr=' +
-						settings.lat +
-						"," +
-						settings.lon +
-						'">Get Directions</a>' +
-						'<div class="pp-coords-caption">' +
-						settings.lat +
-						"," +
-						settings.lon +
-						"</div>" +
-						"</div>"
-				);
-				e.target.unbindPopup().bindPopup(popup).openPopup();
-			});
+		const addSingleMarker = (settings, map, isTour, openPopup = false) => {
+			const marker = new L.marker([settings.lat, settings.lon]).addTo(map);
+			let title =
+				settings.title && isTour
+					? '<div class="pp-title">' + settings.title + "</div>"
+					: "";
+			let content =
+				'<div class="pp-container ' +
+				(isTour ? "tour" : "") +
+				'" style="background-image:linear-gradient(to bottom,rgba(0,0,0,0),rgba(256,256,256,.65) 30%,rgba(256,256,256,1) 50%),url(' +
+				(settings.background || "") +
+				')">' +
+				title +
+				'<a class="pp-directions-button" target="_blank" rel="noopener" href="http://maps.google.com/maps?daddr=' +
+				settings.lat +
+				"," +
+				settings.lon +
+				'">Get Directions</a>' +
+				'<div class="pp-coords-caption">' +
+				settings.lat +
+				"," +
+				settings.lon +
+				"</div>" +
+				"</div>";
+
 			// vertical center on popup open
 			map.on("popupopen", (e) => {
 				const px = map.project(e.popup._latlng);
 				px.y -= e.popup._container.clientHeight / 2;
 				map.panTo(map.unproject(px), { animate: true });
+			});
+
+			// auto open as needed
+			if (openPopup) {
+				setTimeout(() => {
+					marker.bindPopup(content).openPopup();
+				}, 300);
+			}
+
+			// open on click
+			marker.on("click", (e) => {
+				let popup = L.popup().setContent(content);
+				e.target.unbindPopup().bindPopup(popup).openPopup();
 			});
 		};
 
@@ -412,8 +423,9 @@ document.addEventListener("DOMContentLoaded", () => {
 				[settings[current].lat, settings[current].lon],
 				settings[current].zoom
 			);
-			settings.forEach((marker) => {
-				addSingleMarker(marker, map, true);
+
+			settings.forEach((marker, i) => {
+				addSingleMarker(marker, map, true, i == active_index);
 				bounds.extend([marker.lat, marker.lon]);
 			});
 
@@ -443,6 +455,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 			const openFloatingMapPP = new Event("openFloatingMapPP");
 			floater.addEventListener("openFloatingMapPP", (e) => {
+				active_index = !initial ? current : null;
 				e.target.setAttribute("class", "enhance");
 				map.remove();
 				setTimeout(() => {
@@ -452,6 +465,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 			const closeFloatingMapPP = new Event("closeFloatingMapPP");
 			floater.addEventListener("closeFloatingMapPP", (e) => {
+				active_index = null;
 				e.target.removeAttribute("class", "enhance");
 				e.target.setAttribute("class", shape);
 				map.remove();
@@ -500,6 +514,9 @@ document.addEventListener("DOMContentLoaded", () => {
 				icon.onclick = () => {
 					current = i;
 					if (!floater.classList.contains("enhance")) {
+						active_index = Number(
+							icon.parentElement.getAttribute("id").replace("pp_", "")
+						);
 						floater.dispatchEvent(openFloatingMapPP);
 					}
 					floater.focus();
@@ -554,7 +571,7 @@ document.addEventListener("DOMContentLoaded", () => {
 					map.scrollWheelZoom.enable();
 				});
 
-				addSingleMarker(settings, map);
+				addSingleMarker(settings, map, false, false);
 
 				addAdditionalControls(tileSets, map);
 			}
