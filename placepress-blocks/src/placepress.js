@@ -561,10 +561,10 @@ document.addEventListener("DOMContentLoaded", () => {
 		};
 
 		// GLOBAL LOCATIONS MAP
-		const displayGlobalMapPP = (settings, isArchive = false) => {
+		const displayGlobalMapPP = (settings) => {
 			const tileSets = window.getMapTileSets();
 			const currentTileSet = tileSets[settings.style];
-			const markersLayer = [];
+			// const markersLayer = [];
 			const map = L.map(settings.mapId, {
 				layers: currentTileSet,
 				scrollWheelZoom: false,
@@ -590,15 +590,10 @@ document.addEventListener("DOMContentLoaded", () => {
 							displayLocationMapPP(s);
 							break;
 						case "global":
-							if (s.locationType) {
-								displayGlobalMapPP(s, true);
-							} else {
-								displayGlobalMapPP(s);
-							}
-
+							displayGlobalMapPP(s);
 							break;
 						case "archive":
-							displayGlobalMapPP(s, true);
+							displayGlobalMapPP(s);
 							break;
 					}
 				});
