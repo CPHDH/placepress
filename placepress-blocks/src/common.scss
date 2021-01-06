@@ -7,6 +7,7 @@
 
 // Styles for all Location maps
 @mixin pp_map_basic($height: 300px) {
+	z-index: 0;
 	background: #eaeaea;
 	background: linear-gradient(to top right, #ece9e6, #fafafa);
 	height: $height;
@@ -37,6 +38,7 @@
 
 // Styles and elements for Location maps with multiple markers
 @mixin pp_global_map_content {
+	z-index: 0;
 	a {
 		text-decoration: none;
 		color: inherit;
