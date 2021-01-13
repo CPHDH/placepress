@@ -86,8 +86,20 @@ You can fetch a JSON feed of mapped Locations at `?feed=placepress_locations_pub
 
 == Changelog ==
 
-= 1.0 =
-- Initial release.
+= 1.1.4 =
+- Adds Global Map by Type block
+- Enables block transforms in Tours (Heading => Tour Stop)
+- Marker popups open automatically when viewing map for a specific Tour Stop
+- Bug fixes and minor improvements
+
+= 1.1.3 =
+- Preemptively addresses bug/change in WP 5.6-RC1 re: Dashicon component
+
+= 1.1.2 =
+- Adds a compatibility option for themes that display pages as component sections within a front page template
+
+= 1.1.1 =
+- Bug fixes for Safari users (inaccessible geocode input fields, in-map user controls)
 
 = 1.1 =
 - Adds Tours
@@ -96,17 +108,5 @@ You can fetch a JSON feed of mapped Locations at `?feed=placepress_locations_pub
 - Improved documentation in README file
 - Bug fixes and performance improvements
 
-= 1.1.1 =
-- Bug fixes for Safari users (inaccessible geocode input fields, in-map user controls)
-
-= 1.1.2 =
-- Adds a compatibility option for themes that display pages as component sections within a front page template
-
-= 1.1.3 =
-- Preemptively addresses bug/change in WP 5.6-RC1 re: Dashicon component
-
-= 1.1.4 =
-- Adds Global Map by Type block
-- Enables block transforms in Tours (Heading => Tour Stop)
-- Marker popups open automatically when viewing map for a specific Tour Stop
-- Bug fixes and minor improvements
+= 1.0 =
+- Initial release.
