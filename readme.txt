@@ -4,7 +4,7 @@ Tags: placepress, history, public, digital humanities, map, curatescape, blocks,
 Requires at least: 5.0
 Tested up to: 5.6.1
 Requires PHP: 5.2.4
-Stable tag: 1.1.4
+Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,10 @@ Use the Location Image interface. It works just like the Featured Image on posts
 You can fetch a JSON feed of mapped Locations at `?feed=placepress_locations_public`. You can also use the [WP REST API](https://developer.wordpress.org/rest-api/).
 
 == Changelog ==
+
+= 1.2 =
+- Transform between Global Map and Global Map by Type blocks
+- Bug fixes and minor improvements
 
 = 1.1.4 =
 - Adds Global Map by Type block
