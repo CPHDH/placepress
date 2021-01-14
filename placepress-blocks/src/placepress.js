@@ -163,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			request.onload = function () {
 				if (request.status >= 200 && request.status < 400) {
 					let data = JSON.parse(this.response);
-					if (typeof data !== "undefined") {
+					if (typeof data !== "undefined" && data.length > 0) {
 						// Add Markers
 						addMarkers(map, data, markers, location_type);
 
@@ -176,12 +176,12 @@ document.addEventListener("DOMContentLoaded", () => {
 						addAdditionalControls(tileSets, map);
 					} else {
 						console.warn(
-							"PlacePress: Your request did not return any Locations. Please ensure that you have Location posts that use the PlacePress Location Map block."
+							"PlacePress: Your request did not return any public Locations. Please ensure that you have published Location posts that use the PlacePress Location Map block."
 						);
 					}
 				} else {
 					console.warn(
-						"PlacePress: There was an error fetching Location posts using the WordPRess REST API. Please check your network connection and try again."
+						"PlacePress: There was an error fetching Location posts using the WordPress REST API. Please check your network connection and try again."
 					);
 				}
 			};

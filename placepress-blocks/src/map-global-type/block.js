@@ -203,7 +203,7 @@ registerBlockType("placepress/block-map-global-type", {
 			request.onload = function () {
 				if (request.status >= 200 && request.status < 400) {
 					const data = JSON.parse(this.response);
-					if (typeof data !== "undefined") {
+					if (typeof data !== "undefined" && data.length > 0) {
 						notices.removeNotice("placepress-no-result");
 						notices.removeNotice("placepress-no-response");
 
@@ -305,7 +305,7 @@ registerBlockType("placepress/block-map-global-type", {
 					} else {
 						notices.createWarningNotice(
 							__(
-								"PlacePress: Your request did not return any Locations. Please ensure that you have Location posts that use the PlacePress Location Map block.",
+								"PlacePress: Your request did not return any public Locations. Please ensure that you have published Location posts that use the PlacePress Location Map block.",
 								"wp_placepress"
 							),
 							{ id: "placepress-no-result" }
@@ -314,7 +314,7 @@ registerBlockType("placepress/block-map-global-type", {
 				} else {
 					notices.createErrorNotice(
 						__(
-							"PlacePress: There was an error fetching Location posts using the WordPRess REST API. Please check your network connection and try again.",
+							"PlacePress: There was an error fetching Location posts using the WordPress REST API. Please check your network connection and try again.",
 							"wp_placepress"
 						),
 						{ id: "placepress-no-response" }
