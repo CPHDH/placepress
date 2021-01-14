@@ -86,7 +86,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		const getArchiveLocationType = () => {
 			let path = window.location.pathname.split("/");
-			return path[2] || false; // example.com/location-types/cities => returns cities
+			// example.com/location-types/cities => returns cities
+			let t = path[1] == "location-type" ? path[2] || false : false;
+			return t;
 		};
 
 		const addMarkers = (map, data, markers, location_type) => {
