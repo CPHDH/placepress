@@ -25,6 +25,20 @@ registerBlockType("placepress/block-map-global-type", {
 		align: true,
 		align: ["center", "wide", "full"],
 	},
+	transforms: {
+		from: [
+			{
+				type: "block",
+				blocks: ["placepress/block-map-global"],
+				transform: (attributes) => {
+					return wp.blocks.createBlock(
+						"placepress/block-map-global-type",
+						attributes
+					);
+				},
+			},
+		],
+	},
 	description: __(
 		"A block for adding the global map, filtered by location type."
 	),
