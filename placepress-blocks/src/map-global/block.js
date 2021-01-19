@@ -133,10 +133,7 @@ registerBlockType("placepress/block-map-global", {
 
 			// API request
 			const locations_json =
-				location.protocol +
-				"//" +
-				location.hostname +
-				"?feed=placepress_locations_public";
+				defaults.site_url + "?feed=placepress_locations_public";
 			const request = new XMLHttpRequest();
 			request.open("GET", locations_json, true);
 			request.onload = function () {

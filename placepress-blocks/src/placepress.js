@@ -85,9 +85,12 @@ document.addEventListener("DOMContentLoaded", () => {
 		};
 
 		const getArchiveLocationType = () => {
-			let path = window.location.pathname.split("/");
+			let path = window.location.href.replace(defaults.site_url, "").split("/");
+			let slugs = path.filter((s) => {
+				return s.length ? s : null;
+			});
 			// example.com/location-types/cities => returns cities
-			let t = path[1] == "location-type" ? path[2] || false : false;
+			let t = slugs[0] == "location-type" ? slugs[1] || false : false;
 			return t;
 		};
 
@@ -154,10 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			const markers = [];
 			const location_type = settings.locationType || getArchiveLocationType();
 			const locations_json =
-				location.protocol +
-				"//" +
-				location.hostname +
-				"?feed=placepress_locations_public";
+				defaults.site_url + "?feed=placepress_locations_public";
 			const request = new XMLHttpRequest();
 			request.open("GET", locations_json, true);
 			request.onload = function () {

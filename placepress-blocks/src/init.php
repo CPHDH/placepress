@@ -73,12 +73,13 @@ function placepress_enqueue_global_assets($hook)
                 true
             );
 
+            $site_url = ["site_url"=>get_site_url()];
             $plugin_options=get_option('placepress_options', placepress_options_default());
             $translatable = [
                 "all_location_types_label"=>__('All Location Types', 'wp_placepress')
             ];
-            $settings = array_merge($plugin_options, $translatable);
 
+            $settings = array_merge($plugin_options, $translatable, $site_url);
             $plugin_settings  = 'const placepress_plugin_options = '. json_encode($settings) .'; ';
 
             wp_add_inline_script(
@@ -126,7 +127,7 @@ function placepress_enqueue_editor_assets()
     wp_localize_script(
         'placepress-settings',
         'placepress_plugin_settings',
-        array('placepress_defaults' => get_option('placepress_options', placepress_options_default()))
+        array('placepress_defaults' => array_merge(["site_url"=>get_site_url()], get_option('placepress_options', placepress_options_default())))
     );
 
     // Styles for editor
