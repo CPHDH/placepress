@@ -479,14 +479,21 @@ document.addEventListener("DOMContentLoaded", () => {
 			floater.onclick = () => {
 				if (!floater.classList.contains("enhance")) {
 					floater.dispatchEvent(openFloatingMapPP);
+					floater.focus();
 				}
 			};
 
 			const close = document.createElement("div");
 			close.setAttribute("id", "close-floating-tour-map-pp");
+			close.setAttribute("tabindex", "0");
 			close.innerHTML = "Close Map";
 			close.onclick = () => {
 				if (floater.classList.contains("enhance")) {
+					floater.dispatchEvent(closeFloatingMapPP);
+				}
+			};
+			close.onkeydown = (e) => {
+				if ("key" in e && e.key === "Enter") {
 					floater.dispatchEvent(closeFloatingMapPP);
 				}
 			};
@@ -513,7 +520,8 @@ document.addEventListener("DOMContentLoaded", () => {
 				".pp-marker-icon-center.has-map"
 			);
 			map_icons.forEach((icon, i) => {
-				icon.onclick = () => {
+				icon.firstChild.setAttribute("tabindex", "0"); // svg
+				const tourMapAction = () => {
 					current = i;
 					if (!floater.classList.contains("enhance")) {
 						active_index = Number(
@@ -522,6 +530,15 @@ document.addEventListener("DOMContentLoaded", () => {
 						floater.dispatchEvent(openFloatingMapPP);
 					}
 					floater.focus();
+				};
+				icon.firstChild.onkeydown = (e) => {
+					// icon > svg: focus => enter
+					if ("key" in e && e.key === "Enter") {
+						tourMapAction();
+					}
+				};
+				icon.onclick = () => {
+					tourMapAction();
 				};
 			});
 

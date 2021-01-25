@@ -173,6 +173,9 @@ div.floating-tour-map-pp a {
 		color: rgba(256, 256, 256, 1);
 	}
 }
+.pp-marker-icon-center.has-map svg:focus + span.onhover {
+	color: rgba(256, 256, 256, 1);
+}
 
 // mobile
 @media (pointer: coarse) {
