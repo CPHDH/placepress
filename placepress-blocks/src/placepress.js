@@ -621,16 +621,11 @@ document.addEventListener("DOMContentLoaded", () => {
 			if ((settings = getDataAttributesPPLocation())) {
 				// LOCATIONS
 				settings.forEach((s) => {
-					switch (s.type) {
-						case "single-location":
-							displayLocationMapPP(s);
-							break;
-						case "global":
-							displayGlobalMapPP(s);
-							break;
-						case "archive":
-							displayGlobalMapPP(s);
-							break;
+					if (s.type == "single-location") {
+						displayLocationMapPP(s);
+					} else {
+						// s.type: "global" || "archive"
+						displayGlobalMapPP(s);
 					}
 				});
 			} else if ((settings = getDataAttributesPPTour())) {
