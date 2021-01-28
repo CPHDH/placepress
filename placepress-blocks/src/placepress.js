@@ -647,9 +647,15 @@ document.addEventListener("DOMContentLoaded", () => {
 					);
 					redirect_wrappers.forEach((w) => {
 						let pid = w.getAttribute("data-redirect-to-post-id");
-						let url = "?page_id=" + pid;
+						w.setAttribute("tabindex", "0");
+						let url = defaults.site_url + "?page_id=" + pid;
 						w.onclick = () => {
 							window.location = url;
+						};
+						w.onkeydown = (e) => {
+							if ("key" in e && e.key === "Enter") {
+								window.location = url;
+							}
 						};
 					});
 				} else {
