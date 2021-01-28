@@ -270,17 +270,22 @@ document.addEventListener("DOMContentLoaded", () => {
 				);
 				const btn = L.DomUtil.create("a", "placepress-bounds", div);
 				btn.title = "Fit All Markers";
+				btn.tabIndex = "0";
+				btn.setAttribute("role", "button");
 				const icn =
 					'<svg id="bounds" height="35px" width="35px" viewBox="0 0 1024 1024"  xmlns="http://www.w3.org/2000/svg"><path height="35" width="35" d="M396.795 396.8H320V448h128V320h-51.205zM396.8 115.205V192H448V64H320v51.205zM115.205 115.2H192V64H64v128h51.205zM115.2 396.795V320H64v128h128v-51.205z"/></svg>';
 				btn.innerHTML = icn;
 
-				L.DomEvent.addListener(
-					btn,
-					"click",
-					L.DomEvent.preventDefault
-				).addListener(btn, "click", () => {
+				btn.onclick = () => {
 					map.fitBounds(bounds);
-				});
+				};
+
+				btn.onkeydown = (e) => {
+					if ("key" in e && e.key === "Enter") {
+						map.fitBounds(bounds);
+					}
+				};
+
 				return div;
 			};
 			fitBoundsControl.addTo(map);
@@ -296,17 +301,14 @@ document.addEventListener("DOMContentLoaded", () => {
 				);
 				const btn = L.DomUtil.create("a", "placepress-geolocation", div);
 				btn.title = "Geolocation";
+				btn.tabIndex = "0";
+				btn.setAttribute("role", "button");
 				const icn =
 					'<svg id="geolocation" height="35px" width="35px" viewBox="0 0 1024 1024"  xmlns="http://www.w3.org/2000/svg"><path id="inner" d="m512.001 302.46c-115.762 0-209.541 93.808-209.541 209.541 0 115.761 93.779 209.541 209.541 209.541 115.819 0 209.538-93.779 209.538-209.541 0-115.733-93.719-209.541-209.538-209.541z"/><path id="outer" d="m838.411 482.066c-14.439-157.447-138.854-281.92-296.476-296.274v-122.806h-59.869v122.807c-157.622 14.353-282.036 138.826-296.478 296.273h-122.602v59.869h122.602c14.442 157.389 138.856 281.861 296.479 296.302v122.777h59.869v-122.777c157.621-14.44 282.036-138.913 296.476-296.302h122.603v-59.869zm-326.41 299.341c-148.736 0-269.409-120.671-269.409-269.407 0-148.766 120.673-269.409 269.409-269.409 148.792 0 269.406 120.644 269.406 269.409 0 148.737-120.614 269.407-269.406 269.407z"/></svg>';
 
 				btn.innerHTML = icn;
 				let userMarker;
-
-				L.DomEvent.addListener(
-					btn,
-					"click",
-					L.DomEvent.preventDefault
-				).addListener(btn, "click", () => {
+				const geolocationAction = () => {
 					navigator.geolocation.getCurrentPosition((pos) => {
 						const userLocation = [pos.coords.latitude, pos.coords.longitude];
 						// add/update user location indicator
@@ -335,7 +337,18 @@ document.addEventListener("DOMContentLoaded", () => {
 						);
 						map.fitBounds(newBounds);
 					});
-				});
+				};
+
+				btn.onclick = () => {
+					geolocationAction();
+				};
+
+				btn.onkeydown = (e) => {
+					if ("key" in e && e.key === "Enter") {
+						geolocationAction();
+					}
+				};
+
 				return div;
 			};
 			geolocationControl.addTo(map);
