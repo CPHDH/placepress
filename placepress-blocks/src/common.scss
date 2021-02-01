@@ -41,6 +41,7 @@
 	z-index: 0;
 	a {
 		text-decoration: none;
+		border: 0px none transparent !important;
 		color: inherit;
 	}
 	figure {
@@ -61,7 +62,7 @@
 	}
 	.map-title {
 		padding: 4px 8px;
-		display: block;
+		display: inline-block;
 		border-radius: 3px;
 		font-size: 18px;
 		margin: 75px 10px 0;
