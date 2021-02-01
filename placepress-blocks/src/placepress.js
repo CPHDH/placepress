@@ -109,8 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
 							coords: coords,
 							thumbnail: post.thumbnail,
 						});
-						// user actions: CLICK
-						marker.on("click", function (e) {
+						const popupShow = (e) => {
 							const popup = L.popup().setContent(
 								'<a href="' +
 									e.target.options.permalink +
@@ -125,6 +124,15 @@ document.addEventListener("DOMContentLoaded", () => {
 									"</a>"
 							);
 							e.target.unbindPopup().bindPopup(popup).openPopup();
+						};
+						// user actions: CLICK
+						marker.on("click", function (e) {
+							popupShow(e);
+						});
+						marker.on("keydown", function (e) {
+							if ("key" in e.originalEvent && e.originalEvent.key === "Enter") {
+								popupShow(e);
+							}
 						});
 						markers.push(marker);
 
@@ -357,6 +365,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		// Standalone Marker (not for Global Map)
 		const addSingleMarker = (settings, map, isTour, openPopup = false) => {
 			const marker = new L.marker([settings.lat, settings.lon]).addTo(map);
+			marker._icon.setAttribute("role", "button");
 			let title =
 				settings.title && isTour
 					? '<div class="pp-title">' + settings.title + "</div>"
@@ -398,6 +407,12 @@ document.addEventListener("DOMContentLoaded", () => {
 			marker.on("click", (e) => {
 				let popup = L.popup().setContent(content);
 				e.target.unbindPopup().bindPopup(popup).openPopup();
+			});
+			marker.on("keydown", (e) => {
+				if ("key" in e.originalEvent && e.originalEvent.key === "Enter") {
+					let popup = L.popup().setContent(content);
+					e.target.unbindPopup().bindPopup(popup).openPopup();
+				}
 			});
 		};
 
