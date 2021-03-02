@@ -2,7 +2,7 @@
   "php.validate" : "onSave",
   "workspace.art_style" : 0,
   "workspace.color" : 6,
-  "workspace.name" : "Place Press",
+  "workspace.name" : "PlacePress",
   "workspace.preview_append_paths" : false,
   "workspace.preview_type" : "custom",
   "workspace.preview_url" : "https:\/\/wpplacepress.local"
