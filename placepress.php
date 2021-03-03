@@ -3,7 +3,7 @@
 Plugin Name: PlacePress
 Plugin URI: https://wpplacepress.org
 Description: PlacePress adds Location and Tour post types, structured map blocks (for single and global locations), structured tour stop blocks, and custom taxonomies.
-Version: 1.2.2
+Version: 1.2.3
 Text Domain: wp_placepress
 Domain Path: /languages
 Author: CSU Center for Public History + Digital Humanities
