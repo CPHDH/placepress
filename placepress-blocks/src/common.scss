@@ -15,6 +15,11 @@
 	min-height: 200px;
 	max-height: 50vh;
 	border-radius: 5px;
+	.leaflet-bar a,
+	.leaflet-bar a:hover {
+		color: #000;
+		text-decoration: none;
+	}
 }
 
 // Styles for all Tour maps

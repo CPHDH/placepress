@@ -1,10 +1,12 @@
 .wp-block-placepress-block-map-location {
-	.map-caption-pp textarea {
-		opacity: 0.7;
+	img {
+		padding: 0 !important;
 	}
 	.map-caption-pp textarea {
 		border-color: transparent;
-		resize: none;
+		opacity: 0.85;
+		margin-top: 5px;
+		background: #fafafa;
 	}
 	.map-caption-pp textarea:focus {
 		opacity: 1;
