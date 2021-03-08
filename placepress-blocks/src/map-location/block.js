@@ -151,17 +151,24 @@ registerBlockType("placepress/block-map-location", {
 					const container = L.DomUtil.create("div", "map-search-pp");
 					const form = L.DomUtil.create("form", "editor-form", container);
 					const input = L.DomUtil.create("input", "editor-input", form);
-					input.style.width = "100%";
+					const submit = L.DomUtil.create("button", "editor-submit", form);
+
 					input.style.border = "1px solid #ccc";
-					input.style.padding = "5px 10px";
-					input.style.borderRadius = "3px";
+					input.style.flexGrow = "1";
+					input.style.marginRight = "5px";
 					input.tabindex = "0";
 					input.type = "text";
-					input.placeholder = __(
-						"Enter a query and press Return/Enter ⏎",
-						"wp_placepress"
-					);
+					input.style.padding = "0 10px";
+					input.placeholder = __("Search for a location ⏎", "wp_placepress");
+
+					submit.type = "submit";
+					submit.innerHTML = "Search";
+					submit.classList = "components-button is-primary";
+					submit.tabindex = "0";
+					submit.style.margin = "0";
+
 					form.style.width = "100%";
+					form.style.display = "flex";
 
 					input.addEventListener("click", (e) => {
 						if (e.isTrusted) {
