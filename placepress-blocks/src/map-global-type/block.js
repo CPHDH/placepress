@@ -3,7 +3,7 @@ import "./editor.scss";
 
 const { __, sprintf } = wp.i18n;
 const { registerBlockType } = wp.blocks;
-const { TextareaControl, PanelBody, ToggleControl } = wp.components;
+const { TextareaControl, PanelBody, ToggleControl, Button } = wp.components;
 import { InspectorControls } from "@wordpress/block-editor";
 
 registerBlockType("placepress/block-map-global-type", {
@@ -419,6 +419,40 @@ registerBlockType("placepress/block-map-global-type", {
 									: __("Location Type will be locked to your selection.")
 							}
 						/>
+					</PanelBody>
+					<PanelBody title={__("PlacePress Help")} initialOpen={false}>
+						<div>
+							<Button
+								href="https://wpplacepress.org/about/getting-started/"
+								target="_blank"
+								icon="external"
+							>
+								{__("User Guide")}&nbsp;
+							</Button>
+						</div>
+
+						<div>
+							<Button
+								href={
+									defaults.site_url +
+									"/wp-admin/options-general.php?page=placepress"
+								}
+								target="_blank"
+								icon="admin-settings"
+							>
+								{__("Plugin Settings")}&nbsp;
+							</Button>
+						</div>
+
+						<div>
+							<Button
+								href="https://wordpress.org/support/plugin/placepress/"
+								target="_blank"
+								icon="feedback"
+							>
+								{__("Feedback/Support")}&nbsp;
+							</Button>
+						</div>
 					</PanelBody>
 				</InspectorControls>
 			</div>

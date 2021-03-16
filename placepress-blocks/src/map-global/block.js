@@ -3,7 +3,8 @@ import "./editor.scss";
 
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
-const { TextareaControl } = wp.components;
+const { TextareaControl, PanelBody, Button } = wp.components;
+import { InspectorControls } from "@wordpress/block-editor";
 
 registerBlockType("placepress/block-map-global", {
 	title: __("Global Map"),
@@ -274,6 +275,42 @@ registerBlockType("placepress/block-map-global", {
 					onLoad={onBlockLoad}
 					src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1' %3E%3Cpath d=''/%3E%3C/svg%3E"
 				/>
+				<InspectorControls>
+					<PanelBody title={__("PlacePress Help")} initialOpen={false}>
+						<div>
+							<Button
+								href="https://wpplacepress.org/about/getting-started/"
+								target="_blank"
+								icon="external"
+							>
+								{__("User Guide")}&nbsp;
+							</Button>
+						</div>
+
+						<div>
+							<Button
+								href={
+									defaults.site_url +
+									"/wp-admin/options-general.php?page=placepress"
+								}
+								target="_blank"
+								icon="admin-settings"
+							>
+								{__("Plugin Settings")}&nbsp;
+							</Button>
+						</div>
+
+						<div>
+							<Button
+								href="https://wordpress.org/support/plugin/placepress/"
+								target="_blank"
+								icon="feedback"
+							>
+								{__("Feedback/Support")}&nbsp;
+							</Button>
+						</div>
+					</PanelBody>
+				</InspectorControls>
 			</div>
 		);
 	},
