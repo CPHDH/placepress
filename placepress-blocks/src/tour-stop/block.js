@@ -10,10 +10,19 @@ const {
 	FlexItem,
 	Modal,
 	IsolatedEventContainer,
+	TextControl,
+	PanelBody,
 	withNotices,
 } = wp.components;
-const { MediaUpload, MediaUploadCheck, InnerBlocks } = wp.blockEditor;
+const {
+	MediaUpload,
+	MediaUploadCheck,
+	InnerBlocks,
+	InspectorControls,
+} = wp.blockEditor;
 const { useState } = wp.element;
+
+import d from "./deprecated";
 
 registerBlockType("placepress/block-tour-stop", {
 	title: __("Tour Stop"),
@@ -102,6 +111,9 @@ registerBlockType("placepress/block-tour-stop", {
 			source: "attribute",
 			attribute: "data-maki-color",
 		},
+		infowindow: {
+			type: "string",
+		},
 	},
 	edit(props) {
 		const {
@@ -115,6 +127,7 @@ registerBlockType("placepress/block-tour-stop", {
 				mb_key,
 				maki,
 				maki_color,
+				infowindow,
 			},
 			className,
 		} = props;
@@ -478,6 +491,56 @@ registerBlockType("placepress/block-tour-stop", {
 					</div>
 					<figcaption className="tour-stop-caption-pp">{caption}</figcaption>
 				</figure>
+				<InspectorControls>
+					<PanelBody title={__("Location Map Settings")}>
+						<TextControl
+							maxlength="100"
+							label={__("Info Window Text")}
+							className="infowindow-pp"
+							value={infowindow}
+							onChange={(infowindow) => {
+								props.setAttributes({ infowindow });
+							}}
+							help={__(
+								"Add a single-line street address or other brief text to help orient the user. This text replaces the geocoordinates in the info window. Text longer than 100 characters will be truncated."
+							)}
+						/>
+					</PanelBody>
+					<PanelBody title={__("PlacePress Help")} initialOpen={false}>
+						<div>
+							<Button
+								href="https://wpplacepress.org/about/getting-started/"
+								target="_blank"
+								icon="external"
+							>
+								{__("User Guide")}&nbsp;
+							</Button>
+						</div>
+
+						<div>
+							<Button
+								href={
+									mapdefaults.site_url +
+									"/wp-admin/options-general.php?page=placepress"
+								}
+								target="_blank"
+								icon="admin-settings"
+							>
+								{__("Plugin Settings")}&nbsp;
+							</Button>
+						</div>
+
+						<div>
+							<Button
+								href="https://wordpress.org/support/plugin/placepress/"
+								target="_blank"
+								icon="feedback"
+							>
+								{__("Feedback/Support")}&nbsp;
+							</Button>
+						</div>
+					</PanelBody>
+				</InspectorControls>
 			</div>
 		);
 	},
@@ -505,6 +568,13 @@ registerBlockType("placepress/block-tour-stop", {
 							data-mb-key={attributes.mb_key}
 							data-maki={attributes.maki}
 							data-maki-color={attributes.maki_color}
+							data-infowindow={
+								attributes.infowindow
+									? encodeURI(
+											attributes.infowindow.replace(/(<([^>]+)>)/gi, "")
+									  )
+									: null
+							}
 						>
 							<div
 								className={`pp-marker-icon-center ${
@@ -542,4 +612,5 @@ registerBlockType("placepress/block-tour-stop", {
 			</div>
 		);
 	},
+	deprecated: d,
 });
