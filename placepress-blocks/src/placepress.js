@@ -31,6 +31,13 @@ document.addEventListener("DOMContentLoaded", () => {
 					s.maki = location.getAttribute("data-maki");
 					s.makiColor = location.getAttribute("data-maki-color");
 					s.mbKey = location.getAttribute("data-mb-key");
+					s.infowindow =
+						location.getAttribute("data-infowindow") &&
+						location.getAttribute("data-infowindow").length
+							? decodeURI(location.getAttribute("data-infowindow"))
+							: s.lat && s.lon
+							? s.lat + "," + s.lon
+							: "";
 					if (s.lat && s.lon) {
 						settings[i] = s;
 					}
@@ -62,6 +69,13 @@ document.addEventListener("DOMContentLoaded", () => {
 							".pp-tour-stop-title"
 						).children[0].innerText;
 					}
+					s.infowindow =
+						tour_stop.getAttribute("data-infowindow") &&
+						tour_stop.getAttribute("data-infowindow").length
+							? decodeURI(tour_stop.getAttribute("data-infowindow"))
+							: s.lat && s.lon
+							? s.lat + "," + s.lon
+							: "";
 					if (s.lat && s.lon) {
 						settings[i] = s;
 						tour_stop.setAttribute("id", "pp_" + i);
@@ -383,9 +397,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				settings.lon +
 				'">Get Directions</a>' +
 				'<div class="pp-coords-caption">' +
-				settings.lat +
-				"," +
-				settings.lon +
+				settings.infowindow.substring(0, 100) +
 				"</div>" +
 				"</div>";
 
