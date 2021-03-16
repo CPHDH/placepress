@@ -32,6 +32,13 @@
 	.leaflet-control-container .leaflet-top.leaflet-right {
 		width: calc(100% - 64px);
 	}
+
+	.leaflet-popup-content {
+		text-align: center;
+		.checkmark-pp {
+			color: #46b450;
+		}
+	}
 }
 .wp-block[data-align="wide"] .wp-block-placepress-block-map-location,
 .wp-block[data-align="full"] .wp-block-placepress-block-map-location {

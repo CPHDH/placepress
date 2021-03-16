@@ -3,7 +3,10 @@ import "./editor.scss";
 
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
-const { TextareaControl } = wp.components;
+const { TextareaControl, TextControl, PanelBody, Button } = wp.components;
+import { InspectorControls } from "@wordpress/block-editor";
+
+import d from "./deprecated";
 
 registerBlockType("placepress/block-map-location", {
 	title: __("Location Map"),
@@ -72,6 +75,9 @@ registerBlockType("placepress/block-map-location", {
 			source: "attribute",
 			attribute: "data-basemap",
 		},
+		infowindow: {
+			type: "string",
+		},
 	},
 	edit(props) {
 		const {
@@ -84,6 +90,7 @@ registerBlockType("placepress/block-map-location", {
 				maki,
 				maki_color,
 				basemap,
+				infowindow,
 			},
 			setAttributes,
 		} = props;
@@ -122,7 +129,13 @@ registerBlockType("placepress/block-map-location", {
 			// user actions: CLICK
 			marker.on("click", function (e) {
 				const ll = e.target.getLatLng();
-				const popup = L.popup().setContent(ll.lat + "," + ll.lng);
+				const popup = L.popup().setContent(
+					'<em><span class="checkmark-pp">&#10004;&nbsp;&nbsp;</span>' +
+						ll.lat +
+						"," +
+						ll.lng +
+						"</em><hr>Review additional options in block settings."
+				);
 				e.target.unbindPopup().bindPopup(popup).openPopup();
 				map.panTo(e.target.getLatLng());
 			});
@@ -325,6 +338,56 @@ registerBlockType("placepress/block-map-location", {
 					onLoad={onBlockLoad}
 					src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1' %3E%3Cpath d=''/%3E%3C/svg%3E"
 				/>
+				<InspectorControls>
+					<PanelBody title={__("Location Map Settings")}>
+						<TextControl
+							maxlength="100"
+							label={__("Info Window Text")}
+							className="infowindow-pp"
+							value={infowindow}
+							onChange={(infowindow) => {
+								setAttributes({ infowindow });
+							}}
+							help={__(
+								"Add a single-line street address or other brief text to help orient the user. This text replaces the geocoordinates in the info window. Text longer than 100 characters will be truncated."
+							)}
+						/>
+					</PanelBody>
+					<PanelBody title={__("PlacePress Help")} initialOpen={false}>
+						<div>
+							<Button
+								href="https://wpplacepress.org/about/getting-started/"
+								target="_blank"
+								icon="external"
+							>
+								{__("User Guide")}&nbsp;
+							</Button>
+						</div>
+
+						<div>
+							<Button
+								href={
+									defaults.site_url +
+									"/wp-admin/options-general.php?page=placepress"
+								}
+								target="_blank"
+								icon="admin-settings"
+							>
+								{__("Plugin Settings")}&nbsp;
+							</Button>
+						</div>
+
+						<div>
+							<Button
+								href="https://wordpress.org/support/plugin/placepress/"
+								target="_blank"
+								icon="feedback"
+							>
+								{__("Feedback/Support")}&nbsp;
+							</Button>
+						</div>
+					</PanelBody>
+				</InspectorControls>
 			</div>
 		);
 	},
@@ -348,6 +411,11 @@ registerBlockType("placepress/block-map-location", {
 						data-maki={attributes.maki_markers}
 						data-maki-color={attributes.maki_markers_color}
 						data-basemap={attributes.basemap}
+						data-infowindow={
+							attributes.infowindow
+								? encodeURI(attributes.infowindow.replace(/(<([^>]+)>)/gi, ""))
+								: null
+						}
 						data-type="single-location"
 					/>
 					<figcaption className="map-caption-pp">
@@ -357,4 +425,5 @@ registerBlockType("placepress/block-map-location", {
 			</div>
 		);
 	},
+	deprecated: d,
 });
