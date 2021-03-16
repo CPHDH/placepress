@@ -2,9 +2,9 @@
 Contributors: cphdh,ebellempire
 Tags: placepress, history, public, digital humanities, map, curatescape, blocks, gutenburg, location, tour, post types, walking, leaflet
 Requires at least: 5.0
-Tested up to: 5.7
+Tested up to: 5.7.1
 Requires PHP: 5.2.4
-Stable tag: 1.2.3
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,10 @@ Use the Location Image interface. It works just like the Featured Image on posts
 You can fetch a JSON feed of mapped Locations at `?feed=placepress_locations_public`. You can also use the [WP REST API](https://developer.wordpress.org/rest-api/).
 
 == Changelog ==
+= 1.3.0 =
+- Adds customizable text for map info windows (e.g. for street addresses)
+- Adds Help panels to all block settings inspectors
+- Bug fixes and minor improvements
 
 = 1.2.3 =
 - Updated WordPress version compatibility
