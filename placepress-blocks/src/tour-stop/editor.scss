@@ -53,6 +53,17 @@
 	width: 100%;
 	max-width: 700px;
 
+	img {
+		padding: 0 !important;
+	}
+
+	.leaflet-popup-content {
+		text-align: center;
+		.checkmark-pp {
+			color: #46b450;
+		}
+	}
+
 	#placepress-tour-map {
 		background: #eaeaea;
 		background: linear-gradient(to top right, #ece9e6, #fafafa);

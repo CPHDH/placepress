@@ -170,7 +170,13 @@ registerBlockType("placepress/block-tour-stop", {
 				// user actions: CLICK
 				marker.on("click", function (e) {
 					const ll = e.target.getLatLng();
-					const popup = L.popup().setContent(ll.lat + "," + ll.lng);
+					const popup = L.popup().setContent(
+						'<em><span class="checkmark-pp">&#10004;&nbsp;&nbsp;</span>' +
+							ll.lat +
+							"," +
+							ll.lng +
+							"</em><hr>Review additional options in block settings."
+					);
 					e.target.unbindPopup().bindPopup(popup).openPopup();
 					map.panTo(e.target.getLatLng());
 				});
