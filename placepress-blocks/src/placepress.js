@@ -614,10 +614,8 @@ document.addEventListener("DOMContentLoaded", () => {
 							initial = true;
 							current = 0;
 							inview = 0;
-							setTimeout(() => {
-								map.remove();
-								map = updateFloatingMapPP(settings, current, tileSets, initial);
-							}, 501);
+							map.remove();
+							map = updateFloatingMapPP(settings, current, tileSets, initial);
 						}
 					});
 				},
