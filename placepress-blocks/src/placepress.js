@@ -607,6 +607,17 @@ document.addEventListener("DOMContentLoaded", () => {
 								initial = false;
 								current = inview;
 							}
+						} else if (
+							this.scrollY == 0 ||
+							this.innerHeight + this.scrollY >= document.body.offsetHeight
+						) {
+							initial = true;
+							current = 0;
+							inview = 0;
+							setTimeout(() => {
+								map.remove();
+								map = updateFloatingMapPP(settings, current, tileSets, initial);
+							}, 501);
 						}
 					});
 				},
