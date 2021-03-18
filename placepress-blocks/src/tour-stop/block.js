@@ -357,7 +357,7 @@ registerBlockType("placepress/block-tour-stop", {
 
 			return (
 				<div>
-					<Button isSecondary onClick={openModal}>
+					<Button isSecondary onClick={openModal} className="open-map">
 						<Dashicon icon="location" />{" "}
 						{__("Set Coordinates", "wp_placepress")}
 					</Button>
@@ -413,6 +413,13 @@ registerBlockType("placepress/block-tour-stop", {
 				zoom: "",
 				basemap: "",
 			});
+		};
+
+		const openMapModalRef = (e) => {
+			let btn = e.target
+				.closest(".wp-block-placepress-block-tour-stop")
+				.querySelectorAll(":scope button.open-map");
+			if (btn[0]) btn[0].click();
 		};
 
 		return (
@@ -475,6 +482,7 @@ registerBlockType("placepress/block-tour-stop", {
 								}`}
 							>
 								<svg
+									onClick={openMapModalRef}
 									aria-hidden="true"
 									role="img"
 									xmlns="http://www.w3.org/2000/svg"
