@@ -607,10 +607,7 @@ document.addEventListener("DOMContentLoaded", () => {
 								initial = false;
 								current = inview;
 							}
-						} else if (
-							this.scrollY == 0 ||
-							this.innerHeight + this.scrollY >= document.body.offsetHeight
-						) {
+						} else if (this.scrollY == 0) {
 							initial = true;
 							current = 0;
 							inview = 0;
