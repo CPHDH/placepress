@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			return t;
 		};
 
-		const addMarkers = (map, data, markers, location_type) => {
+		const addMarkers = (map, data, markers, location_type, previous_zoom) => {
 			data
 				.filter((data) =>
 					location_type ? data.type.includes(location_type) : data
@@ -159,13 +159,19 @@ document.addEventListener("DOMContentLoaded", () => {
 					}
 				});
 			if (markers.length) {
+				let options = { padding: [60, 60] };
+				if (previous_zoom) {
+					// maintain current zoom on type change for UX reasons
+					// @todo: this may need to be a plugin option?
+					options.maxZoom = previous_zoom;
+				}
 				if (typeof L.markerClusterGroup === "function") {
 					const clusterGroup = L.markerClusterGroup();
 					clusterGroup.addLayers(markers).addTo(map);
-					map.fitBounds(clusterGroup.getBounds(), { padding: [50, 50] });
+					map.fitBounds(clusterGroup.getBounds(), options);
 				} else {
 					const markersGroup = L.featureGroup(markers).addTo(map);
-					map.fitBounds(markersGroup.getBounds(), { padding: [50, 50] });
+					map.fitBounds(markersGroup.getBounds(), options);
 				}
 			} else {
 				console.warn(
@@ -257,6 +263,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 					// on new type selection...
 					select.onchange = (e) => {
+						let previous_zoom = map.getZoom();
 						let selected_type = e.target.selectedOptions[0].value;
 
 						// remove current markers
@@ -267,6 +274,7 @@ document.addEventListener("DOMContentLoaded", () => {
 						});
 						// add selected markers
 						addMarkers(map, data, [], selected_type);
+						addMarkers(map, data, [], selected_type, previous_zoom);
 					};
 
 					return container;
