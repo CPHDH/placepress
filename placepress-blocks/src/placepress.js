@@ -344,24 +344,22 @@ document.addEventListener("DOMContentLoaded", () => {
 				const geolocationAction = () => {
 					navigator.geolocation.getCurrentPosition((pos) => {
 						const userLocation = [pos.coords.latitude, pos.coords.longitude];
-						// add/update user location indicator
-						if (typeof userMarker === "undefined") {
-							userMarker = new L.circleMarker(userLocation, {
-								title: "Geolocation",
-								radius: 8,
-								fillColor: "#4a87ee",
-								color: "#ffffff",
-								weight: 3,
-								opacity: 1,
-								fillOpacity: 0.8,
-							}).addTo(map);
-						} else {
-							userMarker.setLatLng(userLocation);
+						// remove existing user marker if there is one
+						// not simply updating its location due to marker/layer reset on type select
+						if (typeof userMarker !== "undefined") {
+							map.removeLayer(userMarker);
 						}
-
-						userMarker.on("click", (e) => {
-							map.panTo(e.target.getLatLng());
+						// user location indicator
+						let circle = new L.circleMarker(userLocation, {
+							title: "Geolocation",
+							radius: 8,
+							fillColor: "#4a87ee",
+							color: "#ffffff",
+							weight: 3,
+							opacity: 1,
+							fillOpacity: 0.8,
 						});
+						userMarker = L.featureGroup([circle]).addTo(map);
 
 						const mapBounds = map.getBounds();
 						const newBounds = new L.LatLngBounds(
@@ -369,6 +367,11 @@ document.addEventListener("DOMContentLoaded", () => {
 							new L.LatLng(pos.coords.latitude, pos.coords.longitude)
 						);
 						map.fitBounds(newBounds);
+
+						map.flyTo(
+							[pos.coords.latitude, pos.coords.longitude],
+							map.getZoom() + 1
+						);
 					});
 				};
 
