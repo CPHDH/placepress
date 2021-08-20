@@ -112,6 +112,26 @@ registerBlockType("placepress/block-map-location", {
 			forceFocus(".wp-block.is-selected .editor-input");
 		};
 
+		// Determine if a query string is geo-coordinates
+		// Used to bypass nominatim lookup, which returns unusual results for coords
+		const isCoordinates = (q) => {
+			let coords = null;
+			let q_array = q.split(",");
+			if (q_array.length == 2) {
+				if (
+					!Number.isNaN(Number.parseFloat(q_array[0].trim())) &&
+					!Number.isNaN(Number.parseFloat(q_array[1].trim()))
+				) {
+					let lat = Number.parseFloat(q_array[0].trim());
+					let lon = Number.parseFloat(q_array[1].trim());
+					if (lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180) {
+						coords = { lat: lat.toString(), lon: lon.toString() };
+					}
+				}
+			}
+			return coords;
+		};
+
 		// Init location map user interface
 		const uiLocationMapPP = function () {
 			const tileSets = window.getMapTileSets();
@@ -196,8 +216,10 @@ registerBlockType("placepress/block-map-location", {
 					).addListener(form, "submit", function (e) {
 						const q = e.target[0].value;
 						if (q) {
+							let bypass = isCoordinates(q);
 							notices.removeNotice("placepress-no-result");
 							notices.removeNotice("placepress-no-response");
+
 							const request = new XMLHttpRequest();
 							request.open(
 								"GET",
@@ -220,7 +242,6 @@ registerBlockType("placepress/block-map-location", {
 										props.setAttributes({
 											api_coordinates_pp: result.lat + "," + result.lon,
 										});
-
 										// pan map
 										map.panTo([result.lat, result.lon]);
 										// update marker location in UI
@@ -244,7 +265,23 @@ registerBlockType("placepress/block-map-location", {
 									);
 								}
 							};
-							request.send();
+							if (!bypass) {
+								request.send();
+							} else {
+								console.warn(
+									"PlacePress: You entered coordinates - bypassing Nominatim server."
+								);
+								// update attributes
+								props.setAttributes({ lat: bypass.lat });
+								props.setAttributes({ lon: bypass.lon });
+								props.setAttributes({
+									api_coordinates_pp: bypass.lat + "," + bypass.lon,
+								});
+								// pan map
+								map.panTo([bypass.lat, bypass.lon]);
+								// update marker location in UI
+								marker.setLatLng([bypass.lat, bypass.lon]);
+							}
 						}
 					});
 
