@@ -173,10 +173,10 @@ registerBlockType("placepress/block-map-global-type", {
 				if (typeof L.markerClusterGroup === "function") {
 					const clusterGroup = L.markerClusterGroup();
 					clusterGroup.addLayers(markers).addTo(map);
-					map.fitBounds(clusterGroup.getBounds(), { padding: [50, 50] });
+					map.fitBounds(clusterGroup.getBounds(), { padding: [60, 60] });
 				} else {
 					const markersGroup = L.featureGroup(markers).addTo(map);
-					map.fitBounds(markersGroup.getBounds(), { padding: [50, 50] });
+					map.fitBounds(markersGroup.getBounds(), { padding: [60, 60] });
 				}
 			} else {
 				notices.createWarningNotice(
