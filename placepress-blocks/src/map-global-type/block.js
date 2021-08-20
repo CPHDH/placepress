@@ -280,6 +280,10 @@ registerBlockType("placepress/block-map-global-type", {
 									// remove current markers
 									map.eachLayer((layer) => {
 										if (typeof layer._featureGroup !== "undefined") {
+											// remove single feature group (clusters)
+											map.removeLayer(layer);
+										} else if (typeof layer._latlng !== "undefined") {
+											// remove multiple marker layers (not clustered)
 											map.removeLayer(layer);
 										}
 									});

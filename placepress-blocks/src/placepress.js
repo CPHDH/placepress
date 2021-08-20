@@ -269,11 +269,14 @@ document.addEventListener("DOMContentLoaded", () => {
 						// remove current markers
 						map.eachLayer((layer) => {
 							if (typeof layer._featureGroup !== "undefined") {
+								// remove single feature group (clusters)
+								map.removeLayer(layer);
+							} else if (typeof layer._latlng !== "undefined") {
+								// remove multiple marker layers (not clustered)
 								map.removeLayer(layer);
 							}
 						});
 						// add selected markers
-						addMarkers(map, data, [], selected_type);
 						addMarkers(map, data, [], selected_type, previous_zoom);
 					};
 
