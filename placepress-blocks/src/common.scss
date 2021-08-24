@@ -113,12 +113,15 @@ div#placepress-map_archive_0 {
 		padding: 0;
 		width: auto;
 		span {
-			font-size: 14px;
+			font-size: 16px;
 			font-weight: normal;
 		}
 	}
 	.leaflet-control-layers-base label {
 		text-align: left;
+	}
+	.leaflet-top {
+		max-width: calc(100% - 50px);
 	}
 	svg#geolocation,
 	svg#bounds {
