@@ -237,6 +237,11 @@ document.addEventListener("DOMContentLoaded", () => {
 					);
 					select.tabindex = "0";
 
+					// empty/hidden optgroup req. for iOS Safari to detect onchange
+					const optgroup = L.DomUtil.create("optgroup", "optgroup-pp", select);
+					optgroup.setAttribute("disabled", "");
+					optgroup.setAttribute("hidden", "");
+
 					// Default selection: all
 					const option = L.DomUtil.create("option", "option-pp", select);
 					option.setAttribute("value", "");
