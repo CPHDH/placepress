@@ -128,6 +128,11 @@ require_once plugin_dir_path(__FILE__) . "api/output.php";
 require_once plugin_dir_path(__FILE__) . "filters/filters.php";
 
 /*
+ ** HOOKS
+ */
+require_once plugin_dir_path(__FILE__) . "hooks/hooks.php";
+
+/*
  ** ACTIVATE
  */
 function placepress_activate()
