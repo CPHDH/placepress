@@ -651,8 +651,11 @@ document.addEventListener("DOMContentLoaded", () => {
 				}).setView([settings.lat, settings.lon], settings.zoom);
 
 				// enable scrollwheel zoom if user interacts with the map
-				map.once("focus", () => {
+				map.on("focus", () => {
 					map.scrollWheelZoom.enable();
+				});
+				map.on("blur", () => {
+					map.scrollWheelZoom.disable();
 				});
 
 				addSingleMarker(settings, map, false, false);
@@ -672,8 +675,11 @@ document.addEventListener("DOMContentLoaded", () => {
 			}).setView([settings.lat, settings.lon], settings.zoom);
 
 			// enable scrollwheel zoom if user interacts with the map
-			map.once("focus", () => {
+			map.on("focus", () => {
 				map.scrollWheelZoom.enable();
+			});
+			map.on("blur", () => {
+				map.scrollWheelZoom.disable();
 			});
 
 			// API fetch, add location markers, controls, etc
