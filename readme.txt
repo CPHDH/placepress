@@ -16,9 +16,9 @@ An elegant mapping solution for public historians, urbanists, and other humaniti
 
 PlacePress adds Location and Tour post types, structured map blocks (for single and global locations), structured tour stop blocks, and custom taxonomies.
 
-View [Demos at wpplacepress.org](https://wpplacepress.org/about/showcase/).
+[View Demos](https://wpplacepress.org/about/showcase/) at wpplacepress.org.
 
-Read the [User Guide at wpplacepress.org](https://wpplacepress.org/about/getting-started/).
+[Read the User Guide](https://wpplacepress.org/about/getting-started/) at wpplacepress.org.
 
 == Installation ==
 
@@ -30,9 +30,16 @@ The quickest method for installing PlacePress is:
 
 == Frequently Asked Questions ==
 
-View the [FAQ at wpplacepress.org](https://wpplacepress.org/about/faq/)
+[View the FAQ](https://wpplacepress.org/about/faq/) at wpplacepress.org.
 
 == Changelog ==
+= 1.3.4 =
+- Adds fix for iOS Safari bug that prevented Location Type selection on Global Map by Type block
+- Adds support for Tours and Locations on Author archives
+- Adds support for Tours and Locations on Tag archives
+- Manage scroll wheel zoom on all map blocks to minimize accidental interactions
+- Minor CSS changes
+
 = 1.3.3 =
 - Fixes bug that broke Location Type selection on Global Map by Type block unless clustering is enabled
 - Now bypasses remote lookup when user enters valid coordinates for address query in Location Map block
