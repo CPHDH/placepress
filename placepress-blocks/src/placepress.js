@@ -687,7 +687,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		};
 
 		// MAIN
-		if (typeof wp.editor === "undefined") {
+		if (window.location.href.indexOf("wp-admin") < 0) {
 			const page = document.querySelector("body").classList;
 			if ((settings = getDataAttributesPPLocation())) {
 				// LOCATIONS
