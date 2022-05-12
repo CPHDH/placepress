@@ -4,7 +4,7 @@ import "./editor.scss";
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
 const { TextareaControl, TextControl, PanelBody, Button } = wp.components;
-import { InspectorControls } from "@wordpress/block-editor";
+const { InspectorControls } = wp.blockEditor;
 
 import d from "./deprecated";
 

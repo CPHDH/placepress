@@ -4,7 +4,7 @@ import "./editor.scss";
 const { __, sprintf } = wp.i18n;
 const { registerBlockType } = wp.blocks;
 const { TextareaControl, PanelBody, ToggleControl, Button } = wp.components;
-import { InspectorControls } from "@wordpress/block-editor";
+const { InspectorControls } = wp.blockEditor;
 
 registerBlockType("placepress/block-map-global-type", {
 	title: __("Global Map by Type"),
