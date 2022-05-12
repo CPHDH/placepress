@@ -182,7 +182,8 @@ document.addEventListener("DOMContentLoaded", function () {
     "span.placepress.dashicons-editor-help"
   );
   for (const icon of placepress_help) {
-    icon.addEventListener("click", function () {
+    icon.addEventListener("click", function (e) {
+      let tabName = e.originalTarget.dataset.tab;
       if (window.jQuery) {
         // smooth scroll if available
         jQuery("html, body").animate({ scrollTop: 0 }, 300);
@@ -192,12 +193,16 @@ document.addEventListener("DOMContentLoaded", function () {
       const wp_help = document.getElementById("contextual-help-link");
       // only open help menu if it's not already open
       if (!wp_help.classList.contains("screen-meta-active")) {
-        setTimeout(
-          () => {
-            simulateEvent(wp_help, "click");
-          },
-          window.jQuery ? 300 : 0
+        simulateEvent(wp_help, "click");
+      }
+      // open the correct tab in help menu
+      if (tabName) {
+        let tabTarget = document.querySelector(
+          ".contextual-help-tabs li#" + tabName + " a"
         );
+        if (tabTarget) {
+          simulateEvent(tabTarget, "click");
+        }
       }
     });
   }

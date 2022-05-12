@@ -307,12 +307,12 @@ function register_options_defaults()
 
 function placepress_callback_section_map()
 {
-    echo '<p>'.sprintf(__('Customize default settings for PlacePress maps. %s', 'wp_placepress'), '<span data-title="'.__('For additional details on map defaults, use the Help menu at the top of this page.', 'wp_placepress').'" class="placepress dashicons dashicons-editor-help"></span>').'</p><div id="map_ui_container"></div>';
+    echo '<p>'.sprintf(__('Customize default settings for PlacePress maps. %s', 'wp_placepress'), '<span data-title="'.__('For additional details on map defaults, use the Help menu at the top of this page.', 'wp_placepress').'" class="placepress dashicons dashicons-editor-help" data-tab="tab-link-pp_help_tab1"></span>').'</p><div id="map_ui_container"></div>';
 }
 
 function placepress_callback_section_tours()
 {
-    echo '<p>'.sprintf(__('Customize display options for PlacePress tours. %s', 'wp_placepress'), '<span data-title="'.__('For additional details on tour display settings, use the Help menu at the top of this page.', 'wp_placepress').'" class="placepress dashicons dashicons-editor-help"></span>').'</p>';
+    echo '<p>'.sprintf(__('Customize display options for PlacePress tours. %s', 'wp_placepress'), '<span data-title="'.__('For additional details on tour display settings, use the Help menu at the top of this page.', 'wp_placepress').'" class="placepress dashicons dashicons-editor-help" data-tab="tab-link-pp_help_tab0"></span>').'</p>';
 }
 
 function placepress_callback_section_mapbox()
@@ -322,17 +322,17 @@ function placepress_callback_section_mapbox()
 
 function placepress_callback_section_content()
 {
-    echo '<p>'.sprintf(__('Enable or disable custom post types. %s', 'wp_placepress'), '<span data-title="'.__('For information on post types, use the Help menu at the top of this page.', 'wp_placepress').'" class="placepress dashicons dashicons-editor-help"></span>').'</p>';
+    echo '<p>'.sprintf(__('Enable or disable custom post types. %s', 'wp_placepress'), '<span data-title="'.__('For information on post types, use the Help menu at the top of this page.', 'wp_placepress').'" class="placepress dashicons dashicons-editor-help" data-tab="tab-link-pp_help_tab2"></span>').'</p>';
 }
 
 function placepress_callback_section_archive()
 {
-    echo '<p>'.sprintf(__('Enable or disable maps on Location and Location Type archive pages. See help menu for information on theme compatibility. %s', 'wp_placepress'), '<span data-title="'.__('For information on theme compatibility, use the Help menu at the top of this page.', 'wp_placepress').'" class="placepress dashicons dashicons-editor-help"></span>').'</p>';
+    echo '<p>'.sprintf(__('Enable or disable maps on Location and Location Type archive pages. See help menu for information on theme compatibility. %s', 'wp_placepress'), '<span data-title="'.__('For information on archive maps, use the Help menu at the top of this page.', 'wp_placepress').'" class="placepress dashicons dashicons-editor-help" data-tab="tab-link-pp_help_tab3"></span>').'</p>';
 }
 
 function placepress_callback_section_compatibility()
 {
-    echo '<p>'.sprintf(__('Enable or disable compatibility options. %s', 'wp_placepress'), '<span data-title="'.__('For information on compatibility settings, use the Help menu at the top of this page.', 'wp_placepress').'" class="placepress dashicons dashicons-editor-help"></span>').'</p>';
+    echo '<p>'.sprintf(__('Enable or disable compatibility options. %s', 'wp_placepress'), '<span data-title="'.__('For information on compatibility settings, use the Help menu at the top of this page.', 'wp_placepress').'" class="placepress dashicons dashicons-editor-help" data-tab="tab-link-pp_help_tab4"></span>').'</p>';
 }
 
 // Text
