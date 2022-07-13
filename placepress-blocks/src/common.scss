@@ -147,4 +147,8 @@ div#placepress-map_archive_0 {
 	.leaflet-left {
 		padding: 2px 2px 0 0;
 	}
+	.leaflet-control-container .leaflet-top,
+	.leaflet-control-container .leaflet-bottom {
+		will-change: transform;
+	}
 }
