@@ -5,6 +5,8 @@ const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
 const { TextareaControl, TextControl, PanelBody, Button } = wp.components;
 const { InspectorControls } = wp.blockEditor;
+const { useSelect } = wp.data;
+const { useEntityProp } = wp.coreData;
 
 import d from "./deprecated";
 
@@ -23,11 +25,6 @@ registerBlockType("placepress/block-map-location", {
 	},
 	description: __("A block for adding a location map."),
 	attributes: {
-		api_coordinates_pp: {
-			type: "string",
-			source: "meta",
-			meta: "api_coordinates_pp",
-		},
 		caption: {
 			type: "string",
 			source: "text",
@@ -94,6 +91,16 @@ registerBlockType("placepress/block-map-location", {
 			},
 			setAttributes,
 		} = props;
+
+		const postType = useSelect(
+			(select) => select("core/editor").getCurrentPostType(),
+			[]
+		);
+		const [meta, setMeta] = useEntityProp("postType", postType, "meta");
+		const updateMetaCoordinates = (newValue) => {
+			console.log(newValue);
+			setMeta({ meta, api_coordinates_pp: newValue });
+		};
 
 		const notices = wp.data.dispatch("core/notices");
 
@@ -165,10 +172,7 @@ registerBlockType("placepress/block-map-location", {
 				const ll = e.target.getLatLng();
 				props.setAttributes({ lat: ll.lat });
 				props.setAttributes({ lon: ll.lng });
-				props.setAttributes({
-					api_coordinates_pp: ll.lat + "," + ll.lng,
-				});
-
+				updateMetaCoordinates(ll.lat + "," + ll.lng);
 				map.setView([ll.lat, ll.lng], ll.zoom, { animation: true });
 			});
 
@@ -239,9 +243,7 @@ registerBlockType("placepress/block-map-location", {
 										// update attributes
 										props.setAttributes({ lat: result.lat });
 										props.setAttributes({ lon: result.lon });
-										props.setAttributes({
-											api_coordinates_pp: result.lat + "," + result.lon,
-										});
+										updateMetaCoordinates(result.lat + "," + result.lon);
 										// pan map
 										map.panTo([result.lat, result.lon]);
 										// update marker location in UI
@@ -274,9 +276,7 @@ registerBlockType("placepress/block-map-location", {
 								// update attributes
 								props.setAttributes({ lat: bypass.lat });
 								props.setAttributes({ lon: bypass.lon });
-								props.setAttributes({
-									api_coordinates_pp: bypass.lat + "," + bypass.lon,
-								});
+								updateMetaCoordinates(bypass.lat + "," + bypass.lon);
 								// pan map
 								map.panTo([bypass.lat, bypass.lon]);
 								// update marker location in UI
