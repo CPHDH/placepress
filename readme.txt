@@ -4,7 +4,7 @@ Tags: placepress, history, public, digital humanities, map, curatescape, blocks,
 Requires at least: 5.0
 Tested up to: 6.0.1
 Requires PHP: 5.2.4
-Stable tag: 1.3.7
+Stable tag: 1.3.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,6 +33,9 @@ The quickest method for installing PlacePress is:
 [View the FAQ](https://wpplacepress.org/about/faq/) at wpplacepress.org.
 
 == Changelog ==
+= 1.3.8 =
+- Fixes issue where changes to individual location map coordinates were not reflected in global location maps.
+
 = 1.3.7 =
 - Patch for map rendering issue in recent Safari versions ([WebKit #238589](https://bugs.webkit.org/show_bug.cgi?id=238589))
 
