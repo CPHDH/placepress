@@ -40,20 +40,19 @@ if (!defined("ABSPATH")) {
 }
 
 // Constants
-define("PRECONNECT_CDN", "https://unpkg.com");
-define("LEAFLET_JS", "https://unpkg.com/leaflet@1.7.1/dist/leaflet.js");
-define("LEAFLET_CSS", "https://unpkg.com/leaflet@1.7.1/dist/leaflet.css");
+define("LEAFLET_JS", plugins_url()."/placepress/javascripts/leaflet@1.9.3/leaflet.js");
+define("LEAFLET_CSS", plugins_url()."/placepress/javascripts/leaflet@1.9.3/leaflet.css");
 define(
   "CLUSTER_JS",
-  "https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"
+  plugins_url()."/placepress/javascripts/leaflet.markercluster@1.4.1/leaflet.markercluster.js"
 );
 define(
   "CLUSTER_CSS",
-  "https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css"
+  plugins_url()."/placepress/javascripts/leaflet.markercluster@1.4.1/MarkerCluster.css"
 );
 define(
   "CLUSTER_CSS_DEFAULT",
-  "https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css"
+  plugins_url()."/placepress/javascripts/leaflet.markercluster@1.4.1/MarkerCluster.Default.css"
 );
 define(
   "PLACEPRESS_TILE_PROVIDER",

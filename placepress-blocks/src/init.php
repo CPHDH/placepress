@@ -29,14 +29,6 @@ function placepress_block_categories($categories, $post)
 }
 add_filter('block_categories', 'placepress_block_categories', 10, 2);
 
-/**
-*** Ask browser to pre-connect to CDN
-**/
-function placepress_preconnect_header()
-{
-    echo placepress_helper_preconnect();
-}
-add_action('wp_head', 'placepress_preconnect_header', 2);
 
 /**
 *** Enqueue PlacePress Global Assets

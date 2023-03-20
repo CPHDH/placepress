@@ -65,14 +65,6 @@ function placepress_helper_has_scriptable_content($isadmin = false)
     }
 }
 
-// Header preconnect
-function placepress_helper_preconnect()
-{
-    ?>
-<link rel="preconnect" href="<?php echo PRECONNECT_CDN; ?>">
-<?php
-}
-
 // Generic callback to return Leaflet related assets
 function placepress_helper_leaflet_assets($infooter=true)
 {
