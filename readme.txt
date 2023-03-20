@@ -2,9 +2,9 @@
 Contributors: cphdh,ebellempire
 Tags: placepress, history, public, digital humanities, map, curatescape, blocks, gutenburg, location, tour, post types, walking, leaflet
 Requires at least: 5.0
-Tested up to: 6.1
-Requires PHP: 5.2.4
-Stable tag: 1.3.9
+Tested up to: 6.2
+Requires PHP: 7.4.3
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,6 +33,10 @@ The quickest method for installing PlacePress is:
 [View the FAQ](https://wpplacepress.org/about/faq/) at wpplacepress.org.
 
 == Changelog ==
+= 1.4.0 =
+- Leaflet scripts are now served locally rather than via CDN
+- Updated for WordPress version 6.2
+
 = 1.3.9 =
 - Updated for WordPress version 6.1
 
