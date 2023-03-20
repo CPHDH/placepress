@@ -239,7 +239,7 @@ function placepress_register_settings()
         'placepress_callback_field_checkbox',
         'placepress',
         'placepress_section_tours',
-        ['id'=>'tours_caption_display','label'=>__('Display a caption below Tour Stop headers.', 'wp_placepress')]
+        ['id'=>'tours_caption_display','label'=>__('Display a caption below Tour Stop headers', 'wp_placepress')]
     );
 
     add_settings_field(
@@ -263,7 +263,7 @@ function placepress_register_settings()
         'placepress_callback_field_checkbox',
         'placepress',
         'placepress_section_compatibility',
-        ['id'=>'force_front_page','label'=>__('Attempt to force the global map block to display on the homepage.', 'wp_placepress')]
+        ['id'=>'force_front_page','label'=>__('Attempt to force the global map block to display on the homepage', 'wp_placepress')]
     );
 }
 
