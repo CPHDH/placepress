@@ -8,7 +8,7 @@
           "type" : "runScript"
         }
       ],
-      "script" : "#!\/bin\/sh\ncd placepress-blocks\necho \"Building project...\"\nnpm run build\necho \"Copying to SVN trunk...\"\nrsync -a ..\/..\/placepress\/ ~\/Documents\/SVN\/placepress\/trunk\/ --exclude node_modules\necho \"Copying to SVN \\\"next\\\" tag...\"\nrsync -a ..\/..\/placepress\/ ~\/Documents\/SVN\/placepress\/tags\/next --exclude node_modules --exclude '.*'\necho \"Opening SVN directory...\"\nopen ~\/Documents\/SVN\/placepress"
+      "script" : "#!\/bin\/sh\ncd placepress-blocks\necho \"Building project...\"\nnvm use 14 && npm run build\necho \"Copying to SVN trunk...\"\nrsync -a ..\/..\/placepress\/ ~\/Documents\/SVN\/placepress\/trunk\/ --exclude node_modules\necho \"Copying to SVN \\\"next\\\" tag...\"\nrsync -a ..\/..\/placepress\/ ~\/Documents\/SVN\/placepress\/tags\/next --exclude node_modules --exclude '.*'\necho \"Opening SVN directory...\"\nopen ~\/Documents\/SVN\/placepress"
     },
     "run" : {
       "enabled" : true,
@@ -18,7 +18,7 @@
           "type" : "runScript"
         }
       ],
-      "script" : "#!\/bin\/sh\ncd placepress-blocks\nnpm start"
+      "script" : "#!\/bin\/sh\ncd placepress-blocks\nnvm use 14 && npm start"
     }
   },
   "openLogOnRun" : "start",
