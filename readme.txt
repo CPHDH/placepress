@@ -4,7 +4,7 @@ Tags: placepress, history, public, digital humanities, map, curatescape, blocks,
 Requires at least: 5.0
 Tested up to: 6.3
 Requires PHP: 7.4.3
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,6 +33,9 @@ The quickest method for installing PlacePress is:
 [View the FAQ](https://wpplacepress.org/about/faq/) at wpplacepress.org.
 
 == Changelog ==
+= 1.4.2 =
+- Updates Stamen Terrain provider URL to use [new Stadia Maps endpoint](https://maps.stamen.com/stadia-partnership/)
+
 = 1.4.1 =
 - Updated for WordPress version 6.3
 
