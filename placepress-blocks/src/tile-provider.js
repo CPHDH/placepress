@@ -13,14 +13,12 @@
 	window.getMapTileSets = () => {
 		const tiles = [];
 		tiles.stamen_terrain = L.tileLayer(
-			"https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}{retina}.jpg",
+			"https://tiles.stadiamaps.com/tiles/stamen_terrain/{z}/{x}/{y}{retina}.png",
 			{
 				attribution:
-					'<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | <a href="http://stamen.com/">Stamen Design</a>',
+					'<a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a> | <a href="https://stamen.com/" target="_blank">Stamen Design</a> | <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> | <a href="https://www.openstreetmap.org/about" target="_blank">OpenStreetMap</a>',
 				retina: L.Browser.retina ? "@2x" : "",
 				placepress_key: "stamen_terrain",
-				minZoom: 0,
-				maxZoom: 18,
 			}
 		);
 		tiles.carto_light = L.tileLayer(
