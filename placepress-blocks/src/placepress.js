@@ -268,6 +268,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 					// on new type selection...
 					select.onchange = (e) => {
+						map.dragging.disable(); // prevent accidental map grab & drag
+
 						let previous_zoom = map.getZoom();
 						let selected_type = e.target.selectedOptions[0].value;
 
@@ -283,6 +285,7 @@ document.addEventListener("DOMContentLoaded", () => {
 						});
 						// add selected markers
 						addMarkers(map, data, [], selected_type, previous_zoom);
+						map.dragging.enable();
 					};
 
 					return container;
