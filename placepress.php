@@ -3,7 +3,7 @@
 Plugin Name: PlacePress
 Plugin URI: https://wpplacepress.org
 Description: PlacePress adds Location and Tour post types, structured map blocks (for single and global locations), structured tour stop blocks, and custom taxonomies.
-Version: 1.4.4
+Version: 1.4.5
 Text Domain: wp_placepress
 Domain Path: /languages
 Author: CSU Center for Public History + Digital Humanities
@@ -12,7 +12,7 @@ Contributors: ebellempire,cphdh
 Donate link: https://csudigitalhumanities.org/about/donate/
 Tags: placepress, history, public, digital humanities, map, curatescape, blocks, gutenburg, location, tour, post types, walking, leaflet
 Requires at least: 5.0
-Tested up to: 6.4.2
+Tested up to: 6.4.3
 Requires PHP: 7.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
