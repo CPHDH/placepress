@@ -6,6 +6,14 @@ document.addEventListener("DOMContentLoaded", () => {
 				: null;
 		var active_index = null; // marker array position; to be opened upon map display
 
+		var iconSettings = {
+			mapIconSVG: '<svg id="marker" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><defs><style>#circle{fill:{mapIconCircleColor};}#circle,#color{stroke:{mapIconColorStroke};stroke-width:{mapIconStrokeWidth};}#color{fill:{mapIconColor};}#shadow{fill:#c4c4c4;isolation:isolate;}#shadow,#mask{opacity:.3;}#shadow,#shadow-2{stroke-width:0px;}#shadow-2{fill:#bfbfbf;fill-rule:evenodd;}</style></defs><g id="marker-icon"><g id="icon"><ellipse id="shadow" cx="24" cy="40.16" rx="13.47" ry="7.48"/><g id="mask"><g id="group"><path id="shadow-2" d="M24,47.64c7.48,0,13.47-3.29,13.47-7.48s-5.99-7.48-13.47-7.48-13.47,3.29-13.47,7.48,5.99,7.48,13.47,7.48Z"/></g></g><path id="color" d="M37.84,15.32c-.17,2.73-.92,5.39-2.19,7.82-1.4,2.89-3.03,5.67-4.86,8.3-1.77,2.6-3.54,4.91-4.87,6.56-.66.83-1.22,1.49-1.6,1.95-.13.15-.23.28-.32.38-.09-.1-.2-.23-.33-.39-.39-.46-.94-1.13-1.6-1.97-1.33-1.67-3.1-3.99-4.87-6.6-1.83-2.64-3.45-5.42-4.86-8.31-1.26-2.4-2.01-5.04-2.19-7.75-.15-7.81,6.04-14.27,13.84-14.44,7.81.18,14,6.64,13.84,14.44Z"/><path id="circle" d="M29.31,14.72c0,2.93-2.38,5.31-5.31,5.31-2.93,0-5.31-2.38-5.31-5.31s2.38-5.31,5.31-5.31c2.93,0,5.31,2.38,5.31,5.31,0,0,0,0,0,0Z"/></g></g></svg>',
+			mapIconColor: '#3a8ece',
+			mapIconColorStroke: 'rgba(0,0,0,.15)',
+			mapIconStrokeWidth: '2px',
+			mapIconCircleColor: '#fff',
+		};
+
 		// Extract Location Map Settings from HTML
 		const getDataAttributesPPLocation = () => {
 			const locations = document.querySelectorAll(".map-pp") || false;
@@ -116,7 +124,15 @@ document.addEventListener("DOMContentLoaded", () => {
 				.forEach(function (post) {
 					const coords = post.api_coordinates_pp.split(",");
 					if (coords.length == 2) {
+						const divIcon = L.divIcon({
+							className: "leaflet-data-marker",
+							html: L.Util.template(iconSettings.mapIconSVG, iconSettings),
+							iconAnchor: [22, 44],
+							iconSize: [44, 44],
+							popupAnchor: [0, -44]
+						});
 						const marker = L.marker(coords, {
+							icon: divIcon,
 							id: post.id,
 							title: post.title,
 							permalink: post.permalink,
@@ -400,7 +416,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		// Standalone Marker (not for Global Map)
 		const addSingleMarker = (settings, map, isTour, openPopup = false) => {
-			const marker = new L.marker([settings.lat, settings.lon]).addTo(map);
+			const divIcon = L.divIcon({
+				className: "leaflet-data-marker",
+				html: L.Util.template(iconSettings.mapIconSVG, iconSettings),
+				iconAnchor: [22, 44],
+				iconSize: [44, 44],
+				popupAnchor: [0, -44]
+			});
+			const marker = new L.marker([settings.lat, settings.lon], {icon: divIcon}).addTo(map);
 			marker._icon.setAttribute("role", "button");
 			let title =
 				settings.title && isTour
