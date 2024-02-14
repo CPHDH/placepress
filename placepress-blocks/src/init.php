@@ -27,7 +27,7 @@ function placepress_block_categories($categories, $post)
         )
     );
 }
-add_filter('block_categories', 'placepress_block_categories', 10, 2);
+add_filter('block_categories_all', 'placepress_block_categories', 10, 2);
 
 
 /**
@@ -39,6 +39,7 @@ function placepress_enqueue_global_assets($hook)
         $hook === 'settings_page_placepress'
         || $hook === 'post.php'
         || $hook === 'post-new.php'
+		|| $hook === 'site-editor.php'
     );
 
     // Only for Tours, Locations, & Global Map Blocks
