@@ -403,10 +403,15 @@ function placepress_callback_field_radio($args)
 // Checkbox
 function placepress_callback_field_checkbox($args)
 {
-    $options = get_option('placepress_options', placepress_options_default());
+    $defaults = placepress_options_default();
+    $options = get_option('placepress_options', $defaults);
 
     $id	= isset($args['id']) ? $args['id'] : '';
     $label = isset($args['label']) ? $args['label'] : '';
+
+    if(!isset($options[$id])){
+        $options[$id] = $defaults[$id];
+    }
 
     $checked = isset($options[$id]) ? checked($options[$id], 1, false) : '';
     echo '<input id="placepress_options_'.$id.'" name="placepress_options['.$id.']" type="checkbox" value="1" '.$checked.'>';
