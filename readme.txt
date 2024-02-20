@@ -4,7 +4,7 @@ Tags: placepress, history, public, digital humanities, map, curatescape, blocks,
 Requires at least: 5.0
 Tested up to: 6.4.3
 Requires PHP: 7.4.3
-Stable tag: 1.4.5
+Stable tag: 1.4.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,6 +33,10 @@ The quickest method for installing PlacePress is:
 [View the FAQ](https://wpplacepress.org/about/faq/) at wpplacepress.org.
 
 == Changelog ==
+= 1.4.6 =
+- Map markers on the front end are now SVG instead of static PNG file (and thus can be styled using CSS)
+- New option to disable click-to-zoom on marker cluster groups
+
 = 1.4.5 =
 - Enables Location Type selection inside the map on Locations post type archive.
 - Fixes a bug in the JSON output feed that resulted in invalid nodes.
