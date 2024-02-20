@@ -181,7 +181,9 @@ document.addEventListener("DOMContentLoaded", () => {
 					options.maxZoom = previous_zoom;
 				}
 				if (typeof L.markerClusterGroup === "function") {
-					const clusterGroup = L.markerClusterGroup();
+					const clusterGroup = L.markerClusterGroup({
+						zoomToBoundsOnClick:(typeof defaults.marker_clustering_zoom_click !== "undefined") ? Boolean(defaults.marker_clustering_zoom_click) : true
+					});
 					clusterGroup.addLayers(markers).addTo(map);
 					map.fitBounds(clusterGroup.getBounds(), options);
 				} else {
