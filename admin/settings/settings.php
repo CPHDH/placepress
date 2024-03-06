@@ -160,15 +160,6 @@ function placepress_register_settings()
         'placepress_section_map',
         ['id'=>'marker_clustering','label'=>esc_html__('Enable clustering for crowded map markers', 'wp_placepress')]
     );
-    
-    add_settings_field(
-        'marker_clustering_zoom_click',
-        esc_html__('Marker Clustering Zoom', 'wp_placepress'),
-        'placepress_callback_field_checkbox',
-        'placepress',
-        'placepress_section_map',
-        ['id'=>'marker_clustering_zoom_click','label'=>esc_html__('Zoom to cluster bounds on click (when marker clustering is enabled)', 'wp_placepress')]
-    );
 
     // add_settings_field(
     // 	'mapbox_key',
@@ -291,7 +282,6 @@ function placepress_options_default()
         'maki_markers'=>false,
         'maki_markers_color'=>null,
         'marker_clustering'=>false,
-        'marker_clustering_zoom_click'=>true,
         'enable_tours'=>true,
         'enable_locations'=>true,
         'enable_location_types_map' => false,
@@ -419,10 +409,6 @@ function placepress_callback_field_checkbox($args)
     $id	= isset($args['id']) ? $args['id'] : '';
     $label = isset($args['label']) ? $args['label'] : '';
 
-    if(!isset($options[$id])){
-        $options[$id] = $defaults[$id];
-    }
-
     $checked = isset($options[$id]) ? checked($options[$id], 1, false) : '';
     echo '<input id="placepress_options_'.$id.'" name="placepress_options['.$id.']" type="checkbox" value="1" '.$checked.'>';
     echo '<label for="placepress_options['.$id.']">'.$label.'</label>';
@@ -539,11 +525,6 @@ function placepress_callback_validate_options($input)
         $input['marker_clustering'] = null;
     }
     $input['marker_clustering'] = $input['marker_clustering'] == 1 ? 1 : 0;
-        
-    if (! isset($input['marker_clustering_zoom_click'])) {
-        $input['marker_clustering_zoom_click'] = null;
-    }
-    $input['marker_clustering_zoom_click'] = $input['marker_clustering_zoom_click'] == 1 ? 1 : 0;
 
     return $input;
 }
@@ -566,7 +547,7 @@ function add_context_menu_help_placepress()
                     '<p><strong>Default Coordinates: </strong>Simply enter the name of a location in the search bar and press enter/return to move to a new location. You may drag and drop the map marker to refine the default map coordinates.</p>'.
                     '<p><strong>Default Zoom Level: </strong>Use the +/- buttons on the map to zoom in and out (or double-click on a map to zoom in) to set default zoom level.</p>'.
                     '<p><strong>Default Base Map: </strong> Use the layer controls on the map to set a default map style.</p>'.
-                    '<p><strong>Cluster Settings: </strong>Use the checkbox to enable marker clustering. This can be helpful if you plan to add a lot of locations that are close to one another or if your project covers a large geographic area. Locations will be grouped together into geographic clusters with a number indicating the total number of locations in the group. By default, when a user clicks on a cluster group, the map will zoom in to show those locations. Cluster settings only apply to maps containing multiple locations.</p>'
+                    '<p><strong>Cluster Settings: </strong>Use the checkbox to enable marker clustering. This can be helpful if you plan to add a lot of locations that are close to one another or if your project covers a large geographic area. Locations will be grouped together into geographic clusters with a number indicating the total number of locations in the group.</p>'
                 )
             )
         );
