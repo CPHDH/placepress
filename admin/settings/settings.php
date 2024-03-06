@@ -581,10 +581,10 @@ function add_context_menu_help_placepress()
                 'id' => 'pp_help_tab3',
                 'title' => __('Archive Settings'),
                 'content' => __(
-                    '<p>Enabling these options will automatically add a map to the selected archive pages. The map will use the default display settings you configure on this page.</p>'.
-                    '<p><strong>Theme Compatibility: </strong>If your current theme displays descriptions for category archives, this option should work just fine. If not, you can leave these settings disabled or change/edit your theme. If the map size is too big or small, you can use CSS to make adjustments as needed.</p>'.
-                    '<p><strong>Locations: </strong>Map will be appended using <a href="https://developer.wordpress.org/reference/hooks/get_the_post_type_description/" target="_blank">get_the_post_type_description()</a> hook.</em></p>'.
-                    '<p><strong>Location Types: </strong>Requires Permalinks. Map will be appended using <a href="https://developer.wordpress.org/reference/hooks/category_description/" target="_blank">category_description()</a> (or location_types_description) hook.</em></p>'
+                    '<p>Enabling these options will automatically add a map to the selected archive pages after the archive title. The map will use the default display settings you configure on this page.</p>'.
+                    '<p><strong>Theme Compatibility: </strong>If your current theme displays a title for category and post type archives, this option should work just fine. If not, you can leave these settings disabled or change/edit your theme. If the map size is too big or small, you can use CSS to make adjustments as needed.</p>'.
+                    '<p><strong>Locations: </strong>Map will be appended using <a href="https://developer.wordpress.org/reference/hooks/get_the_post_type_description/" target="_blank">get_the_archive_title()</a> hook.</em></p>'.
+                    '<p><strong>Location Types: </strong>Requires Permalinks. Map will be appended using <a href="https://developer.wordpress.org/reference/hooks/get_the_archive_title/" target="_blank">get_the_archive_title()</a> hook.</em></p>'
                 )
             )
         );

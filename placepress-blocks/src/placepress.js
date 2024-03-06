@@ -25,6 +25,13 @@ document.addEventListener("DOMContentLoaded", () => {
 			const locations = document.querySelectorAll(".map-pp") || false;
 			const settings = [];
 			if (locations) {
+				// is this a hidden archive map figure added by archive_title filter?
+				if(locations[0].parentElement.getAttribute("hidden") !== null){
+					// move it up a level (out of title) and unhide
+					let container = locations[0].parentElement.parentElement;
+					container.insertAdjacentElement('afterend', locations[0].parentElement)
+					locations[0].parentElement.removeAttribute("hidden");
+				}
 				locations.forEach((location, i) => {
 					s = {};
 					s.mapId = location.getAttribute("id");

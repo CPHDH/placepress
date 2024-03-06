@@ -24,23 +24,27 @@ function tour_block_archive_wrapper($block_content, $block)
 }
 
 /*
-** ARCHIVES: LOCATION POST TYPE FILTERS
-** These filter the location type and post type descriptions in order to add an optional map
+** ARCHIVES: LOCATION POST TYPE AND TAX FILTER
+** Filter the location type and location post type archive titles in order to add an optional map
 */
-add_filter('location_types_description', 'pp_add_location_types_map');
-add_filter('get_the_post_type_description', 'pp_add_location_archive_map');
-function pp_add_location_types_map($description)
-{
-    if (placepress_setting('enable_location_types_map') && !is_admin()) {
-        $description = $description.'<figure><div id="placepress-map_archive" class="map-pp" data-lat="'.placepress_setting('default_latitude').'" data-lon="'.placepress_setting('default_longitude').'" data-zoom="'.placepress_setting('default_zoom').'" data-basemap="'.placepress_setting('default_map_type').'" data-type="archive"></div><figcaption class="map-caption-pp">'.__('All Results for Location Type', 'wp_placepress').'</figcaption></figure>';
-    }
-    return $description;
-}
-function pp_add_location_archive_map($description)
-{
+add_filter('get_the_archive_title', 'pp_add_archive_map');
+function pp_add_archive_map($title){
     $post_type = get_query_var('post_type');
-    if ($post_type == 'locations' && (placepress_setting('enable_location_archive_map') && !is_admin())) {
-        $description = $description.'<figure><div id="placepress-map_archive" class="map-pp" data-lat="'.placepress_setting('default_latitude').'" data-lon="'.placepress_setting('default_longitude').'" data-zoom="'.placepress_setting('default_zoom').'" data-basemap="'.placepress_setting('default_map_type').'" data-type="archive" data-location-type-selection="true"></div><figcaption class="map-caption-pp">'.__('All Locations', 'wp_placepress').'</figcaption></figure>';
+    $post_tax = get_query_var('taxonomy');
+    $post_term = get_query_var('term');
+    $append = null;
+    $ltype = null;
+    if(!is_admin()){
+        if($post_type == 'locations' && (placepress_setting('enable_location_archive_map'))){
+            $append = '<figure hidden><div id="placepress-map_archive" class="map-pp" data-lat="'.placepress_setting('default_latitude').'" data-lon="'.placepress_setting('default_longitude').'" data-zoom="'.placepress_setting('default_zoom').'" data-basemap="'.placepress_setting('default_map_type').'" data-type="archive" data-location-type-selection="true"></div><figcaption class="map-caption-pp">'.__('All Locations', 'wp_placepress').'</figcaption></figure>';
+        }
+        if($post_tax == 'location_types' && (placepress_setting('enable_location_types_map'))){
+            $term = get_term_by('slug',$post_term,'location_types');
+            if( isset($term) && isset($term->name) ){
+                $ltype = ': '.$term->name;
+            }
+            $append = '<figure hidden><div id="placepress-map_archive" class="map-pp" data-lat="'.placepress_setting('default_latitude').'" data-lon="'.placepress_setting('default_longitude').'" data-zoom="'.placepress_setting('default_zoom').'" data-basemap="'.placepress_setting('default_map_type').'" data-type="archive"></div><figcaption class="map-caption-pp">'.sprintf(__('All Results for Location Type%s', 'wp_placepress'), $ltype).'</figcaption></figure>';
+        }
     }
-    return $description;
+    return $title.$append;
 }
