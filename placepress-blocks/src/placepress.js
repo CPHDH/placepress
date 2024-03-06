@@ -437,7 +437,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				(settings.background || "") +
 				')">' +
 				title +
-				'<a class="pp-directions-button" target="_blank" rel="noopener" href="http://maps.google.com/maps?daddr=' +
+				'<a class="pp-directions-button" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=' +
 				settings.lat +
 				"," +
 				settings.lon +
