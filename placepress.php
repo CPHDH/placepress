@@ -10,7 +10,7 @@ Author: CSU Center for Public History + Digital Humanities
 Author URI: https://csudigitalhumanities.org
 Contributors: ebellempire,cphdh
 Donate link: https://csudigitalhumanities.org/about/donate/
-Tags: placepress, history, public, digital humanities, map, curatescape, blocks, gutenburg, location, tour, post types, walking, leaflet
+Tags: placepress, history, public, digital humanities, map, curatescape, blocks, location, tour, post type, walking, leaflet
 Requires at least: 5.0
 Tested up to: 6.4.3
 Requires PHP: 7.4.3
@@ -39,7 +39,23 @@ if (!defined("ABSPATH")) {
   exit();
 }
 
+// Read Version from Plugin Header
+function placepress_header_version($version=0){
+ if(is_admin()){
+   if(!function_exists('get_plugin_data')){
+     require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+   }
+   if(function_exists('get_plugin_data')){
+     $plugin_data = get_plugin_data( __FILE__ );
+     $version=isset($plugin_data["Version"]) ? $plugin_data["Version"] : 0;
+   }
+ } 
+ return $version;
+}
+
+
 // Constants
+define("PLACEPRESS_VERSION", placepress_header_version());
 define("LEAFLET_JS", plugins_url()."/placepress/javascripts/leaflet@1.9.3/leaflet.js");
 define("LEAFLET_CSS", plugins_url()."/placepress/javascripts/leaflet@1.9.3/leaflet.css");
 define(

@@ -3,6 +3,27 @@ if (!defined('ABSPATH')) {
     exit;
 }
 /*
+** Upgrade
+** This code runs after the new version is downloaded but BEFORE the upgrade is applied
+** See: https://developer.wordpress.org/reference/hooks/upgrader_process_complete/#more-information
+** Adds the current version (soon to be previous version) to the database and sets as transient
+** Allows version compare for adding new plugin options
+*/
+add_action('upgrader_process_complete', 'placepress_upgrade_completed', 10, 2);
+function placepress_upgrade_completed($upgrader_object, $options){
+    $plugin_path = 'placepress/placepress.php';
+    if ($options['action'] == 'update' && $options['type'] == 'plugin'){
+        foreach($options['plugins'] as $p){
+            if($p==$plugin_path){
+                // update after use in upgrade scripts
+                add_option('placepress_previous_version', PLACEPRESS_VERSION);
+                // delete after use in upgrade scripts
+                set_transient( 'placepress_previous_version', PLACEPRESS_VERSION );
+            }
+        }
+    }
+}
+/*
 ** GET PLUGIN OPTION
 */
 function placepress_setting($option)
