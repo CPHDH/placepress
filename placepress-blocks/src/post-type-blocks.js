@@ -4,7 +4,7 @@ wp.domReady(function () {
 		wp.data.subscribe(() => {
 			if(deregistered == false){ // run once
 				if ( wp.data.select( 'core/edit-site' ) ) {
-					console.error('PlacePress: site-editor support is limited at this time. PlacePress Global Map blocks added using the site-editor interface may not render properly within the editor, but should work as expected on the front end.');
+					console.warn('PlacePress: site-editor support is limited at this time. PlacePress Global Map blocks added using the site-editor interface may not render properly within the editor, but should work as expected on the front end.');
 					deregistered = true;
 					wp.blocks.unregisterBlockType("placepress/block-map-location");
 					wp.blocks.unregisterBlockType("placepress/block-tour-stop");

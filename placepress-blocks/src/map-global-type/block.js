@@ -120,7 +120,9 @@ registerBlockType("placepress/block-map-global-type", {
 		const notices = wp.data.dispatch("core/notices");
 
 		const onBlockLoad = function () {
-			globalMapPP();
+			if(pagenow !== 'site-editor'){
+				globalMapPP();
+			}
 		};
 
 		const onChangeCaption = (caption) => {
@@ -385,7 +387,12 @@ registerBlockType("placepress/block-map-global-type", {
 						data-type="global"
 						data-location-type={location_type}
 						data-location-type-selection={location_type_selection}
-					/>
+					>
+					{
+						pagenow=='site-editor' ?
+						<div class="pp-site-editor-warning"><span>Map preview unavailable in site editor.</span></div> : null
+					}
+					</div>
 					<TextareaControl
 						rows="2"
 						className="map-caption-pp"
