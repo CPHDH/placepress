@@ -2,9 +2,9 @@
 Contributors: cphdh,ebellempire
 Tags: placepress, history, public, digital humanities, map, curatescape, blocks, gutenburg, location, tour, post types, walking, leaflet
 Requires at least: 5.0
-Tested up to: 6.4.3
+Tested up to: 6.5
 Requires PHP: 7.4.3
-Stable tag: 1.4.6
+Stable tag: 1.4.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,9 +33,13 @@ The quickest method for installing PlacePress is:
 [View the FAQ](https://wpplacepress.org/about/faq/) at wpplacepress.org.
 
 == Changelog ==
+=1.4.7=
+- Archive maps are now hooked into the archive template title (rather than the description), increasing out-of-the-box feature compatibility.
+- Bug fixes and minor improvements
+
 = 1.4.6 =
 - Map markers on the front end are now SVG instead of static PNG file (and thus can be styled using CSS)
-- New option to disable click-to-zoom on marker cluster groups
+- New option to disable click-to-zoom on marker cluster groups (removed in 1.4.7)
 
 = 1.4.5 =
 - Enables Location Type selection inside the map on Locations post type archive.
