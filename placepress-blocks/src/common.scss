@@ -126,7 +126,7 @@ div#placepress-map_archive_0 {
 	svg#geolocation,
 	svg#bounds {
 		background: #fff;
-		border-radius: 3px;
+		border-radius: 4px;
 		padding: 5px;
 		box-shadow: 0 0 0px 2px rgba(0, 0, 0, 0.25);
 		cursor: pointer;
@@ -146,6 +146,9 @@ div#placepress-map_archive_0 {
 	}
 	.leaflet-left {
 		padding: 2px 2px 0 0;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-evenly;
 	}
 	.leaflet-control-container .leaflet-top,
 	.leaflet-control-container .leaflet-bottom {

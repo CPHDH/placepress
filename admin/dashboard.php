@@ -10,6 +10,10 @@ function placepress_at_a_glance()
         '_builtin' => false
     );
     $post_types = get_post_types($args, 'object', 'and');
+    echo '<style>
+    #dashboard_right_now li.tours-count a::before {content: "\f231";}
+    #dashboard_right_now li.locations-count a::before {content: "\f230";}
+    </style>'; // dashicons
     foreach ($post_types as $post_type) {
         $count = wp_count_posts($post_type->name);
         $num = number_format_i18n($count->publish);
