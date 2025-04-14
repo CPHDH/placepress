@@ -9,7 +9,6 @@ const {
 	Flex,
 	FlexItem,
 	Modal,
-	IsolatedEventContainer,
 	TextControl,
 	PanelBody,
 	withNotices,
@@ -317,7 +316,7 @@ registerBlockType("placepress/block-tour-stop", {
 			};
 
 			return (
-				<IsolatedEventContainer>
+				<div>
 					<figure>
 						<div className="map-pp" id="placepress-tour-map"></div>
 						{noticeUI}
@@ -329,7 +328,7 @@ registerBlockType("placepress/block-tour-stop", {
 						onLoad={onBlockLoad}
 						src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1' %3E%3Cpath d=''/%3E%3C/svg%3E"
 					/>
-				</IsolatedEventContainer>
+				</div>
 			);
 		});
 
@@ -508,6 +507,8 @@ registerBlockType("placepress/block-tour-stop", {
 				<InspectorControls>
 					<PanelBody title={__("Location Map Settings")}>
 						<TextControl
+							__nextHasNoMarginBottom
+							__next40pxDefaultSize
 							maxlength="100"
 							label={__("Info Window Text")}
 							className="infowindow-pp"

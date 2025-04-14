@@ -264,6 +264,8 @@ registerBlockType("placepress/block-map-global", {
 					}
 					</div>
 					<TextareaControl
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 						rows="2"
 						className="map-caption-pp"
 						tagName="figcaption"

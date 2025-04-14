@@ -357,6 +357,8 @@ registerBlockType("placepress/block-map-location", {
 						data-type="single-location"
 					/>
 					<TextareaControl
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 						rows="2"
 						className="map-caption-pp"
 						tagName="figcaption"
@@ -378,6 +380,8 @@ registerBlockType("placepress/block-map-location", {
 				<InspectorControls>
 					<PanelBody title={__("Location Map Settings")}>
 						<TextControl
+							__nextHasNoMarginBottom
+							__next40pxDefaultSize
 							maxlength="100"
 							label={__("Info Window Text")}
 							className="infowindow-pp"
