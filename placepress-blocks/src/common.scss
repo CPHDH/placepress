@@ -20,6 +20,9 @@
 		color: #000;
 		text-decoration: none;
 	}
+	.leaflet-marker-icon{
+		pointer-events: auto !important;
+	}
 }
 
 // Styles for all Tour maps
