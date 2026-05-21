@@ -171,7 +171,7 @@ registerBlockType("placepress/block-map-location", {
 				props.setAttributes({ lat: ll.lat });
 				props.setAttributes({ lon: ll.lng });
 				updateMetaCoordinates(ll.lat + "," + ll.lng);
-				map.setView([ll.lat, ll.lng], ll.zoom, { animation: true });
+				map.setView([ll.lat, ll.lng], map.getZoom(), { animation: true });
 			});
 
 			// user actions: ZOOM
