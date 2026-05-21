@@ -35,11 +35,12 @@ add_filter('block_categories_all', 'placepress_block_categories', 10, 2);
 **/
 function placepress_enqueue_global_assets($hook)
 {
-    $isadmin = boolval(
+    $is_block_editor_context = empty($hook) && is_admin();
+    $isadmin = $is_block_editor_context || boolval(
         $hook === 'settings_page_placepress'
         || $hook === 'post.php'
         || $hook === 'post-new.php'
-		|| $hook === 'site-editor.php'
+        || $hook === 'site-editor.php'
     );
 
     // Only for Tours, Locations, & Global Map Blocks
@@ -79,6 +80,14 @@ function placepress_enqueue_global_assets($hook)
                 'placepress-main',
                 $plugin_settings,
                 'before'
+            );
+        }
+
+        if ($isadmin) {
+            wp_enqueue_style(
+                'placepress_blocks-editor-css',
+                plugins_url('dist/blocks.editor.build.css', dirname(__FILE__)),
+                array( 'wp-edit-blocks' )
             );
         }
 
@@ -123,12 +132,6 @@ function placepress_enqueue_editor_assets()
         array('placepress_defaults' => array_merge(["site_url"=>get_site_url()], get_option('placepress_options', placepress_options_default())))
     );
 
-    // Styles for editor
-    wp_enqueue_style(
-        'placepress_blocks-editor-css',
-        plugins_url('dist/blocks.editor.build.css', dirname(__FILE__)),
-        array( 'wp-edit-blocks' )
-    );
 }
 add_action('enqueue_block_editor_assets', 'placepress_enqueue_editor_assets');
 
