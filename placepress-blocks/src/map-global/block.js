@@ -5,6 +5,7 @@ const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
 const { TextareaControl, PanelBody, Button } = wp.components;
 const { InspectorControls } = wp.blockEditor;
+const { useEffect, useRef } = wp.element;
 
 registerBlockType("placepress/block-map-global", {
 	title: __("Global Map"),
@@ -99,25 +100,28 @@ registerBlockType("placepress/block-map-global", {
 		} = props;
 
 		const notices = wp.data.dispatch("core/notices");
-
-		const onBlockLoad = function () {
-			if(pagenow !== 'site-editor'){
-				globalMapPP();
-			}
-		};
+		const mapRef = useRef(null);
 
 		const onChangeCaption = (caption) => {
 			setAttributes({ caption });
 		};
 
-		const globalMapPP = function () {
+		useEffect(() => {
+			if (!mapRef.current || (typeof pagenow !== 'undefined' && pagenow === 'site-editor')) return;
+
+			const defaults = placepress_plugin_settings.placepress_defaults;
+			const mapLat = lat || defaults.default_latitude;
+			const mapLon = lon || defaults.default_longitude;
+			const mapZoom = zoom || defaults.default_zoom;
+			const mapBasemap = basemap || defaults.default_map_type;
+
 			const tileSets = window.getMapTileSets();
-			const currentTileSet = tileSets[basemap];
+			const currentTileSet = tileSets[mapBasemap];
 			const markers = [];
-			const map = L.map("placepress-map", {
+			const map = L.map(mapRef.current, {
 				layers: currentTileSet,
 				scrollWheelZoom: false,
-			}).setView([lat, lon], zoom);
+			}).setView([mapLat, mapLon], mapZoom);
 
 			// user actions: LAYERS
 			const layerNames = {
@@ -213,7 +217,9 @@ registerBlockType("placepress/block-map-global", {
 				}
 			};
 			request.send();
-		};
+
+			return () => map.remove();
+		}, []);
 
 		// set attributes
 		const defaults = placepress_plugin_settings.placepress_defaults;
@@ -247,6 +253,7 @@ registerBlockType("placepress/block-map-global", {
 			>
 				<figure>
 					<div
+						ref={mapRef}
 						className="map-pp"
 						id="placepress-map"
 						data-lat={lat}
@@ -259,7 +266,7 @@ registerBlockType("placepress/block-map-global", {
 						data-type="global"
 					>
 					{
-						pagenow=='site-editor' ?
+						typeof pagenow !== 'undefined' && pagenow === 'site-editor' ?
 						<div class="pp-site-editor-warning"><span>Map preview unavailable in site editor.</span></div> : null
 					}
 					</div>
@@ -277,13 +284,6 @@ registerBlockType("placepress/block-map-global", {
 						onChange={onChangeCaption}
 					/>
 				</figure>
-				<img // @TODO: find a replacement for this hack to fire the map script when block is added
-					className="onload-hack-pp"
-					height="0"
-					width="0"
-					onLoad={onBlockLoad}
-					src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1' %3E%3Cpath d=''/%3E%3C/svg%3E"
-				/>
 				<InspectorControls>
 					<PanelBody title={__("PlacePress Help")} initialOpen={false}>
 						<div>

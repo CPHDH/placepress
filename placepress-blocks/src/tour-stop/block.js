@@ -19,7 +19,7 @@ const {
 	InnerBlocks,
 	InspectorControls,
 } = wp.blockEditor;
-const { useState } = wp.element;
+const { useState, useEffect, useRef } = wp.element;
 
 import d from "./deprecated";
 
@@ -153,11 +153,14 @@ registerBlockType("placepress/block-tour-stop", {
 		];
 
 		const PPMapUI = withNotices(({ noticeOperations, noticeUI }) => {
-			const tileSets = window.getMapTileSets();
-			const currentTileSet = tileSets[userMapConfig.basemap];
+			const mapRef = useRef(null);
 
-			const uiSetCoordsPP = function () {
-				const map = L.map("placepress-tour-map", {
+			useEffect(() => {
+				if (!mapRef.current) return;
+
+				const tileSets = window.getMapTileSets();
+				const currentTileSet = tileSets[userMapConfig.basemap];
+				const map = L.map(mapRef.current, {
 					layers: currentTileSet,
 					scrollWheelZoom: false,
 				}).setView([userMapConfig.lat, userMapConfig.lon], userMapConfig.zoom);
@@ -309,25 +312,16 @@ registerBlockType("placepress/block-tour-stop", {
 						userMapConfig.basemap = key;
 					}
 				});
-			};
 
-			const onBlockLoad = function () {
-				uiSetCoordsPP();
-			};
+				return () => map.remove();
+			}, []);
 
 			return (
 				<div>
 					<figure>
-						<div className="map-pp" id="placepress-tour-map"></div>
+						<div ref={mapRef} className="map-pp" id="placepress-tour-map"></div>
 						{noticeUI}
 					</figure>
-					<img // @TODO: find a replacement for this hack to fire the map script when block is added
-						className="onload-hack-pp"
-						height="0"
-						width="0"
-						onLoad={onBlockLoad}
-						src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1' %3E%3Cpath d=''/%3E%3C/svg%3E"
-					/>
 				</div>
 			);
 		});

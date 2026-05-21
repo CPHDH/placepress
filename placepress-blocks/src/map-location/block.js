@@ -5,6 +5,7 @@ const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
 const { TextareaControl, TextControl, PanelBody, Button } = wp.components;
 const { InspectorControls } = wp.blockEditor;
+const { useEffect, useRef } = wp.element;
 const { useSelect } = wp.data;
 const { useEntityProp } = wp.coreData;
 
@@ -103,20 +104,10 @@ registerBlockType("placepress/block-map-location", {
 		};
 
 		const notices = wp.data.dispatch("core/notices");
+		const mapRef = useRef(null);
 
 		const onChangeCaption = (caption) => {
 			setAttributes({ caption });
-		};
-
-		const forceFocus = (selector) => {
-			let el = document.querySelector(selector);
-			if (el) el.focus();
-		};
-
-		const onBlockLoad = () => {
-			uiLocationMapPP();
-			// if new, set focus on query input (instead of caption) field
-			forceFocus(".wp-block.is-selected .editor-input");
 		};
 
 		// Determine if a query string is geo-coordinates
@@ -139,17 +130,24 @@ registerBlockType("placepress/block-map-location", {
 			return coords;
 		};
 
-		// Init location map user interface
-		const uiLocationMapPP = function () {
-			const tileSets = window.getMapTileSets();
-			const currentTileSet = tileSets[basemap];
+		useEffect(() => {
+			if (!mapRef.current) return;
 
-			const map = L.map("placepress-map", {
+			const defaults = placepress_plugin_settings.placepress_defaults;
+			const mapLat = lat || defaults.default_latitude;
+			const mapLon = lon || defaults.default_longitude;
+			const mapZoom = zoom || defaults.default_zoom;
+			const mapBasemap = basemap || defaults.default_map_type;
+
+			const tileSets = window.getMapTileSets();
+			const currentTileSet = tileSets[mapBasemap];
+
+			const map = L.map(mapRef.current, {
 				layers: currentTileSet,
 				scrollWheelZoom: false,
-			}).setView([lat, lon], zoom);
+			}).setView([mapLat, mapLon], mapZoom);
 
-			const marker = L.marker([lat, lon], {
+			const marker = L.marker([mapLat, mapLon], {
 				draggable: "true",
 			}).addTo(map);
 
@@ -311,7 +309,9 @@ registerBlockType("placepress/block-map-location", {
 					props.setAttributes({ basemap: key });
 				}
 			});
-		};
+
+			return () => map.remove();
+		}, []);
 
 		// set attributes
 		const defaults = placepress_plugin_settings.placepress_defaults;
@@ -345,6 +345,7 @@ registerBlockType("placepress/block-map-location", {
 			>
 				<figure>
 					<div
+						ref={mapRef}
 						className="map-pp"
 						id="placepress-map"
 						data-lat={lat}
@@ -370,13 +371,6 @@ registerBlockType("placepress/block-map-location", {
 						onChange={onChangeCaption}
 					/>
 				</figure>
-				<img // @TODO: find a replacement for this hack to fire the map script when block is added
-					className="onload-hack-pp"
-					height="0"
-					width="0"
-					onLoad={onBlockLoad}
-					src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1' %3E%3Cpath d=''/%3E%3C/svg%3E"
-				/>
 				<InspectorControls>
 					<PanelBody title={__("Location Map Settings")}>
 						<TextControl
