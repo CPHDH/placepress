@@ -99,7 +99,6 @@ registerBlockType("placepress/block-map-location", {
 		);
 		const [meta, setMeta] = useEntityProp("postType", postType, "meta");
 		const updateMetaCoordinates = (newValue) => {
-			console.log(newValue);
 			setMeta({ meta, api_coordinates_pp: newValue });
 		};
 
