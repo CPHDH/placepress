@@ -18,12 +18,14 @@ const {
 	MediaUploadCheck,
 	InnerBlocks,
 	InspectorControls,
+	useBlockProps,
 } = wp.blockEditor;
 const { useState, useEffect, useRef } = wp.element;
 
 import d from "./deprecated";
 
 registerBlockType("placepress/block-tour-stop", {
+	apiVersion: 3,
 	title: __("Tour Stop"),
 	icon: "location",
 	category: "placepress",
@@ -128,7 +130,6 @@ registerBlockType("placepress/block-tour-stop", {
 				maki_color,
 				infowindow,
 			},
-			className,
 		} = props;
 
 		const mapdefaults = placepress_plugin_settings.placepress_defaults;
@@ -164,6 +165,11 @@ registerBlockType("placepress/block-tour-stop", {
 					layers: currentTileSet,
 					scrollWheelZoom: false,
 				}).setView([userMapConfig.lat, userMapConfig.lon], userMapConfig.zoom);
+
+				setTimeout(() => {
+					map.invalidateSize();
+					map.setView([userMapConfig.lat, userMapConfig.lon], userMapConfig.zoom, { animate: false });
+				}, 0);
 
 				const marker = L.marker([userMapConfig.lat, userMapConfig.lon], {
 					draggable: "true",
@@ -417,9 +423,10 @@ registerBlockType("placepress/block-tour-stop", {
 
 		return (
 			<div
-				className={className}
-				aria-label={__("Tour Stop", "wp_placepress")}
-				role="region"
+				{...useBlockProps({
+					"aria-label": __("Tour Stop", "wp_placepress"),
+					role: "region",
+				})}
 			>
 				<figure>
 					<div
@@ -558,9 +565,10 @@ registerBlockType("placepress/block-tour-stop", {
 
 		return (
 			<div
-				className={props.className}
-				aria-label={__("Tour Stop", "wp_placepress")}
-				role="region"
+				{...useBlockProps.save({
+					"aria-label": __("Tour Stop", "wp_placepress"),
+					role: "region",
+				})}
 			>
 				<figure>
 					<div

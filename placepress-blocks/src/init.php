@@ -84,6 +84,7 @@ function placepress_enqueue_global_assets($hook)
         }
 
         if ($isadmin) {
+            wp_enqueue_style('dashicons');
             wp_enqueue_style(
                 'placepress_blocks-editor-css',
                 plugins_url('dist/blocks.editor.build.css', dirname(__FILE__)),

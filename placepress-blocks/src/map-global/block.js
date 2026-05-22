@@ -4,10 +4,11 @@ import "./editor.scss";
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
 const { TextareaControl, PanelBody, Button } = wp.components;
-const { InspectorControls } = wp.blockEditor;
+const { InspectorControls, useBlockProps } = wp.blockEditor;
 const { useEffect, useRef } = wp.element;
 
 registerBlockType("placepress/block-map-global", {
+	apiVersion: 3,
 	title: __("Global Map"),
 	icon: "location-alt",
 	category: "placepress",
@@ -115,15 +116,54 @@ registerBlockType("placepress/block-map-global", {
 			const mapZoom = zoom || defaults.default_zoom;
 			const mapBasemap = basemap || defaults.default_map_type;
 
-			const tileSets = window.getMapTileSets();
-			const currentTileSet = tileSets[mapBasemap];
-			const markers = [];
-			const map = L.map(mapRef.current, {
-				layers: currentTileSet,
-				scrollWheelZoom: false,
-			}).setView([mapLat, mapLon], mapZoom);
+			let map = null;
 
-			// user actions: LAYERS
+			// In the block editor iframe, Leaflet's Draggable registers mousemove/mouseup
+			// on the parent-frame document. Patch each instance after creation to use
+			// iframeDoc, where mouse events actually fire.
+			const iframeDoc = mapRef.current.ownerDocument;
+			const _patchDraggable = iframeDoc !== document ? (d) => {
+				const origOnDown = L.Draggable.prototype._onDown;
+				const origFinishDrag = d.finishDrag.bind(d);
+				d._onDown = function(e) {
+					origOnDown.call(this, e);
+					// Guard: origOnDown has several early exits (another drag in progress,
+					// touch zoom, etc.) that skip setting _startPoint and adding listeners.
+					// Only proceed if this drag actually started.
+					if (L.Draggable._dragging !== this) return;
+					L.DomEvent.off(document, 'mousemove touchmove', this._onMove, this);
+					L.DomEvent.off(document, 'mouseup touchend touchcancel', this._onUp, this);
+					L.DomEvent.on(iframeDoc, 'mousemove touchmove', this._onMove, this);
+					L.DomEvent.on(iframeDoc, 'mouseup touchend touchcancel', this._onUp, this);
+				};
+				d.finishDrag = function(noInertia) {
+					L.DomEvent.off(iframeDoc, 'mousemove touchmove', this._onMove, this);
+					L.DomEvent.off(iframeDoc, 'mouseup touchend touchcancel', this._onUp, this);
+					origFinishDrag(noInertia);
+				};
+				const START = L.Browser.touch ? 'touchstart mousedown' : 'mousedown';
+				L.DomEvent.off(d._dragStartTarget, START, origOnDown, d);
+				L.DomEvent.on(d._dragStartTarget, START, d._onDown, d);
+			} : null;
+
+			const resizeObserver = new ResizeObserver((entries) => {
+				if (map) {
+					map.invalidateSize();
+					return;
+				}
+				if (entries[0].contentRect.width > 0) {
+
+					const tileSets = window.getMapTileSets();
+					const currentTileSet = tileSets[mapBasemap];
+					const markers = [];
+					map = L.map(mapRef.current, {
+						layers: currentTileSet,
+						scrollWheelZoom: false,
+					}).setView([mapLat, mapLon], mapZoom);
+
+					if (_patchDraggable && map.dragging) _patchDraggable(map.dragging._draggable);
+
+					// user actions: LAYERS
 			const layerNames = {
 				"Street (Carto Voyager)": tileSets.carto_voyager,
 				"Street (Carto Light)": tileSets.carto_light,
@@ -216,9 +256,15 @@ registerBlockType("placepress/block-map-global", {
 					);
 				}
 			};
-			request.send();
+				request.send();
+				}
+			});
+			resizeObserver.observe(mapRef.current);
 
-			return () => map.remove();
+			return () => {
+				resizeObserver.disconnect();
+				if (map) map.remove();
+			};
 		}, []);
 
 		// set attributes
@@ -247,9 +293,10 @@ registerBlockType("placepress/block-map-global", {
 
 		return (
 			<div
-				className={props.className}
-				aria-label={__("Interactive Map", "wp_placepress")}
-				role="region"
+				{...useBlockProps({
+					"aria-label": __("Interactive Map", "wp_placepress"),
+					role: "region",
+				})}
 			>
 				<figure>
 					<div
@@ -328,9 +375,10 @@ registerBlockType("placepress/block-map-global", {
 
 		return (
 			<div
-				className={props.className}
-				aria-label={__("Interactive Map")}
-				role="region"
+				{...useBlockProps.save({
+					"aria-label": __("Interactive Map"),
+					role: "region",
+				})}
 			>
 				<figure>
 					<div

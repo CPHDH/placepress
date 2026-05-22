@@ -4,7 +4,7 @@ import "./editor.scss";
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
 const { TextareaControl, TextControl, PanelBody, Button } = wp.components;
-const { InspectorControls } = wp.blockEditor;
+const { InspectorControls, useBlockProps } = wp.blockEditor;
 const { useEffect, useRef } = wp.element;
 const { useSelect } = wp.data;
 const { useEntityProp } = wp.coreData;
@@ -12,6 +12,7 @@ const { useEntityProp } = wp.coreData;
 import d from "./deprecated";
 
 registerBlockType("placepress/block-map-location", {
+	apiVersion: 3,
 	title: __("Location Map"),
 	icon: "location",
 	category: "placepress",
@@ -138,178 +139,225 @@ registerBlockType("placepress/block-map-location", {
 			const mapZoom = zoom || defaults.default_zoom;
 			const mapBasemap = basemap || defaults.default_map_type;
 
-			const tileSets = window.getMapTileSets();
-			const currentTileSet = tileSets[mapBasemap];
+			let map = null;
 
-			const map = L.map(mapRef.current, {
-				layers: currentTileSet,
-				scrollWheelZoom: false,
-			}).setView([mapLat, mapLon], mapZoom);
+			// In the block editor iframe, Leaflet's Draggable registers mousemove/mouseup
+			// on the parent-frame document. Patch each instance after creation to use
+			// iframeDoc, where mouse events actually fire.
+			const iframeDoc = mapRef.current.ownerDocument;
+			const _patchDraggable = iframeDoc !== document ? (d) => {
+				const origOnDown = L.Draggable.prototype._onDown;
+				const origFinishDrag = d.finishDrag.bind(d);
+				d._onDown = function(e) {
+					origOnDown.call(this, e);
+					// Guard: origOnDown has several early exits (another drag in progress,
+					// touch zoom, etc.) that skip setting _startPoint and adding listeners.
+					// Only proceed if this drag actually started.
+					if (L.Draggable._dragging !== this) return;
+					L.DomEvent.off(document, 'mousemove touchmove', this._onMove, this);
+					L.DomEvent.off(document, 'mouseup touchend touchcancel', this._onUp, this);
+					L.DomEvent.on(iframeDoc, 'mousemove touchmove', this._onMove, this);
+					L.DomEvent.on(iframeDoc, 'mouseup touchend touchcancel', this._onUp, this);
+				};
+				d.finishDrag = function(noInertia) {
+					L.DomEvent.off(iframeDoc, 'mousemove touchmove', this._onMove, this);
+					L.DomEvent.off(iframeDoc, 'mouseup touchend touchcancel', this._onUp, this);
+					origFinishDrag(noInertia);
+				};
+				const START = L.Browser.touch ? 'touchstart mousedown' : 'mousedown';
+				L.DomEvent.off(d._dragStartTarget, START, origOnDown, d);
+				L.DomEvent.on(d._dragStartTarget, START, d._onDown, d);
+			} : null;
 
-			const marker = L.marker([mapLat, mapLon], {
-				draggable: "true",
-			}).addTo(map);
+			const resizeObserver = new ResizeObserver((entries) => {
+				if (map) {
+					map.invalidateSize();
+					return;
+				}
+				if (entries[0].contentRect.width > 0) {
 
-			// user actions: CLICK
-			marker.on("click", function (e) {
-				const ll = e.target.getLatLng();
-				const popup = L.popup().setContent(
-					'<em><span class="checkmark-pp">&#10004;&nbsp;&nbsp;</span>' +
-						ll.lat +
-						"," +
-						ll.lng +
-						"</em><hr>Review additional options in block settings."
-				);
-				e.target.unbindPopup().bindPopup(popup).openPopup();
-				map.panTo(e.target.getLatLng());
-			});
+					const tileSets = window.getMapTileSets();
+					const currentTileSet = tileSets[mapBasemap];
 
-			// user actions: DRAG
-			marker.on("dragend", function (e) {
-				const ll = e.target.getLatLng();
-				props.setAttributes({ lat: ll.lat });
-				props.setAttributes({ lon: ll.lng });
-				updateMetaCoordinates(ll.lat + "," + ll.lng);
-				map.setView([ll.lat, ll.lng], map.getZoom(), { animation: true });
-			});
+					map = L.map(mapRef.current, {
+						layers: currentTileSet,
+						scrollWheelZoom: false,
+					}).setView([mapLat, mapLon], mapZoom);
 
-			// user actions: ZOOM
-			map.on("zoomend", function () {
-				const z = map.getZoom();
-				props.setAttributes({ zoom: z });
-			});
+					if (_patchDraggable && map.dragging) _patchDraggable(map.dragging._draggable);
 
-			// user actions: SEARCH
-			L.Control.Geocode = L.Control.extend({
-				onAdd: function (map) {
-					const container = L.DomUtil.create("div", "map-search-pp");
-					const form = L.DomUtil.create("form", "editor-form", container);
-					const input = L.DomUtil.create("input", "editor-input", form);
-					const submit = L.DomUtil.create("button", "editor-submit", form);
+					const marker = L.marker([mapLat, mapLon], {
+						draggable: "true",
+					}).addTo(map);
 
-					input.style.border = "1px solid #ccc";
-					input.style.flexGrow = "1";
-					input.style.marginRight = "5px";
-					input.tabindex = "0";
-					input.type = "text";
-					input.style.padding = "0 10px";
-					input.placeholder = __("Search for a location ⏎", "wp_placepress");
+					if (_patchDraggable && marker.dragging) _patchDraggable(marker.dragging._draggable);
 
-					submit.type = "submit";
-					submit.innerHTML = "Search";
-					submit.classList = "components-button is-primary";
-					submit.tabindex = "0";
-					submit.style.margin = "0";
-
-					form.style.width = "100%";
-					form.style.display = "flex";
-
-					input.addEventListener("click", (e) => {
-						if (e.isTrusted) {
-							input.focus(); // fixes safari bug
-						}
+					// user actions: CLICK
+					marker.on("click", function (e) {
+						const ll = e.target.getLatLng();
+						const popup = L.popup().setContent(
+							'<em><span class="checkmark-pp">&#10004;&nbsp;&nbsp;</span>' +
+								ll.lat +
+								"," +
+								ll.lng +
+								"</em><hr>Review additional options in block settings."
+						);
+						e.target.unbindPopup().bindPopup(popup).openPopup();
+						map.panTo(e.target.getLatLng());
 					});
 
-					L.DomEvent.addListener(
-						form,
-						"submit",
-						L.DomEvent.preventDefault
-					).addListener(form, "submit", function (e) {
-						const q = e.target[0].value;
-						if (q) {
-							let bypass = isCoordinates(q);
-							notices.removeNotice("placepress-no-result");
-							notices.removeNotice("placepress-no-response");
+					// user actions: DRAG
+					marker.on("dragend", function (e) {
+						const ll = e.target.getLatLng();
+						props.setAttributes({ lat: ll.lat });
+						props.setAttributes({ lon: ll.lng });
+						updateMetaCoordinates(ll.lat + "," + ll.lng);
+						map.setView([ll.lat, ll.lng], map.getZoom(), { animation: true });
+					});
 
-							const request = new XMLHttpRequest();
-							request.open(
-								"GET",
-								"https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" +
-									q,
-								true
-							);
-							request.onload = function () {
-								if (request.status >= 200 && request.status < 400) {
-									const data = JSON.parse(this.response);
-									const result = data[0];
-									if (
-										typeof result !== "undefined" &&
-										result.lat &&
-										result.lon
-									) {
-										// update attributes
-										props.setAttributes({ lat: result.lat });
-										props.setAttributes({ lon: result.lon });
-										updateMetaCoordinates(result.lat + "," + result.lon);
-										// pan map
-										map.panTo([result.lat, result.lon]);
-										// update marker location in UI
-										marker.setLatLng([result.lat, result.lon]);
-									} else {
-										notices.createWarningNotice(
-											__(
-												"PlacePress: Your search query did not return any results. Please try again.",
-												"wp_placepress"
-											),
-											{ id: "placepress-no-result" }
-										);
-									}
-								} else {
-									notices.createErrorNotice(
-										__(
-											"PlacePress: There was an error communicating with the Nominatim server. Please check your network connection and try again.",
-											"wp_placepress"
-										),
-										{ id: "placepress-no-response" }
-									);
+					// user actions: ZOOM
+					map.on("zoomend", function () {
+						const z = map.getZoom();
+						props.setAttributes({ zoom: z });
+					});
+
+					// user actions: SEARCH
+					L.Control.Geocode = L.Control.extend({
+						onAdd: function (map) {
+							const container = L.DomUtil.create("div", "map-search-pp");
+							const form = L.DomUtil.create("form", "editor-form", container);
+							const input = L.DomUtil.create("input", "editor-input", form);
+							const submit = L.DomUtil.create("button", "editor-submit", form);
+
+							input.style.border = "1px solid #ccc";
+							input.style.flexGrow = "1";
+							input.style.marginRight = "5px";
+							input.tabindex = "0";
+							input.type = "text";
+							input.style.padding = "0 10px";
+							input.placeholder = __("Search for a location ⏎", "wp_placepress");
+
+							submit.type = "submit";
+							submit.innerHTML = "Search";
+							submit.classList = "components-button is-primary";
+							submit.tabindex = "0";
+							submit.style.margin = "0";
+
+							form.style.width = "100%";
+							form.style.display = "flex";
+
+							input.addEventListener("click", (e) => {
+								if (e.isTrusted) {
+									input.focus(); // fixes safari bug
 								}
-							};
-							if (!bypass) {
-								request.send();
-							} else {
-								console.warn(
-									"PlacePress: You entered coordinates - bypassing Nominatim server."
-								);
-								// update attributes
-								props.setAttributes({ lat: bypass.lat });
-								props.setAttributes({ lon: bypass.lon });
-								updateMetaCoordinates(bypass.lat + "," + bypass.lon);
-								// pan map
-								map.panTo([bypass.lat, bypass.lon]);
-								// update marker location in UI
-								marker.setLatLng([bypass.lat, bypass.lon]);
-							}
+							});
+
+							L.DomEvent.addListener(
+								form,
+								"submit",
+								L.DomEvent.preventDefault
+							).addListener(form, "submit", function (e) {
+								const q = e.target[0].value;
+								if (q) {
+									let bypass = isCoordinates(q);
+									notices.removeNotice("placepress-no-result");
+									notices.removeNotice("placepress-no-response");
+
+									const request = new XMLHttpRequest();
+									request.open(
+										"GET",
+										"https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" +
+											q,
+										true
+									);
+									request.onload = function () {
+										if (request.status >= 200 && request.status < 400) {
+											const data = JSON.parse(this.response);
+											const result = data[0];
+											if (
+												typeof result !== "undefined" &&
+												result.lat &&
+												result.lon
+											) {
+												// update attributes
+												props.setAttributes({ lat: result.lat });
+												props.setAttributes({ lon: result.lon });
+												updateMetaCoordinates(result.lat + "," + result.lon);
+												// pan map
+												map.panTo([result.lat, result.lon]);
+												// update marker location in UI
+												marker.setLatLng([result.lat, result.lon]);
+											} else {
+												notices.createWarningNotice(
+													__(
+														"PlacePress: Your search query did not return any results. Please try again.",
+														"wp_placepress"
+													),
+													{ id: "placepress-no-result" }
+												);
+											}
+										} else {
+											notices.createErrorNotice(
+												__(
+													"PlacePress: There was an error communicating with the Nominatim server. Please check your network connection and try again.",
+													"wp_placepress"
+												),
+												{ id: "placepress-no-response" }
+											);
+										}
+									};
+									if (!bypass) {
+										request.send();
+									} else {
+										console.warn(
+											"PlacePress: You entered coordinates - bypassing Nominatim server."
+										);
+										// update attributes
+										props.setAttributes({ lat: bypass.lat });
+										props.setAttributes({ lon: bypass.lon });
+										updateMetaCoordinates(bypass.lat + "," + bypass.lon);
+										// pan map
+										map.panTo([bypass.lat, bypass.lon]);
+										// update marker location in UI
+										marker.setLatLng([bypass.lat, bypass.lon]);
+									}
+								}
+							});
+
+							return form;
+						},
+
+						onRemove: function () {
+							// Nothing to do here
+						},
+					});
+					L.control.geocode = function (opts) {
+						return new L.Control.Geocode(opts);
+					};
+					L.control.geocode({ position: "topright" }).addTo(map);
+
+					// user actions: LAYERS
+					const layerNames = {
+						"Street (Carto Voyager)": tileSets.carto_voyager,
+						"Street (Carto Light)": tileSets.carto_light,
+						"Terrain (Stamen)": tileSets.stamen_terrain,
+						"Satellite (ESRI)": tileSets.esri_world,
+					};
+					L.control.layers(layerNames).addTo(map);
+					map.on("baselayerchange ", function (e) {
+						const key = e.layer.options.placepress_key;
+						if (key) {
+							props.setAttributes({ basemap: key });
 						}
 					});
-
-					return form;
-				},
-
-				onRemove: function () {
-					// Nothing to do here
-				},
-			});
-			L.control.geocode = function (opts) {
-				return new L.Control.Geocode(opts);
-			};
-			L.control.geocode({ position: "topright" }).addTo(map);
-
-			// user actions: LAYERS
-			const layerNames = {
-				"Street (Carto Voyager)": tileSets.carto_voyager,
-				"Street (Carto Light)": tileSets.carto_light,
-				"Terrain (Stamen)": tileSets.stamen_terrain,
-				"Satellite (ESRI)": tileSets.esri_world,
-			};
-			L.control.layers(layerNames).addTo(map);
-			map.on("baselayerchange ", function (e) {
-				const key = e.layer.options.placepress_key;
-				if (key) {
-					props.setAttributes({ basemap: key });
 				}
 			});
+			resizeObserver.observe(mapRef.current);
 
-			return () => map.remove();
+			return () => {
+				resizeObserver.disconnect();
+				if (map) map.remove();
+			};
 		}, []);
 
 		// set attributes
@@ -338,9 +386,10 @@ registerBlockType("placepress/block-map-location", {
 
 		return (
 			<div
-				className={props.className}
-				aria-label={__("Interactive Map", "wp_placepress")}
-				role="region"
+				{...useBlockProps({
+					"aria-label": __("Interactive Map", "wp_placepress"),
+					role: "region",
+				})}
 			>
 				<figure>
 					<div
@@ -430,9 +479,10 @@ registerBlockType("placepress/block-map-location", {
 
 		return (
 			<div
-				className={props.className}
-				aria-label={__("Interactive Map")}
-				role="region"
+				{...useBlockProps.save({
+					"aria-label": __("Interactive Map"),
+					role: "region",
+				})}
 			>
 				<figure>
 					<div
