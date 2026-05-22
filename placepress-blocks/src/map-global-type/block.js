@@ -78,7 +78,7 @@ registerBlockType("placepress/block-map-global-type", {
 			type: "string",
 			selector: "div.map-pp",
 			source: "attribute",
-			attribute: "data-zoom",
+			attribute: "data-zoom", // @todo: should be "data-maki" — fix together with save() attribute names, requires block deprecation
 		},
 		maki_color: {
 			type: "string",
@@ -519,7 +519,7 @@ registerBlockType("placepress/block-map-global-type", {
 	},
 	save(props) {
 		const { attributes } = props;
-
+		// @todo: attribute names below are wrong (mapbox_key→mb_key, maki_markers→maki, maki_markers_color→maki_color); fixing requires a block deprecation.
 		return (
 			<div
 				{...useBlockProps.save({
