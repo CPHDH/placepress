@@ -92,6 +92,17 @@ function placepress_helper_leaflet_assets($infooter=true)
         $infooter
     );
 
+    // Tile provider API keys. Attached to the tile script's own handle so it is printed
+    // immediately before tile-provider.js in every context.
+    wp_add_inline_script(
+        'placepress-tiles',
+        'window.placepress_tile_keys = ' . wp_json_encode(array(
+            'stadia' => placepress_setting('stadia_key'),
+            'carto'  => placepress_setting('carto_key'),
+        )) . ';',
+        'before'
+    );
+
     // Conditional: Marker Clustering (Setting)
     if (placepress_helper_needs_cluster_assets()) {
         wp_enqueue_style(

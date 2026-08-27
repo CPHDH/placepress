@@ -176,6 +176,24 @@ function placepress_register_settings()
     );
 
     add_settings_field(
+        'stadia_key',
+        esc_html__('Stadia API Key', 'wp_placepress'),
+        'placepress_callback_field_text',
+        'placepress',
+        'placepress_section_map',
+        ['id'=>'stadia_key','label'=>sprintf(__('Enter the Stadia API key. Authentication options managed at %s.', 'wp_placepress'), '<a target="_blank" href="https://client.stadiamaps.com/">client.stadiamaps.com</a>')]
+    );
+
+    add_settings_field(
+        'carto_key',
+        esc_html__('CARTO API Key', 'wp_placepress'),
+        'placepress_callback_field_text',
+        'placepress',
+        'placepress_section_map',
+        ['id'=>'carto_key','label'=>sprintf(__('Enter the Carto API key for Carto tiles. Request a free key at %s.', 'wp_placepress'), '<a target="_blank" href="https://carto.com/basemaps/apikey/">carto.com/basemaps/apikey</a>')]
+    );
+
+    add_settings_field(
         'enable_locations',
         esc_html__('Locations', 'wp_placepress'),
         'placepress_callback_field_checkbox',
@@ -256,6 +274,8 @@ function placepress_options_default()
         'default_map_type'=>'carto_voyager',
         'default_zoom'=>12,
         'marker_clustering'=>false,
+        'stadia_key'=>null,
+        'carto_key'=>null,
         'enable_tours'=>true,
         'enable_locations'=>true,
         'enable_location_types_map' => false,
@@ -314,7 +334,7 @@ function placepress_callback_field_text($args)
 
     $value = isset($options[$id]) ? sanitize_text_field($options[$id]) : '';
 
-    echo '<input id="placepress_options_'.$id.'" name="placepress_options['.$id.']" type="text" size="40" value="'.$value.'"><br>';
+    echo '<input id="placepress_options_'.$id.'" name="placepress_options['.$id.']" type="text" size="40" value="'.esc_attr($value).'"><br>';
     echo '<label for="placepress_options_'.$id.'">'.$label.'</label>';
 }
 
@@ -472,6 +492,14 @@ function placepress_callback_validate_options($input)
         $input['default_map_type'] = null;
     }
 
+    if (isset($input['stadia_key'])) {
+        $input['stadia_key'] = sanitize_text_field($input['stadia_key']);
+    }
+
+    if (isset($input['carto_key'])) {
+        $input['carto_key'] = sanitize_text_field($input['carto_key']);
+    }
+
     if (! isset($input['marker_clustering'])) {
         $input['marker_clustering'] = null;
     }
@@ -498,7 +526,9 @@ function add_context_menu_help_placepress()
                     '<p><strong>Default Coordinates: </strong>Simply enter the name of a location in the search bar and press enter/return to move to a new location. You may drag and drop the map marker to refine the default map coordinates.</p>'.
                     '<p><strong>Default Zoom Level: </strong>Use the +/- buttons on the map to zoom in and out (or double-click on a map to zoom in) to set default zoom level.</p>'.
                     '<p><strong>Default Base Map: </strong> Use the layer controls on the map to set a default map style.</p>'.
-                    '<p><strong>Cluster Settings: </strong>Use the checkbox to enable marker clustering. This can be helpful if you plan to add a lot of locations that are close to one another or if your project covers a large geographic area. Locations will be grouped together into geographic clusters with a number indicating the total number of locations in the group.</p>'
+                    '<p><strong>Cluster Settings: </strong>Use the checkbox to enable marker clustering. This can be helpful if you plan to add a lot of locations that are close to one another or if your project covers a large geographic area. Locations will be grouped together into geographic clusters with a number indicating the total number of locations in the group.</p>'.
+                    '<p><strong>Stadia API Key: </strong><code>Terrain (Stamen)</code> tiles are served by Stadia. Stadia tiles only need a key if you have not registered this site for domain-based authentication in your account dashboard.</p>'.
+                    '<p><strong>Carto API Key: </strong><code>Street (Carto Voyager)</code> and <code>Street (Carto Light)</code> tiles are served by Carto. Carto watermarks its tiles unless you supply a key.</p>'
                 )
             )
         );
