@@ -49,9 +49,6 @@ document.addEventListener("DOMContentLoaded", () => {
 					s.lat = Number(location.getAttribute("data-lat"));
 					s.lon = Number(location.getAttribute("data-lon"));
 					s.style = location.getAttribute("data-basemap");
-					s.maki = location.getAttribute("data-maki");
-					s.makiColor = location.getAttribute("data-maki-color");
-					s.mbKey = location.getAttribute("data-mb-key");
 					s.infowindow =
 						location.getAttribute("data-infowindow") &&
 						location.getAttribute("data-infowindow").length
@@ -80,9 +77,6 @@ document.addEventListener("DOMContentLoaded", () => {
 					s.lat = Number(tour_stop.getAttribute("data-lat"));
 					s.lon = Number(tour_stop.getAttribute("data-lon"));
 					s.style = tour_stop.getAttribute("data-basemap");
-					s.maki = tour_stop.getAttribute("data-maki");
-					s.makiColor = tour_stop.getAttribute("data-maki-color");
-					s.mbKey = tour_stop.getAttribute("data-mb-key");
 					s.postId = tour_stop.getAttribute("data-post-id");
 					s.background = tour_stop.getAttribute("data-background");
 					if (tour_stop.querySelector(".pp-tour-stop-title").hasChildNodes()) {

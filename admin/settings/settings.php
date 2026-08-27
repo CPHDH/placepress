@@ -100,13 +100,6 @@ function placepress_register_settings()
         'placepress'
     );
 
-    // add_settings_section(
-    // 	'placepress_section_mapbox',
-    // 	esc_html__('Map Settings: Mapbox','wp_placepress'),
-    // 	'placepress_callback_section_mapbox',
-    // 	'placepress'
-    // );
-
     add_settings_section(
         'placepress_section_archives',
         esc_html__('Archive Settings', 'wp_placepress'),
@@ -181,42 +174,6 @@ function placepress_register_settings()
         'placepress_section_map',
         ['id'=>'marker_clustering','label'=>esc_html__('Enable clustering for crowded map markers', 'wp_placepress')]
     );
-
-    // add_settings_field(
-    // 	'mapbox_key',
-    // 	esc_html__('Mapbox Key','wp_placepress'),
-    // 	'placepress_callback_field_text',
-    // 	'placepress',
-    // 	'placepress_section_mapbox',
-    // 	['id'=>'mapbox_key','label'=>esc_html__('Enter your Mapbox API access token to enable Mapbox options.','wp_placepress')]
-    // );
-    //
-    // add_settings_field(
-    // 	'mapbox_satellite',
-    // 	esc_html__('Mapbox Satellite','wp_placepress'),
-    // 	'placepress_callback_field_checkbox',
-    // 	'placepress',
-    // 	'placepress_section_mapbox',
-    // 	['id'=>'mapbox_satellite','label'=>esc_html__('Enable Mapbox Satellite Streets layer','wp_placepress')]
-    // );
-    //
-    // add_settings_field(
-    // 	'maki_markers',
-    // 	esc_html__('Maki Markers','wp_placepress'),
-    // 	'placepress_callback_field_checkbox',
-    // 	'placepress',
-    // 	'placepress_section_mapbox',
-    // 	['id'=>'maki_markers','label'=>esc_html__('Enable Maki Markers','wp_placepress')]
-    // );
-    //
-    // add_settings_field(
-    // 	'maki_markers_color',
-    // 	esc_html__('Maki Markers Color','wp_placepress'),
-    // 	'placepress_callback_field_text',
-    // 	'placepress',
-    // 	'placepress_section_mapbox',
-    // 	['id'=>'maki_markers_color','label'=>sprintf(__('Enter an HTML hexadecimal color code (e.g. %s).','wp_placepress'),'<code>#000000</code>')]
-    // );
 
     add_settings_field(
         'enable_locations',
@@ -298,10 +255,6 @@ function placepress_options_default()
         'default_longitude'=>-81.675249,
         'default_map_type'=>'carto_voyager',
         'default_zoom'=>12,
-        'mapbox_key'=>null,
-        'mapbox_satellite'=>false,
-        'maki_markers'=>false,
-        'maki_markers_color'=>null,
         'marker_clustering'=>false,
         'enable_tours'=>true,
         'enable_locations'=>true,
@@ -334,11 +287,6 @@ function placepress_callback_section_map()
 function placepress_callback_section_tours()
 {
     echo '<p>'.sprintf(__('Customize display options for PlacePress tours. %s', 'wp_placepress'), '<span data-title="'.__('For additional details on tour display settings, use the Help menu at the top of this page.', 'wp_placepress').'" class="placepress dashicons dashicons-editor-help" data-tab="tab-link-pp_help_tab0"></span>').'</p>';
-}
-
-function placepress_callback_section_mapbox()
-{
-    echo '<p>'.sprintf(__('All Mapbox options require an API access token. Get your token at %s (some Mapbox some functionality is rate-limited).', 'wp_placepress'), '<a target="_blank" href="https://www.mapbox.com/studio/account/tokens/">www.mapbox.com</a>').'</p>';
 }
 
 function placepress_callback_section_content()
@@ -509,14 +457,6 @@ function placepress_callback_validate_options($input)
         }
     }
 
-    if (isset($input['mapbox_key'])) {
-        $input['mapbox_key'] = sanitize_text_field($input['mapbox_key']);
-    }
-
-    if (isset($input['maki_markers_color'])) {
-        $input['maki_markers_color'] = sanitize_text_field($input['maki_markers_color']);
-    }
-
     if (! isset($input['default_map_type'])) {
         $input['default_map_type'] = null;
     }
@@ -531,16 +471,6 @@ function placepress_callback_validate_options($input)
     if (! array_key_exists($input['default_map_type'], $map_types)) {
         $input['default_map_type'] = null;
     }
-
-    if (! isset($input['mapbox_satellite'])) {
-        $input['mapbox_satellite'] = null;
-    }
-    $input['mapbox_satellite'] = $input['mapbox_satellite'] == 1 ? 1 : 0;
-
-    if (! isset($input['maki_markers'])) {
-        $input['maki_markers'] = null;
-    }
-    $input['maki_markers'] = $input['maki_markers'] == 1 ? 1 : 0;
 
     if (! isset($input['marker_clustering'])) {
         $input['marker_clustering'] = null;

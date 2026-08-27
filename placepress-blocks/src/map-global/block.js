@@ -278,15 +278,6 @@ registerBlockType("placepress/block-map-global", {
 		if (!lon) {
 			props.setAttributes({ lon: defaults.default_longitude });
 		}
-		if (!mb_key) {
-			props.setAttributes({ mb_key: defaults.mapbox_key });
-		}
-		if (!maki) {
-			props.setAttributes({ maki: defaults.maki_markers });
-		}
-		if (!maki_color) {
-			props.setAttributes({ maki_color: defaults.maki_markers_color });
-		}
 		if (!basemap) {
 			props.setAttributes({ basemap: defaults.default_map_type });
 		}

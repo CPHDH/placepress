@@ -138,9 +138,6 @@ registerBlockType("placepress/block-tour-stop", {
 			lon: lon ? lon : mapdefaults.default_longitude,
 			zoom: zoom ? zoom : mapdefaults.default_zoom,
 			basemap: basemap ? basemap : mapdefaults.default_map_type,
-			mb_key: mb_key ? mb_key : mapdefaults.mapbox_key,
-			maki: maki ? maki : mapdefaults.maki_markers,
-			maki_color: maki_color ? maki_color : mapdefaults.maki_markers_color,
 		};
 
 		const HEADING = [
@@ -563,6 +560,10 @@ registerBlockType("placepress/block-tour-stop", {
 	save(props) {
 		const { attributes } = props;
 
+		// mb_key / maki / maki_color are inert: Mapbox/Maki was scaffolded for a "later
+		// implementation" that never happened and nothing ever wrote them, so these
+		// data-* never appear in saved markup.
+		// @todo: delete them and their attribute declarations at the next deprecation.
 		return (
 			<div
 				{...useBlockProps.save({

@@ -1,5 +1,7 @@
 const { __ } = wp.i18n;
 
+// The mapbox/maki attributes below are inert (scaffolded, never implemented), but this
+// is a frozen deprecation that keeps already-saved posts validating — do not clean it up.
 const v1_3 = {
 	// Deprecations for v.1.3 (adds customizable info window)
 	supports: {
