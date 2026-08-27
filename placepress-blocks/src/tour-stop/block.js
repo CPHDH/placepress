@@ -125,9 +125,6 @@ registerBlockType("placepress/block-tour-stop", {
 				lon,
 				basemap,
 				caption,
-				mb_key,
-				maki,
-				maki_color,
 				infowindow,
 			},
 		} = props;
@@ -560,9 +557,7 @@ registerBlockType("placepress/block-tour-stop", {
 	save(props) {
 		const { attributes } = props;
 
-		// mb_key / maki / maki_color are inert: Mapbox/Maki was scaffolded for a "later
-		// implementation" that never happened and nothing ever wrote them, so these
-		// data-* never appear in saved markup.
+		// mb_key / maki / maki_color are inert
 		// @todo: delete them and their attribute declarations at the next deprecation.
 		return (
 			<div

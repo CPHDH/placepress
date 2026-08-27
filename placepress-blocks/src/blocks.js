@@ -9,6 +9,8 @@
  * Webpack is compiling as the input file.
  */
 
+// @todo: migrate this build off cgb-scripts to @wordpress/scripts — see README.md.
+
 import "./map-global/block.js";
 import "./map-global-type/block.js";
 import "./map-location/block.js";

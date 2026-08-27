@@ -4,6 +4,13 @@ Keep `cgb-scripts` updated by editing the version in `package.json` then running
 
 Use `nvm` to manage the Node version for this project as needed (e.g. `nvm use 14`). Some dependencies are not compatible with some versions of Node.
 
+@todo: migrate this build off `cgb-scripts` to `@wordpress/scripts`. `cgb-scripts` last shipped in 2019 and pins `node-sass` 4.14.1, which is the only reason this project is pinned to x64 Node 14 (see `.nvmrc`). Building on a current Node emits a bundle whose failed SCSS modules throw at runtime — it passes `node --check` but breaks block registration in the editor. Migrating swaps in dart-sass and lifts the Node constraint.
+
+Two things to watch when doing it:
+
+- `cgb-scripts` silently injects `src/common.scss` into every `.scss` file (via sass-loader's `data` option). `@wordpress/scripts` will not, so each `style.scss`/`editor.scss` needs an explicit `@use "../common" as *;`.
+- `save()` output must stay byte-identical, or every existing post using these blocks is invalidated. Build both ways and diff the serialized HTML before committing.
+
 # Create Guten Block
 
 This project was bootstrapped with [Create Guten Block](https://github.com/ahmadawais/create-guten-block).
